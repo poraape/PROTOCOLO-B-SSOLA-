@@ -1,0 +1,8 @@
+{
+  "name": "BÚSSOLA - E.E. Ermelino Matarazzo",
+  "description": "Sistema de Orientação e Acolhimento Escolar. Guia interativo de protocolos e fluxogramas de proteção.",
+  "requestFramePermissions": [
+    "geolocation",
+    "camera"
+  ]
+}
