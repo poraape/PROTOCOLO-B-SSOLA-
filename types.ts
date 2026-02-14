@@ -12,9 +12,12 @@ export interface FlowNode {
   isLeaf?: boolean;
   riskLevel?: RiskLevel;
   category?: 'SAÚDE' | 'SOCIAL' | 'DIREITOS_SGD' | 'EDUCAÇÃO' | 'EMERGÊNCIA';
+  tags?: string[];
   guidance?: string[];
+  severityCriteria?: string[];
   serviceIds?: string[];
   forbiddenActions?: string[];
+  fallbackNextNodeId?: string;
 }
 
 export interface Service {
@@ -52,7 +55,7 @@ export interface ProtocolData {
   };
 }
 
-// Compatibilidade com as páginas atuais
+// Compatibilidade com páginas já existentes
 export type TipoDemanda = string;
 export type NivelRisco = 'baixo' | 'moderado' | 'alto' | 'urgencia';
 
