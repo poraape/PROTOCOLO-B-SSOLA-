@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect, useRef, useMemo } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { CONTATOS } from '../data';
 import { Contato } from '../types';
 import L from 'leaflet';
@@ -38,7 +38,7 @@ const SUGGESTION_MAP: Record<string, 'saude' | 'protecao' | 'assistencia' | 'jus
 
 const createCustomIcon = (color: string) => L.divIcon({
   className: 'custom-icon',
-  html: `<div style="background-color: ${color}; width: 32px; height: 32px; border-radius: 50%; border: 3px solid white; box-shadow: 0 4px 12px rgba(0,0,0,0.2); display: flex; align-items: center; justify-content: center; transform: scale(1); transition: all 0.3s;" class="marker-pin">
+  html: `<div style="background-color: ${color}; width: 32px; height: 32px; border-radius: 50%; border: 3px solid white; box-shadow: 0 4px 12px rgba(0,0,0,0.2); display: flex; align-items: center; justify-content: center;" class="marker-pin">
            <div style="width: 8px; height: 8px; background: white; border-radius: 50%;"></div>
          </div>`,
   iconSize: [32, 32],
@@ -68,8 +68,6 @@ export const NetworkPage: React.FC = () => {
   const [selectedContact, setSelectedContact] = useState<Contato | null>(null);
   const [mapCenter, setMapCenter] = useState<[number, number]>([-23.491, -46.478]);
   const [mapZoom, setMapZoom] = useState(15);
-  
-  const listRef = useRef<HTMLDivElement>(null);
 
   const smartSuggestions = useMemo(() => {
     if (!search || search.length < 2) return [];
@@ -101,7 +99,6 @@ export const NetworkPage: React.FC = () => {
 
   const handleCopy = (text: string) => {
     navigator.clipboard.writeText(text);
-    // Feedback visual simples poderia ser adicionado aqui
   };
 
   const focusOnMap = (contact: Contato) => {
@@ -114,17 +111,17 @@ export const NetworkPage: React.FC = () => {
   };
 
   return (
-    <div className="space-y-6 animate-in fade-in duration-500 pb-24">
-      <div className="px-2 flex justify-between items-center">
+    <div className="space-y-4 animate-in fade-in duration-500 pb-24">
+      <div className="px-2 flex justify-between items-end mb-2">
         <div>
+          <p className="text-[10px] font-black text-[#007AFF] uppercase tracking-widest mb-1">Guia de Contatos</p>
           <h2 className="text-3xl font-black tracking-tight text-slate-900 dark:text-white">Rede de Apoio</h2>
-          <p className="text-slate-500 dark:text-slate-400 text-xs font-bold uppercase tracking-wider">Contatos Ermelino Matarazzo</p>
         </div>
         
         <div className="bg-slate-100 dark:bg-slate-800 p-1 rounded-2xl flex gap-1 shadow-inner border border-slate-200 dark:border-slate-700">
           <button 
             onClick={() => setViewMode('list')}
-            className={`px-3 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${
+            className={`px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${
               viewMode === 'list' ? 'bg-white dark:bg-slate-700 text-[#007AFF] shadow-sm' : 'text-slate-400'
             }`}
           >
@@ -132,7 +129,7 @@ export const NetworkPage: React.FC = () => {
           </button>
           <button 
             onClick={() => setViewMode('map')}
-            className={`px-3 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${
+            className={`px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${
               viewMode === 'map' ? 'bg-white dark:bg-slate-700 text-[#007AFF] shadow-sm' : 'text-slate-400'
             }`}
           >
@@ -141,72 +138,67 @@ export const NetworkPage: React.FC = () => {
         </div>
       </div>
 
-      <div className="space-y-4 sticky top-16 md:top-24 z-40 bg-ios-bg/90 dark:bg-ios-darkBg/90 backdrop-blur-xl pt-2 pb-4 px-2 -mx-2 border-b border-slate-200/50 dark:border-slate-800/50">
-        <div className="relative group mx-2">
+      {/* Search and Filters Stickiness */}
+      <div className="sticky top-16 md:top-24 z-40 bg-ios-bg/95 dark:bg-ios-darkBg/95 backdrop-blur-xl -mx-4 px-4 py-4 border-b border-slate-200/50 dark:border-slate-800/50">
+        <div className="relative mb-4">
           <input 
             type="text"
-            placeholder="Buscar serviço ou local..."
-            className="w-full p-4 pl-12 rounded-[1.25rem] border border-slate-200 dark:border-slate-800 bg-white/95 dark:bg-slate-900 shadow-ios focus:ring-2 focus:ring-[#007AFF] outline-none transition-all font-bold text-slate-800 dark:text-slate-200 text-sm"
+            placeholder="Buscar por nome, categoria ou rua..."
+            className="w-full p-4 pl-12 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-ios focus:ring-2 focus:ring-[#007AFF] outline-none transition-all font-bold text-slate-800 dark:text-slate-200 text-sm"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
-          <span className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-xl group-focus-within:text-[#007AFF]">🔍</span>
+          <span className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-lg">🔍</span>
           {search && (
-            <button onClick={() => setSearch('')} className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 bg-slate-200 dark:bg-slate-700 rounded-full flex items-center justify-center text-[8px] font-black">✕</button>
+            <button onClick={() => setSearch('')} className="absolute right-4 top-1/2 -translate-y-1/2 w-6 h-6 bg-slate-200 dark:bg-slate-700 rounded-full flex items-center justify-center text-xs text-slate-500">✕</button>
           )}
         </div>
 
-        {smartSuggestions.length > 0 && (
-          <div className="px-2 flex items-center gap-2 animate-in slide-in-from-top-1 duration-300">
-             <span className="text-[9px] font-black text-[#007AFF] uppercase tracking-tighter">Sugestão:</span>
-             <div className="flex gap-2 overflow-x-auto no-scrollbar">
-                {smartSuggestions.map(cat => {
-                  const categoryInfo = categories.find(c => c.id === cat);
-                  return (
-                    <button
-                      key={cat}
-                      onClick={() => setFilter(cat as any)}
-                      className="bg-[#007AFF]/10 dark:bg-[#007AFF]/20 text-[#007AFF] px-3 py-1.5 rounded-full text-[10px] font-black flex items-center gap-1.5 border border-[#007AFF]/20"
-                    >
-                      <span>{categoryInfo?.icon}</span>
-                      {categoryInfo?.label}
-                    </button>
-                  );
-                })}
-             </div>
-          </div>
-        )}
-
-        <div className="flex gap-2 overflow-x-auto pb-1 no-scrollbar px-2">
+        <div className="flex gap-2 overflow-x-auto no-scrollbar pb-1">
           {categories.map(cat => (
             <button
               key={cat.id}
               onClick={() => setFilter(cat.id as any)}
-              className={`px-4 py-2 rounded-xl text-[10px] font-black whitespace-nowrap transition-all flex items-center gap-1.5 ${
+              className={`px-5 py-2.5 rounded-2xl text-[10px] font-black whitespace-nowrap transition-all flex items-center gap-2 border ${
                 filter === cat.id 
-                  ? 'bg-slate-900 text-white dark:bg-white dark:text-slate-900 shadow-md' 
-                  : 'bg-white dark:bg-slate-800 text-slate-500 dark:text-slate-400 border border-slate-200 dark:border-slate-700'
+                  ? 'bg-slate-900 text-white dark:bg-white dark:text-slate-900 border-slate-900 dark:border-white shadow-lg' 
+                  : 'bg-white dark:bg-slate-900 text-slate-500 dark:text-slate-400 border-slate-100 dark:border-slate-800'
               }`}
             >
-              <span>{cat.icon}</span>
+              <span className="text-sm">{cat.icon}</span>
               {cat.label}
             </button>
           ))}
         </div>
+        
+        {smartSuggestions.length > 0 && (
+          <div className="mt-3 flex items-center gap-2 overflow-x-auto no-scrollbar animate-in fade-in slide-in-from-top-1">
+             <span className="text-[9px] font-black text-slate-400 uppercase shrink-0">Atalhos:</span>
+             {smartSuggestions.map(cat => (
+               <button
+                 key={cat}
+                 onClick={() => setFilter(cat as any)}
+                 className="bg-[#007AFF]/10 text-[#007AFF] px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-widest border border-[#007AFF]/20 whitespace-nowrap"
+               >
+                 {cat}
+               </button>
+             ))}
+          </div>
+        )}
       </div>
 
-      <div className={`transition-all duration-500 overflow-hidden ${viewMode === 'map' ? 'h-[50vh] opacity-100 mb-6' : 'h-0 opacity-0 pointer-events-none'}`}>
-        <div className="h-full rounded-[2rem] overflow-hidden border border-slate-200 dark:border-slate-800 shadow-xl relative mx-2">
+      <div className={`transition-all duration-500 overflow-hidden ${viewMode === 'map' ? 'h-[40vh] opacity-100 mb-4' : 'h-0 opacity-0 pointer-events-none'}`}>
+        <div className="h-full rounded-3xl overflow-hidden border border-slate-200 dark:border-slate-800 shadow-xl mx-2">
           <MapContainer center={mapCenter} zoom={mapZoom} className="w-full h-full z-10" scrollWheelZoom={false}>
             <ChangeView center={mapCenter} zoom={mapZoom} />
             <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
             {filtered.map(contato => contato.lat && contato.lng && (
               <Marker key={contato.id} position={[contato.lat, contato.lng]} icon={createCustomIcon(CATEGORY_COLORS[contato.categoria])}
                 eventHandlers={{ click: () => setSelectedContact(contato) }}>
-                <Popup className="ios-popup">
-                  <div className="p-1">
-                    <h4 className="font-black text-slate-900 leading-tight mb-1 text-xs">{contato.nome}</h4>
-                    <a href={`tel:${contato.telefone.replace(/\D/g,'')}`} className="block w-full text-center bg-[#007AFF] text-white py-2 rounded-lg text-[9px] font-black">LIGAR AGORA</a>
+                <Popup>
+                  <div className="p-1 text-center">
+                    <h4 className="font-black text-slate-900 leading-tight mb-2 text-xs">{contato.nome}</h4>
+                    <a href={`tel:${contato.telefone.replace(/\D/g,'')}`} className="inline-block bg-[#007AFF] text-white px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest">Chamar</a>
                   </div>
                 </Popup>
               </Marker>
@@ -215,92 +207,99 @@ export const NetworkPage: React.FC = () => {
         </div>
       </div>
 
-      <div className={`space-y-3 px-2 transition-opacity duration-300 ${viewMode === 'map' ? 'opacity-50' : 'opacity-100'}`}>
+      <div className="space-y-4 px-2">
         {filtered.length > 0 ? filtered.map(contato => (
           <div 
-            id={`contact-${contato.id}`}
             key={contato.id} 
-            className={`ios-card p-4 border transition-all duration-300 relative overflow-hidden ${
+            className={`ios-card border transition-all duration-300 relative overflow-hidden flex flex-col ${
               contato.urgencia 
-                ? 'bg-red-50/30 dark:bg-red-900/10 border-red-200 dark:border-red-900/30' 
-                : 'border-slate-100 dark:border-slate-800 shadow-sm'
-            } ${selectedContact?.id === contato.id ? 'ring-2 ring-[#007AFF]' : ''}`}
+                ? 'bg-red-50/20 dark:bg-red-900/10 border-red-200/50 dark:border-red-900/30' 
+                : 'bg-white dark:bg-slate-900 border-slate-50 dark:border-slate-800 shadow-ios'
+            }`}
           >
-            <div className="flex items-start justify-between mb-4">
-              <div className="flex gap-3 items-center">
-                <div className={`w-12 h-12 rounded-2xl flex items-center justify-center text-2xl shadow-inner shrink-0 ${
-                  contato.urgencia ? 'bg-[#FF3B30] text-white' : 'bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-slate-300'
-                }`}>
-                  {contato.urgencia ? '🚨' : '🏛️'}
-                </div>
-                <div className="min-w-0">
-                  <h3 className={`font-black text-[15px] tracking-tight leading-tight truncate ${contato.urgencia ? 'text-red-900 dark:text-red-400' : 'text-slate-900 dark:text-slate-100'}`}>
-                    {contato.nome}
-                  </h3>
-                  <div className="flex items-center gap-1.5 mt-1 flex-wrap">
-                    <span className="text-[8px] font-black uppercase tracking-widest px-2 py-0.5 rounded-full bg-slate-200/50 dark:bg-slate-700/50 text-slate-500 dark:text-slate-400">
+            {/* Top Indicator */}
+            <div className={`h-1 w-full ${contato.urgencia ? 'bg-red-500' : 'bg-slate-200 dark:bg-slate-800 opacity-50'}`} />
+            
+            <div className="p-5">
+              <div className="flex items-start justify-between mb-4">
+                <div className="flex-1 min-w-0 pr-4">
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className="text-[9px] font-black uppercase tracking-widest text-slate-400 dark:text-slate-500">
                       {contato.categoria}
                     </span>
                     {contato.urgencia && (
-                      <span className="bg-red-600 text-white text-[8px] font-black px-2 py-0.5 rounded-full uppercase tracking-widest animate-pulse">
-                        Emergência
+                      <span className="bg-[#FF3B30] text-white text-[8px] font-black px-2 py-0.5 rounded-full uppercase tracking-widest shadow-sm animate-pulse">
+                        Urgência
                       </span>
                     )}
                   </div>
+                  <h3 className={`text-xl font-black tracking-tight leading-tight ${contato.urgencia ? 'text-red-900 dark:text-red-400' : 'text-slate-900 dark:text-slate-100'}`}>
+                    {contato.nome}
+                  </h3>
+                </div>
+                <div className="flex gap-2">
+                  <button onClick={() => focusOnMap(contato)} className="w-10 h-10 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-100 dark:border-slate-700 flex items-center justify-center text-lg shadow-sm">🧭</button>
+                  <button onClick={() => handleCopy(contato.telefone)} className="w-10 h-10 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-100 dark:border-slate-700 flex items-center justify-center text-lg shadow-sm">📋</button>
                 </div>
               </div>
-              
-              <div className="flex gap-1.5 shrink-0">
-                <button onClick={() => focusOnMap(contato)} className="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-sm shadow-sm">🧭</button>
-                <button onClick={() => handleCopy(contato.telefone)} className="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-sm shadow-sm">📋</button>
-              </div>
-            </div>
 
-            <div className="grid grid-cols-2 gap-4 mb-5 px-1">
-              <div className="space-y-1">
-                <p className="text-[9px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-tighter">Localização</p>
-                <p className="text-[11px] font-bold text-slate-600 dark:text-slate-300 leading-tight line-clamp-2">{contato.endereco || '—'}</p>
+              {/* Minimalist Details Grid */}
+              <div className="grid grid-cols-1 gap-2 mb-6">
+                {contato.endereco && (
+                  <div className="flex gap-2 items-start">
+                    <span className="text-xs opacity-40">📍</span>
+                    <p className="text-xs font-bold text-slate-500 dark:text-slate-400 leading-tight">{contato.endereco}</p>
+                  </div>
+                )}
+                {contato.horario && (
+                  <div className="flex gap-2 items-start">
+                    <span className="text-xs opacity-40">🕒</span>
+                    <p className="text-xs font-bold text-slate-500 dark:text-slate-400 leading-tight">{contato.horario}</p>
+                  </div>
+                )}
               </div>
-              <div className="space-y-1">
-                <p className="text-[9px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-tighter">Atendimento</p>
-                <p className="text-[11px] font-bold text-slate-600 dark:text-slate-300 leading-tight line-clamp-2">{contato.horario || '—'}</p>
-              </div>
-            </div>
 
-            <div className="flex gap-2">
-              <a 
-                href={`tel:${contato.telefone.replace(/\D/g,'')}`}
-                className={`flex-[2] py-3.5 rounded-xl font-black text-xs uppercase tracking-widest shadow-lg flex items-center justify-center gap-2 active:scale-95 transition-all ${
-                  contato.urgencia ? 'bg-[#FF3B30] text-white' : 'bg-[#007AFF] text-white'
-                }`}
-              >
-                📞 Ligar
-              </a>
-              {contato.whatsapp && (
+              {/* Action Buttons Optimized for Mobile */}
+              <div className="flex gap-3">
                 <a 
-                  href={`https://wa.me/55${contato.whatsapp.replace(/\D/g,'')}`}
-                  target="_blank" rel="noopener noreferrer"
-                  className="flex-1 bg-[#34C759] text-white py-3.5 rounded-xl font-black text-xs uppercase tracking-widest flex items-center justify-center gap-2 active:scale-95 transition-all shadow-lg"
+                  href={`tel:${contato.telefone.replace(/\D/g,'')}`}
+                  className={`flex-[1.5] py-4 rounded-2xl font-black text-[11px] uppercase tracking-widest flex items-center justify-center gap-3 transition-all active:scale-95 shadow-xl ${
+                    contato.urgencia ? 'bg-[#FF3B30] text-white shadow-red-200 dark:shadow-red-950/30' : 'bg-[#007AFF] text-white shadow-blue-200 dark:shadow-blue-950/30'
+                  }`}
                 >
-                  💬 Zap
+                  <span className="text-lg">📞</span>
+                  Ligar Agora
                 </a>
-              )}
+                
+                {contato.whatsapp && (
+                  <a 
+                    href={`https://wa.me/55${contato.whatsapp.replace(/\D/g,'')}`}
+                    target="_blank" rel="noopener noreferrer"
+                    className="flex-1 bg-[#34C759] text-white py-4 rounded-2xl font-black text-[11px] uppercase tracking-widest flex items-center justify-center gap-2 transition-all active:scale-95 shadow-xl shadow-green-100 dark:shadow-green-950/30"
+                  >
+                    <span className="text-lg">💬</span>
+                    Zap
+                  </a>
+                )}
+              </div>
             </div>
           </div>
         )) : (
-          <div className="text-center py-16 bg-white dark:bg-slate-900 rounded-[2.5rem] border-2 border-dashed border-slate-100 dark:border-slate-800">
-            <span className="text-4xl block mb-2 opacity-30">🔦</span>
-            <p className="text-slate-400 font-black uppercase tracking-widest text-[10px]">Sem Resultados</p>
+          <div className="text-center py-20 px-4 bg-white dark:bg-slate-900 rounded-[2.5rem] border-2 border-dashed border-slate-100 dark:border-slate-800">
+            <span className="text-5xl block mb-4 opacity-20">🔎</span>
+            <h4 className="font-black text-slate-400 uppercase tracking-[0.2em] text-[10px]">Nenhum contato encontrado</h4>
+            <p className="text-slate-300 dark:text-slate-600 text-xs mt-2">Tente ajustar sua busca ou filtro.</p>
           </div>
         )}
       </div>
 
-      <div className="mx-2 p-5 bg-yellow-400 dark:bg-yellow-500 rounded-[2rem] shadow-xl flex items-start gap-4">
-        <span className="text-2xl drop-shadow-md">💡</span>
-        <div className="min-w-0">
-          <h4 className="font-black text-slate-900 text-[11px] uppercase tracking-tighter mb-0.5">Ação Prioritária</h4>
-          <p className="text-slate-900 text-[10px] font-bold leading-relaxed">
-            Em risco iminente, use o botão vermelho de <strong>Ligar</strong> imediatamente. O sistema BÚSSOLA é suporte, o atendimento rápido é sobrevivência.
+      {/* Info Banner at the Bottom */}
+      <div className="mx-2 mt-8 p-6 bg-amber-50 dark:bg-amber-900/10 rounded-[2rem] border border-amber-100 dark:border-amber-800/30 flex items-start gap-4">
+        <span className="text-2xl drop-shadow-sm">⚠️</span>
+        <div>
+          <h4 className="font-black text-amber-900 dark:text-amber-300 text-[10px] uppercase tracking-widest mb-1">Aviso da Rede</h4>
+          <p className="text-amber-800/80 dark:text-amber-400/80 text-[11px] font-bold leading-relaxed">
+            A escola aciona a rede, mas não controla prazos, vagas ou o resultado final dos serviços externos. Documente sempre cada tentativa de contato no Anexo IV.
           </p>
         </div>
       </div>

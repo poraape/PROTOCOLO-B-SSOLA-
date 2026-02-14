@@ -74,6 +74,7 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
 
   const navItems = [
     { label: 'Início', path: '/', icon: '🏠' },
+    { label: 'Busca', path: '/busca', icon: '🔍' },
     { label: 'Decisor', path: '/decisor', icon: '🧭' },
     { label: 'Fluxos', path: '/fluxos', icon: '📋' },
     { label: 'Rede', path: '/rede', icon: '📞' },
@@ -95,7 +96,7 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
             <button
               key={item.path}
               onClick={() => navigate(item.path)}
-              className={`px-6 py-2 rounded-full font-bold text-sm transition-all ${
+              className={`px-4 py-2 rounded-full font-bold text-sm transition-all ${
                 location.pathname === item.path 
                   ? 'bg-slate-900 text-white dark:bg-white dark:text-slate-900 shadow-lg' 
                   : 'text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800'
@@ -121,19 +122,19 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
       </main>
 
       <div className="md:hidden fixed bottom-6 left-1/2 -translate-x-1/2 w-[92%] z-50">
-        <nav className="glass rounded-[2.5rem] h-20 flex items-center justify-around px-4 shadow-2xl border border-white/60 dark:border-slate-700/50">
+        <nav className="glass rounded-[2.5rem] h-20 flex items-center justify-around px-2 shadow-2xl border border-white/60 dark:border-slate-700/50">
           {navItems.map((item) => {
             const isActive = location.pathname === item.path || (item.path !== '/' && location.pathname.startsWith(item.path));
             return (
               <button
                 key={item.path}
                 onClick={() => navigate(item.path)}
-                className="flex flex-col items-center justify-center w-16 transition-all duration-300"
+                className="flex flex-col items-center justify-center w-14 transition-all duration-300"
               >
-                <span className={`text-2xl transition-all duration-300 ${isActive ? 'scale-110 -translate-y-1' : 'opacity-40 grayscale'}`}>
+                <span className={`text-xl transition-all duration-300 ${isActive ? 'scale-110 -translate-y-1' : 'opacity-40 grayscale'}`}>
                   {item.icon}
                 </span>
-                <span className={`text-[10px] font-black mt-1 uppercase tracking-tighter ${isActive ? 'text-slate-900 dark:text-white' : 'text-slate-400 dark:text-slate-600'}`}>
+                <span className={`text-[9px] font-black mt-1 uppercase tracking-tighter ${isActive ? 'text-slate-900 dark:text-white' : 'text-slate-400 dark:text-slate-600'}`}>
                   {isActive ? item.label : ''}
                 </span>
                 {isActive && (

@@ -6,12 +6,12 @@ import { TipoDemanda } from '../types';
 
 export const DecisorPage: React.FC = () => {
   const [step, setStep] = useState(1);
-  const [selectedTipo, setSelectedTipo] = useState<TipoDemanda | null>(null);
+  const [selectedTipo, setSelectedTipo] = useState<string | null>(null);
   const [selectedCenario, setSelectedCenario] = useState<string | null>(null);
   const navigate = useNavigate();
 
   const handleSelectTipo = (id: string) => {
-    setSelectedTipo(id as TipoDemanda);
+    setSelectedTipo(id);
     setStep(2);
   };
 
@@ -20,58 +20,59 @@ export const DecisorPage: React.FC = () => {
     setStep(3);
   };
 
-  const handleFinalize = () => {
-    if (selectedTipo) navigate(`/fluxos/${selectedTipo}`);
-  };
-
   const currentFluxo = selectedTipo ? FLUXOS[selectedTipo] : null;
   const cenarioDetalhe = currentFluxo?.cenarios.find(c => c.id === selectedCenario);
-  const currentCenarioIndex = currentFluxo?.cenarios.findIndex(c => c.id === selectedCenario) ?? -1;
-
-  const navigateCenario = (direction: 'prev' | 'next') => {
-    if (!currentFluxo) return;
-    const total = currentFluxo.cenarios.length;
-    let nextIndex = direction === 'next' ? currentCenarioIndex + 1 : currentCenarioIndex - 1;
-    if (nextIndex >= total) nextIndex = 0;
-    if (nextIndex < 0) nextIndex = total - 1;
-    setSelectedCenario(currentFluxo.cenarios[nextIndex].id);
-  };
+  
+  const steps = [
+    { id: 1, label: 'Identificação', desc: 'O que ocorreu?' },
+    { id: 2, label: 'Cenário', desc: 'Detalhes' },
+    { id: 3, label: 'Protocolo', desc: 'Ação Imediata' },
+  ];
 
   return (
-    <div className="max-w-xl mx-auto space-y-8 animate-in fade-in duration-500">
-      {/* Steps Indicator */}
-      <div className="flex justify-center gap-1.5 px-12">
-        {[1, 2, 3].map(i => (
-          <div 
-            key={i} 
-            className={`h-1.5 flex-1 rounded-full transition-all duration-700 ${
-              step >= i ? 'bg-[#007AFF]' : 'bg-slate-200 dark:bg-slate-800'
-            }`} 
-          />
+    <div className="max-w-2xl mx-auto space-y-8 animate-in fade-in duration-500 pb-20">
+      {/* Stepper Superior */}
+      <div className="flex items-center justify-between px-4 bg-white dark:bg-slate-900 p-6 rounded-[2rem] shadow-sm border border-slate-100 dark:border-slate-800">
+        {steps.map((s, idx) => (
+          <React.Fragment key={s.id}>
+            <div className="flex flex-col items-center gap-2">
+              <div className={`w-8 h-8 rounded-full flex items-center justify-center text-[10px] font-black transition-all ${
+                step >= s.id ? 'bg-[#007AFF] text-white' : 'bg-slate-100 text-slate-400'
+              }`}>
+                {s.id}
+              </div>
+              <p className={`text-[9px] font-black uppercase tracking-tighter ${step >= s.id ? 'text-slate-900 dark:text-white' : 'text-slate-400'}`}>
+                {s.label}
+              </p>
+            </div>
+            {idx < steps.length - 1 && <div className={`h-[1px] flex-1 mx-2 ${step > s.id ? 'bg-[#007AFF]' : 'bg-slate-100'}`} />}
+          </React.Fragment>
         ))}
       </div>
 
       {step === 1 && (
-        <div className="space-y-8 text-center px-2">
-          <div>
-            <h2 className="text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white">Tipo de Demanda</h2>
-            <p className="text-slate-500 dark:text-slate-400 mt-2 font-medium">O que você observou no estudante?</p>
-          </div>
-          <div className="space-y-3">
+        <div className="space-y-6 animate-in slide-in-from-bottom-4">
+          <header className="px-2">
+            <h2 className="text-3xl font-black text-slate-900 dark:text-white leading-none">Qual a situação?</h2>
+            <p className="text-slate-500 mt-2 font-medium">Classifique a natureza da demanda.</p>
+          </header>
+          <div className="grid grid-cols-1 gap-3 px-2">
             {Object.values(FLUXOS).map((f) => (
               <button
                 key={f.id}
                 onClick={() => handleSelectTipo(f.id)}
-                className="ios-card w-full p-6 border border-slate-100 dark:border-slate-800 flex items-center gap-5 text-left shadow-sm group dark:bg-slate-900"
+                className="ios-card p-6 border-b-4 border-slate-100 dark:border-slate-800 hover:border-[#007AFF] flex items-center gap-4 text-left group transition-all bg-white dark:bg-slate-900"
               >
-                <div className="w-14 h-14 bg-slate-50 dark:bg-slate-800 rounded-2xl flex items-center justify-center text-3xl group-hover:scale-105 transition-transform">
+                <div className="w-12 h-12 bg-slate-50 dark:bg-slate-800 rounded-xl flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
                   {f.icon}
                 </div>
-                <div className="flex-1">
-                  <span className="font-bold text-lg text-slate-900 dark:text-white block">{f.titulo}</span>
-                  <span className="text-sm text-slate-500 dark:text-slate-400 leading-tight">{f.descricao}</span>
+                <div>
+                  <div className="flex items-center gap-2">
+                    <span className="font-black text-slate-900 dark:text-white">{f.titulo}</span>
+                    <span className="bg-slate-100 dark:bg-slate-800 text-[8px] font-black px-1.5 py-0.5 rounded text-slate-400">FLUXO {f.codigo}</span>
+                  </div>
+                  <p className="text-xs text-slate-500 mt-1 line-clamp-1">{f.descricao}</p>
                 </div>
-                <span className="text-slate-300 dark:text-slate-700 text-xl font-light">→</span>
               </button>
             ))}
           </div>
@@ -79,21 +80,23 @@ export const DecisorPage: React.FC = () => {
       )}
 
       {step === 2 && currentFluxo && (
-        <div className="space-y-8 px-2">
-          <div className="text-center">
-            <button onClick={() => setStep(1)} className="text-[#007AFF] font-bold text-sm mb-4">← Voltar</button>
-            <h2 className="text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white">Cenários</h2>
-            <p className="text-slate-500 dark:text-slate-400 mt-2 font-medium">Selecione a situação específica.</p>
-          </div>
-          <div className="space-y-3">
+        <div className="space-y-6 animate-in slide-in-from-right-4">
+          <header className="px-2 flex items-center justify-between">
+            <div>
+              <h2 className="text-3xl font-black text-slate-900 dark:text-white">{currentFluxo.titulo}</h2>
+              <p className="text-slate-500 mt-1">Selecione o cenário específico.</p>
+            </div>
+            <button onClick={() => setStep(1)} className="text-[#007AFF] font-bold text-sm">Voltar</button>
+          </header>
+          <div className="space-y-3 px-2">
             {currentFluxo.cenarios.map((c) => (
               <button
                 key={c.id}
                 onClick={() => handleSelectCenario(c.id)}
-                className="ios-card w-full p-6 border border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 flex flex-col gap-2 text-left shadow-sm hover:border-[#007AFF]/30 transition-all"
+                className="ios-card w-full p-6 text-left border border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 hover:ring-2 hover:ring-[#007AFF]"
               >
-                <span className="font-bold text-slate-900 dark:text-white text-lg">{c.titulo}</span>
-                <span className="text-sm text-slate-500 dark:text-slate-400 leading-snug">{c.descricao}</span>
+                <h3 className="font-black text-slate-900 dark:text-white mb-1">{c.titulo}</h3>
+                <p className="text-xs text-slate-500 font-medium leading-relaxed">{c.descricao}</p>
               </button>
             ))}
           </div>
@@ -101,80 +104,54 @@ export const DecisorPage: React.FC = () => {
       )}
 
       {step === 3 && cenarioDetalhe && currentFluxo && (
-        <div className="px-2">
-          <div className="ios-card p-8 border border-slate-100 dark:border-slate-800 shadow-2xl relative overflow-hidden bg-white dark:bg-slate-900">
-            <div className={`absolute top-0 left-0 right-0 h-1.5 ${currentFluxo.risco === 'urgencia' ? 'bg-[#FF3B30]' : 'bg-[#007AFF]'}`} />
-            
-            <div className="flex justify-between items-center mb-8">
-              <span className="text-xs font-black uppercase tracking-widest text-[#007AFF]">Análise Recomendada</span>
-              <span className="bg-slate-100 dark:bg-slate-800 px-3 py-1 rounded-full text-[10px] font-bold text-slate-500">
-                {currentCenarioIndex + 1} de {currentFluxo.cenarios.length}
-              </span>
-            </div>
+        <div className="px-2 animate-in zoom-in-95">
+          <div className="ios-card p-8 bg-white dark:bg-slate-900 shadow-2xl relative overflow-hidden border border-slate-100 dark:border-slate-800">
+             <div className={`absolute top-0 left-0 right-0 h-2 ${currentFluxo.risco === 'urgencia' ? 'bg-red-500' : 'bg-[#007AFF]'}`} />
+             
+             <div className="flex justify-between items-center mb-8">
+                <span className="bg-slate-900 text-white dark:bg-white dark:text-slate-900 px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-widest">Ação Imediata</span>
+                <button onClick={() => setStep(2)} className="text-slate-400 font-bold text-xs uppercase tracking-widest">Alterar</button>
+             </div>
 
-            <div className="mb-6">
-              <h3 className="text-2xl font-extrabold text-slate-900 dark:text-white mb-2 leading-tight">{cenarioDetalhe.titulo}</h3>
-              <p className="text-slate-500 dark:text-slate-400 font-medium leading-relaxed">{cenarioDetalhe.descricao}</p>
-            </div>
+             <div className="mb-8">
+                <h3 className="text-3xl font-black text-slate-900 dark:text-white leading-tight mb-2">{cenarioDetalhe.titulo}</h3>
+                <p className="text-slate-500 font-bold text-sm">{cenarioDetalhe.recomendacaoImediata}</p>
+             </div>
 
-            {/* Structured Recommendations */}
-            <div className="space-y-4 mb-8">
-              <div className="bg-blue-50 dark:bg-blue-900/20 p-5 rounded-2xl border border-blue-100 dark:border-blue-800/30">
-                <div className="flex gap-4 items-start">
-                  <span className="text-2xl">💡</span>
-                  <div>
-                    <p className="font-black text-blue-900 dark:text-blue-300 text-xs uppercase tracking-widest mb-1">Ação Imediata</p>
-                    <p className="text-blue-800 dark:text-blue-100 text-[14px] font-bold leading-relaxed">{cenarioDetalhe.recomendacaoImediata}</p>
-                  </div>
+             {/* Vedações Expressas */}
+             {currentFluxo.vedacoes.length > 0 && (
+               <div className="mb-8 p-6 bg-red-50 dark:bg-red-900/10 rounded-3xl border border-red-100 dark:border-red-900/30">
+                  <h4 className="text-red-600 dark:text-red-400 font-black text-[10px] uppercase tracking-widest mb-3 flex items-center gap-2">
+                    <span>🚫</span> Vedações (O que NÃO fazer)
+                  </h4>
+                  <ul className="space-y-2">
+                    {currentFluxo.vedacoes.map((v, i) => (
+                      <li key={i} className="text-red-800 dark:text-red-300 text-xs font-bold flex items-start gap-2">
+                        <span className="opacity-40">•</span> {v}
+                      </li>
+                    ))}
+                  </ul>
+               </div>
+             )}
+
+             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+                <div className="bg-slate-50 dark:bg-slate-800 p-5 rounded-3xl">
+                   <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">Prazos Legais</p>
+                   {/* Propriedade corrigida para cenarioDetalhe.prazoNotificacao */}
+                   <p className="text-slate-900 dark:text-slate-100 text-xs font-black">Notificação: {cenarioDetalhe.prazoNotificacao}</p>
                 </div>
-              </div>
-
-              <div className="grid grid-cols-2 gap-3">
-                <div className="bg-slate-50 dark:bg-slate-800/50 p-4 rounded-2xl border border-slate-100 dark:border-slate-800/50">
-                   <p className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase mb-2">Quem Acionar</p>
-                   <div className="flex items-center gap-2">
-                     <span className="text-lg">📞</span>
-                     <p className="text-slate-900 dark:text-slate-200 text-xs font-black leading-tight">{cenarioDetalhe.acionar}</p>
-                   </div>
+                <div className="bg-slate-50 dark:bg-slate-800 p-5 rounded-3xl">
+                   <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">Conviva SEDUC</p>
+                   <p className="text-slate-900 dark:text-slate-100 text-[10px] font-black line-clamp-1">{currentFluxo.convivaFields.join(', ')}</p>
                 </div>
-                <div className="bg-slate-50 dark:bg-slate-800/50 p-4 rounded-2xl border border-slate-100 dark:border-slate-800/50">
-                   <p className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase mb-2">Documento</p>
-                   <div className="flex items-center gap-2">
-                     <span className="text-lg">📄</span>
-                     <p className="text-slate-900 dark:text-slate-200 text-xs font-black leading-tight">{cenarioDetalhe.documento}</p>
-                   </div>
-                </div>
-              </div>
-            </div>
+             </div>
 
-            <div className="space-y-3">
-              <div className="flex gap-2">
-                <button
-                  onClick={() => navigateCenario('prev')}
-                  className="flex-1 bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 py-4 rounded-2xl font-bold text-sm hover:bg-slate-200"
-                >
-                  ← Anterior
-                </button>
-                <button
-                  onClick={() => navigateCenario('next')}
-                  className="flex-1 bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 py-4 rounded-2xl font-bold text-sm hover:bg-slate-200"
-                >
-                  Próximo →
-                </button>
-              </div>
-              <button
-                onClick={handleFinalize}
-                className="w-full bg-[#007AFF] text-white font-bold py-5 rounded-2xl shadow-xl shadow-blue-200 dark:shadow-blue-900/20 active:scale-95 transition-transform"
-              >
-                Ver Checklist Completo
-              </button>
-              <button
-                onClick={() => setStep(2)}
-                className="w-full text-slate-400 dark:text-slate-600 font-bold py-2 text-sm"
-              >
-                Voltar aos cenários
-              </button>
-            </div>
+             <button
+              onClick={() => navigate(`/fluxos/${currentFluxo.id}`)}
+              className="w-full bg-[#007AFF] text-white py-6 rounded-[2rem] font-black text-xs uppercase tracking-[0.2em] shadow-xl shadow-blue-500/30 active:scale-95 transition-all"
+             >
+               Ver Fluxo Completo e Contatos
+             </button>
           </div>
         </div>
       )}

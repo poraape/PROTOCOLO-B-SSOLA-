@@ -8,6 +8,8 @@ import { FlowPage } from './pages/FlowPage';
 import { NetworkPage } from './pages/NetworkPage';
 import { ResourcesPage } from './pages/ResourcesPage';
 import { ImageEditorPage } from './pages/ImageEditorPage';
+import { FlowsListPage } from './pages/FlowsListPage';
+import { BuscaPage } from './pages/BuscaPage';
 
 const App: React.FC = () => {
   return (
@@ -16,11 +18,12 @@ const App: React.FC = () => {
         <Routes>
           <Route path="/" element={<Dashboard />} />
           <Route path="/decisor" element={<DecisorPage />} />
-          <Route path="/fluxos" element={<div className="p-8 text-center text-slate-500">Selecione um fluxo específico no dashboard ou decisor.</div>} />
+          <Route path="/fluxos" element={<FlowsListPage />} />
           <Route path="/fluxos/:id" element={<FlowPage />} />
           <Route path="/rede" element={<NetworkPage />} />
           <Route path="/recursos" element={<ResourcesPage />} />
           <Route path="/editor" element={<ImageEditorPage />} />
+          <Route path="/busca" element={<BuscaPage />} />
         </Routes>
       </Layout>
     </Router>
