@@ -620,3 +620,103 @@ export const RECURSOS: Recurso[] = PROTOCOL_DATA.documentTemplates.map((doc) => 
   obrigatorio: true,
   camposObrigatorios: doc.requiredFields
 }));
+
+export const GLOSSARY_SEED = [
+  {
+    id: 'g1',
+    term: 'talarico',
+    meaning: 'Conflito relacional envolvendo ciúmes entre colegas.',
+    context: 'Pode aparecer em conflitos que escalam para bullying ou agressão verbal.',
+    riskFlag: 'atenção',
+    createdAt: new Date().toISOString()
+  },
+  {
+    id: 'g2',
+    term: 'cancelar',
+    meaning: 'Excluir publicamente alguém do grupo, muitas vezes em redes sociais.',
+    context: 'Relacionar com exclusão social/cyberbullying se recorrente.',
+    riskFlag: 'alerta',
+    createdAt: new Date().toISOString()
+  }
+];
+
+export const ROLEPLAY_SCENARIOS = [
+  {
+    id: 's1',
+    title: 'Isolamento + queda de rendimento',
+    situation: 'Estudante que participava bem ficou isolado, faltando mais e com queda brusca nas notas.',
+    protocolHint: 'Aplicar registro inicial, escuta qualificada e acionar fluxo multifatorial quando necessário.',
+    options: [
+      {
+        id: 'a',
+        text: 'Aguardar mais um mês para ver se melhora sozinho.',
+        isBest: false,
+        feedback: 'Conduta inadequada: posterga proteção e pode agravar o caso.'
+      },
+      {
+        id: 'b',
+        text: 'Registrar Anexo I no mesmo dia, comunicar coordenação e iniciar busca ativa.',
+        isBest: true,
+        feedback: 'Correto: ação precoce, registro e escalonamento estruturado.'
+      },
+      {
+        id: 'c',
+        text: 'Conversar em público com o aluno para pressionar presença.',
+        isBest: false,
+        feedback: 'Conduta inadequada: pode expor e revitimizar.'
+      }
+    ]
+  },
+  {
+    id: 's2',
+    title: 'Relato de possível violência sexual',
+    situation: 'Estudante relata situação de abuso, com medo de represália familiar.',
+    protocolHint: 'Escuta qualificada mínima, proteção imediata, CT/autoridades e não revitimização.',
+    options: [
+      {
+        id: 'a',
+        text: 'Pedir detalhes repetidamente para confirmar história.',
+        isBest: false,
+        feedback: 'Conduta inadequada: risco de revitimização.'
+      },
+      {
+        id: 'b',
+        text: 'Fazer escuta qualificada essencial e acionar direção/CT imediatamente.',
+        isBest: true,
+        feedback: 'Correto: preserva proteção e segue competência institucional.'
+      },
+      {
+        id: 'c',
+        text: 'Ligar primeiro para o suposto agressor para esclarecimentos.',
+        isBest: false,
+        feedback: 'Conduta inadequada: expõe a vítima e compromete proteção.'
+      }
+    ]
+  },
+  {
+    id: 's3',
+    title: 'Cyberbullying com exposição de imagem',
+    situation: 'Turma compartilha foto de colega com ofensas em grupo digital.',
+    protocolHint: 'Interrupção da exposição, proteção da vítima, registro e escalonamento jurídico quando necessário.',
+    options: [
+      {
+        id: 'a',
+        text: 'Tratar como “brincadeira” e encerrar sem registro.',
+        isBest: false,
+        feedback: 'Conduta inadequada: invisibiliza violência e recorrência.'
+      },
+      {
+        id: 'b',
+        text: 'Proteger vítima, registrar ocorrência e acionar família/gestão.',
+        isBest: true,
+        feedback: 'Correto: responde à violação com medidas educativas e protetivas.'
+      },
+      {
+        id: 'c',
+        text: 'Punir imediatamente sem escuta de envolvidos.',
+        isBest: false,
+        feedback: 'Inadequado: sem investigação pedagógica e registro correto.'
+      }
+    ]
+  }
+];
