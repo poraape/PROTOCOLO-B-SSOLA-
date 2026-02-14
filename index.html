@@ -107,18 +107,6 @@
             font-family: inherit;
         }
 
-        #html-theme-toggle {
-            position: fixed;
-            top: 1rem;
-            right: 1rem;
-            z-index: 9999;
-            pointer-events: auto;
-        }
-        @media (min-width: 768px) {
-          #html-theme-toggle {
-            display: none;
-          }
-        }
     </style>
 <script type="importmap">
 {
@@ -135,36 +123,6 @@
 </script>
 </head>
 <body class="select-none overflow-x-hidden">
-    <button 
-      id="html-theme-toggle" 
-      class="w-12 h-12 rounded-full flex items-center justify-center bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 shadow-2xl border border-slate-200 dark:border-slate-700 active:scale-90 transition-all"
-      aria-label="Alternar Tema"
-    >
-      <span id="theme-icon" class="text-xl">🌙</span>
-    </button>
-
     <div id="root"></div>
-
-    <script>
-      const btn = document.getElementById('html-theme-toggle');
-      const icon = document.getElementById('theme-icon');
-      
-      function updateIcon(theme) {
-        icon.innerText = theme === 'dark' ? '☀️' : '🌙';
-      }
-
-      updateIcon(document.documentElement.classList.contains('dark') ? 'dark' : 'light');
-
-      btn.addEventListener('click', () => {
-        const isDark = document.documentElement.classList.contains('dark');
-        const newTheme = isDark ? 'light' : 'dark';
-        window.applyTheme(newTheme);
-      });
-
-      window.addEventListener('themechange', () => {
-        const currentTheme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
-        updateIcon(currentTheme);
-      });
-    </script>
 </body>
 </html>
