@@ -35,6 +35,12 @@ export const Dashboard: React.FC = () => {
       subtitle: 'Treino em formato quiz para equipe',
       icon: '🎯',
       onClick: () => navigate('/simulador')
+    },
+    {
+      title: 'IA Assistente',
+      subtitle: 'Pergunte em linguagem natural ao protocolo',
+      icon: '🤖',
+      onClick: () => navigate('/chat')
     }
   ];
 
