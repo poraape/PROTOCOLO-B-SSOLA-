@@ -1,6 +1,6 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { GoogleGenerativeAI } from '@google/generative-ai';
-import { PROTOCOL_DATA } from '../data';
+import { loadProtocolKnowledgeBase, ProtocolKnowledgeBase, retrieveProtocolContext } from '../services/protocolKnowledge';
 
 interface ChatMessage {
   id: string;
@@ -9,8 +9,6 @@ interface ChatMessage {
 }
 
 const API_KEY_STORAGE = 'bussola_gemini_api_key_v1';
-const PROTOCOL_BLOB_URL = 'https://github.com/poraape/PROTOCOLO-B-SSOLA-/blob/main/public/protocolo';
-const PROTOCOL_RAW_URL = 'https://raw.githubusercontent.com/poraape/PROTOCOLO-B-SSOLA-/main/public/protocolo';
 
 const applyInlineMarkdown = (text: string) => {
   const escaped = text
@@ -58,71 +56,48 @@ const renderMarkdownSimple = (text: string) => {
   return html;
 };
 
-export const prepareProtocolContext = () => {
-  const institution = `Instituição: ${PROTOCOL_DATA.institution.name} (CIE ${PROTOCOL_DATA.institution.cie}, ${PROTOCOL_DATA.institution.diretoriaEnsino})`;
-
-  const scenarios = PROTOCOL_DATA.decisionTree
-    .filter((node) => node.isLeaf)
-    .map((node) => {
-      const actions = (node.guidance || []).join(' | ');
-      const contacts = (node.serviceIds || [])
-        .map((id) => PROTOCOL_DATA.services.find((service) => service.id === id)?.name)
-        .filter(Boolean)
-        .join(', ');
-
-      return `- Cenário: ${node.question} | Gravidade: ${node.riskLevel || 'MÉDIO'} | Ações: ${actions || 'Consultar direção'} | Contatos: ${contacts || 'Direção escolar'}`;
-    })
-    .join('\n');
-
-  const services = PROTOCOL_DATA.services
-    .map((service) => `- ${service.name} (${service.phone}) — ${service.address}`)
-    .join('\n');
-
-  const docs = PROTOCOL_DATA.documentTemplates
-    .map((doc) => `- ${doc.title}: campos obrigatórios -> ${doc.requiredFields.join(', ')}`)
-    .join('\n');
-
-  return `## DADOS OFICIAIS\n${institution}\n\n## CENÁRIOS E ENCAMINHAMENTOS\n${scenarios}\n\n## REDE DE SERVIÇOS\n${services}\n\n## DOCUMENTOS\n${docs}`;
-};
-
 export const ChatPage: React.FC = () => {
   const [apiKey, setApiKey] = useState(() => localStorage.getItem(API_KEY_STORAGE) || '');
   const [editingApiKey, setEditingApiKey] = useState(() => !localStorage.getItem(API_KEY_STORAGE));
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
+  const [loadingKnowledge, setLoadingKnowledge] = useState(true);
+  const [knowledgeBase, setKnowledgeBase] = useState<ProtocolKnowledgeBase | null>(null);
   const [error, setError] = useState('');
   const [messages, setMessages] = useState<ChatMessage[]>([
     {
       id: 'welcome',
       role: 'assistant',
-      content: 'Olá! Sou o **Assistente Bússola**. Descreva a situação em linguagem natural e eu vou responder com base no protocolo oficial da escola.'
+      content: 'Olá! Sou o **Assistente Bússola**. Descreva a situação em linguagem natural e vou responder conforme o protocolo oficial.'
     }
   ]);
 
-  const [externalProtocolText, setExternalProtocolText] = useState('');
-  const [externalProtocolStatus, setExternalProtocolStatus] = useState<'idle' | 'loading' | 'ok' | 'error'>('idle');
+  useEffect(() => {
+    let active = true;
 
-  const protocolContext = useMemo(() => prepareProtocolContext(), []);
+    const load = async () => {
+      setLoadingKnowledge(true);
+      try {
+        const kb = await loadProtocolKnowledgeBase();
+        if (active) setKnowledgeBase(kb);
+      } catch {
+        if (active) setError('Não foi possível carregar o protocolo oficial no momento.');
+      } finally {
+        if (active) setLoadingKnowledge(false);
+      }
+    };
 
+    load();
+    return () => {
+      active = false;
+    };
+  }, []);
 
-  const loadExternalProtocol = async () => {
-    setExternalProtocolStatus('loading');
-    setError('');
-
-    try {
-      const response = await fetch(PROTOCOL_RAW_URL, { cache: 'no-store' });
-      if (!response.ok) throw new Error(`Falha ao carregar protocolo externo (${response.status}).`);
-      const text = await response.text();
-
-      if (!text.trim()) throw new Error('Arquivo externo vazio.');
-
-      setExternalProtocolText(text.slice(0, 20000));
-      setExternalProtocolStatus('ok');
-    } catch (err: any) {
-      setExternalProtocolStatus('error');
-      setError(err?.message || 'Não foi possível carregar o protocolo externo.');
-    }
-  };
+  const knowledgeLabel = useMemo(() => {
+    if (loadingKnowledge) return 'Sincronizando base oficial...';
+    if (!knowledgeBase) return 'Base indisponível';
+    return `Base oficial ativa (v${knowledgeBase.sourceVersion})`;
+  }, [loadingKnowledge, knowledgeBase]);
 
   const saveApiKey = () => {
     if (!apiKey.trim()) return;
@@ -131,7 +106,8 @@ export const ChatPage: React.FC = () => {
   };
 
   const sendMessage = async () => {
-    if (!input.trim() || loading) return;
+    if (!input.trim() || loading || !knowledgeBase) return;
+
     const userMessage: ChatMessage = {
       id: crypto.randomUUID(),
       role: 'user',
@@ -147,27 +123,25 @@ export const ChatPage: React.FC = () => {
       const key = localStorage.getItem(API_KEY_STORAGE);
       if (!key) throw new Error('Chave de API não configurada.');
 
+      const context = retrieveProtocolContext(knowledgeBase, userMessage.content, 8);
+
       const genAI = new GoogleGenerativeAI(key);
       const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
 
       const systemInstruction = `
 Você é o Assistente Bússola da E.E. Ermelino Matarazzo.
 
-SUA BASE DE CONHECIMENTO (FONTE DA VERDADE LOCAL):
-${protocolContext}
-
-PROTOCOLO EXTERNO (GITHUB RAW):
-${externalProtocolText || 'Não carregado nesta sessão.'}
+BASE OFICIAL (TRECHOS RECUPERADOS DO PROTOCOLO):
+${context || 'Sem trecho recuperado para esta pergunta.'}
 
 DIRETRIZES:
-1. Responda APENAS com base no contexto acima.
-2. Se a resposta não estiver no contexto, diga: "Essa informação não consta no protocolo oficial. Por favor, contate a Direção."
-3. Seja empático, direto e use formatação Markdown (negrito para ações críticas).
+1. Responda APENAS com base no contexto fornecido.
+2. Se não houver informação suficiente no contexto, diga exatamente: "Essa informação não consta no protocolo oficial. Por favor, contate a Direção."
+3. Não invente telefones, prazos, normas ou competências.
+4. Seja empático, direto e use Markdown com **ações críticas** em destaque.
 `;
 
-      const history = messages.map((msg) => `${msg.role === 'user' ? 'Professor' : 'Assistente'}: ${msg.content}`).join('\n');
-
-      const result = await model.generateContent(`${systemInstruction}\n\nHISTÓRICO:\n${history}\n\nPERGUNTA ATUAL:\n${userMessage.content}`);
+      const result = await model.generateContent(`${systemInstruction}\n\nPERGUNTA:\n${userMessage.content}`);
       const text = result.response.text();
 
       setMessages((prev) => [
@@ -191,7 +165,7 @@ DIRETRIZES:
         <p className="text-xs font-black uppercase tracking-widest text-[#007AFF]">IA Assistente</p>
         <h1 className="mt-2 text-3xl font-extrabold text-slate-900">Chat do Protocolo Bússola</h1>
         <p className="mt-2 text-sm text-slate-600">
-          Faça perguntas em linguagem natural. As respostas são guiadas pela base oficial do protocolo da escola.
+          Faça perguntas em linguagem natural. As respostas são fundamentadas no protocolo oficial.
         </p>
       </header>
 
@@ -223,32 +197,7 @@ DIRETRIZES:
           </button>
         </div>
         {editingApiKey && <p className="mt-2 text-xs text-slate-500">Configure a chave para habilitar respostas da IA.</p>}
-      </section>
-
-      <section className="rounded-3xl border border-slate-200 bg-white p-4 shadow-sm">
-        <div className="flex flex-wrap items-center gap-2">
-          <button
-            onClick={loadExternalProtocol}
-            className="rounded-xl bg-slate-900 px-4 py-2 text-sm font-bold text-white"
-            disabled={externalProtocolStatus === 'loading'}
-          >
-            {externalProtocolStatus === 'loading' ? 'Carregando protocolo...' : 'Carregar protocolo externo'}
-          </button>
-          <a
-            href={PROTOCOL_BLOB_URL}
-            target="_blank"
-            rel="noreferrer"
-            className="rounded-xl border border-slate-300 px-4 py-2 text-sm font-bold text-slate-700"
-          >
-            Ver diretório no GitHub
-          </a>
-        </div>
-        <p className="mt-2 text-xs text-slate-500">
-          Fonte externa configurada: <code>{PROTOCOL_RAW_URL}</code>
-        </p>
-        <p className="mt-1 text-xs font-semibold text-slate-600">
-          Status: {externalProtocolStatus === 'ok' ? '✅ Protocolo externo carregado' : externalProtocolStatus === 'error' ? '❌ Falha ao carregar' : externalProtocolStatus === 'loading' ? '⏳ Carregando...' : 'ℹ️ Ainda não carregado'}
-        </p>
+        <p className="mt-2 text-xs font-semibold text-slate-600">{knowledgeLabel}</p>
       </section>
 
       <section className="rounded-3xl border border-slate-200 bg-white p-4 shadow-sm">
@@ -263,7 +212,7 @@ DIRETRIZES:
               />
             </div>
           ))}
-          {loading && (
+          {(loading || loadingKnowledge) && (
             <div className="text-sm font-semibold text-slate-500">Consultando protocolo...</div>
           )}
         </div>
@@ -282,21 +231,12 @@ DIRETRIZES:
           />
           <button
             onClick={sendMessage}
-            disabled={loading || !input.trim()}
+            disabled={loading || loadingKnowledge || !knowledgeBase || !input.trim()}
             className="h-fit rounded-xl bg-[#007AFF] px-4 py-2 text-sm font-bold text-white disabled:cursor-not-allowed disabled:opacity-40"
           >
             Enviar
           </button>
         </div>
-      </section>
-
-      <section className="rounded-3xl border border-slate-200 bg-white p-4 text-sm text-slate-700 shadow-sm">
-        <p className="font-bold">Sobre upload de protocolo/link externo</p>
-        <p className="mt-1">
-          Como o app é client-side, você pode incluir novos dados no próprio <code>data.ts</code> (fonte da verdade) ou criar uma etapa futura
-          com upload de arquivo para extração local no navegador. Para links externos, o ideal é um backend intermediário para baixar,
-          validar e versionar o conteúdo antes de enviar à IA.
-        </p>
       </section>
     </div>
   );
