@@ -160,13 +160,13 @@ const DOCUMENT_TEMPLATES: DocumentTemplate[] = [
     id: 'anexo-i-ficha-inicial',
     title: 'Anexo I - Ficha de Registro Inicial',
     annex: 'Anexo I',
-    purpose: 'Registro inicial da situação observada e ações imediatas na escola.',
+    purpose: 'Registrar identificação do caso, sinais observados e histórico escolar relevante.',
     requiredFields: [
-      'Data e hora',
-      'Nome do estudante / turma',
-      'Sintoma observado',
-      'Descrição objetiva sem julgamento',
-      'Ações imediatas executadas',
+      'Data e hora do registro',
+      'Nome completo do estudante',
+      'RA / Turma / Turno',
+      'Descrição objetiva dos fatos observados',
+      'Ações imediatas adotadas pela escola',
       'Nome e função de quem registrou',
       'Assinatura da gestão'
     ],
@@ -176,15 +176,15 @@ const DOCUMENT_TEMPLATES: DocumentTemplate[] = [
     id: 'anexo-ii-escuta',
     title: 'Anexo II - Escuta Qualificada',
     annex: 'Anexo II',
-    purpose: 'Registro de relato espontâneo sem revitimização.',
+    purpose: 'Documentar relato espontâneo da criança/adolescente com proteção contra revitimização.',
     requiredFields: [
-      'Data/hora/local da escuta',
-      'Profissional responsável',
-      'Relato espontâneo em texto literal',
+      'Data, hora e local da escuta',
+      'Profissional responsável pela escuta',
+      'Relato espontâneo (texto literal, sem indução)',
       'Sinais de risco imediato',
-      'Encaminhamentos acionados',
+      'Encaminhamentos realizados',
       'Órgãos notificados',
-      'Assinatura da direção'
+      'Assinatura e ciência da direção'
     ],
     confidentialityLevel: 'SIGILOSO'
   }
@@ -398,6 +398,42 @@ export const PROTOCOL_DATA: ProtocolData = {
     {
       id: 'leaf_violencia_fisica_negligencia',
       question: 'Suspeita de violência física ou negligência grave.',
+      guidance: ['Orientar responsável para CAPS Adulto e UBS.', 'Registrar impactos na proteção do estudante.'],
+      serviceIds: ['caps-adulto', 'ubs-ermelino']
+    },
+    {
+      id: 'social_pobreza_folha',
+      question: 'Família em vulnerabilidade socioeconômica grave.',
+      options: [],
+      isLeaf: true,
+      category: 'SOCIAL',
+      riskLevel: 'MÉDIO',
+      guidance: ['Abrir encaminhamento CRAS e mapear benefícios sociais.', 'Articular ações de permanência escolar.'],
+      serviceIds: ['cras-ermelino']
+    },
+    {
+      id: 'social_fome_folha',
+      question: 'Insegurança alimentar identificada.',
+      options: [],
+      isLeaf: true,
+      category: 'SOCIAL',
+      riskLevel: 'ALTO',
+      guidance: ['Acionar CRAS para proteção social imediata.', 'Registrar providências e garantir alimentação emergencial na escola.'],
+      serviceIds: ['cras-ermelino']
+    },
+    {
+      id: 'social_documentos_folha',
+      question: 'Ausência de documentação civil prejudica acesso a direitos.',
+      options: [],
+      isLeaf: true,
+      category: 'SOCIAL',
+      riskLevel: 'BAIXO',
+      guidance: ['Encaminhar via CRAS para regularização documental.', 'Acompanhar atualização de cadastro escolar.'],
+      serviceIds: ['cras-ermelino']
+    },
+    {
+      id: 'direitos_fisica_folha',
+      question: 'Suspeita/confirmada violência física contra estudante.',
       options: [],
       isLeaf: true,
       category: 'DIREITOS_SGD',
@@ -412,6 +448,12 @@ export const PROTOCOL_DATA: ProtocolData = {
     {
       id: 'leaf_violencia_sexual',
       question: 'Suspeita ou confirmação de violência sexual.',
+      guidance: ['Registrar relato no Anexo II.', 'Notificar Conselho Tutelar e, em caso de flagrante, acionar 190.'],
+      serviceIds: ['conselho-tutelar', 'policia-militar', 'ubs-ermelino']
+    },
+    {
+      id: 'direitos_sexual_folha',
+      question: 'Suspeita/confirmada violência sexual.',
       options: [],
       isLeaf: true,
       category: 'DIREITOS_SGD',
@@ -541,6 +583,22 @@ export const PROTOCOL_DATA: ProtocolData = {
         'Se persistir incerteza, escalar para fluxo multifatorial e reunião de equipe gestora.'
       ],
       serviceIds: ['de-leste1', 'ubs-ermelino', 'cras-ermelino']
+        'Etapa obrigatória 1: executar Busca Ativa (contato telefônico, visita e registro).',
+        'Etapa obrigatória 2: pactuar plano de retorno e acompanhamento pedagógico.',
+        'Somente após esgotar Busca Ativa, acionar Conselho Tutelar.'
+      ],
+      forbiddenActions: ['Não acionar Conselho Tutelar antes do registro formal da Busca Ativa.'],
+      serviceIds: ['nre-leste1', 'conselho-tutelar']
+    },
+    {
+      id: 'educacao_pedagogico_folha',
+      question: 'Demanda pedagógica sem violação de direitos imediata.',
+      options: [],
+      isLeaf: true,
+      category: 'EDUCAÇÃO',
+      riskLevel: 'BAIXO',
+      guidance: ['Realizar plano pedagógico individualizado.', 'Monitorar evolução por conselho de classe e equipe gestora.'],
+      serviceIds: ['nre-leste1']
     }
   ],
   services: SERVICES,
