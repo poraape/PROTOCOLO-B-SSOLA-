@@ -10,6 +10,9 @@ import { ResourcesPage } from './pages/ResourcesPage';
 import { ImageEditorPage } from './pages/ImageEditorPage';
 import { FlowsListPage } from './pages/FlowsListPage';
 import { BuscaPage } from './pages/BuscaPage';
+import { GlossaryPage } from './pages/GlossaryPage';
+import { SimulatorPage } from './pages/SimulatorPage';
+import { ChatPage } from './pages/ChatPage';
 
 const App: React.FC = () => {
   return (
@@ -24,6 +27,9 @@ const App: React.FC = () => {
           <Route path="/recursos" element={<ResourcesPage />} />
           <Route path="/editor" element={<ImageEditorPage />} />
           <Route path="/busca" element={<BuscaPage />} />
+          <Route path="/glossario" element={<GlossaryPage />} />
+          <Route path="/simulador" element={<SimulatorPage />} />
+          <Route path="/chat" element={<ChatPage />} />
         </Routes>
       </Layout>
     </Router>

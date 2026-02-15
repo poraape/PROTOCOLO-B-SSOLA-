@@ -1,213 +1,722 @@
+import { Contato, DocumentTemplate, Fluxo, ProtocolData, Recurso, Service } from './types';
 
-import { Contato, Fluxo, Recurso, FaseCiclo } from './types';
-
-const FASES_PADRAO: FaseCiclo[] = [
-  { 
-    ordem: 1, 
-    titulo: 'Identificação', 
-    responsavel: 'professor', 
-    descricao: 'Observação de sinais e acolhimento inicial.', 
-    checklist: [
-      { 
-        texto: 'Observar sinais físicos/comportamentais', 
-        detalhes: 'Fique atento a mudanças bruscas de humor, isolamento, marcas no corpo ou queda súbita de rendimento escolar. Verifique se o estudante apresenta sinais de cansaço extremo ou higiene precária.',
-        links: [{ titulo: 'Guia de Sinais de Alerta', idRecurso: 'anexo-1' }]
-      },
-      { 
-        texto: 'Garantir ambiente seguro para escuta', 
-        detalhes: 'O acolhimento deve ser feito em local privado, sem interrupções e onde o estudante se sinta confortável. Evite salas de diretoria se o estudante estiver intimidado.' 
-      }
-    ] 
+const SERVICES: Service[] = [
+  {
+    id: 'ubs-ermelino',
+    name: 'UBS Ermelino Matarazzo',
+    category: 'SAÚDE',
+    address: 'Rua Antônio de Freitas Toledo, 185 - Ermelino Matarazzo - São Paulo/SP - CEP 03812-050',
+    phone: '(11) 2545-8235 / (11) 2542-0945',
+    hours: 'Seg a Sex, 7h às 19h',
+    notes: 'Porta de entrada SUS para saúde geral e cuidado longitudinal.'
   },
-  { 
-    ordem: 2, 
-    titulo: 'Acolhimento', 
-    responsavel: 'professor', 
-    descricao: 'Escuta qualificada sem julgamento.', 
-    checklist: [
-      { 
-        texto: 'Aplicar Escuta Qualificada (Anexo II)', 
-        detalhes: 'Utilize o roteiro de escuta qualificada para registrar o relato espontâneo sem induzir respostas. Lembre-se: não é um interrogatório.',
-        links: [{ titulo: 'Protocolo de Escuta', idRecurso: 'anexo-2' }]
-      },
-      { 
-        texto: 'Validar sentimentos do estudante', 
-        detalhes: 'Demonstre empatia. Frases como "Eu acredito em você", "Você está seguro aqui" e "Você não tem culpa" são fundamentais neste momento.' 
-      }
-    ] 
+  {
+    id: 'caps-ij',
+    name: 'CAPS Infantojuvenil II Ermelino Matarazzo',
+    category: 'SAÚDE',
+    address: 'Rua Antônio Bonici, 18 - Ermelino Matarazzo - São Paulo/SP - CEP 03811-060',
+    phone: '(11) 3294-3828 / (11) 2544-1490',
+    hours: 'Seg a Sex, 7h às 19h',
+    notes: 'Sofrimento psíquico infantojuvenil com necessidade de cuidado especializado.'
   },
-  { 
-    ordem: 3, 
-    titulo: 'Avaliação', 
-    responsavel: 'gestor', 
-    descricao: 'Classificação de risco e gravidade.', 
-    checklist: [
-      { 
-        texto: 'Realizar Triagem de Risco (Anexo VI)', 
-        detalhes: 'Em casos de saúde mental ou ideação suicida, aplique as perguntas de gravidade do manual SEDUC.',
-        links: [{ titulo: 'Ficha de Avaliação de Risco', idRecurso: 'anexo-6' }]
-      },
-      { 
-        texto: 'Definir Governabilidade do Caso', 
-        detalhes: 'Determine se a situação é de governabilidade Direta (Escola resolve), Compartilhada (Escola + Rede) ou Externa (Apenas Rede).' 
-      }
-    ] 
+  {
+    id: 'caps-adulto',
+    name: 'CAPS Adulto II Ermelino Matarazzo',
+    category: 'SAÚDE',
+    address: 'Avenida Boturussu, 168 - Parque Boturussu - São Paulo/SP - CEP 03804-000',
+    phone: '(11) 2546-6787 / (11) 2544-0406',
+    hours: 'Seg a Sex, 7h às 19h'
   },
-  { 
-    ordem: 4, 
-    titulo: 'Encaminhamento', 
-    responsavel: 'gestor', 
-    descricao: 'Acionamento da rede externa.', 
-    checklist: [
-      { 
-        texto: 'Notificar Conselho Tutelar', 
-        detalhes: 'Obrigatório em casos de violência doméstica, abuso ou negligência. Deve ser feito via ofício assinado pela direção.',
-        links: [{ titulo: 'Gerar Ofício CT', idRecurso: 'modelo-ct' }]
-      },
-      { 
-        texto: 'Encaminhar para Unidade de Saúde', 
-        detalhes: 'Em casos de violência física ou sexual em menos de 72h, o encaminhamento para hospital com profilaxia é prioridade absoluta.' 
-      }
-    ] 
+  {
+    id: 'caps-ad',
+    name: 'CAPS AD II Ermelino Matarazzo',
+    category: 'SAÚDE',
+    address: 'Rua João Antônio de Andrade, 804 - Parque Boturussu - São Paulo/SP - CEP 03804-000',
+    phone: '(11) 2943-9276 / (11) 2546-2597',
+    hours: 'Seg a Sex, 7h às 19h'
   },
-  { 
-    ordem: 5, 
-    titulo: 'Monitoramento', 
-    responsavel: 'gestor', 
-    descricao: 'Acompanhamento do retorno da rede e bem-estar do estudante.', 
-    checklist: [
-      { 
-        texto: 'Monitoramento da Frequência Escolar', 
-        detalhes: 'O acompanhamento diário da presença é o principal indicador de eficácia. Alerte a gestão em caso de falta não justificada após o início do protocolo.',
-        links: [{ titulo: 'Ficha de Registro de Providências', idRecurso: 'anexo-4' }]
-      },
-      { 
-        texto: 'Diálogo com a Rede Externa (Feedback)', 
-        detalhes: 'Estabeleça contato semanal com o CAPS, CRAS ou UBS para entender se o estudante está aderindo ao tratamento ou acompanhamento fora da escola.' 
-      },
-      { 
-        texto: 'Acompanhamento do Prontuário Escolar', 
-        detalhes: 'Certifique-se de que todas as intervenções feitas em sala de aula (adaptações curriculares, acolhimentos extras) estão devidamente documentadas.',
-        links: [{ titulo: 'Modelo de Registro Interno', idRecurso: 'anexo-4' }]
-      }
-    ] 
+  {
+    id: 'upa-ermelino',
+    name: 'UPA Ermelino Matarazzo',
+    category: 'SAÚDE',
+    address: 'Rua Miguel Novais, 113 - Vila Paranaguá - São Paulo/SP - CEP 03807-370',
+    phone: '(11) 2574-3258',
+    hours: '24 horas'
   },
-  { 
-    ordem: 6, 
-    titulo: 'Reavaliação', 
-    responsavel: 'gestor', 
-    descricao: 'Análise de melhora ou agravamento.', 
-    checklist: [
-      { 
-        texto: 'Reunião de Equipe (Conselho de Classe)', 
-        detalhes: 'Avalie se as medidas pedagógicas tomadas surtiram efeito no comportamento e aprendizagem do estudante.' 
-      },
-      { 
-        texto: 'Revisão do Plano de Proteção', 
-        detalhes: 'Se os riscos persistirem, o plano deve ser endurecido, possivelmente acionando instâncias superiores da rede.' 
-      }
-    ] 
+  {
+    id: 'cras-ermelino',
+    name: 'CRAS Ermelino',
+    category: 'SOCIAL',
+    address: 'Avenida Paranaguá, 2045 - Ermelino Matarazzo - São Paulo/SP - CEP 03806-010',
+    phone: '(11) 2545-3211 / (11) 2545-3222',
+    hours: 'Seg a Sex, 8h às 18h'
   },
-  { 
-    ordem: 7, 
-    titulo: 'Encerramento', 
-    responsavel: 'gestor', 
-    descricao: 'Finalização do ciclo de proteção.', 
-    checklist: [
-      { 
-        texto: 'Arquivamento Seguro da Documentação', 
-        detalhes: 'O dossiê deve ser guardado em pasta lacrada no prontuário do aluno, com acesso restrito à gestão conforme LGPD.' 
-      },
-      { 
-        texto: 'Termo de Encerramento do Ciclo', 
-        detalhes: 'Formalize que a situação de risco cessou ou foi estabilizada pela rede de proteção.' 
-      }
-    ] 
+  {
+    id: 'creas-ermelino',
+    name: 'CREAS Ermelino',
+    category: 'SOCIAL',
+    address: 'Avenida Boturussu, 131 - Ermelino Matarazzo - São Paulo/SP - CEP 03804-000',
+    phone: '(11) 2541-7882',
+    hours: 'Seg a Sex, 8h às 18h'
   },
+  {
+    id: 'conselho-tutelar',
+    name: 'Conselho Tutelar Ermelino Matarazzo',
+    category: 'DIREITOS_SGD',
+    address: 'Rua Chesira Maltauro, 342 - Ermelino Matarazzo - São Paulo/SP - CEP 03811-100',
+    phone: '(11) 2214-9050 / (11) 2546-0657 / (11) 2546-3257',
+    notes: 'Acionamento obrigatório em ameaça/violação de direitos de criança e adolescente.'
+  },
+  {
+    id: 'ddm-sao-miguel',
+    name: 'DDM São Miguel Paulista',
+    category: 'DIREITOS_SGD',
+    address: 'Rua Dríades, 50 - 2º andar - São Miguel Paulista - São Paulo/SP - CEP 08010-190',
+    phone: '(11) 6154-1362 / (11) 6153-7666'
+  },
+  {
+    id: 'delegacia-civil-197',
+    name: 'Polícia Civil (orientação e acionamento)',
+    category: 'DIREITOS_SGD',
+    address: 'Canal remoto SSP-SP',
+    phone: '197',
+    notes: 'Para orientação e acionamento da Polícia Civil. Em violência em curso, usar 190.'
+  },
+  {
+    id: 'defensoria',
+    name: 'Defensoria Pública',
+    category: 'DIREITOS_SGD',
+    address: 'Canal estadual / foro regional',
+    phone: '0800 773 4340'
+  },
+  {
+    id: 'de-leste1',
+    name: 'Diretoria de Ensino Região Leste 1',
+    category: 'EDUCAÇÃO',
+    address: 'Rua Caetano de Campos, 220 - Tatuapé - São Paulo/SP - CEP 03088-010',
+    phone: '0800 770 0012',
+    notes: 'Apoio institucional, supervisão e orientação técnica.'
+  },
+  {
+    id: 'conviva',
+    name: 'Plataforma Conviva / SED',
+    category: 'EDUCAÇÃO',
+    address: 'Secretaria Escolar Digital',
+    phone: 'Acesso institucional',
+    notes: 'Registro obrigatório de ocorrências quando previsto em protocolo.'
+  },
+  {
+    id: 'policia-militar',
+    name: 'Polícia Militar',
+    category: 'EMERGÊNCIA',
+    address: 'Acionamento telefônico',
+    phone: '190',
+    hours: '24 horas'
+  },
+  {
+    id: 'samu',
+    name: 'SAMU',
+    category: 'EMERGÊNCIA',
+    address: 'Acionamento telefônico',
+    phone: '192',
+    hours: '24 horas'
+  },
+  {
+    id: 'bombeiros',
+    name: 'Corpo de Bombeiros',
+    category: 'EMERGÊNCIA',
+    address: 'Acionamento telefônico',
+    phone: '193',
+    hours: '24 horas'
+  },
+  {
+    id: 'disque-100',
+    name: 'Disque 100 - Direitos Humanos',
+    category: 'EMERGÊNCIA',
+    address: 'Canal remoto nacional',
+    phone: '100',
+    hours: '24 horas'
+  },
+  {
+    id: 'cvv',
+    name: 'CVV - Centro de Valorização da Vida',
+    category: 'EMERGÊNCIA',
+    address: 'Canal remoto nacional',
+    phone: '188',
+    hours: '24 horas'
+  },
+  {
+    id: 'disque-denuncia',
+    name: 'Disque Denúncia SSP-SP',
+    category: 'EMERGÊNCIA',
+    address: 'Canal remoto estadual',
+    phone: '181',
+    hours: '24 horas'
+  }
 ];
 
-export const CONTATOS: Contato[] = [
-  { id: 'ubs-ermelino', nome: 'UBS Ermelino Matarazzo', categoria: 'saude', telefone: '(11) 2545-8235', endereco: 'Rua Antônio de Freitas Toledo, 185', horario: 'Seg-Sex 7h-19h', lat: -23.4922, lng: -46.4789 },
-  { id: 'caps-ij', nome: 'CAPS IJ Ermelino', categoria: 'saude', telefone: '(11) 3294-3828', endereco: 'Rua Antônio Bonici, 18', horario: 'Seg-Sex 7h-19h', lat: -23.4855, lng: -46.4788 },
-  { id: 'upa-ermelino', nome: 'UPA Ermelino Matarazzo', categoria: 'emergencia', telefone: '(11) 2574-3258', endereco: 'Rua Miguel Novais, 113', horario: '24 HORAS', urgencia: true, lat: -23.4820, lng: -46.4850 },
-  { id: 'ct-ermelino', nome: 'Conselho Tutelar Ermelino', categoria: 'protecao', telefone: '(11) 2214-9050', endereco: 'Rua Chesira Maltauro, 342', horario: 'Plantão 24h', urgencia: true, lat: -23.4883, lng: -46.4842 },
-  { id: 'cras-ermelino', nome: 'CRAS Ermelino Matarazzo', categoria: 'assistencia', telefone: '(11) 2545-3211', endereco: 'Av. Paranaguá, 2045', lat: -23.4934, lng: -46.4812 },
-  { id: 'samu', nome: 'SAMU', categoria: 'emergencia', telefone: '192', urgencia: true },
-  { id: 'pm', nome: 'Polícia Militar', categoria: 'emergencia', telefone: '190', urgencia: true },
-  { id: 'disque-100', nome: 'Disque 100', categoria: 'protecao', telefone: '100', urgencia: true }
+const DOCUMENT_TEMPLATES: DocumentTemplate[] = [
+  {
+    id: 'anexo-i-ficha-inicial',
+    title: 'Anexo I - Ficha de Registro Inicial',
+    annex: 'Anexo I',
+    purpose: 'Registro inicial da situação observada e ações imediatas na escola.',
+    requiredFields: [
+      'Data e hora',
+      'Nome do estudante / turma',
+      'Sintoma observado',
+      'Descrição objetiva sem julgamento',
+      'Ações imediatas executadas',
+      'Nome e função de quem registrou',
+      'Assinatura da gestão'
+    ],
+    confidentialityLevel: 'RESTRITO'
+  },
+  {
+    id: 'anexo-ii-escuta',
+    title: 'Anexo II - Escuta Qualificada',
+    annex: 'Anexo II',
+    purpose: 'Registro de relato espontâneo sem revitimização.',
+    requiredFields: [
+      'Data/hora/local da escuta',
+      'Profissional responsável',
+      'Relato espontâneo em texto literal',
+      'Sinais de risco imediato',
+      'Encaminhamentos acionados',
+      'Órgãos notificados',
+      'Assinatura da direção'
+    ],
+    confidentialityLevel: 'SIGILOSO'
+  }
 ];
 
-export const FLUXOS: Record<string, Fluxo> = {
-  'fluxo-a': {
-    id: 'fluxo-a', codigo: 'A', titulo: 'Baixo Desempenho e Infrequência', icon: '🎓', risco: 'baixo', governabilidade: 'direta',
-    descricao: 'Dificuldades de aprendizagem persistentes e evasão escolar (> 20% de faltas).',
-    fases: FASES_PADRAO, alertas: ['Priorizar o vínculo afetivo.'], vedacoes: ['Não punir sem investigar causas sociais.'],
-    contatosUteis: [], convivaFields: ['Baixo desempenho', 'Infrequência'],
-    cenarios: [
-      { id: 'a1', titulo: 'Dificuldade de Aprendizagem', descricao: 'Estudante não acompanha a turma.', recomendacaoImediata: 'Reunião pedagógica e plano de reforço.', acionar: [], documento: 'Ata de Reunião', prazoNotificacao: 'No mês' }
-    ]
+export const PROTOCOL_DATA: ProtocolData = {
+  institution: {
+    name: 'E.E. Ermelino Matarazzo',
+    cie: '2835',
+    diretoriaEnsino: 'DE Leste 1'
   },
-  'fluxo-b': {
-    id: 'fluxo-b', codigo: 'B', titulo: 'Agressividade e Conflitos', icon: '⚔️', risco: 'moderado', governabilidade: 'direta',
-    descricao: 'Comportamentos disruptivos, brigas ou ameaças entre estudantes.',
-    fases: FASES_PADRAO, alertas: ['Mediação de conflitos imediata.'], vedacoes: ['Não expulsar sem processo administrativo.'],
-    contatosUteis: [], convivaFields: ['Conflito Escolar', 'Agressividade'], cenarios: []
-  },
-  'fluxo-c': {
-    id: 'fluxo-c', codigo: 'C', titulo: 'Automutilação e Autolesão', icon: '🩹', risco: 'alto', governabilidade: 'compartilhada',
-    descricao: 'Cortes, queimaduras ou marcas de autolesão sem intenção suicida clara.',
-    fases: FASES_PADRAO, alertas: ['Acolher sem julgar as marcas.', 'Notificar a família com cautela.'],
-    vedacoes: ['Não pedir para ver as marcas em público.'],
-    contatosUteis: ['caps-ij', 'ubs-ermelino'], convivaFields: ['Autolesão', 'Saúde Mental'], cenarios: []
-  },
-  'fluxo-d': {
-    id: 'fluxo-d', codigo: 'D', titulo: 'Ideação e Tentativa de Suicídio', icon: '🔴', risco: 'urgencia', governabilidade: 'externa',
-    descricao: 'Risco iminente à vida: falas de morte ou tentativa recente.',
-    fases: FASES_PADRAO, alertas: ['Risco de morte anula o sigilo.', 'Nunca deixar sozinho.'],
-    vedacoes: ['Não minimizar o sofrimento.', 'Não permitir saída desacompanhada.'],
-    contatosUteis: ['samu', 'upa-ermelino', 'caps-ij'],
-    convivaFields: ['Ideação Suicida', 'Tentativa de Suicídio'],
-    cenarios: [
-      { id: 'd1', titulo: 'Tentativa em Curso', descricao: 'Lesão autoinfligida recente ou ato na escola.', recomendacaoImediata: 'Ligar SAMU 192 e isolar área.', acionar: ['samu', 'upa-ermelino'], documento: 'Anexo II + Anexo IV', prazoNotificacao: 'Imediato' },
-      { id: 'd2', titulo: 'Ideação Suicida', descricao: 'Falas de desespere ou plano estruturado.', recomendacaoImediata: 'Acolhimento e encaminhamento urgente ao CAPS.', acionar: ['caps-ij'], documento: 'Anexo VI', prazoNotificacao: '24h' }
-    ]
-  },
-  'fluxo-k': {
-    id: 'fluxo-k', codigo: 'K', titulo: 'Violência Sexual', icon: '⚠️', risco: 'urgencia', governabilidade: 'externa',
-    descricao: 'Suspeita ou confirmação de abuso, assédio ou exploração sexual.',
-    fases: FASES_PADRAO, alertas: ['Se agressor for da família, NÃO avisar família antes do CT.'],
-    vedacoes: ['Não interrogar.', 'Não confrontar suspeitos.', 'Não inspecionar o corpo.'],
-    contatosUteis: ['ct-ermelino', 'upa-ermelino', 'disque-100'],
-    convivaFields: ['Abuso Sexual', 'Exploração Sexual'],
-    cenarios: [
-      { id: 'k1', titulo: 'Violência < 72h', descricao: 'Exige profilaxia médica urgente.', recomendacaoImediata: 'Hospital Alípio Corrêa Imediato + CT.', acionar: ['upa-ermelino', 'ct-ermelino'], documento: 'Anexo II + Ofício CT', prazoNotificacao: '24h' },
-      { id: 'k2', titulo: 'Revelação Espontânea', descricao: 'Estudante relata fato ocorrido no passado.', recomendacaoImediata: 'Escuta qualificada e notificação ao CT.', acionar: ['ct-ermelino'], documento: 'Relatório Escrito', prazoNotificacao: '24h' }
-    ]
-  },
-  'fluxo-l': {
-    id: 'fluxo-l', codigo: 'L', titulo: 'Trabalho Infantil', icon: '🧱', risco: 'moderado', governabilidade: 'externa',
-    descricao: 'Estudante envolvido em atividades laborais prejudiciais ao desenvolvimento.',
-    fases: FASES_PADRAO, alertas: ['Verificar evasão associada.'], vedacoes: [],
-    contatosUteis: ['ct-ermelino', 'cras-ermelino'], convivaFields: ['Trabalho Infantil'], cenarios: []
-  },
-  'fluxo-m': {
-    id: 'fluxo-m', codigo: 'M', titulo: 'Uso de Substâncias', icon: '🧪', risco: 'alto', governabilidade: 'externa',
-    descricao: 'Uso de álcool ou drogas que impactam a vida escolar.',
-    fases: FASES_PADRAO, alertas: ['Abordagem de redução de danos.'], vedacoes: ['Não tratar como caso de polícia apenas.'],
-    contatosUteis: ['caps-ij', 'ubs-ermelino'], convivaFields: ['Uso de Drogas'], cenarios: []
-  },
-  'fluxo-p': {
-    id: 'fluxo-p', codigo: 'P', titulo: 'Gravidez na Adolescência', icon: '🤰', risco: 'baixo', governabilidade: 'compartilhada',
-    descricao: 'Apoio à gestante e garantia de permanência escolar.',
-    fases: FASES_PADRAO, alertas: ['Garantir licença-maternidade escolar.'], vedacoes: ['Não discriminar.'],
-    contatosUteis: ['ubs-ermelino'], convivaFields: ['Gravidez'], cenarios: []
+  decisionTree: [
+    {
+      id: 'root',
+      question: 'Qual sintoma observado neste momento?',
+      options: [
+        { label: '🚨 Risco imediato (vida/violência em curso)', nextNodeId: 'leaf_emergencia_imediata' },
+        { label: '🧠 Mudança brusca de comportamento', nextNodeId: 'n_comportamento' },
+        { label: '💬 Sofrimento emocional / verbalização preocupante', nextNodeId: 'n_saude_mental' },
+        { label: '👥 Conflito, bullying ou exclusão social', nextNodeId: 'n_convivencia' },
+        { label: '🏠 Suspeita de violência doméstica / negligência', nextNodeId: 'n_violacoes' },
+        { label: '📉 Faltas + queda de rendimento + isolamento (múltiplos fatores)', nextNodeId: 'leaf_multifatorial' },
+        { label: '📱 Uso indevido de tecnologia / cyberbullying', nextNodeId: 'leaf_cyberbullying' },
+        { label: '🤝 Vulnerabilidade social (fome, pobreza, trabalho infantil)', nextNodeId: 'n_social' },
+        { label: '🏫 Indisciplina recorrente / conflito com regras', nextNodeId: 'leaf_indisciplina' },
+        { label: '❔ Caso ambíguo ("algo não está bem")', nextNodeId: 'leaf_ambiguo' }
+      ]
+    },
+    {
+      id: 'n_comportamento',
+      question: 'O que predomina na mudança observada?',
+      options: [
+        { label: 'Isolamento / apatia / tristeza persistente', nextNodeId: 'leaf_comportamento_internalizante' },
+        { label: 'Agressividade / impulsividade / explosões', nextNodeId: 'leaf_comportamento_externalizante' },
+        { label: 'Queda brusca de rendimento e motivação', nextNodeId: 'leaf_queda_rendimento' }
+      ]
+    },
+    {
+      id: 'n_saude_mental',
+      question: 'Há risco atual para integridade do estudante?',
+      options: [
+        { label: 'Sim, risco atual / tentativa / autolesão em curso', nextNodeId: 'leaf_emergencia_imediata' },
+        { label: 'Sem risco imediato, mas há sofrimento importante', nextNodeId: 'leaf_saude_mental_alta' },
+        { label: 'Sem risco imediato e sinais leves/moderados', nextNodeId: 'leaf_saude_mental_moderada' }
+      ]
+    },
+    {
+      id: 'n_convivencia',
+      question: 'Qual cenário de convivência melhor descreve a situação?',
+      options: [
+        { label: 'Conflito pontual entre estudantes', nextNodeId: 'leaf_conflito_pontual' },
+        { label: 'Bullying sistemático / exclusão social', nextNodeId: 'leaf_bullying_sistematico' },
+        { label: 'Conflito entre grupos com risco de violência física', nextNodeId: 'leaf_conflito_grupos' }
+      ]
+    },
+    {
+      id: 'n_violacoes',
+      question: 'Qual suspeita principal de violação de direitos?',
+      options: [
+        { label: 'Violência física / negligência grave', nextNodeId: 'leaf_violencia_fisica_negligencia' },
+        { label: 'Violência sexual / exploração sexual', nextNodeId: 'leaf_violencia_sexual' },
+        { label: 'Abandono / conflito familiar intenso', nextNodeId: 'leaf_conflito_familiar' }
+      ]
+    },
+    {
+      id: 'n_social',
+      question: 'Qual fator social é mais evidente?',
+      options: [
+        { label: 'Insegurança alimentar / pobreza extrema', nextNodeId: 'leaf_social_fome_pobreza' },
+        { label: 'Trabalho infantil', nextNodeId: 'leaf_trabalho_infantil' },
+        { label: 'Falta de documentação / acesso a benefícios', nextNodeId: 'leaf_social_documentacao' }
+      ]
+    },
+
+    {
+      id: 'leaf_emergencia_imediata',
+      question: 'Emergência imediata: agir agora para preservar vidas.',
+      options: [],
+      isLeaf: true,
+      category: 'EMERGÊNCIA',
+      riskLevel: 'EMERGENCIAL',
+      tags: ['risco de morte', 'violência em curso'],
+      severityCriteria: [
+        'Violência em curso',
+        'Tentativa de suicídio em curso',
+        'Perda de consciência, trauma grave ou risco de morte'
+      ],
+      guidance: [
+        'Acionar imediatamente 190, 192 ou 193 conforme a natureza da emergência.',
+        'Não deixar o estudante sozinho e acionar a direção em paralelo.',
+        'Após estabilização, registrar Anexo I e documentar protocolos/BO.'
+      ],
+      serviceIds: ['policia-militar', 'samu', 'bombeiros', 'upa-ermelino'],
+      forbiddenActions: ['Não adiar acionamento por tentativa de resolver internamente.']
+    },
+    {
+      id: 'leaf_comportamento_internalizante',
+      question: 'Mudança internalizante (isolamento, apatia, tristeza).',
+      options: [],
+      isLeaf: true,
+      category: 'SAÚDE',
+      riskLevel: 'MÉDIO',
+      tags: ['isolamento', 'apatia', 'queda de interação'],
+      severityCriteria: ['Persistência > 2 semanas', 'Prejuízo acadêmico/social progressivo'],
+      guidance: [
+        'Realizar acolhimento e registro no Anexo I no mesmo dia.',
+        'Solicitar escuta qualificada (Anexo II) com coordenação/POC em até 72h.',
+        'Encaminhar para UBS e, se houver agravamento, CAPS IJ.'
+      ],
+      serviceIds: ['ubs-ermelino', 'caps-ij']
+    },
+    {
+      id: 'leaf_comportamento_externalizante',
+      question: 'Mudança externalizante (agressividade e explosões).',
+      options: [],
+      isLeaf: true,
+      category: 'EDUCAÇÃO',
+      riskLevel: 'MÉDIO',
+      guidance: [
+        'Intervenção pedagógica imediata com foco em segurança da turma.',
+        'Registrar Anexo I e avaliar fatores de saúde mental/social associados.',
+        'Se houver recorrência grave, acionar UBS/CAPS IJ e Conselho Tutelar conforme avaliação da direção.'
+      ],
+      serviceIds: ['de-leste1', 'ubs-ermelino', 'caps-ij', 'conselho-tutelar']
+    },
+    {
+      id: 'leaf_queda_rendimento',
+      question: 'Queda brusca de rendimento com sinais de sofrimento.',
+      options: [],
+      isLeaf: true,
+      category: 'EDUCAÇÃO',
+      riskLevel: 'MÉDIO',
+      guidance: [
+        'Etapa obrigatória 1: executar Busca Ativa (contato telefônico, visita e registro).',
+        'Etapa obrigatória 2: pactuar plano de retorno e acompanhamento pedagógico.',
+        'Etapa obrigatória 3: se persistir com faltas e isolamento, escalar para fluxo multifatorial e rede social.'
+      ],
+      serviceIds: ['de-leste1', 'cras-ermelino', 'ubs-ermelino'],
+      forbiddenActions: ['Não acionar Conselho Tutelar antes da busca ativa devidamente registrada.']
+    },
+    {
+      id: 'leaf_saude_mental_alta',
+      question: 'Sofrimento mental importante sem risco imediato confirmado.',
+      options: [],
+      isLeaf: true,
+      category: 'SAÚDE',
+      riskLevel: 'ALTO',
+      guidance: [
+        'Garantir acolhimento protegido e escuta qualificada (Anexo II).',
+        'Encaminhar com prioridade para CAPS IJ e comunicar família.',
+        'Manter monitoramento intensivo de frequência e sinais de agravamento.'
+      ],
+      serviceIds: ['caps-ij', 'ubs-ermelino', 'cvv']
+    },
+    {
+      id: 'leaf_saude_mental_moderada',
+      question: 'Sofrimento emocional leve/moderado.',
+      options: [],
+      isLeaf: true,
+      category: 'SAÚDE',
+      riskLevel: 'MÉDIO',
+      guidance: [
+        'Registrar Anexo I e orientar família sobre UBS como porta de entrada.',
+        'Avaliar necessidade de CAPS IJ conforme evolução clínica e escolar.',
+        'Reavaliar em até 15 dias com equipe gestora.'
+      ],
+      serviceIds: ['ubs-ermelino', 'caps-ij', 'cvv']
+    },
+    {
+      id: 'leaf_conflito_pontual',
+      question: 'Conflito pontual entre estudantes (sem violência grave).',
+      options: [],
+      isLeaf: true,
+      category: 'EDUCAÇÃO',
+      riskLevel: 'BAIXO',
+      guidance: [
+        'Aplicar mediação pedagógica e combinados de convivência.',
+        'Registrar ocorrência interna (Anexo I/III conforme impacto).',
+        'Se houver repetição, reclassificar para bullying sistemático.'
+      ],
+      serviceIds: ['de-leste1']
+    },
+    {
+      id: 'leaf_bullying_sistematico',
+      question: 'Bullying sistemático / exclusão social recorrente.',
+      options: [],
+      isLeaf: true,
+      category: 'DIREITOS_SGD',
+      riskLevel: 'ALTO',
+      guidance: [
+        'Interromper imediatamente as agressões e proteger a vítima.',
+        'Escuta qualificada e comunicação com famílias da vítima e autores.',
+        'Em caso grave/reiterado, acionar Conselho Tutelar e Polícia Civil (197).'
+      ],
+      serviceIds: ['conselho-tutelar', 'delegacia-civil-197', 'de-leste1', 'conviva']
+    },
+    {
+      id: 'leaf_conflito_grupos',
+      question: 'Conflito entre grupos com risco de escalada para violência.',
+      options: [],
+      isLeaf: true,
+      category: 'EMERGÊNCIA',
+      riskLevel: 'ALTO',
+      guidance: [
+        'Separar grupos com segurança e preservar integridade física.',
+        'Acionar direção imediatamente e avaliar necessidade de 190.',
+        'Registrar protocolos e plano de prevenção de recorrência.'
+      ],
+      serviceIds: ['policia-militar', 'de-leste1', 'conviva']
+    },
+    {
+      id: 'leaf_violencia_fisica_negligencia',
+      question: 'Suspeita de violência física ou negligência grave.',
+      options: [],
+      isLeaf: true,
+      category: 'DIREITOS_SGD',
+      riskLevel: 'ALTO',
+      guidance: [
+        'Acolher estudante e registrar relato espontâneo sem indução.',
+        'Notificar Conselho Tutelar em até 24h e encaminhar para avaliação em UBS/UPA conforme necessidade.',
+        'Acionar Polícia Civil (197) ou 190 se violência em curso.'
+      ],
+      serviceIds: ['conselho-tutelar', 'ubs-ermelino', 'upa-ermelino', 'delegacia-civil-197']
+    },
+    {
+      id: 'leaf_violencia_sexual',
+      question: 'Suspeita ou confirmação de violência sexual.',
+      options: [],
+      isLeaf: true,
+      category: 'DIREITOS_SGD',
+      riskLevel: 'EMERGENCIAL',
+      guidance: [
+        'Realizar somente escuta qualificada essencial para proteção imediata.',
+        'Notificar imediatamente Conselho Tutelar e autoridade policial especializada (197 / DDM).',
+        'Encaminhar para UBS/UPA de forma imediata, especialmente em ocorrência recente.'
+      ],
+      serviceIds: ['conselho-tutelar', 'ddm-sao-miguel', 'delegacia-civil-197', 'upa-ermelino', 'ubs-ermelino'],
+      forbiddenActions: [
+        'NÃO revitimizar com repetição desnecessária de relato.',
+        'NÃO confrontar suspeito nem investigar por conta própria.',
+        'NÃO orientar contato imediato com família quando houver suspeita intrafamiliar antes da avaliação protetiva.'
+      ]
+    },
+    {
+      id: 'leaf_conflito_familiar',
+      question: 'Conflitos familiares com impacto escolar e protetivo.',
+      options: [],
+      isLeaf: true,
+      category: 'SOCIAL',
+      riskLevel: 'MÉDIO',
+      guidance: [
+        'Registrar sinais e impactos na frequência/aprendizagem.',
+        'Encaminhar família para CRAS; em violação de direitos, CREAS e Conselho Tutelar.',
+        'Acionar Defensoria para orientação jurídica quando necessário.'
+      ],
+      serviceIds: ['cras-ermelino', 'creas-ermelino', 'conselho-tutelar', 'defensoria']
+    },
+    {
+      id: 'leaf_social_fome_pobreza',
+      question: 'Vulnerabilidade socioeconômica e insegurança alimentar.',
+      options: [],
+      isLeaf: true,
+      category: 'SOCIAL',
+      riskLevel: 'MÉDIO',
+      guidance: [
+        'Acionar CRAS para benefícios e acompanhamento familiar.',
+        'Planejar apoio de permanência escolar e monitoramento de frequência.',
+        'Escalar para Conselho Tutelar se houver negligência grave associada.'
+      ],
+      serviceIds: ['cras-ermelino', 'conselho-tutelar']
+    },
+    {
+      id: 'leaf_trabalho_infantil',
+      question: 'Indícios de trabalho infantil.',
+      options: [],
+      isLeaf: true,
+      category: 'DIREITOS_SGD',
+      riskLevel: 'ALTO',
+      guidance: [
+        'Registrar evidências observacionais e relato espontâneo.',
+        'Notificar Conselho Tutelar em até 24h e articular CRAS/CREAS.',
+        'Monitorar frequência e proteção integral do estudante.'
+      ],
+      serviceIds: ['conselho-tutelar', 'cras-ermelino', 'creas-ermelino']
+    },
+    {
+      id: 'leaf_social_documentacao',
+      question: 'Barreiras de documentação e acesso a direitos sociais.',
+      options: [],
+      isLeaf: true,
+      category: 'SOCIAL',
+      riskLevel: 'BAIXO',
+      guidance: [
+        'Encaminhar via CRAS para regularização cadastral/documental.',
+        'Registrar plano de acompanhamento escolar e social.'
+      ],
+      serviceIds: ['cras-ermelino']
+    },
+    {
+      id: 'leaf_cyberbullying',
+      question: 'Uso indevido de tecnologia, cyberbullying ou exposição em redes.',
+      options: [],
+      isLeaf: true,
+      category: 'DIREITOS_SGD',
+      riskLevel: 'ALTO',
+      guidance: [
+        'Interromper disseminação no ambiente escolar e proteger a vítima.',
+        'Registrar evidências disponíveis sem expor o estudante.',
+        'Acionar família, direção e, em caso de crime, Polícia Civil (197) e Conselho Tutelar.'
+      ],
+      serviceIds: ['delegacia-civil-197', 'conselho-tutelar', 'de-leste1', 'conviva']
+    },
+    {
+      id: 'leaf_indisciplina',
+      question: 'Indisciplina recorrente com diferentes intensidades.',
+      options: [],
+      isLeaf: true,
+      category: 'EDUCAÇÃO',
+      riskLevel: 'MÉDIO',
+      guidance: [
+        'Aplicar medidas pedagógicas progressivas e restaurativas.',
+        'Registrar reincidência e fatores associados (social, emocional, familiar).',
+        'Escalar para rede externa se houver violação de direitos ou risco social relevante.'
+      ],
+      serviceIds: ['de-leste1', 'cras-ermelino', 'caps-ij']
+    },
+    {
+      id: 'leaf_multifatorial',
+      question: 'Caso multifatorial (faltas + rendimento + isolamento).',
+      options: [],
+      isLeaf: true,
+      category: 'EDUCAÇÃO',
+      riskLevel: 'ALTO',
+      tags: ['multifatorial', 'alta complexidade'],
+      guidance: [
+        'Tratar como caso de alta complexidade: abrir plano integrado escola-rede.',
+        'Executar busca ativa documentada, escuta qualificada e reunião de gestão no mesmo ciclo semanal.',
+        'Encaminhar simultaneamente para saúde (UBS/CAPS), social (CRAS/CREAS) e direitos (CT) conforme achados.'
+      ],
+      serviceIds: ['ubs-ermelino', 'caps-ij', 'cras-ermelino', 'creas-ermelino', 'conselho-tutelar', 'de-leste1'],
+      forbiddenActions: ['Não esperar definição perfeita do caso para iniciar proteção.']
+    },
+    {
+      id: 'leaf_ambiguo',
+      question: 'Caso ambíguo: “algo não está bem”, sem classificação fechada.',
+      options: [],
+      isLeaf: true,
+      category: 'EDUCAÇÃO',
+      riskLevel: 'MÉDIO',
+      fallbackNextNodeId: 'leaf_multifatorial',
+      guidance: [
+        'Aplicar princípio protetivo: registrar observação no Anexo I e comunicar coordenação no mesmo dia.',
+        'Coletar informações adicionais por observação pedagógica e escuta qualificada (Anexo II).',
+        'Se persistir incerteza, escalar para fluxo multifatorial e reunião de equipe gestora.'
+      ],
+      serviceIds: ['de-leste1', 'ubs-ermelino', 'cras-ermelino']
+    }
+  ],
+  services: SERVICES,
+  documentTemplates: DOCUMENT_TEMPLATES,
+  instruments: {
+    anexoI: {
+      requiredFields: DOCUMENT_TEMPLATES.find((doc) => doc.annex === 'Anexo I')?.requiredFields || []
+    },
+    anexoII: {
+      requiredFields: DOCUMENT_TEMPLATES.find((doc) => doc.annex === 'Anexo II')?.requiredFields || []
+    }
   }
 };
 
-export const RECURSOS: Recurso[] = [
-  { id: 'anexo-1', titulo: 'Anexo I - Ficha de Acolhimento', descricao: 'Registro inicial de identificação e escuta.', formato: 'pdf', obrigatorio: true, camposObrigatorios: ['Nome', 'Data', 'Relato'] },
-  { id: 'anexo-2', titulo: 'Anexo II - Escuta Qualificada', descricao: 'Guia para registro do relato espontâneo.', formato: 'pdf', obrigatorio: true, camposObrigatorios: ['Escuta Qualificada', 'Observações'] },
-  { id: 'anexo-4', titulo: 'Anexo IV - Registro de Providências', descricao: 'Diário de bordo das ações realizadas pela escola.', formato: 'pdf', obrigatorio: true, camposObrigatorios: ['Ação', 'Responsável'] },
-  { id: 'anexo-6', titulo: 'Anexo VI - Avaliação de Risco Suicida', descricao: 'Triagem de gravidade para saúde mental.', formato: 'pdf', obrigatorio: true, camposObrigatorios: ['Meio letal', 'Plano'] },
-  { id: 'modelo-ct', titulo: 'Modelo de Ofício ao Conselho Tutelar', descricao: 'Documento padrão para notificação oficial.', formato: 'docx', obrigatorio: true, camposObrigatorios: ['Relato', 'Assinatura Direção'] }
+// Compatibilidade com UI existente
+export const CONTATOS: Contato[] = PROTOCOL_DATA.services.map((service) => ({
+  id: service.id,
+  categoria:
+    service.category === 'SAÚDE'
+      ? 'saude'
+      : service.category === 'SOCIAL'
+        ? 'assistencia'
+        : service.category === 'DIREITOS_SGD'
+          ? 'protecao'
+          : service.category === 'EDUCAÇÃO'
+            ? 'educacao'
+            : 'emergencia',
+  nome: service.name,
+  telefone: service.phone,
+  endereco: service.address,
+  horario: service.hours
+}));
+
+const categoryToFluxo: Record<string, { codigo: string; icon: string; risco: Fluxo['risco'] }> = {
+  SAÚDE: { codigo: 'S', icon: '🏥', risco: 'alto' },
+  SOCIAL: { codigo: 'O', icon: '🤝', risco: 'moderado' },
+  DIREITOS_SGD: { codigo: 'D', icon: '⚖️', risco: 'urgencia' },
+  EDUCAÇÃO: { codigo: 'E', icon: '🏫', risco: 'moderado' },
+  EMERGÊNCIA: { codigo: 'X', icon: '🚨', risco: 'urgencia' }
+};
+
+export const FLUXOS: Record<string, Fluxo> = Object.fromEntries(
+  ['SAÚDE', 'SOCIAL', 'DIREITOS_SGD', 'EDUCAÇÃO', 'EMERGÊNCIA'].map((category) => {
+    const leaves = PROTOCOL_DATA.decisionTree.filter((node) => node.isLeaf && node.category === category);
+    const meta = categoryToFluxo[category];
+    const id = category.toLowerCase().replace(/[^a-z0-9]/gi, '-');
+
+    return [
+      id,
+      {
+        id,
+        codigo: meta.codigo,
+        titulo: category.replace('_', '/'),
+        descricao: `Fluxos ${category.replace('_', '/')} organizados por sintomas observáveis e gravidade.`,
+        risco: meta.risco,
+        icon: meta.icon,
+        contatosUteis: Array.from(new Set(leaves.flatMap((leaf) => leaf.serviceIds || []))),
+        cenarios: leaves.map((leaf) => ({
+          id: leaf.id,
+          titulo: leaf.question,
+          descricao: (leaf.guidance || []).join(' '),
+          recomendacaoImediata: leaf.guidance?.[0] || 'Seguir protocolo institucional.',
+          acionar: leaf.serviceIds || [],
+          documento: leaf.category === 'DIREITOS_SGD' ? 'Anexo II + Anexo I' : 'Anexo I',
+          prazoNotificacao: leaf.riskLevel === 'EMERGENCIAL' ? 'Imediato' : leaf.riskLevel === 'ALTO' ? 'Até 24h' : 'Até 72h'
+        }))
+      }
+    ];
+  })
+);
+
+export const RECURSOS: Recurso[] = PROTOCOL_DATA.documentTemplates.map((doc) => ({
+  id: doc.id,
+  titulo: doc.title,
+  descricao: doc.purpose,
+  formato: 'pdf',
+  obrigatorio: true,
+  camposObrigatorios: doc.requiredFields
+}));
+
+export const GLOSSARY_SEED = [
+  {
+    id: 'g1',
+    term: 'talarico',
+    meaning: 'Conflito relacional envolvendo ciúmes entre colegas.',
+    context: 'Pode aparecer em conflitos que escalam para bullying ou agressão verbal.',
+    riskFlag: 'atenção',
+    createdAt: new Date().toISOString()
+  },
+  {
+    id: 'g2',
+    term: 'cancelar',
+    meaning: 'Excluir publicamente alguém do grupo, muitas vezes em redes sociais.',
+    context: 'Relacionar com exclusão social/cyberbullying se recorrente.',
+    riskFlag: 'alerta',
+    createdAt: new Date().toISOString()
+  }
+];
+
+export const ROLEPLAY_SCENARIOS = [
+  {
+    id: 's1',
+    title: 'Isolamento + queda de rendimento',
+    situation: 'Estudante que participava bem ficou isolado, faltando mais e com queda brusca nas notas.',
+    protocolHint: 'Aplicar registro inicial, escuta qualificada e acionar fluxo multifatorial quando necessário.',
+    options: [
+      {
+        id: 'a',
+        text: 'Aguardar mais um mês para ver se melhora sozinho.',
+        isBest: false,
+        feedback: 'Conduta inadequada: posterga proteção e pode agravar o caso.'
+      },
+      {
+        id: 'b',
+        text: 'Registrar Anexo I no mesmo dia, comunicar coordenação e iniciar busca ativa.',
+        isBest: true,
+        feedback: 'Correto: ação precoce, registro e escalonamento estruturado.'
+      },
+      {
+        id: 'c',
+        text: 'Conversar em público com o aluno para pressionar presença.',
+        isBest: false,
+        feedback: 'Conduta inadequada: pode expor e revitimizar.'
+      }
+    ]
+  },
+  {
+    id: 's2',
+    title: 'Relato de possível violência sexual',
+    situation: 'Estudante relata situação de abuso, com medo de represália familiar.',
+    protocolHint: 'Escuta qualificada mínima, proteção imediata, CT/autoridades e não revitimização.',
+    options: [
+      {
+        id: 'a',
+        text: 'Pedir detalhes repetidamente para confirmar história.',
+        isBest: false,
+        feedback: 'Conduta inadequada: risco de revitimização.'
+      },
+      {
+        id: 'b',
+        text: 'Fazer escuta qualificada essencial e acionar direção/CT imediatamente.',
+        isBest: true,
+        feedback: 'Correto: preserva proteção e segue competência institucional.'
+      },
+      {
+        id: 'c',
+        text: 'Ligar primeiro para o suposto agressor para esclarecimentos.',
+        isBest: false,
+        feedback: 'Conduta inadequada: expõe a vítima e compromete proteção.'
+      }
+    ]
+  },
+  {
+    id: 's3',
+    title: 'Cyberbullying com exposição de imagem',
+    situation: 'Turma compartilha foto de colega com ofensas em grupo digital.',
+    protocolHint: 'Interrupção da exposição, proteção da vítima, registro e escalonamento jurídico quando necessário.',
+    options: [
+      {
+        id: 'a',
+        text: 'Tratar como “brincadeira” e encerrar sem registro.',
+        isBest: false,
+        feedback: 'Conduta inadequada: invisibiliza violência e recorrência.'
+      },
+      {
+        id: 'b',
+        text: 'Proteger vítima, registrar ocorrência e acionar família/gestão.',
+        isBest: true,
+        feedback: 'Correto: responde à violação com medidas educativas e protetivas.'
+      },
+      {
+        id: 'c',
+        text: 'Punir imediatamente sem escuta de envolvidos.',
+        isBest: false,
+        feedback: 'Inadequado: sem investigação pedagógica e registro correto.'
+      }
+    ]
+  }
 ];

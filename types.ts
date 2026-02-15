@@ -1,21 +1,67 @@
+export type RiskLevel = 'BAIXO' | 'MÉDIO' | 'ALTO' | 'EMERGENCIAL';
 
-export type TipoDemanda = 'pedagogica' | 'saude-mental' | 'violencia' | 'vulnerabilidade-social' | 'situacao-especial';
+export interface FlowOption {
+  label: string;
+  nextNodeId: string;
+}
+
+export interface FlowNode {
+  id: string;
+  question: string;
+  options: FlowOption[];
+  isLeaf?: boolean;
+  riskLevel?: RiskLevel;
+  category?: 'SAÚDE' | 'SOCIAL' | 'DIREITOS_SGD' | 'EDUCAÇÃO' | 'EMERGÊNCIA';
+  tags?: string[];
+  guidance?: string[];
+  severityCriteria?: string[];
+  serviceIds?: string[];
+  forbiddenActions?: string[];
+  fallbackNextNodeId?: string;
+}
+
+export interface Service {
+  id: string;
+  name: string;
+  category: 'SAÚDE' | 'SOCIAL' | 'DIREITOS_SGD' | 'EDUCAÇÃO' | 'EMERGÊNCIA';
+  address: string;
+  phone: string;
+  hours?: string;
+  coverage?: string;
+  notes?: string;
+}
+
+export interface DocumentTemplate {
+  id: string;
+  title: string;
+  annex: 'Anexo I' | 'Anexo II';
+  purpose: string;
+  requiredFields: string[];
+  confidentialityLevel: 'RESTRITO' | 'SIGILOSO';
+}
+
+export interface ProtocolData {
+  institution: {
+    name: string;
+    cie: string;
+    diretoriaEnsino: string;
+  };
+  decisionTree: FlowNode[];
+  services: Service[];
+  documentTemplates: DocumentTemplate[];
+  instruments: {
+    anexoI: { requiredFields: string[] };
+    anexoII: { requiredFields: string[] };
+  };
+}
+
+// Compatibilidade com páginas já existentes
+export type TipoDemanda = string;
 export type NivelRisco = 'baixo' | 'moderado' | 'alto' | 'urgencia';
-export type Governabilidade = 'direta' | 'compartilhada' | 'externa';
-export type PapelUsuario = 'professor' | 'gestor' | 'admin';
 
 export interface ChecklistItem {
   texto: string;
   detalhes?: string;
-  links?: { titulo: string; idRecurso?: string; url?: string }[];
-}
-
-export interface FaseCiclo {
-  ordem: number;
-  titulo: string;
-  descricao: string;
-  checklist: ChecklistItem[];
-  responsavel: PapelUsuario;
 }
 
 export interface Cenario {
@@ -23,7 +69,7 @@ export interface Cenario {
   titulo: string;
   descricao: string;
   recomendacaoImediata: string;
-  acionar: string[]; // IDs de contatos
+  acionar: string[];
   documento: string;
   prazoNotificacao: string;
 }
@@ -35,26 +81,17 @@ export interface Fluxo {
   descricao: string;
   risco: NivelRisco;
   icon: string;
-  governabilidade: Governabilidade;
-  alertas: string[];
-  vedacoes: string[];
-  fases: FaseCiclo[];
-  contatosUteis: string[];
   cenarios: Cenario[];
-  convivaFields: string[];
+  contatosUteis: string[];
 }
 
 export interface Contato {
   id: string;
-  categoria: 'saude' | 'assistencia' | 'protecao' | 'justica' | 'educacao' | 'emergencia';
+  categoria: 'saude' | 'assistencia' | 'protecao' | 'educacao' | 'emergencia';
   nome: string;
   telefone: string;
-  whatsapp?: string;
   endereco?: string;
   horario?: string;
-  urgencia?: boolean;
-  lat?: number;
-  lng?: number;
 }
 
 export interface Recurso {
@@ -66,7 +103,6 @@ export interface Recurso {
   camposObrigatorios: string[];
 }
 
-// Persistência de Casos
 export interface CasoAtivo {
   id: string;
   fluxoId: string;
