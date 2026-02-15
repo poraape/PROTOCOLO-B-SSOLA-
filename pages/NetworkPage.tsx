@@ -1,8 +1,15 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
+import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet';
 import { PROTOCOL_DATA } from '../data';
 import { Service } from '../types';
 
 type NetworkFilter = 'TODOS' | 'SAUDE' | 'SOCIAL' | 'TUTELAR' | 'SEGURANCA';
+
+interface GeocodedService {
+  service: Service;
+  lat: number;
+  lng: number;
+}
 
 const mapServiceToFilter = (service: Service): NetworkFilter[] => {
   const list: NetworkFilter[] = [];
@@ -19,7 +26,7 @@ const mapServiceToFilter = (service: Service): NetworkFilter[] => {
 
   if (
     service.category === 'EMERGÊNCIA' ||
-    /pol[ií]cia|delegacia|ddm|190|192/i.test(service.name + service.phone)
+    /pol[ií]cia|delegacia|ddm|190|192|193/i.test(service.name + service.phone)
   ) {
     list.push('SEGURANCA');
   }
@@ -33,9 +40,32 @@ const normalizePhoneToTel = (phone: string) => `tel:${phone.replace(/\D/g, '')}`
 const mapsLink = (address: string) =>
   `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`;
 
+const isPhysicalAddress = (service: Service) =>
+  !/Acionamento telefônico|Canal remoto|Acesso institucional|Secretaria Escolar Digital/i.test(service.address);
+
+const geocodeAddress = async (address: string): Promise<{ lat: number; lng: number } | null> => {
+  try {
+    const url = `https://nominatim.openstreetmap.org/search?format=json&limit=1&q=${encodeURIComponent(address)}`;
+    const response = await fetch(url, {
+      headers: { 'Accept-Language': 'pt-BR' }
+    });
+    const data = await response.json();
+    if (!Array.isArray(data) || !data.length) return null;
+
+    return {
+      lat: Number(data[0].lat),
+      lng: Number(data[0].lon)
+    };
+  } catch {
+    return null;
+  }
+};
+
 export const NetworkPage: React.FC = () => {
   const [search, setSearch] = useState('');
   const [filter, setFilter] = useState<NetworkFilter>('TODOS');
+  const [geoServices, setGeoServices] = useState<GeocodedService[]>([]);
+  const [isGeocoding, setIsGeocoding] = useState(true);
 
   const filters: { id: NetworkFilter; label: string }[] = [
     { id: 'TODOS', label: 'Todos' },
@@ -49,21 +79,49 @@ export const NetworkPage: React.FC = () => {
     return PROTOCOL_DATA.services.filter((service) => {
       const text = `${service.name} ${service.address} ${service.phone}`.toLowerCase();
       const matchesSearch = search.trim().length === 0 || text.includes(search.toLowerCase());
-      const matchesFilter =
-        filter === 'TODOS' ||
-        mapServiceToFilter(service).includes(filter);
+      const matchesFilter = filter === 'TODOS' || mapServiceToFilter(service).includes(filter);
 
       return matchesSearch && matchesFilter;
     });
   }, [filter, search]);
 
+  useEffect(() => {
+    let active = true;
+
+    const runGeocode = async () => {
+      setIsGeocoding(true);
+      const physicalServices = services.filter(isPhysicalAddress);
+
+      const results = await Promise.all(
+        physicalServices.map(async (service) => {
+          const coords = await geocodeAddress(service.address);
+          return coords ? { service, ...coords } : null;
+        })
+      );
+
+      if (active) {
+        setGeoServices(results.filter((item): item is GeocodedService => !!item));
+        setIsGeocoding(false);
+      }
+    };
+
+    runGeocode();
+    return () => {
+      active = false;
+    };
+  }, [services]);
+
+  const mapCenter: [number, number] = geoServices.length
+    ? [geoServices[0].lat, geoServices[0].lng]
+    : [-23.49, -46.48];
+
   return (
-    <div className="mx-auto max-w-4xl space-y-6 pb-20">
+    <div className="mx-auto max-w-5xl space-y-6 pb-20">
       <header className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
         <p className="text-xs font-black uppercase tracking-widest text-[#007AFF]">Rede de proteção</p>
         <h1 className="mt-2 text-3xl font-extrabold text-slate-900">Contatos rápidos da Zona Leste</h1>
         <p className="mt-2 text-sm text-slate-600">
-          Encontre o serviço e ligue em 1 toque. Use os filtros para ganhar tempo em situações urgentes.
+          Encontre o serviço, visualize no mapa e ligue em 1 toque.
         </p>
       </header>
 
@@ -92,6 +150,31 @@ export const NetworkPage: React.FC = () => {
               {item.label}
             </button>
           ))}
+        </div>
+      </section>
+
+      <section className="rounded-3xl border border-slate-200 bg-white p-3 shadow-sm">
+        <div className="mb-2 px-2 text-xs font-bold text-slate-500">
+          Mapa interativo da rede {isGeocoding ? '(localizando endereços...)' : `(${geoServices.length} alfinetes)`}
+        </div>
+        <div className="h-[360px] overflow-hidden rounded-2xl border border-slate-200">
+          <MapContainer center={mapCenter} zoom={13} style={{ height: '100%', width: '100%' }}>
+            <TileLayer
+              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            />
+            {geoServices.map((item) => (
+              <Marker key={item.service.id} position={[item.lat, item.lng]}>
+                <Popup>
+                  <div className="space-y-1">
+                    <strong>{item.service.name}</strong>
+                    <p>{item.service.address}</p>
+                    <a href={normalizePhoneToTel(item.service.phone)}>{item.service.phone}</a>
+                  </div>
+                </Popup>
+              </Marker>
+            ))}
+          </MapContainer>
         </div>
       </section>
 

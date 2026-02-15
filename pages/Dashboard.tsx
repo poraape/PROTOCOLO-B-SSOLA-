@@ -23,6 +23,24 @@ export const Dashboard: React.FC = () => {
       subtitle: 'Ache fluxo, contato e documento',
       icon: '🔎',
       onClick: () => navigate('/busca')
+    },
+    {
+      title: 'Glossário Vivo',
+      subtitle: 'Termos e gírias do cotidiano escolar',
+      icon: '🧩',
+      onClick: () => navigate('/glossario')
+    },
+    {
+      title: 'Simulador de Cenários',
+      subtitle: 'Treino em formato quiz para equipe',
+      icon: '🎯',
+      onClick: () => navigate('/simulador')
+    },
+    {
+      title: 'IA Assistente',
+      subtitle: 'Pergunte em linguagem natural ao protocolo',
+      icon: '🤖',
+      onClick: () => navigate('/chat')
     }
   ];
 
