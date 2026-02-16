@@ -14,9 +14,8 @@ const navItems = [
   { label: 'Início', path: '/', icon: '🏠' },
   { label: 'Atendimento', path: '/decisor', icon: '🧭' },
   { label: 'Rede', path: '/rede', icon: '📞' },
-  { label: 'Docs', path: '/recursos', icon: '📄' },
-  { label: 'FAQ', path: '/faq', icon: '❓' },
-  { label: 'Busca', path: '/busca', icon: '🔎' }
+  { label: 'Recursos', path: '/recursos', icon: '📄' },
+  { label: 'Sobre', path: '/sobre', icon: 'ℹ️' }
 ];
 
 export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -44,7 +43,7 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
           <div className="flex items-center gap-2">
             <button
               onClick={() => setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'))}
-              className="rounded-xl border border-slate-300 bg-white px-3 py-2 text-xs font-bold text-slate-700 hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700"
+              className="rounded-xl border border-slate-300 bg-white px-3 py-2 text-xs font-bold text-slate-700 hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700"
               aria-label={themeLabel}
               title={themeLabel}
             >
@@ -59,7 +58,7 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
               key={item.path}
               to={item.path}
               className={({ isActive }) =>
-                `rounded-full px-4 py-2 text-sm font-bold transition ${
+                `rounded-full px-4 py-2 text-sm font-bold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 ${
                   isActive
                     ? 'bg-sky-600 text-white'
                     : 'bg-slate-100 text-slate-700 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700'
@@ -75,13 +74,13 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
       <main className="mx-auto w-full max-w-6xl px-4 py-5 pb-24 md:pb-8">{children}</main>
 
       <nav className="fixed inset-x-0 bottom-0 z-50 border-t border-sky-100 bg-white/95 px-2 pb-[calc(env(safe-area-inset-bottom)+0.4rem)] pt-2 backdrop-blur dark:border-slate-800 dark:bg-slate-900/95 md:hidden">
-        <ul className="grid grid-cols-6 gap-1">
+        <ul className="grid grid-cols-5 gap-1">
           {navItems.map((item) => (
             <li key={item.path}>
               <NavLink
                 to={item.path}
                 className={({ isActive }) =>
-                  `flex flex-col items-center justify-center rounded-xl px-1 py-2 text-[10px] font-bold transition ${
+                  `flex flex-col items-center justify-center rounded-xl px-1 py-2 text-[10px] font-bold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 ${
                     isActive
                       ? 'bg-sky-600 text-white'
                       : 'text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800'

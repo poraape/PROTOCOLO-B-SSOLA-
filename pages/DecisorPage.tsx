@@ -1,6 +1,7 @@
 import React from 'react';
 import { DecisionWizard } from '../components/DecisionWizard';
-import { PROTOCOL_DATA } from '../data';
+import { PROTOCOL_DATA } from '../content/protocolData';
+import { ProtocolMetaBanner } from '../components/ProtocolMetaBanner';
 
 export const DecisorPage: React.FC = () => {
   return (
@@ -15,6 +16,8 @@ export const DecisorPage: React.FC = () => {
           {PROTOCOL_DATA.institution.name} • CIE {PROTOCOL_DATA.institution.cie} • {PROTOCOL_DATA.institution.diretoriaEnsino}
         </p>
       </header>
+
+      <ProtocolMetaBanner />
 
       <DecisionWizard />
     </div>

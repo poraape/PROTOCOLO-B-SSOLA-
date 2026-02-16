@@ -18,6 +18,7 @@ export interface FlowNode {
   serviceIds?: string[];
   forbiddenActions?: string[];
   fallbackNextNodeId?: string;
+  indicators?: string[];
 }
 
 export interface Service {
@@ -29,6 +30,9 @@ export interface Service {
   hours?: string;
   coverage?: string;
   notes?: string;
+  officialSource?: string;
+  verifiedAt?: string;
+  verifiedBy?: string;
 }
 
 export interface DocumentTemplate {
@@ -45,6 +49,12 @@ export interface ProtocolData {
     name: string;
     cie: string;
     diretoriaEnsino: string;
+  };
+  metadata: {
+    protocolVersion: string;
+    effectiveDate: string;
+    lastReviewedAt: string;
+    reviewedBy: string;
   };
   decisionTree: FlowNode[];
   services: Service[];
@@ -94,6 +104,8 @@ export interface Contato {
   horario?: string;
 }
 
+export type ContentOrigin = 'OFICIAL' | 'DERIVADA';
+
 export interface Recurso {
   id: string;
   titulo: string;
@@ -101,6 +113,8 @@ export interface Recurso {
   formato: 'pdf' | 'docx';
   obrigatorio?: boolean;
   camposObrigatorios: string[];
+  contentOrigin: ContentOrigin;
+  sourceRef?: string;
 }
 
 export interface CasoAtivo {

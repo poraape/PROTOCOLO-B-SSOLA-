@@ -5,7 +5,7 @@ import { SchoolShield } from '../components/SchoolShield';
 export const Dashboard: React.FC = () => {
   const navigate = useNavigate();
 
-  const secondaryActions = [
+  const coreActions = [
     {
       title: 'Rede de Apoio',
       subtitle: 'Telefones e endereços da rede',
@@ -17,31 +17,15 @@ export const Dashboard: React.FC = () => {
       subtitle: 'Anexo I e orientações',
       icon: '📄',
       onClick: () => navigate('/recursos')
-    },
-    {
-      title: 'Busca Rápida',
-      subtitle: 'Ache fluxo, contato e documento',
-      icon: '🔎',
-      onClick: () => navigate('/busca')
-    },
-    {
-      title: 'Glossário Vivo',
-      subtitle: 'Termos e gírias do cotidiano escolar',
-      icon: '🧩',
-      onClick: () => navigate('/glossario')
-    },
-    {
-      title: 'Simulador de Cenários',
-      subtitle: 'Treino em formato quiz para equipe',
-      icon: '🎯',
-      onClick: () => navigate('/simulador')
-    },
-    {
-      title: 'IA Assistente',
-      subtitle: 'Pergunte em linguagem natural ao protocolo',
-      icon: '🤖',
-      onClick: () => navigate('/chat')
     }
+  ];
+
+  const supportActions = [
+    { title: 'Busca Rápida', icon: '🔎', onClick: () => navigate('/busca') },
+    { title: 'Glossário', icon: '🧩', onClick: () => navigate('/glossario') },
+    { title: 'FAQ', icon: '❓', onClick: () => navigate('/faq') },
+    { title: 'Simulador', icon: '🎯', onClick: () => navigate('/simulador') },
+    { title: 'IA (experimental)', icon: '🤖', onClick: () => navigate('/chat') }
   ];
 
   return (
@@ -62,24 +46,39 @@ export const Dashboard: React.FC = () => {
       <section className="rounded-3xl border-2 border-amber-300 bg-white p-4 shadow-sm dark:border-amber-500/60 dark:bg-slate-900">
         <button
           onClick={() => navigate('/decisor')}
-          className="w-full rounded-2xl bg-amber-400 px-6 py-7 text-center text-lg font-black uppercase tracking-wide text-slate-900 shadow-md transition hover:bg-amber-300 active:scale-[0.99] dark:bg-amber-300"
+          className="w-full rounded-2xl bg-amber-400 px-6 py-7 text-center text-lg font-black uppercase tracking-wide text-slate-900 shadow-md transition hover:bg-amber-300 active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 dark:bg-amber-300"
         >
           INICIAR ATENDIMENTO
         </button>
       </section>
 
-      <section className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
-        {secondaryActions.map((action) => (
+      <section className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+        {coreActions.map((action) => (
           <button
             key={action.title}
             onClick={action.onClick}
-            className="rounded-2xl border border-slate-200 bg-white p-4 text-left shadow-sm transition hover:-translate-y-0.5 hover:border-sky-300 hover:shadow-md dark:border-slate-700 dark:bg-slate-900 dark:hover:border-sky-600"
+            className="rounded-2xl border border-slate-200 bg-white p-4 text-left shadow-sm transition hover:-translate-y-0.5 hover:border-sky-300 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 dark:border-slate-700 dark:bg-slate-900 dark:hover:border-sky-600"
           >
             <p className="text-2xl">{action.icon}</p>
             <h2 className="mt-2 text-base font-extrabold text-slate-900 dark:text-slate-100">{action.title}</h2>
             <p className="mt-1 text-sm text-slate-600 dark:text-slate-400">{action.subtitle}</p>
           </button>
         ))}
+      </section>
+
+      <section className="rounded-2xl border border-slate-200 bg-slate-100 p-4 dark:border-slate-700 dark:bg-slate-900">
+        <p className="text-xs font-black uppercase tracking-widest text-slate-500">Ferramentas auxiliares</p>
+        <div className="mt-3 flex flex-wrap gap-2">
+          {supportActions.map((action) => (
+            <button
+              key={action.title}
+              onClick={action.onClick}
+              className="rounded-full border border-slate-300 bg-white px-3 py-2 text-xs font-bold text-slate-700 hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-200"
+            >
+              {action.icon} {action.title}
+            </button>
+          ))}
+        </div>
       </section>
 
       <footer className="rounded-2xl border border-slate-200 bg-slate-100 px-4 py-3 text-center text-xs font-semibold text-slate-600 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-400">

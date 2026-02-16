@@ -1,5 +1,6 @@
 import React, { useMemo, useState } from 'react';
-import { PROTOCOL_DATA, RECURSOS } from '../data';
+import { PROTOCOL_DATA, RECURSOS } from '../content/protocolData';
+import { ProtocolMetaBanner } from '../components/ProtocolMetaBanner';
 
 const formatDateBR = (value: string) => {
   if (!value) return '____/____/______';
@@ -59,6 +60,14 @@ export const ResourcesPage: React.FC = () => {
           Preencha os campos essenciais, copie para o PLACON e imprima a ficha quando necessário.
         </p>
       </header>
+
+      <ProtocolMetaBanner />
+
+
+      <section className="rounded-2xl border border-emerald-300 bg-emerald-50 p-4">
+        <p className="text-xs font-black uppercase tracking-wide text-emerald-800">Conteúdo institucional oficial</p>
+        <p className="mt-1 text-sm text-emerald-900">Campos e estrutura dos anexos refletem o protocolo vigente da unidade.</p>
+      </section>
 
       <section className="no-print rounded-3xl border border-amber-300 bg-amber-50 p-4">
         <h2 className="text-sm font-black uppercase tracking-wide text-amber-800">Aviso de Privacidade</h2>
@@ -183,6 +192,7 @@ export const ResourcesPage: React.FC = () => {
             <li key={recurso.id} className="rounded-xl border border-slate-100 bg-slate-50 px-3 py-2">
               <p className="font-semibold">{recurso.titulo}</p>
               <p className="text-xs text-slate-500">{recurso.descricao}</p>
+              <p className="mt-1 text-[11px] font-semibold text-slate-500">{recurso.contentOrigin} · {recurso.sourceRef || 'Fonte institucional'}</p>
             </li>
           ))}
         </ul>

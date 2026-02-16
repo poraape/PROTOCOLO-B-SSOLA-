@@ -14,6 +14,7 @@ import { GlossaryPage } from './pages/GlossaryPage';
 import { SimulatorPage } from './pages/SimulatorPage';
 import { ChatPage } from './pages/ChatPage';
 import { FAQPage } from './pages/FAQPage';
+import { AboutPage } from './pages/AboutPage';
 
 const App: React.FC = () => {
   return (
@@ -32,6 +33,7 @@ const App: React.FC = () => {
           <Route path="/simulador" element={<SimulatorPage />} />
           <Route path="/chat" element={<ChatPage />} />
           <Route path="/faq" element={<FAQPage />} />
+          <Route path="/sobre" element={<AboutPage />} />
         </Routes>
       </Layout>
     </Router>

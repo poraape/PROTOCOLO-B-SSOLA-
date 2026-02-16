@@ -1,4 +1,5 @@
 import React, { useMemo, useState } from 'react';
+import { FAQ_CONTENT_META } from '../content/protocolData';
 import {
   AlertTriangle,
   BookOpenCheck,
@@ -271,6 +272,9 @@ export const FAQPage: React.FC = () => {
             <h1 className="text-xl font-extrabold text-slate-900 dark:text-slate-100">FAQ do Protocolo Bússola</h1>
             <p className="mt-1 text-sm text-slate-600 dark:text-slate-300">
               Base completa para consulta rápida, segura e alinhada ao protocolo da E.E. Ermelino Matarazzo.
+            </p>
+            <p className="mt-2 inline-flex rounded-full bg-sky-100 px-3 py-1 text-xs font-bold text-sky-800 dark:bg-slate-800 dark:text-sky-200">
+              {`Orientação operacional derivada · ${FAQ_CONTENT_META.sourceRef}`}
             </p>
           </div>
         </div>
