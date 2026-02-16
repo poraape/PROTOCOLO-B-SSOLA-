@@ -13,6 +13,7 @@ import { BuscaPage } from './pages/BuscaPage';
 import { GlossaryPage } from './pages/GlossaryPage';
 import { SimulatorPage } from './pages/SimulatorPage';
 import { ChatPage } from './pages/ChatPage';
+import { FAQPage } from './pages/FAQPage';
 
 const App: React.FC = () => {
   return (
@@ -30,6 +31,7 @@ const App: React.FC = () => {
           <Route path="/glossario" element={<GlossaryPage />} />
           <Route path="/simulador" element={<SimulatorPage />} />
           <Route path="/chat" element={<ChatPage />} />
+          <Route path="/faq" element={<FAQPage />} />
         </Routes>
       </Layout>
     </Router>

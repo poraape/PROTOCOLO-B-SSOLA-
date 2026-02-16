@@ -582,13 +582,8 @@ export const PROTOCOL_DATA: ProtocolData = {
         'Coletar informações adicionais por observação pedagógica e escuta qualificada (Anexo II).',
         'Se persistir incerteza, escalar para fluxo multifatorial e reunião de equipe gestora.'
       ],
-      serviceIds: ['de-leste1', 'ubs-ermelino', 'cras-ermelino']
-        'Etapa obrigatória 1: executar Busca Ativa (contato telefônico, visita e registro).',
-        'Etapa obrigatória 2: pactuar plano de retorno e acompanhamento pedagógico.',
-        'Somente após esgotar Busca Ativa, acionar Conselho Tutelar.'
-      ],
-      forbiddenActions: ['Não acionar Conselho Tutelar antes do registro formal da Busca Ativa.'],
-      serviceIds: ['nre-leste1', 'conselho-tutelar']
+      serviceIds: ['de-leste1', 'ubs-ermelino', 'cras-ermelino'],
+      forbiddenActions: ['Não acionar Conselho Tutelar antes do registro formal da Busca Ativa.']
     },
     {
       id: 'educacao_pedagogico_folha',

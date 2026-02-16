@@ -15,6 +15,7 @@ const navItems = [
   { label: 'Atendimento', path: '/decisor', icon: '🧭' },
   { label: 'Rede', path: '/rede', icon: '📞' },
   { label: 'Docs', path: '/recursos', icon: '📄' },
+  { label: 'FAQ', path: '/faq', icon: '❓' },
   { label: 'Busca', path: '/busca', icon: '🔎' }
 ];
 
@@ -74,7 +75,7 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
       <main className="mx-auto w-full max-w-6xl px-4 py-5 pb-24 md:pb-8">{children}</main>
 
       <nav className="fixed inset-x-0 bottom-0 z-50 border-t border-sky-100 bg-white/95 px-2 pb-[calc(env(safe-area-inset-bottom)+0.4rem)] pt-2 backdrop-blur dark:border-slate-800 dark:bg-slate-900/95 md:hidden">
-        <ul className="grid grid-cols-5 gap-1">
+        <ul className="grid grid-cols-6 gap-1">
           {navItems.map((item) => (
             <li key={item.path}>
               <NavLink
