@@ -1,4 +1,18 @@
 import React, { useMemo, useState } from 'react';
+import {
+  AlertTriangle,
+  BookOpenCheck,
+  ClipboardCheck,
+  FileLock2,
+  HeartPulse,
+  HelpCircle,
+  MessageCircleHeart,
+  Scale,
+  Search,
+  ShieldAlert,
+  Users,
+  UserRoundCheck,
+} from 'lucide-react';
 
 type FAQItem = {
   question: string;
@@ -8,7 +22,7 @@ type FAQItem = {
 type FAQCategory = {
   id: string;
   title: string;
-  icon: string;
+  icon: React.ComponentType<{ className?: string }>;
   items: FAQItem[];
 };
 
@@ -16,7 +30,7 @@ const faqCategories: FAQCategory[] = [
   {
     id: 'papeis-responsabilidades',
     title: 'Papéis e Responsabilidades',
-    icon: '👩‍🏫',
+    icon: UserRoundCheck,
     items: [
       {
         question: 'Identifiquei um sinal de alerta (hematoma, mudança de comportamento). O que devo fazer?',
@@ -38,7 +52,7 @@ const faqCategories: FAQCategory[] = [
   {
     id: 'acolhimento-escuta',
     title: 'Acolhimento e Escuta',
-    icon: '🫶',
+    icon: MessageCircleHeart,
     items: [
       {
         question: 'O estudante começou a me contar sobre uma violência. Como devo agir?',
@@ -60,7 +74,7 @@ const faqCategories: FAQCategory[] = [
   {
     id: 'fluxos-rede-territorial',
     title: 'Fluxos e Rede Territorial',
-    icon: '🗺️',
+    icon: Users,
     items: [
       {
         question: 'Quando o caso é para a UBS e quando é para o CAPS IJ?',
@@ -82,7 +96,7 @@ const faqCategories: FAQCategory[] = [
   {
     id: 'documentacao-sigilo',
     title: 'Documentação e Sigilo',
-    icon: '🔒',
+    icon: FileLock2,
     items: [
       {
         question: 'O que é o Anexo I e onde ele fica guardado?',
@@ -104,7 +118,7 @@ const faqCategories: FAQCategory[] = [
   {
     id: 'bullying-clima-escolar',
     title: 'Bullying e Clima Escolar',
-    icon: '🛡️',
+    icon: ShieldAlert,
     items: [
       {
         question: 'Presenciei uma situação de Bullying. Isso entra no protocolo de proteção?',
@@ -121,7 +135,7 @@ const faqCategories: FAQCategory[] = [
   {
     id: 'saude-bem-estar',
     title: 'Saúde e Bem-Estar',
-    icon: '❤️',
+    icon: HeartPulse,
     items: [
       {
         question: 'Uma estudante menor de 14 anos revelou gravidez. O que a norma diz?',
@@ -143,7 +157,7 @@ const faqCategories: FAQCategory[] = [
   {
     id: 'vulnerabilidade-direitos',
     title: 'Vulnerabilidade Social e Direitos',
-    icon: '⚖️',
+    icon: Scale,
     items: [
       {
         question: 'O estudante relatou que está passando fome em casa. Como ajudar?',
@@ -165,7 +179,7 @@ const faqCategories: FAQCategory[] = [
   {
     id: 'conduta-sigilo',
     title: 'Conduta Profissional e Sigilo',
-    icon: '📋',
+    icon: ClipboardCheck,
     items: [
       {
         question: 'Posso compartilhar o caso de um aluno na sala dos professores?',
@@ -187,7 +201,7 @@ const faqCategories: FAQCategory[] = [
   {
     id: 'convivencia-disciplina',
     title: 'Convivência e Disciplina',
-    icon: '📚',
+    icon: BookOpenCheck,
     items: [
       {
         question: 'O protocolo de proteção substitui as medidas disciplinares do Regimento Escolar?',
@@ -250,7 +264,9 @@ export const FAQPage: React.FC = () => {
     <section className="space-y-5">
       <header className="rounded-2xl border border-sky-100 bg-gradient-to-br from-sky-50 to-blue-100 p-4 shadow-sm dark:border-slate-800 dark:from-slate-900 dark:to-slate-800">
         <div className="flex items-start gap-3">
-          <div className="rounded-xl bg-white p-2 text-sky-700 shadow-sm dark:bg-slate-800 dark:text-sky-300">❓</div>
+          <div className="rounded-xl bg-white p-2 text-sky-700 shadow-sm dark:bg-slate-800 dark:text-sky-300">
+            <HelpCircle className="h-5 w-5" />
+          </div>
           <div>
             <h1 className="text-xl font-extrabold text-slate-900 dark:text-slate-100">FAQ do Protocolo Bússola</h1>
             <p className="mt-1 text-sm text-slate-600 dark:text-slate-300">
@@ -260,7 +276,7 @@ export const FAQPage: React.FC = () => {
         </div>
 
         <label className="mt-4 flex items-center gap-2 rounded-xl border border-sky-200 bg-white px-3 py-2 dark:border-slate-700 dark:bg-slate-900">
-          <span className="text-slate-500">🔎</span>
+          <Search className="h-4 w-4 text-slate-500" />
           <input
             type="text"
             value={searchTerm}
@@ -283,21 +299,24 @@ export const FAQPage: React.FC = () => {
         >
           Todas
         </button>
-        {faqCategories.map((category) => (
-          <button
-            key={category.id}
-            type="button"
-            onClick={() => setSelectedCategory(category.id)}
-            className={`flex items-center gap-1 whitespace-nowrap rounded-full px-4 py-2 text-xs font-bold transition ${
-              selectedCategory === category.id
-                ? 'bg-sky-600 text-white'
-                : 'bg-slate-100 text-slate-700 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700'
-            }`}
-          >
-            <span>{category.icon}</span>
-            {category.title}
-          </button>
-        ))}
+        {faqCategories.map((category) => {
+          const Icon = category.icon;
+          return (
+            <button
+              key={category.id}
+              type="button"
+              onClick={() => setSelectedCategory(category.id)}
+              className={`flex items-center gap-1 whitespace-nowrap rounded-full px-4 py-2 text-xs font-bold transition ${
+                selectedCategory === category.id
+                  ? 'bg-sky-600 text-white'
+                  : 'bg-slate-100 text-slate-700 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700'
+              }`}
+            >
+              <Icon className="h-3.5 w-3.5" />
+              {category.title}
+            </button>
+          );
+        })}
       </div>
 
       <div className="rounded-xl border border-sky-100 bg-white px-4 py-3 text-xs font-semibold text-slate-600 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-300">
@@ -306,44 +325,48 @@ export const FAQPage: React.FC = () => {
 
       {filteredCategories.length === 0 ? (
         <div className="rounded-2xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900 dark:border-amber-500/30 dark:bg-amber-950/30 dark:text-amber-200">
-          <div className="flex items-center gap-2 font-bold">⚠️ Nenhum resultado encontrado</div>
+          <div className="flex items-center gap-2 font-bold">
+            <AlertTriangle className="h-4 w-4" />
+            Nenhum resultado encontrado
+          </div>
           <p className="mt-1">Tente ajustar os termos da busca ou selecione outra categoria.</p>
         </div>
       ) : (
         <div className="space-y-4">
-          {filteredCategories.map((category) => (
-            <section key={category.id} className="rounded-2xl border border-sky-100 bg-white p-3 shadow-sm dark:border-slate-800 dark:bg-slate-900">
-              <div className="mb-2 flex items-center gap-2 border-b border-slate-100 pb-2 dark:border-slate-800">
-                <div className="rounded-lg bg-sky-100 p-1.5 text-sky-700 dark:bg-slate-800 dark:text-sky-300">{category.icon}</div>
-                <h2 className="text-sm font-extrabold text-slate-900 dark:text-slate-100">{category.title}</h2>
-              </div>
+          {filteredCategories.map((category) => {
+            const Icon = category.icon;
+            return (
+              <section key={category.id} className="rounded-2xl border border-sky-100 bg-white p-3 shadow-sm dark:border-slate-800 dark:bg-slate-900">
+                <div className="mb-2 flex items-center gap-2 border-b border-slate-100 pb-2 dark:border-slate-800">
+                  <div className="rounded-lg bg-sky-100 p-1.5 text-sky-700 dark:bg-slate-800 dark:text-sky-300">
+                    <Icon className="h-4 w-4" />
+                  </div>
+                  <h2 className="text-sm font-extrabold text-slate-900 dark:text-slate-100">{category.title}</h2>
+                </div>
 
-              <div className="space-y-2">
-                {category.items.map((item) => {
-                  const itemId = `${category.id}-${item.question}`;
-                  const isOpen = openItems.has(itemId);
+                <div className="space-y-2">
+                  {category.items.map((item) => {
+                    const itemId = `${category.id}-${item.question}`;
+                    const isOpen = openItems.has(itemId);
 
-                  return (
-                    <article key={itemId} className="rounded-xl border border-slate-200 bg-slate-50 dark:border-slate-700 dark:bg-slate-800/40">
-                      <button
-                        type="button"
-                        onClick={() => toggleItem(itemId)}
-                        className="flex w-full items-center justify-between gap-2 px-3 py-3 text-left"
-                      >
-                        <span className="text-sm font-semibold text-slate-800 dark:text-slate-100">{item.question}</span>
-                        <span className="text-sky-600 dark:text-sky-300">{isOpen ? '−' : '+'}</span>
-                      </button>
-                      {isOpen && (
-                        <p className="border-t border-slate-200 px-3 py-3 text-sm text-slate-700 dark:border-slate-700 dark:text-slate-200">
-                          {item.answer}
-                        </p>
-                      )}
-                    </article>
-                  );
-                })}
-              </div>
-            </section>
-          ))}
+                    return (
+                      <article key={itemId} className="rounded-xl border border-slate-200 bg-slate-50 dark:border-slate-700 dark:bg-slate-800/40">
+                        <button
+                          type="button"
+                          onClick={() => toggleItem(itemId)}
+                          className="flex w-full items-center justify-between gap-2 px-3 py-3 text-left"
+                        >
+                          <span className="text-sm font-semibold text-slate-800 dark:text-slate-100">{item.question}</span>
+                          <span className="text-sky-600 dark:text-sky-300">{isOpen ? '−' : '+'}</span>
+                        </button>
+                        {isOpen && <p className="border-t border-slate-200 px-3 py-3 text-sm text-slate-700 dark:border-slate-700 dark:text-slate-200">{item.answer}</p>}
+                      </article>
+                    );
+                  })}
+                </div>
+              </section>
+            );
+          })}
         </div>
       )}
     </section>
