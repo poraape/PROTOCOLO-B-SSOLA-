@@ -5,7 +5,7 @@ import { ProtocolMetaBanner } from '../components/ProtocolMetaBanner';
 
 export const DecisorPage: React.FC = () => {
   return (
-    <div className="mx-auto max-w-3xl space-y-6 pb-20">
+    <div className="mx-auto max-w-6xl space-y-6 pb-20">
       <header className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
         <p className="text-xs font-black uppercase tracking-widest text-[#007AFF]">Assistente de decisão</p>
         <h1 className="mt-2 text-3xl font-extrabold leading-tight text-slate-900">Protocolo de atendimento rápido</h1>

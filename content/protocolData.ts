@@ -226,6 +226,11 @@ export const PROTOCOL_DATA: ProtocolData = {
     {
       id: 'n_comportamento',
       question: 'O que predomina na mudança observada?',
+      indicators: [
+        'Mudanças persistentes por dias/semanas com prejuízo em sala',
+        'Alterações de sono, alimentação ou energia relatadas na escola',
+        'Relatos de pares/profissionais confirmando mudança de padrão'
+      ],
       options: [
         { label: 'Isolamento / apatia / tristeza persistente', nextNodeId: 'leaf_comportamento_internalizante' },
         { label: 'Agressividade / impulsividade / explosões', nextNodeId: 'leaf_comportamento_externalizante' },
@@ -264,6 +269,11 @@ export const PROTOCOL_DATA: ProtocolData = {
     {
       id: 'n_social',
       question: 'Qual fator social é mais evidente?',
+      indicators: [
+        'Faltas frequentes associadas a transporte, alimentação ou trabalho',
+        'Relato de ausência de itens básicos para permanência na escola',
+        'Dificuldade da família em acessar documentação e benefícios'
+      ],
       options: [
         { label: 'Insegurança alimentar / pobreza extrema', nextNodeId: 'leaf_social_fome_pobreza' },
         { label: 'Trabalho infantil', nextNodeId: 'leaf_trabalho_infantil' },
