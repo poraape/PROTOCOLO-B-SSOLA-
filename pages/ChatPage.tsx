@@ -10,55 +10,18 @@ interface ChatMessage {
 
 const API_KEY_STORAGE = 'bussola_gemini_api_key_v1';
 
-const applyInlineMarkdown = (text: string) => {
-  const escaped = text
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;');
-
-  return escaped
-    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-    .replace(/`([^`]+)`/g, '<code>$1</code>');
-};
-
-const renderMarkdownSimple = (text: string) => {
-  const lines = text.split('\n');
-  let html = '';
-  let listOpen = false;
-
-  lines.forEach((line) => {
-    const trimmed = line.trim();
-
-    if (trimmed.startsWith('- ') || /^\d+\.\s/.test(trimmed)) {
-      if (!listOpen) {
-        html += '<ul>';
-        listOpen = true;
-      }
-      const item = trimmed.replace(/^(-\s|\d+\.\s)/, '');
-      html += `<li>${applyInlineMarkdown(item)}</li>`;
-      return;
-    }
-
-    if (listOpen) {
-      html += '</ul>';
-      listOpen = false;
-    }
-
-    if (!trimmed) {
-      html += '<br />';
-      return;
-    }
-
-    html += `<p>${applyInlineMarkdown(trimmed)}</p>`;
-  });
-
-  if (listOpen) html += '</ul>';
-  return html;
+const renderMessageContent = (text: string) => {
+  const lines = text.split('\n').filter((line) => line.trim().length);
+  return lines.map((line, index) => (
+    <p key={`${line}-${index}`} className="leading-relaxed">
+      {line}
+    </p>
+  ));
 };
 
 export const ChatPage: React.FC = () => {
-  const [apiKey, setApiKey] = useState(() => localStorage.getItem(API_KEY_STORAGE) || '');
-  const [editingApiKey, setEditingApiKey] = useState(() => !localStorage.getItem(API_KEY_STORAGE));
+  const [apiKey, setApiKey] = useState(() => sessionStorage.getItem(API_KEY_STORAGE) || '');
+  const [editingApiKey, setEditingApiKey] = useState(() => !sessionStorage.getItem(API_KEY_STORAGE));
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
   const [loadingKnowledge, setLoadingKnowledge] = useState(true);
@@ -68,7 +31,8 @@ export const ChatPage: React.FC = () => {
     {
       id: 'welcome',
       role: 'assistant',
-      content: 'Olá! Sou o **Assistente Bússola**. Descreva a situação em linguagem natural e vou responder conforme o protocolo oficial.'
+      content:
+        'Olá! Sou o Assistente Bússola experimental. Descreva a situação em linguagem natural e vou responder conforme o protocolo oficial.'
     }
   ]);
 
@@ -101,7 +65,7 @@ export const ChatPage: React.FC = () => {
 
   const saveApiKey = () => {
     if (!apiKey.trim()) return;
-    localStorage.setItem(API_KEY_STORAGE, apiKey.trim());
+    sessionStorage.setItem(API_KEY_STORAGE, apiKey.trim());
     setEditingApiKey(false);
   };
 
@@ -120,8 +84,8 @@ export const ChatPage: React.FC = () => {
     setLoading(true);
 
     try {
-      const key = localStorage.getItem(API_KEY_STORAGE);
-      if (!key) throw new Error('Chave de API não configurada.');
+      const key = sessionStorage.getItem(API_KEY_STORAGE);
+      if (!key) throw new Error('Chave de API não configurada para esta sessão.');
 
       const context = retrieveProtocolContext(knowledgeBase, userMessage.content, 8);
 
@@ -137,7 +101,7 @@ DIRETRIZES:
 1. Responda APENAS com base no contexto fornecido.
 2. Se não houver informação suficiente no contexto, diga exatamente: "Essa informação não consta no protocolo oficial. Por favor, contate a Direção."
 3. Não invente telefones, prazos, normas ou competências.
-4. Seja empático, direto e use Markdown com **ações críticas** em destaque.
+4. Seja empático, direto e destaque ações críticas por texto simples.
 `;
 
       const result = await genAI.models.generateContent({
@@ -164,15 +128,15 @@ DIRETRIZES:
   return (
     <div className="mx-auto max-w-4xl space-y-4 pb-24">
       <header className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
-        <p className="text-xs font-black uppercase tracking-widest text-[#007AFF]">IA Assistente</p>
+        <p className="text-xs font-black uppercase tracking-widest text-[#007AFF]">IA Assistente (experimental)</p>
         <h1 className="mt-2 text-3xl font-extrabold text-slate-900">Chat do Protocolo Bússola</h1>
         <p className="mt-2 text-sm text-slate-600">
-          Faça perguntas em linguagem natural. As respostas são fundamentadas no protocolo oficial.
+          Módulo auxiliar. Para atendimento real, priorize o fluxo do Decisor.
         </p>
       </header>
 
       <section className="rounded-3xl border border-amber-300 bg-amber-50 p-4 text-sm text-amber-900">
-        Chave gratuita: obtenha em <strong>Google AI Studio</strong> e cole abaixo. A chave fica salva apenas neste navegador.
+        A chave é temporária e fica apenas na sessão atual do navegador.
       </section>
 
       <section className="rounded-3xl border border-slate-200 bg-white p-4 shadow-sm">
@@ -189,7 +153,7 @@ DIRETRIZES:
           </button>
           <button
             onClick={() => {
-              localStorage.removeItem(API_KEY_STORAGE);
+              sessionStorage.removeItem(API_KEY_STORAGE);
               setApiKey('');
               setEditingApiKey(true);
             }}
@@ -198,7 +162,7 @@ DIRETRIZES:
             Limpar
           </button>
         </div>
-        {editingApiKey && <p className="mt-2 text-xs text-slate-500">Configure a chave para habilitar respostas da IA.</p>}
+        {editingApiKey && <p className="mt-2 text-xs text-slate-500">Configure a chave para habilitar respostas nesta sessão.</p>}
         <p className="mt-2 text-xs font-semibold text-slate-600">{knowledgeLabel}</p>
       </section>
 
@@ -207,11 +171,12 @@ DIRETRIZES:
           {messages.map((msg) => (
             <div key={msg.id} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
               <div
-                className={`max-w-[88%] rounded-2xl px-4 py-3 text-sm leading-relaxed ${
+                className={`max-w-[88%] rounded-2xl px-4 py-3 text-sm ${
                   msg.role === 'user' ? 'bg-[#007AFF] text-white' : 'bg-slate-100 text-slate-800'
                 }`}
-                dangerouslySetInnerHTML={{ __html: renderMarkdownSimple(msg.content) }}
-              />
+              >
+                {renderMessageContent(msg.content)}
+              </div>
             </div>
           ))}
           {(loading || loadingKnowledge) && (

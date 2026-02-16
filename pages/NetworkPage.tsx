@@ -1,6 +1,8 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet';
-import { PROTOCOL_DATA } from '../data';
+import { PROTOCOL_DATA } from '../content/protocolData';
+import { ProtocolMetaBanner } from '../components/ProtocolMetaBanner';
+import { shouldUseListFallback } from '../services/networkFallback';
 import { Service } from '../types';
 
 type NetworkFilter = 'TODOS' | 'SAUDE' | 'SOCIAL' | 'TUTELAR' | 'SEGURANCA';
@@ -46,9 +48,13 @@ const isPhysicalAddress = (service: Service) =>
 const geocodeAddress = async (address: string): Promise<{ lat: number; lng: number } | null> => {
   try {
     const url = `https://nominatim.openstreetmap.org/search?format=json&limit=1&q=${encodeURIComponent(address)}`;
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 4000);
     const response = await fetch(url, {
-      headers: { 'Accept-Language': 'pt-BR' }
+      headers: { 'Accept-Language': 'pt-BR' },
+      signal: controller.signal
     });
+    clearTimeout(timeoutId);
     const data = await response.json();
     if (!Array.isArray(data) || !data.length) return null;
 
@@ -66,6 +72,7 @@ export const NetworkPage: React.FC = () => {
   const [filter, setFilter] = useState<NetworkFilter>('TODOS');
   const [geoServices, setGeoServices] = useState<GeocodedService[]>([]);
   const [isGeocoding, setIsGeocoding] = useState(true);
+  const [geocodeError, setGeocodeError] = useState('');
 
   const filters: { id: NetworkFilter; label: string }[] = [
     { id: 'TODOS', label: 'Todos' },
@@ -100,7 +107,13 @@ export const NetworkPage: React.FC = () => {
       );
 
       if (active) {
-        setGeoServices(results.filter((item): item is GeocodedService => !!item));
+        const filtered = results.filter((item): item is GeocodedService => !!item);
+        setGeoServices(filtered);
+        if (shouldUseListFallback(physicalServices.length, filtered.length)) {
+          setGeocodeError('Mapa indisponível no momento. Use a lista abaixo e ligue agora para o serviço necessário.');
+        } else {
+          setGeocodeError('');
+        }
         setIsGeocoding(false);
       }
     };
@@ -124,6 +137,8 @@ export const NetworkPage: React.FC = () => {
           Encontre o serviço, visualize no mapa e ligue em 1 toque.
         </p>
       </header>
+
+      <ProtocolMetaBanner />
 
       <section className="rounded-3xl border border-slate-200 bg-white p-4 shadow-sm">
         <div className="mb-4">
@@ -157,24 +172,35 @@ export const NetworkPage: React.FC = () => {
         <div className="mb-2 px-2 text-xs font-bold text-slate-500">
           Mapa interativo da rede {isGeocoding ? '(localizando endereços...)' : `(${geoServices.length} alfinetes)`}
         </div>
+        {geocodeError && (
+          <div className="mb-3 rounded-xl border border-amber-300 bg-amber-50 px-3 py-2 text-sm font-semibold text-amber-900">
+            {geocodeError}
+          </div>
+        )}
         <div className="h-[360px] overflow-hidden rounded-2xl border border-slate-200">
-          <MapContainer center={mapCenter} zoom={13} style={{ height: '100%', width: '100%' }}>
-            <TileLayer
-              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-            />
-            {geoServices.map((item) => (
-              <Marker key={item.service.id} position={[item.lat, item.lng]}>
-                <Popup>
-                  <div className="space-y-1">
-                    <strong>{item.service.name}</strong>
-                    <p>{item.service.address}</p>
-                    <a href={normalizePhoneToTel(item.service.phone)}>{item.service.phone}</a>
-                  </div>
-                </Popup>
-              </Marker>
-            ))}
-          </MapContainer>
+          {geoServices.length ? (
+            <MapContainer center={mapCenter} zoom={13} style={{ height: '100%', width: '100%' }}>
+              <TileLayer
+                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+              />
+              {geoServices.map((item) => (
+                <Marker key={item.service.id} position={[item.lat, item.lng]}>
+                  <Popup>
+                    <div className="space-y-1">
+                      <strong>{item.service.name}</strong>
+                      <p>{item.service.address}</p>
+                      <a href={normalizePhoneToTel(item.service.phone)}>{item.service.phone}</a>
+                    </div>
+                  </Popup>
+                </Marker>
+              ))}
+            </MapContainer>
+          ) : (
+            <div className="flex h-full items-center justify-center text-center text-sm font-semibold text-slate-500">
+              Mapa indisponível. Use a lista de contatos abaixo para acionar a rede.
+            </div>
+          )}
         </div>
       </section>
 
@@ -202,10 +228,14 @@ export const NetworkPage: React.FC = () => {
               </div>
             </dl>
 
+            <div className="mt-2 text-xs text-slate-500">
+              Fonte: {service.officialSource || 'Não informada'} · Verificado em {service.verifiedAt || 'N/A'} por {service.verifiedBy || 'N/A'}
+            </div>
+
             <div className="mt-4 flex flex-wrap gap-2">
               <a
                 href={normalizePhoneToTel(service.phone)}
-                className="rounded-xl bg-[#007AFF] px-4 py-2 text-sm font-bold text-white hover:bg-[#005fcc]"
+                className="rounded-xl bg-[#007AFF] px-4 py-2 text-sm font-bold text-white hover:bg-[#005fcc] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500"
               >
                 Ligar agora
               </a>
@@ -213,10 +243,16 @@ export const NetworkPage: React.FC = () => {
                 href={mapsLink(service.address)}
                 target="_blank"
                 rel="noreferrer"
-                className="rounded-xl border border-slate-300 px-4 py-2 text-sm font-bold text-slate-700 hover:bg-slate-100"
+                className="rounded-xl border border-slate-300 px-4 py-2 text-sm font-bold text-slate-700 hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500"
               >
                 Abrir no Maps
               </a>
+              <button
+                onClick={() => navigator.clipboard.writeText(`${service.name}\n${service.address}\n${service.phone}`)}
+                className="rounded-xl border border-slate-300 px-4 py-2 text-sm font-bold text-slate-700 hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500"
+              >
+                Copiar contato
+              </button>
             </div>
           </article>
         ))}

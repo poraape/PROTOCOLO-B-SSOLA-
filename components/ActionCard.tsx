@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { FlowNode, Service } from '../types';
+import { IndicatorsAccordion } from './IndicatorsAccordion';
 
 interface ActionCardProps {
   leafNode: FlowNode;
@@ -47,6 +48,9 @@ export const ActionCard: React.FC<ActionCardProps> = ({ leafNode, services }) =>
         </span>
       </header>
 
+
+      <IndicatorsAccordion items={leafNode.indicators || leafNode.severityCriteria} />
+
       <div className="mt-6">
         <h3 className="text-sm font-black uppercase tracking-wide text-slate-600">📋 Ações imediatas</h3>
         <ol className="mt-3 list-decimal space-y-2 pl-5 text-sm leading-relaxed text-slate-800">
@@ -71,7 +75,7 @@ export const ActionCard: React.FC<ActionCardProps> = ({ leafNode, services }) =>
         {primaryService ? (
           <a
             href={normalizePhoneToTel(primaryService.phone)}
-            className="inline-flex items-center justify-center rounded-2xl bg-[#007AFF] px-4 py-3 text-sm font-bold text-white transition hover:bg-[#005fcc]"
+            className="inline-flex items-center justify-center rounded-2xl bg-[#007AFF] px-4 py-3 text-sm font-bold text-white transition hover:bg-[#005fcc] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500"
           >
             📞 Ligar agora ({primaryService.phone})
           </a>
