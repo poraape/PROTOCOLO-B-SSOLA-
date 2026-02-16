@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { GoogleGenerativeAI } from '@google/generative-ai';
+import { GoogleGenAI } from '@google/genai';
 import { loadProtocolKnowledgeBase, ProtocolKnowledgeBase, retrieveProtocolContext } from '../services/protocolKnowledge';
 
 interface ChatMessage {
@@ -125,8 +125,7 @@ export const ChatPage: React.FC = () => {
 
       const context = retrieveProtocolContext(knowledgeBase, userMessage.content, 8);
 
-      const genAI = new GoogleGenerativeAI(key);
-      const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
+      const genAI = new GoogleGenAI({ apiKey: key });
 
       const systemInstruction = `
 Você é o Assistente Bússola da E.E. Ermelino Matarazzo.
@@ -141,8 +140,11 @@ DIRETRIZES:
 4. Seja empático, direto e use Markdown com **ações críticas** em destaque.
 `;
 
-      const result = await model.generateContent(`${systemInstruction}\n\nPERGUNTA:\n${userMessage.content}`);
-      const text = result.response.text();
+      const result = await genAI.models.generateContent({
+        model: 'gemini-2.0-flash',
+        contents: `${systemInstruction}\n\nPERGUNTA:\n${userMessage.content}`
+      });
+      const text = result.text;
 
       setMessages((prev) => [
         ...prev,
