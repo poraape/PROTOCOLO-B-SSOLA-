@@ -1,37 +1,27 @@
 import React from 'react';
-import { CATEGORY_TOKENS, CategoryId } from '../ui/categoryTokens';
+import { CategoryToken } from '../ui/categoryTokens';
 
 type Props = {
-  categoryId: CategoryId;
+  category: CategoryToken;
   onClick: () => void;
-  isSelected?: boolean;
 };
 
-export function CategoryOptionCard({ categoryId, onClick, isSelected }: Props) {
-  const t = CATEGORY_TOKENS[categoryId];
-
-  const selectedClass = isSelected ? 'ring-2 ring-brand-300 ring-offset-2' : '';
-
+export function CategoryOptionCard({ category, onClick }: Props) {
   return (
     <button
       type="button"
       onClick={onClick}
-      className={[
-        'category-card p-5',
-        t.tint.bg,
-        t.tint.border,
-        t.tint.ring,
-        selectedClass,
-        'focus-visible:ring-2'
-      ].join(' ')}
+      className={`w-full text-left rounded-xl border p-5 transition hover:shadow-md focus-visible:ring-2 focus-visible:ring-brand-500 ${category.tint}`}
     >
-      <span className={['category-chip', t.tint.border, t.tint.bg, t.tint.text].join(' ')}>
-        <span className="category-emoji" aria-hidden="true">{t.emoji}</span>
-        <span>{t.label}</span>
-      </span>
+      <div className="flex items-start gap-3">
+        <span className="text-2xl">{category.emoji}</span>
 
-      <h3 className="category-title text-base font-medium">{t.label}</h3>
-      <p className="category-desc mt-2 text-sm leading-relaxed text-gray-600">{t.short}</p>
+        <div>
+          <div className="font-semibold text-base">{category.label}</div>
+
+          <div className="text-sm mt-1 opacity-80">{category.short}</div>
+        </div>
+      </div>
     </button>
   );
 }

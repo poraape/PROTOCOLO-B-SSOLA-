@@ -1,8 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { ProtocolVersionBadge } from '../components/ProtocolVersionBadge';
 import { NetworkMap } from '../components/NetworkMap';
-import { NetworkServiceCard } from '../components/NetworkServiceCard';
 import { PROTOCOL_DATA } from '../content/protocolData';
 import { shouldUseListFallback } from '../services/networkFallback';
 import { Service } from '../types';
@@ -27,9 +25,13 @@ const normalizePhoneToTel = (phone: string) => `tel:${phone.replace(/\D/g, '')}`
 const hasCoordinates = (service: Service): service is ServiceWithCoordinates => !!service.coordinates;
 
 export const NetworkPage: React.FC = () => {
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const [search, setSearch] = useState('');
   const [filter, setFilter] = useState<NetworkFilter>('TODOS');
   const [showMap, setShowMap] = useState(false);
+  const referralFilter = (searchParams.get('referral') || '').trim();
+  const normalizedReferralFilter = referralFilter.toLowerCase();
 
   const filters: { id: NetworkFilter; label: string }[] = [
     { id: 'TODOS', label: 'Todos' },
@@ -41,8 +43,11 @@ export const NetworkPage: React.FC = () => {
 
   const services = useMemo(() => PROTOCOL_DATA.services.filter((service) => {
     const text = `${service.name} ${service.address} ${service.phone}`.toLowerCase();
-    return (search.trim().length === 0 || text.includes(search.toLowerCase())) && (filter === 'TODOS' || mapServiceToFilter(service).includes(filter));
-  }), [filter, search]);
+    const matchesSearch = search.trim().length === 0 || text.includes(search.toLowerCase());
+    const matchesFilter = filter === 'TODOS' || mapServiceToFilter(service).includes(filter);
+    const matchesReferral = !normalizedReferralFilter || text.includes(normalizedReferralFilter);
+    return matchesSearch && matchesFilter && matchesReferral;
+  }), [filter, search, normalizedReferralFilter]);
 
   const mappableServices = useMemo(() => services.filter(hasCoordinates), [services]);
   const listOnlyMode = shouldUseListFallback(services.length, mappableServices.length);
