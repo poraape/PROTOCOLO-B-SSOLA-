@@ -1,7 +1,15 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet';
+import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { Service } from '../types';
+
+delete (L.Icon.Default.prototype as any)._getIconUrl;
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
+  iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+  shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png'
+});
 
 type ServiceWithCoordinates = Service & {
   coordinates: {
@@ -11,7 +19,8 @@ type ServiceWithCoordinates = Service & {
 };
 
 interface NetworkMapProps {
-  services: ServiceWithCoordinates[];
+  services: Service[];
+  height?: number;
 }
 
 export const NetworkMap: React.FC<NetworkMapProps> = ({ services }) => {
