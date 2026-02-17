@@ -15,7 +15,7 @@ interface DecisionHistoryPanelProps {
 
 export const DecisionHistoryPanel: React.FC<DecisionHistoryPanelProps> = ({ items, currentQuestion, stepNumber }) => {
   return (
-    <aside className="card-soft" aria-label="Histórico de decisões">
+    <aside className="card" aria-label="Histórico de decisões">
       <h2 className="text-sm font-bold uppercase tracking-wide text-muted">Histórico</h2>
       <p className="mt-1 text-xs font-semibold text-muted">Etapa atual: {stepNumber}</p>
       {items.length ? (

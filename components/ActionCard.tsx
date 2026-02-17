@@ -22,28 +22,19 @@ export const ActionCard: React.FC<ActionCardProps> = ({ leafNode, services }) =>
   const navigate = useNavigate();
   const risk = leafNode.riskLevel || 'MÉDIO';
   const sourceLink = getSourceLink(leafNode.sourceRef);
-  const doNowShort = (leafNode.doNowShort || leafNode.doNow || leafNode.guidance || []).slice(0, 3);
-
-  const handleOpenNetwork = () => {
-    const referral = leafNode.referralType ?? 'OUTROS';
-    navigate(`/rede?filter=${referral}`);
-  };
 
   return (
     <section className="grid gap-4 lg:grid-cols-2">
-      <article className="rounded-2xl border border-blue-200 bg-blue-50 p-5">
-        <div className="mb-3 flex items-center justify-between gap-2">
+      <article className="rounded-2xl border border-brand-100 bg-brand-50 p-5">
+        <div className="mb-3">
           <span className={urgencyStyles[risk] || 'badge'}>Risco {risk}</span>
-          <span className="text-xs font-extrabold tracking-wide text-blue-900">FAÇA AGORA</span>
         </div>
-        <ol className="mt-2 list-decimal space-y-1 pl-5 text-sm text-blue-900">
-          {doNowShort.map((item, index) => (
-            <li key={`${leafNode.id}-short-${index}`}>{item}</li>
+        <h2 className="text-xl font-extrabold text-brand-900">Faça agora</h2>
+        <ol className="mt-3 list-decimal space-y-2 pl-5 text-sm text-brand-900">
+          {(leafNode.doNow || leafNode.guidance || []).slice(0, 3).map((item, index) => (
+            <li key={`${leafNode.id}-action-${index}`}>{item}</li>
           ))}
         </ol>
-        {leafNode.escalation ? (
-          <p className="mt-2 text-xs text-blue-900">Escalonamento: <strong>{leafNode.escalation}</strong></p>
-        ) : null}
       </article>
 
       <aside className="space-y-3">
@@ -86,10 +77,7 @@ export const ActionCard: React.FC<ActionCardProps> = ({ leafNode, services }) =>
 
       <div className="lg:col-span-2 text-xs text-muted">
         {sourceLink ? <details><summary className="cursor-pointer">Base normativa (ver referência)</summary><a className="mt-2 inline-block" href={sourceLink.href} target="_blank" rel="noreferrer">{sourceLink.label}</a></details> : null}
-        <div className="mt-3 flex flex-wrap gap-2">
-          <button onClick={handleOpenNetwork} className="btn-primary focus-visible:ring-2 focus-visible:ring-brand-500">Ver Rede de Apoio</button>
-          <Link to="/recursos" className="btn-secondary focus-visible:ring-2 focus-visible:ring-brand-500">Abrir documentos necessários</Link>
-        </div>
+        <div className="mt-3"><Link to="/recursos" className="btn-secondary focus-visible:ring-2 focus-visible:ring-brand-500">Abrir documentos necessários</Link></div>
       </div>
     </section>
   );

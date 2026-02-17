@@ -13,13 +13,13 @@ const navItems = [
 export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return (
     <div className="min-h-screen bg-bg text-text">
-      <header className="border-b border-gray-100 bg-white">
-        <div className="section-container flex items-center justify-between gap-4">
+      <header className="sticky top-0 z-50 border-b border-border bg-white">
+        <div className="mx-auto flex h-14 max-w-7xl items-center justify-between px-4 md:px-6">
           <NavLink to="/" className="flex items-center gap-3" aria-label="Ir para início">
-            <SchoolShield className="h-10 w-10" />
-            <div>
-              <h1 className="text-sm font-semibold text-gray-900">Protocolo Bússola</h1>
-              <p className="text-xs text-gray-500">EE Ermelino Matarazzo</p>
+            <SchoolShield className="h-8 w-8" />
+            <div className="leading-tight">
+              <p className="text-sm font-extrabold text-brand-900">Protocolo Bússola</p>
+              <p className="text-[11px] font-semibold text-muted">EE Ermelino Matarazzo</p>
             </div>
           </NavLink>
 
@@ -29,7 +29,9 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
                 key={item.path}
                 to={item.path}
                 className={({ isActive }) =>
-                  `nav-pill focus-visible:ring-2 focus-visible:ring-brand-500 ${isActive ? 'nav-pill-active' : 'nav-pill-idle'}`
+                  `rounded-full px-3 py-2 text-sm font-semibold transition focus-visible:ring-2 focus-visible:ring-brand-500 ${
+                    isActive ? 'bg-brand-50 text-brand-800' : 'text-muted hover:bg-slate-100 hover:text-text'
+                  }`
                 }
               >
                 {item.label}
