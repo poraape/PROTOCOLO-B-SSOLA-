@@ -7,12 +7,10 @@ import { DecisorPage } from './pages/DecisorPage';
 import { FlowPage } from './pages/FlowPage';
 import { NetworkPage } from './pages/NetworkPage';
 import { ResourcesPage } from './pages/ResourcesPage';
-import { ImageEditorPage } from './pages/ImageEditorPage';
 import { FlowsListPage } from './pages/FlowsListPage';
 import { BuscaPage } from './pages/BuscaPage';
 import { GlossaryPage } from './pages/GlossaryPage';
 import { SimulatorPage } from './pages/SimulatorPage';
-import { ChatPage } from './pages/ChatPage';
 import { FAQPage } from './pages/FAQPage';
 import { AboutPage } from './pages/AboutPage';
 
@@ -27,11 +25,9 @@ const App: React.FC = () => {
           <Route path="/fluxos/:id" element={<FlowPage />} />
           <Route path="/rede" element={<NetworkPage />} />
           <Route path="/recursos" element={<ResourcesPage />} />
-          <Route path="/editor" element={<ImageEditorPage />} />
           <Route path="/busca" element={<BuscaPage />} />
           <Route path="/glossario" element={<GlossaryPage />} />
           <Route path="/simulador" element={<SimulatorPage />} />
-          <Route path="/chat" element={<ChatPage />} />
           <Route path="/faq" element={<FAQPage />} />
           <Route path="/sobre" element={<AboutPage />} />
         </Routes>

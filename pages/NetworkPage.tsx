@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet';
 import { PROTOCOL_DATA } from '../content/protocolData';
-import { ProtocolMetaBanner } from '../components/ProtocolMetaBanner';
+import { ProtocolVersionBadge } from '../components/ProtocolVersionBadge';
 import { shouldUseListFallback } from '../services/networkFallback';
 import { Service } from '../types';
 
@@ -138,7 +138,7 @@ export const NetworkPage: React.FC = () => {
         </p>
       </header>
 
-      <ProtocolMetaBanner />
+      <ProtocolVersionBadge />
 
       <section className="rounded-3xl border border-slate-200 bg-white p-4 shadow-sm">
         <div className="mb-4">
