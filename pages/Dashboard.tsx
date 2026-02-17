@@ -25,7 +25,6 @@ export const Dashboard: React.FC = () => {
     { title: 'Glossário', icon: '🧩', onClick: () => navigate('/glossario') },
     { title: 'FAQ', icon: '❓', onClick: () => navigate('/faq') },
     { title: 'Simulador', icon: '🎯', onClick: () => navigate('/simulador') },
-    { title: 'IA (experimental)', icon: '🤖', onClick: () => navigate('/chat') }
   ];
 
   return (

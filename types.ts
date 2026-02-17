@@ -5,6 +5,18 @@ export interface FlowOption {
   nextNodeId: string;
 }
 
+
+export interface ServiceTarget {
+  serviceId: string;
+  channel?: 'telefone' | 'presencial' | 'institucional';
+}
+
+export interface SourceReference {
+  label: string;
+  filePath?: string;
+  section?: string;
+}
+
 export interface FlowNode {
   id: string;
   question: string;
@@ -19,6 +31,12 @@ export interface FlowNode {
   forbiddenActions?: string[];
   fallbackNextNodeId?: string;
   indicators?: string[];
+  doNow?: string[];
+  contactTargets?: ServiceTarget[];
+  deadline?: string;
+  recordRequired?: string[];
+  sourceRef?: SourceReference;
+  notes?: string;
 }
 
 export interface Service {
@@ -33,6 +51,10 @@ export interface Service {
   officialSource?: string;
   verifiedAt?: string;
   verifiedBy?: string;
+  coordinates?: {
+    lat: number;
+    lng: number;
+  };
 }
 
 export interface DocumentTemplate {

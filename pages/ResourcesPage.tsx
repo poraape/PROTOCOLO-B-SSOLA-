@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { PROTOCOL_DATA, RECURSOS } from '../content/protocolData';
-import { ProtocolMetaBanner } from '../components/ProtocolMetaBanner';
+import { ProtocolVersionBadge } from '../components/ProtocolVersionBadge';
 
 const formatDateBR = (value: string) => {
   if (!value) return '____/____/______';
@@ -61,7 +61,7 @@ export const ResourcesPage: React.FC = () => {
         </p>
       </header>
 
-      <ProtocolMetaBanner />
+      <ProtocolVersionBadge />
 
 
       <section className="rounded-2xl border border-emerald-300 bg-emerald-50 p-4">

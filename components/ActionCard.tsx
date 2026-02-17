@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { FlowNode, Service } from '../types';
+import { getSourceLink } from '../services/getSourceLink';
 import { IndicatorsAccordion } from './IndicatorsAccordion';
 
 interface ActionCardProps {
@@ -38,6 +39,8 @@ export const ActionCard: React.FC<ActionCardProps> = ({ leafNode, services }) =>
   const riskStyle = urgencyStyles[risk];
   const primaryService = services[0];
 
+  const sourceLink = getSourceLink(leafNode.sourceRef);
+
   return (
     <section className={`rounded-3xl border bg-white p-6 shadow-sm ring-2 ${riskStyle.ring}`}>
       <header className="space-y-3">
@@ -70,6 +73,23 @@ export const ActionCard: React.FC<ActionCardProps> = ({ leafNode, services }) =>
           </ul>
         </div>
       )}
+
+
+      <div className="mt-3">
+        {leafNode.sourceRef && sourceLink ? (
+          <a
+            href={sourceLink.href}
+            target={sourceLink.isExternal ? '_blank' : undefined}
+            rel={sourceLink.isExternal ? 'noreferrer' : undefined}
+            className="inline-flex items-center gap-1 text-xs font-semibold text-slate-500 underline-offset-2 hover:text-slate-700 hover:underline"
+            title={leafNode.sourceRef.label}
+          >
+            📎 Base normativa
+          </a>
+        ) : (
+          <p className="text-xs font-semibold text-amber-700">Base normativa não especificada — revisar.</p>
+        )}
+      </div>
 
       <div className="mt-6 grid gap-3 sm:grid-cols-2">
         {primaryService ? (

@@ -1,7 +1,7 @@
 import React from 'react';
 import { DecisionWizard } from '../components/DecisionWizard';
 import { PROTOCOL_DATA } from '../content/protocolData';
-import { ProtocolMetaBanner } from '../components/ProtocolMetaBanner';
+import { ProtocolVersionBadge } from '../components/ProtocolVersionBadge';
 
 export const DecisorPage: React.FC = () => {
   return (
@@ -17,7 +17,7 @@ export const DecisorPage: React.FC = () => {
         </p>
       </header>
 
-      <ProtocolMetaBanner />
+      <ProtocolVersionBadge />
 
       <DecisionWizard />
     </div>
