@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FlowNode, Service } from '../types';
 import { getSourceLink } from '../services/getSourceLink';
 
@@ -19,6 +19,7 @@ const normalizePhoneToTel = (phone: string) => `tel:${phone.replace(/\D/g, '')}`
 const mapsLink = (address: string) => `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`;
 
 export const ActionCard: React.FC<ActionCardProps> = ({ leafNode, services }) => {
+  const navigate = useNavigate();
   const risk = leafNode.riskLevel || 'MÉDIO';
   const sourceLink = getSourceLink(leafNode.sourceRef);
 

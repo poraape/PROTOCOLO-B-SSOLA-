@@ -1,6 +1,8 @@
 import React, { useMemo, useState } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { ProtocolVersionBadge } from '../components/ProtocolVersionBadge';
 import { NetworkMap } from '../components/NetworkMap';
+import { NetworkServiceCard } from '../components/NetworkServiceCard';
 import { PROTOCOL_DATA } from '../content/protocolData';
 import { shouldUseListFallback } from '../services/networkFallback';
 import { Service } from '../types';
@@ -52,7 +54,18 @@ export const NetworkPage: React.FC = () => {
         <p className="mt-2 text-sm text-muted">Telefones e endereços verificados (quando disponível).</p>
       </header>
 
-      <ProtocolVersionBadge />
+      {referralFilter && (
+        <div className="rounded-md border border-blue-200 bg-blue-50 p-3 text-sm">
+          Exibindo serviços recomendados para:
+          <strong className="ml-1">{referralFilter}</strong>
+          <button
+            className="ml-3 text-blue-700 underline focus-visible:ring-2 focus-visible:ring-brand-500"
+            onClick={() => navigate('/rede')}
+          >
+            Limpar filtro
+          </button>
+        </div>
+      )}
 
       <section className="card">
         <input
