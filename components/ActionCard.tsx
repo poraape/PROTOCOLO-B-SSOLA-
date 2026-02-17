@@ -23,11 +23,6 @@ export const ActionCard: React.FC<ActionCardProps> = ({ leafNode, services }) =>
   const risk = leafNode.riskLevel || 'MÉDIO';
   const sourceLink = getSourceLink(leafNode.sourceRef);
 
-  const handleOpenNetwork = () => {
-    const referral = leafNode.referralType ?? 'OUTROS';
-    navigate(`/rede?filter=${referral}`);
-  };
-
   return (
     <section className="grid gap-4 lg:grid-cols-2">
       <article className="rounded-2xl border border-brand-100 bg-brand-50 p-5">
@@ -82,10 +77,7 @@ export const ActionCard: React.FC<ActionCardProps> = ({ leafNode, services }) =>
 
       <div className="lg:col-span-2 text-xs text-muted">
         {sourceLink ? <details><summary className="cursor-pointer">Base normativa (ver referência)</summary><a className="mt-2 inline-block" href={sourceLink.href} target="_blank" rel="noreferrer">{sourceLink.label}</a></details> : null}
-        <div className="mt-3 flex flex-wrap gap-2">
-          <button onClick={handleOpenNetwork} className="btn-primary focus-visible:ring-2 focus-visible:ring-brand-500">Ver Rede de Apoio</button>
-          <Link to="/recursos" className="btn-secondary focus-visible:ring-2 focus-visible:ring-brand-500">Abrir documentos necessários</Link>
-        </div>
+        <div className="mt-3"><Link to="/recursos" className="btn-secondary focus-visible:ring-2 focus-visible:ring-brand-500">Abrir documentos necessários</Link></div>
       </div>
     </section>
   );
