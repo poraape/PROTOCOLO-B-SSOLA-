@@ -39,6 +39,18 @@ export interface FlowOption {
   nextNodeId: string;
 }
 
+
+export interface ServiceTarget {
+  serviceId: string;
+  channel?: 'telefone' | 'presencial' | 'institucional';
+}
+
+export interface SourceReference {
+  label: string;
+  filePath?: string;
+  section?: string;
+}
+
 export interface FlowNode {
   id: string;
   question: string;

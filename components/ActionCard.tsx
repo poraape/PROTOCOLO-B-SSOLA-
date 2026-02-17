@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { FlowNode, Service } from '../types';
+import { getSourceLink } from '../services/getSourceLink';
 import { IndicatorsAccordion } from './IndicatorsAccordion';
 
 interface ActionCardProps {
@@ -21,6 +22,8 @@ const mapsLink = (address: string) => `https://www.google.com/maps/search/?api=1
 export const ActionCard: React.FC<ActionCardProps> = ({ leafNode, services }) => {
   const risk = leafNode.riskLevel || 'MÉDIO';
   const riskStyle = urgencyStyles[risk];
+
+  const sourceLink = getSourceLink(leafNode.sourceRef);
 
   return (
     <section className={`rounded-3xl border bg-white p-6 shadow-sm ring-2 ${riskStyle.ring}`}>
