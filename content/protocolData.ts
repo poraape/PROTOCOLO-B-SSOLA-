@@ -371,6 +371,7 @@ export const PROTOCOL_DATA: ProtocolData = {
     {
       id: 'n_categoria_situacao',
       question: 'Qual destas opções mais descreve a situação?',
+      helperText: 'Escolha o que você observa agora. Em dúvida, use “Não sei / preciso de apoio”.',
       options: [
         { label: 'Saúde emocional / comportamento', nextNodeId: 'n_mental_triagem', categoryId: 'emocional' },
         { label: 'Violação de direitos / violência', nextNodeId: 'n_direitos_triagem', categoryId: 'violencia' },

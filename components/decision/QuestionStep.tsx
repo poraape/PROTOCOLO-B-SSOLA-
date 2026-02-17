@@ -40,8 +40,8 @@ export const QuestionStep: React.FC<QuestionStepProps> = ({ node, onSelect }) =>
           >
             Não sei / preciso de apoio
           </button>
-        )}
-      </div>
+        </div>
+      )}
     </section>
   );
 };

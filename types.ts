@@ -76,6 +76,7 @@ export interface FlowNode {
   serviceIds?: string[];
   forbiddenActions?: string[];
   fallbackNextNodeId?: string;
+  helperText?: string;
   indicators?: string[];
   doNow?: string[];
   contactTargets?: ServiceTarget[];
