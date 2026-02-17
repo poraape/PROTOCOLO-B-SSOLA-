@@ -20,13 +20,6 @@ export const Dashboard: React.FC = () => {
     }
   ];
 
-  const supportActions = [
-    { title: 'Busca Rápida', icon: '🔎', onClick: () => navigate('/busca') },
-    { title: 'Glossário', icon: '🧩', onClick: () => navigate('/glossario') },
-    { title: 'FAQ', icon: '❓', onClick: () => navigate('/faq') },
-    { title: 'Simulador', icon: '🎯', onClick: () => navigate('/simulador') },
-    { title: 'IA (experimental)', icon: '🤖', onClick: () => navigate('/chat') }
-  ];
 
   return (
     <div className="space-y-6">
@@ -65,22 +58,6 @@ export const Dashboard: React.FC = () => {
           </button>
         ))}
       </section>
-
-      <section className="rounded-2xl border border-slate-200 bg-slate-100 p-4 dark:border-slate-700 dark:bg-slate-900">
-        <p className="text-xs font-black uppercase tracking-widest text-slate-500">Ferramentas auxiliares</p>
-        <div className="mt-3 flex flex-wrap gap-2">
-          {supportActions.map((action) => (
-            <button
-              key={action.title}
-              onClick={action.onClick}
-              className="rounded-full border border-slate-300 bg-white px-3 py-2 text-xs font-bold text-slate-700 hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-200"
-            >
-              {action.icon} {action.title}
-            </button>
-          ))}
-        </div>
-      </section>
-
       <footer className="rounded-2xl border border-slate-200 bg-slate-100 px-4 py-3 text-center text-xs font-semibold text-slate-600 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-400">
         Baseado no Protocolo Fev/2026 - E.E. Ermelino Matarazzo
       </footer>

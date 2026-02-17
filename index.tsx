@@ -2,7 +2,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
+import { PROTOCOL_DATA } from './content/protocolData';
+import { validateTreeDepth } from './services/validateTreeDepth';
 import './index.css';
+
+
+if (import.meta.env.DEV) {
+  const { maxDepth } = validateTreeDepth(PROTOCOL_DATA.decisionTree);
+  console.info(`[Decisor] Profundidade máxima atual: ${maxDepth} nós.`);
+}
 
 const rootElement = document.getElementById('root');
 if (!rootElement) {

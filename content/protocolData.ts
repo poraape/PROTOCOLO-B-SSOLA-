@@ -1,4 +1,4 @@
-import { Contato, DocumentTemplate, Fluxo, ProtocolData, Recurso, Service } from '../types';
+import { Contato, DocumentTemplate, FlowNode, Fluxo, ProtocolData, Recurso, Service, ServiceTarget } from '../types';
 
 const BASE_SERVICES: Service[] = [
   {
@@ -7,6 +7,7 @@ const BASE_SERVICES: Service[] = [
     category: 'SAÚDE',
     address: 'Rua Antônio de Freitas Toledo, 185 - Ermelino Matarazzo - São Paulo/SP - CEP 03812-050',
     phone: '(11) 2545-8235 / (11) 2542-0945',
+    coordinates: { lat: -23.4869, lng: -46.4793 },
     hours: 'Seg a Sex, 7h às 19h',
     notes: 'Porta de entrada SUS para saúde geral e cuidado longitudinal.'
   },
@@ -16,6 +17,7 @@ const BASE_SERVICES: Service[] = [
     category: 'SAÚDE',
     address: 'Rua Antônio Bonici, 18 - Ermelino Matarazzo - São Paulo/SP - CEP 03811-060',
     phone: '(11) 3294-3828 / (11) 2544-1490',
+    coordinates: { lat: -23.4877, lng: -46.4807 },
     hours: 'Seg a Sex, 7h às 19h',
     notes: 'Sofrimento psíquico infantojuvenil com necessidade de cuidado especializado.'
   },
@@ -25,6 +27,7 @@ const BASE_SERVICES: Service[] = [
     category: 'SAÚDE',
     address: 'Avenida Boturussu, 168 - Parque Boturussu - São Paulo/SP - CEP 03804-000',
     phone: '(11) 2546-6787 / (11) 2544-0406',
+    coordinates: { lat: -23.4938, lng: -46.4749 },
     hours: 'Seg a Sex, 7h às 19h'
   },
   {
@@ -33,6 +36,7 @@ const BASE_SERVICES: Service[] = [
     category: 'SAÚDE',
     address: 'Rua João Antônio de Andrade, 804 - Parque Boturussu - São Paulo/SP - CEP 03804-000',
     phone: '(11) 2943-9276 / (11) 2546-2597',
+    coordinates: { lat: -23.4942, lng: -46.4743 },
     hours: 'Seg a Sex, 7h às 19h'
   },
   {
@@ -41,6 +45,7 @@ const BASE_SERVICES: Service[] = [
     category: 'SAÚDE',
     address: 'Rua Miguel Novais, 113 - Vila Paranaguá - São Paulo/SP - CEP 03807-370',
     phone: '(11) 2574-3258',
+    coordinates: { lat: -23.4912, lng: -46.4686 },
     hours: '24 horas'
   },
   {
@@ -49,6 +54,7 @@ const BASE_SERVICES: Service[] = [
     category: 'SOCIAL',
     address: 'Avenida Paranaguá, 2045 - Ermelino Matarazzo - São Paulo/SP - CEP 03806-010',
     phone: '(11) 2545-3211 / (11) 2545-3222',
+    coordinates: { lat: -23.486, lng: -46.4718 },
     hours: 'Seg a Sex, 8h às 18h'
   },
   {
@@ -57,6 +63,7 @@ const BASE_SERVICES: Service[] = [
     category: 'SOCIAL',
     address: 'Avenida Boturussu, 131 - Ermelino Matarazzo - São Paulo/SP - CEP 03804-000',
     phone: '(11) 2541-7882',
+    coordinates: { lat: -23.4929, lng: -46.4747 },
     hours: 'Seg a Sex, 8h às 18h'
   },
   {
@@ -65,6 +72,7 @@ const BASE_SERVICES: Service[] = [
     category: 'DIREITOS_SGD',
     address: 'Rua Chesira Maltauro, 342 - Ermelino Matarazzo - São Paulo/SP - CEP 03811-100',
     phone: '(11) 2214-9050 / (11) 2546-0657 / (11) 2546-3257',
+    coordinates: { lat: -23.4885, lng: -46.4801 },
     notes: 'Acionamento obrigatório em ameaça/violação de direitos de criança e adolescente.'
   },
   {
@@ -72,7 +80,8 @@ const BASE_SERVICES: Service[] = [
     name: 'DDM São Miguel Paulista',
     category: 'DIREITOS_SGD',
     address: 'Rua Dríades, 50 - 2º andar - São Miguel Paulista - São Paulo/SP - CEP 08010-190',
-    phone: '(11) 6154-1362 / (11) 6153-7666'
+    phone: '(11) 6154-1362 / (11) 6153-7666',
+    coordinates: { lat: -23.4996, lng: -46.4449 }
   },
   {
     id: 'delegacia-civil-197',
@@ -95,6 +104,7 @@ const BASE_SERVICES: Service[] = [
     category: 'EDUCAÇÃO',
     address: 'Rua Caetano de Campos, 220 - Tatuapé - São Paulo/SP - CEP 03088-010',
     phone: '0800 770 0012',
+    coordinates: { lat: -23.5409, lng: -46.5797 },
     notes: 'Apoio institucional, supervisão e orientação técnica.'
   },
   {
@@ -155,12 +165,152 @@ const BASE_SERVICES: Service[] = [
   }
 ];
 
+
+const SERVICE_VALID_UNTIL: Record<string, string> = {
+  'conselho-tutelar': '2026-01-31'
+};
+
 const SERVICES: Service[] = BASE_SERVICES.map((service) => ({
   officialSource: 'Fonte oficial institucional (validação interna)',
   verifiedAt: '2026-02-10',
   verifiedBy: 'Coordenação Escolar',
+  validUntil: SERVICE_VALID_UNTIL[service.id] || '2026-12-31',
   ...service
 }));
+
+const STANDARD_LEAF_NOTE = 'Em caso de dúvida, escale para gestão escolar.';
+
+const DEFAULT_DEADLINE_BY_RISK: Record<string, string> = {
+  EMERGENCIAL: 'Imediato',
+  ALTO: 'Até 24h',
+  MÉDIO: 'Até 72h',
+  BAIXO: 'Até 7 dias'
+};
+
+const inferLeafCategory = (node: FlowNode): FlowNode['category'] => {
+  if (node.category) return node.category;
+  if (node.id.includes('sexual') || node.id.includes('violencia') || node.id.includes('direitos')) return 'DIREITOS_SGD';
+  if (node.id.includes('social') || node.id.includes('fome') || node.id.includes('familiar')) return 'SOCIAL';
+  return 'EDUCAÇÃO';
+};
+
+const inferLeafRisk = (node: FlowNode): FlowNode['riskLevel'] => {
+  if (node.riskLevel) return node.riskLevel;
+  if (node.id.includes('sexual')) return 'EMERGENCIAL';
+  if (node.id.includes('violencia')) return 'ALTO';
+  return 'MÉDIO';
+};
+
+const normalizeRecordRequired = (actions: string[]) => {
+  const hasAnexoII = actions.some((action) => /anexo ii/i.test(action));
+  return hasAnexoII ? ['Anexo I', 'Anexo II'] : ['Anexo I'];
+};
+
+
+const UNIVERSAL_FALLBACK_OPTION = {
+  label: 'Não sei / dúvida',
+  nextNodeId: 'DUVIDA_PADRAO'
+};
+
+const hasUniversalFallbackOption = (node: FlowNode) =>
+  node.options.some((option) => option.nextNodeId === UNIVERSAL_FALLBACK_OPTION.nextNodeId);
+
+const applyUniversalFallback = (node: FlowNode): FlowNode => {
+  if (node.isLeaf) return node;
+
+  const options = hasUniversalFallbackOption(node)
+    ? node.options
+    : [...node.options, UNIVERSAL_FALLBACK_OPTION];
+
+  return {
+    ...node,
+    options,
+    fallbackNextNodeId: node.fallbackNextNodeId || UNIVERSAL_FALLBACK_OPTION.nextNodeId
+  };
+};
+
+
+const toImperative = (text: string) => {
+  const rules: Array<[RegExp, string]> = [
+    [/^Realizar\b/i, 'Realize'],
+    [/^Aplicar\b/i, 'Aplique'],
+    [/^Executar\b/i, 'Execute'],
+    [/^Garantir\b/i, 'Garanta'],
+    [/^Registrar\b/i, 'Registre'],
+    [/^Encaminhar\b/i, 'Encaminhe'],
+    [/^Notificar\b/i, 'Notifique'],
+    [/^Tratar\b/i, 'Trate'],
+    [/^Interromper\b/i, 'Interrompa'],
+    [/^Separar\b/i, 'Separe'],
+    [/^Coletar\b/i, 'Colete'],
+    [/^Planejar\b/i, 'Planeje'],
+    [/^Investigar\b/i, 'Investigue'],
+    [/^Manter\b/i, 'Mantenha'],
+    [/^Solicitar\b/i, 'Solicite'],
+    [/^Acionar\b/i, 'Acione'],
+    [/^Orientar\b/i, 'Oriente']
+  ];
+
+  const trimmed = text.trim().replace(/\s+/g, ' ');
+
+  for (const [pattern, replacement] of rules) {
+    if (pattern.test(trimmed)) return trimmed.replace(pattern, replacement);
+  }
+
+  return /^([A-ZÁÉÍÓÚÂÊÔÃÕÇ][a-záéíóúâêôãõç]+)\b/.test(trimmed) ? trimmed : `Acione ${trimmed.charAt(0).toLowerCase()}${trimmed.slice(1)}`;
+};
+
+const simplifyActionText = (text: string) => {
+  const normalized = text
+    .replace(/conforme avaliação da direção\.?/gi, 'com validação da direção.')
+    .replace(/devidamente registrada\.?/gi, 'registrada.')
+    .replace(/quando necessário\.?/gi, 'se necessário.')
+    .replace(/de forma imediata, especialmente em ocorrência recente\.?/gi, 'de imediato.')
+    .replace(/\s+/g, ' ')
+    .trim();
+
+  return normalized;
+};
+
+const normalizeLeafActions = (actions: string[]) => {
+  if (!actions.length) return actions;
+
+  const limited = actions.slice(0, 3).map((action) => simplifyActionText(action));
+  limited[0] = toImperative(limited[0]);
+
+  return limited;
+};
+
+const standardizeLeafNode = (node: FlowNode): FlowNode => {
+  const isLeafNode = node.isLeaf || node.id.startsWith('leaf_') || node.id.endsWith('_folha');
+  if (!isLeafNode) return node;
+
+  const riskLevel = inferLeafRisk(node);
+  const baseActions = node.doNow || node.guidance || [];
+  const rawActions = baseActions.length ? baseActions : ['Registre a situação no Anexo I.', 'Acione o serviço responsável.', 'Acompanhe a devolutiva com a gestão.'];
+  const doNow = normalizeLeafActions(rawActions);
+  const contactTargets: ServiceTarget[] = (node.contactTargets || (node.serviceIds || []).map((serviceId) => ({ serviceId })));
+
+  return {
+    ...node,
+    isLeaf: true,
+    options: node.options || [],
+    category: inferLeafCategory(node),
+    riskLevel,
+    doNow,
+    guidance: doNow,
+    contactTargets,
+    serviceIds: node.serviceIds || contactTargets.map((target) => target.serviceId),
+    deadline: node.deadline || DEFAULT_DEADLINE_BY_RISK[riskLevel || 'MÉDIO'],
+    recordRequired: node.recordRequired || normalizeRecordRequired(doNow),
+    sourceRef: node.sourceRef || {
+      label: `Protocolo ${PROTOCOL_DATA.metadata.protocolVersion}`,
+      filePath: 'public/protocolo',
+      section: node.id
+    },
+    notes: STANDARD_LEAF_NOTE
+  };
+};
 
 
 const DOCUMENT_TEMPLATES: DocumentTemplate[] = [
@@ -609,6 +759,20 @@ export const PROTOCOL_DATA: ProtocolData = {
       forbiddenActions: ['Não acionar Conselho Tutelar antes do registro formal da Busca Ativa.']
     },
     {
+      id: 'DUVIDA_PADRAO',
+      question: 'Dúvida operacional: classifique como caso ambíguo e escale para gestão escolar.',
+      options: [],
+      isLeaf: true,
+      category: 'EDUCAÇÃO',
+      riskLevel: 'MÉDIO',
+      guidance: [
+        'Registrar dúvida no Anexo I com evidências observadas.',
+        'Acionar coordenação/direção para definição conjunta do encaminhamento.',
+        'Se necessário, migrar para fluxo multifatorial e rede de proteção.'
+      ],
+      serviceIds: ['de-leste1', 'ubs-ermelino', 'cras-ermelino']
+    },
+    {
       id: 'educacao_pedagogico_folha',
       question: 'Demanda pedagógica sem violação de direitos imediata.',
       options: [],
@@ -630,6 +794,8 @@ export const PROTOCOL_DATA: ProtocolData = {
     }
   }
 };
+
+PROTOCOL_DATA.decisionTree = PROTOCOL_DATA.decisionTree.map(standardizeLeafNode).map(applyUniversalFallback);
 
 // Compatibilidade com UI existente
 export const CONTATOS: Contato[] = PROTOCOL_DATA.services.map((service) => ({

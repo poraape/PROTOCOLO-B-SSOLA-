@@ -12,10 +12,10 @@ const getInitialTheme = (): ThemeMode => {
 
 const navItems = [
   { label: 'Início', path: '/', icon: '🏠' },
-  { label: 'Atendimento', path: '/decisor', icon: '🧭' },
+  { label: 'Decisor', path: '/decisor', icon: '🧭' },
   { label: 'Rede', path: '/rede', icon: '📞' },
   { label: 'Recursos', path: '/recursos', icon: '📄' },
-  { label: 'Sobre', path: '/sobre', icon: 'ℹ️' }
+  { label: 'Versão', path: '/sobre', icon: 'ℹ️' }
 ];
 
 export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
