@@ -1,9 +1,12 @@
 :root {
   color-scheme: light;
-}
-
-:root.dark {
-  color-scheme: dark;
+  --bg: #F5F7FA;
+  --surface: #FFFFFF;
+  --subtle: #F8FAFC;
+  --border: #E2E8F0;
+  --text: #0F172A;
+  --muted: #475569;
+  --focus: rgba(37, 99, 235, 0.35);
 }
 
 * {
@@ -19,16 +22,262 @@ body,
 body {
   margin: 0;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  background: #f8fafc;
-  color: #0f172a;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: var(--bg);
+  color: var(--text);
 }
 
-.dark body {
-  background: #020617;
-  color: #f8fafc;
+a {
+  color: #1E40AF;
+  text-decoration-color: rgba(30, 64, 175, 0.45);
+}
+
+a:hover {
+  text-decoration-color: rgba(30, 64, 175, 0.9);
+}
+
+::selection {
+  background: #DBEAFE;
+  color: #172554;
+}
+
+:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
 }
 
 button,
 a {
   -webkit-tap-highlight-color: transparent;
+}
+
+.container-page {
+  width: 100%;
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 24px 16px;
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  box-shadow: 0 2px 10px rgba(15, 23, 42, .06);
+  padding: 20px;
+}
+
+.panel {
+  background: var(--subtle);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+}
+
+.btn-primary {
+  background: #1E3A8A;
+  color: #fff;
+  border-radius: 14px;
+  padding: 12px 18px;
+  border: 1px solid #1E3A8A;
+  font-weight: 600;
+}
+
+.btn-primary:hover { background: #1E40AF; }
+
+.btn-secondary {
+  background: #fff;
+  color: var(--text);
+  border-radius: 14px;
+  padding: 12px 18px;
+  border: 1px solid var(--border);
+  font-weight: 600;
+}
+
+.btn-secondary:hover { background: #EFF6FF; }
+
+.badge,
+.badge-accent,
+.badge-danger,
+.badge-success {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  border: 1px solid;
+  padding: 4px 10px;
+  font-size: .875rem;
+  font-weight: 600;
+}
+
+.badge { background: #EFF6FF; color: #1E3A8A; border-color: #DBEAFE; }
+.badge-accent { background: #FFFBEB; color: #854D0E; border-color: #FDE68A; }
+.badge-danger { background: #FEF2F2; color: #B91C1C; border-color: #FECACA; }
+.badge-success { background: #F0FDF4; color: #166534; border-color: #BBF7D0; }
+
+@media (min-width: 768px) {
+  .container-page { padding: 32px 24px; }
+  .card { padding: 24px; }
+}
+
+.category-card {
+  width: 100%;
+  text-align: left;
+  border-radius: 18px;
+  border: 1px solid var(--border);
+  background: #fff;
+  padding: 16px;
+  box-shadow: 0 2px 10px rgba(15, 23, 42, .06);
+  transition: background-color .2s ease;
+}
+
+.category-card:hover { background: #f8fafc; }
+
+.category-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border-radius: 999px;
+  border: 1px solid;
+  padding: 4px 12px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.category-emoji { font-size: 20px; line-height: 1; }
+.category-title { margin-top: 8px; font-size: 1rem; font-weight: 600; color: #0f172a; }
+.category-desc { margin-top: 4px; font-size: .875rem; color: #475569; }
+
+.nav-pill {
+  border-radius: 999px;
+  padding: 8px 16px;
+  font-size: .875rem;
+  font-weight: 600;
+  transition: .2s ease;
+}
+
+.nav-pill-active { background: #EFF6FF; color: #172554; }
+.nav-pill-idle { color: #334155; }
+.nav-pill-idle:hover { background: #f1f5f9; }
+
+@media (min-width: 768px) {
+  .category-card { padding: 20px; }
+  .category-title { font-size: 1.125rem; }
+}
+
+
+/* ===== PATCH UI 4.1 — Hierarquia & Densidade ===== */
+
+.section-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+}
+
+.section-header {
+  margin-bottom: 1.25rem;
+}
+
+.section-title {
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.section-subtitle {
+  font-size: 0.95rem;
+  color: #6b7280;
+  margin-top: 0.25rem;
+}
+
+.card-elevated {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  padding: 1.4rem;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.04);
+}
+
+.card-soft {
+  background: #ffffff;
+  border: 1px solid #edf2f7;
+  border-radius: 12px;
+  padding: 1.2rem;
+}
+
+.divider-soft {
+  height: 1px;
+  background: #f1f5f9;
+  margin: 1.2rem 0;
+}
+
+.badge-soft {
+  font-size: 0.75rem;
+  font-weight: 500;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: #eef2ff;
+  color: #3749a6;
+  display: inline-flex;
+}
+
+/* ===== PATCH REDE 2.1 — Escalonamento Visual ===== */
+
+.service-card {
+  position: relative;
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 1.2rem 1.4rem;
+  border: 1px solid #e5e7eb;
+  transition: 0.2s ease;
+}
+
+.service-card:hover {
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.06);
+}
+
+.service-EMERGENCIA {
+  border-left: 5px solid #dc2626;
+  background: #fff5f5;
+}
+
+.service-ALTA_PRIORIDADE {
+  border-left: 5px solid #d97706;
+  background: #fffbeb;
+}
+
+.service-APOIO_INSTITUCIONAL {
+  border-left: 5px solid #2563eb;
+  background: #f8fafc;
+}
+
+.risk-badge {
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 999px;
+}
+
+.badge-EMERGENCIA {
+  background: #dc2626;
+  color: white;
+}
+
+.badge-ALTA_PRIORIDADE {
+  background: #f59e0b;
+  color: white;
+}
+
+.badge-APOIO_INSTITUCIONAL {
+  background: #1e3a8a;
+  color: white;
+}
+
+
+.service-OUTROS {
+  border-left: 5px solid #64748b;
+  background: #ffffff;
+}
+
+.badge-OUTROS {
+  background: #64748b;
+  color: white;
 }

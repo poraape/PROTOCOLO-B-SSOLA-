@@ -187,6 +187,37 @@ const SERVICE_TYPE_BY_ID: Record<string, Service['type']> = {
   'disque-denuncia': 'OUTROS'
 };
 
+const inferServiceRiskLevel = (service: Service): Service['riskLevel'] => {
+  if (service.category === 'EMERGÊNCIA' || /\b(190|192|193)\b/.test(service.phone)) return 'EMERGENCIA';
+  if (service.category === 'DIREITOS_SGD' || /conselho tutelar|ddm|delegacia/i.test(service.name)) return 'ALTA_PRIORIDADE';
+  return 'APOIO_INSTITUCIONAL';
+};
+
+const inferStrategicDescription = (service: Service): string => {
+  if (service.id === 'samu') {
+    return 'Acionar imediatamente em risco à vida, perda de consciência, tentativa de suicídio ou emergência clínica grave.';
+  }
+  if (service.id === 'conselho-tutelar') {
+    return 'Acionar em suspeita ou confirmação de violação de direitos de criança/adolescente.';
+  }
+  if (service.id === 'ubs-ermelino') {
+    return 'Encaminhar para avaliação clínica, saúde mental leve/moderada e acompanhamento longitudinal.';
+  }
+  if (service.category === 'EMERGÊNCIA') {
+    return 'Canal de resposta imediata para cenários críticos com risco iminente.';
+  }
+  if (service.category === 'DIREITOS_SGD') {
+    return 'Serviço de proteção e garantia de direitos para encaminhamento prioritário.';
+  }
+  if (service.category === 'SOCIAL') {
+    return 'Apoio socioassistencial para proteção social e acompanhamento familiar.';
+  }
+  if (service.category === 'SAÚDE') {
+    return 'Rede de cuidado em saúde para avaliação e continuidade do atendimento.';
+  }
+  return 'Apoio institucional para orientação, registro e continuidade do cuidado.';
+};
+
 const SERVICES: Service[] = BASE_SERVICES.map((service) => ({
   sourceOfficial: 'Fonte oficial institucional (validação interna)',
   officialSource: 'Fonte oficial institucional (validação interna)',
@@ -195,6 +226,9 @@ const SERVICES: Service[] = BASE_SERVICES.map((service) => ({
   type: SERVICE_TYPE_BY_ID[service.id] || 'OUTROS',
   phones: service.phone.split('/').map((item) => item.trim()),
   howToCall: 'Use telefone institucional listado na rede oficial.',
+  riskLevel: inferServiceRiskLevel(service),
+  strategicDescription: inferStrategicDescription(service),
+  geoStatus: service.coordinates ? 'VERIFICADO' : 'PENDENTE',
   ...service
 }));
 
@@ -226,6 +260,17 @@ const normalizeRecordRequired = (actions: string[]) => {
   return hasAnexoII ? ['Anexo I', 'Anexo II'] : ['Anexo I'];
 };
 
+const inferReferralType = (node: FlowNode): FlowNode['referralType'] => {
+  const targets = (node.contactTargets || []) as unknown as string[];
+  if (targets.includes('EMERGENCIA_192_193') || targets.includes('UPA_HOSPITAL') || node.category === 'EMERGÊNCIA') return 'EMERGENCIA';
+  if (targets.includes('CAPS_IJ') || targets.includes('CAPS_ADULTO')) return 'CAPS';
+  if (targets.includes('UBS')) return 'UBS';
+  if (targets.includes('CONSELHO_TUTELAR')) return 'CONSELHO_TUTELAR';
+  if (targets.includes('CRAS') || targets.includes('CREAS')) return 'CRAS_CREAS';
+  if (targets.includes('GESTAO_ESCOLAR')) return 'GESTAO_ESCOLAR';
+  return 'OUTROS';
+};
+
 const standardizeLeafNode = (node: FlowNode): FlowNode => {
   const isLeafNode = node.isLeaf || node.id.startsWith('leaf_') || node.id.endsWith('_folha');
   if (!isLeafNode) return node;
@@ -252,7 +297,12 @@ const standardizeLeafNode = (node: FlowNode): FlowNode => {
       filePath: 'public/protocolo',
       section: node.id
     },
-    notes: STANDARD_LEAF_NOTE
+    notes: STANDARD_LEAF_NOTE,
+    helperText: node.helperText || 'Responda apenas o que você observa agora.',
+    showDoubt: node.showDoubt ?? true,
+    doNowShort: (node.doNowShort || doNow).slice(0, 3),
+    escalation: node.escalation || 'Gestão escolar',
+    referralType: node.referralType || inferReferralType(node)
   };
 };
 
@@ -316,6 +366,7 @@ export const PROTOCOL_DATA: ProtocolData = {
         'Risco físico imediato'
       ],
       options: [
+      // legado: Não sei / dúvida
         { label: 'Sim (risco imediato)', nextNodeId: 'leaf_emergencia_imediata' },
         { label: 'Não', nextNodeId: 'n_categoria_situacao' }
       ],
@@ -324,14 +375,14 @@ export const PROTOCOL_DATA: ProtocolData = {
     {
       id: 'n_categoria_situacao',
       question: 'Qual destas opções mais descreve a situação?',
+      helperText: 'Escolha o que você observa agora. Em dúvida, use “Não sei / preciso de apoio”.',
       options: [
-        { label: 'Saúde emocional / comportamento', nextNodeId: 'n_mental_triagem' },
-        { label: 'Violação de direitos / violência', nextNodeId: 'n_direitos_triagem' },
-        { label: 'Vulnerabilidade social / familiar', nextNodeId: 'n_social_triagem' },
-        { label: 'Convivência escolar / conflito', nextNodeId: 'n_convivencia_triagem' },
-        { label: 'Dificuldade pedagógica persistente', nextNodeId: 'n_pedagogico_triagem' },
-        { label: 'Saúde física / queixa clínica', nextNodeId: 'n_fisico_triagem' },
-        { label: 'Não sei / dúvida', nextNodeId: 'leaf_duvida_padrao' }
+        { label: 'Saúde emocional / comportamento', nextNodeId: 'n_mental_triagem', categoryId: 'emocional' },
+        { label: 'Violação de direitos / violência', nextNodeId: 'n_direitos_triagem', categoryId: 'violencia' },
+        { label: 'Vulnerabilidade social / familiar', nextNodeId: 'n_social_triagem', categoryId: 'vulnerabilidade' },
+        { label: 'Convivência escolar / conflito', nextNodeId: 'n_convivencia_triagem', categoryId: 'convivencia' },
+        { label: 'Dificuldade pedagógica persistente', nextNodeId: 'n_pedagogico_triagem', categoryId: 'pedagogico' },
+        { label: 'Saúde física / queixa clínica', nextNodeId: 'n_fisico_triagem', categoryId: 'saude_fisica' }
       ],
       category: 'NAO_SEI',
       fallbackNextNodeId: 'leaf_duvida_padrao'
@@ -718,6 +769,7 @@ export const PROTOCOL_DATA: ProtocolData = {
       escalationRule: 'SE_DUVIDA_ESCALE'
     }
   ],
+  services: SERVICES,
   documentTemplates: DOCUMENT_TEMPLATES,
   instruments: {
     anexoI: {
@@ -729,7 +781,14 @@ export const PROTOCOL_DATA: ProtocolData = {
   }
 };
 
-PROTOCOL_DATA.decisionTree = PROTOCOL_DATA.decisionTree.map(standardizeLeafNode);
+
+const enrichNodeMicrocopy = (node: FlowNode): FlowNode => ({
+  ...node,
+  helperText: node.helperText || 'Responda apenas o que você observa agora. Em dúvida, use “Não sei / preciso de apoio”.',
+  showDoubt: node.showDoubt ?? true
+});
+
+PROTOCOL_DATA.decisionTree = (PROTOCOL_DATA.decisionTree || []).map(standardizeLeafNode).map(enrichNodeMicrocopy);
 
 // Compatibilidade com UI existente
 export const CONTATOS: Contato[] = PROTOCOL_DATA.services.map((service) => ({
@@ -765,7 +824,7 @@ const serviceIdsByTarget = (target?: Service['type']) =>
 
 export const FLUXOS: Record<string, Fluxo> = Object.fromEntries(
   Object.keys(categoryToFluxo).map((category) => {
-    const leaves = PROTOCOL_DATA.decisionTree.filter((node) => node.isLeaf && node.category === category);
+    const leaves = (PROTOCOL_DATA.decisionTree || []).filter((node) => node.isLeaf && node.category === category);
     const meta = categoryToFluxo[category];
     const id = category.toLowerCase().replace(/[^a-z0-9]/gi, '-');
 

@@ -1,5 +1,16 @@
-export type RiskLevel = 'BAIXO' | 'MÉDIO' | 'ALTO' | 'EMERGENCIAL';
+export type ProtocolRiskLevel = 'BAIXO' | 'MÉDIO' | 'ALTO' | 'EMERGENCIAL';
+
+export type RiskLevel = 'EMERGENCIA' | 'ALTA_PRIORIDADE' | 'APOIO_INSTITUCIONAL' | 'OUTROS';
 export type RiskLevelV2 = 'BAIXO' | 'MEDIO' | 'ALTO';
+
+export type ReferralType =
+  | 'EMERGENCIA'
+  | 'CAPS'
+  | 'UBS'
+  | 'CONSELHO_TUTELAR'
+  | 'GESTAO_ESCOLAR'
+  | 'CRAS_CREAS'
+  | 'OUTROS';
 
 export type DecisionCategory =
   | 'EMOCIONAL_COMPORTAMENTO'
@@ -37,6 +48,7 @@ export interface SourceRef {
 export interface FlowOption {
   label: string;
   nextNodeId: string;
+  categoryId?: 'emocional' | 'violencia' | 'vulnerabilidade' | 'convivencia' | 'pedagogico' | 'saude_fisica' | 'duvida';
 }
 
 
@@ -56,7 +68,7 @@ export interface FlowNode {
   question: string;
   options: FlowOption[];
   isLeaf?: boolean;
-  riskLevel?: RiskLevel;
+  riskLevel?: ProtocolRiskLevel;
   category?: 'SAÚDE' | 'SOCIAL' | 'DIREITOS_SGD' | 'EDUCAÇÃO' | 'EMERGÊNCIA' | DecisionCategory;
   tags?: string[];
   guidance?: string[];
@@ -64,6 +76,7 @@ export interface FlowNode {
   serviceIds?: string[];
   forbiddenActions?: string[];
   fallbackNextNodeId?: string;
+  helperText?: string;
   indicators?: string[];
   doNow?: string[];
   contactTargets?: ServiceTarget[];
@@ -73,6 +86,10 @@ export interface FlowNode {
   notes?: string;
   escalationRule?: 'SE_DUVIDA_ESCALE';
   serviceCharacterization?: string[];
+  showDoubt?: boolean;
+  doNowShort?: string[];
+  escalation?: string;
+  referralType?: ReferralType;
 }
 
 export interface Service {
@@ -92,6 +109,19 @@ export interface Service {
   howToCall?: string;
   sourceOfficial?: string;
   coordinates?: { lat: number; lng: number };
+  riskLevel?: RiskLevel;
+  strategicDescription?: string;
+  geoStatus?: 'VERIFICADO' | 'PENDENTE';
+}
+
+export interface NetworkService {
+  id: string;
+  name: string;
+  category: string;
+  phone?: string;
+  address?: string;
+  riskLevel: RiskLevel;
+  strategicDescription?: string;
 }
 
 export interface DocumentTemplate {
