@@ -2,11 +2,24 @@ import React from 'react';
 import { FlowNode } from '../../types';
 import { IndicatorsAccordion } from '../IndicatorsAccordion';
 import { CategoryOptionCard } from '../CategoryOptionCard';
+import { CATEGORY_TOKENS, CategoryId } from '../../ui/categoryTokens';
 
 interface QuestionStepProps {
   node: FlowNode;
   onSelect: (nextNodeId: string, label: string) => void;
 }
+
+const normalizeCategoryId = (categoryId?: string): CategoryId | null => {
+  if (!categoryId) return null;
+
+  const legacyMap: Record<string, CategoryId> = {
+    convivencia: 'conflito',
+    pedagogico: 'pedagogica',
+    saude_fisica: 'fisica'
+  };
+
+  return (legacyMap[categoryId] || categoryId) as CategoryId;
+};
 
 export const QuestionStep: React.FC<QuestionStepProps> = ({ node, onSelect }) => {
   const twoColumns = node.options.length > 4 || node.id === 'n_categoria_situacao';
@@ -25,16 +38,31 @@ export const QuestionStep: React.FC<QuestionStepProps> = ({ node, onSelect }) =>
         microcopy="Use os sinais como apoio. Em caso de dúvida, registre e escale para a gestão escolar."
       />
 
-      <div className={`mt-5 grid gap-3 ${twoColumns ? 'md:grid-cols-2' : ''}`} aria-label="Ações de resposta">
-        {node.options.map((option) => (
-          <button
-            key={`${option.nextNodeId}-${option.label}`}
-            onClick={() => onSelect(option.nextNodeId, option.label)}
-            className="btn-secondary w-full py-4 text-left text-base focus-visible:ring-2 focus-visible:ring-brand-500"
-          >
-            {option.label}
-          </button>
-        ))}
+      <div className="grid md:grid-cols-2 gap-4 mt-6" aria-label="Ações de resposta">
+        {node.options.map((option) => {
+          const normalizedCategoryId = normalizeCategoryId(option.categoryId);
+          const category = normalizedCategoryId ? CATEGORY_TOKENS[normalizedCategoryId] : null;
+
+          if (isCategoryStep && category) {
+            return (
+              <CategoryOptionCard
+                key={`${option.nextNodeId}-${option.label}`}
+                category={category}
+                onClick={() => onSelect(option.nextNodeId, option.label)}
+              />
+            );
+          }
+
+          return (
+            <button
+              key={`${option.nextNodeId}-${option.label}`}
+              onClick={() => onSelect(option.nextNodeId, option.label)}
+              className="btn-secondary w-full py-4 text-left text-base focus-visible:ring-2 focus-visible:ring-brand-500"
+            >
+              {option.label}
+            </button>
+          );
+        })}
 
         {!hasUncertaintyOption && (node.fallbackNextNodeId || node.id !== 'leaf_duvida_padrao') && (
           <button
