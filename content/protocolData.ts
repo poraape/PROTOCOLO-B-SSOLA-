@@ -718,6 +718,7 @@ export const PROTOCOL_DATA: ProtocolData = {
       escalationRule: 'SE_DUVIDA_ESCALE'
     }
   ],
+  services: SERVICES,
   documentTemplates: DOCUMENT_TEMPLATES,
   instruments: {
     anexoI: {
@@ -729,7 +730,7 @@ export const PROTOCOL_DATA: ProtocolData = {
   }
 };
 
-PROTOCOL_DATA.decisionTree = PROTOCOL_DATA.decisionTree.map(standardizeLeafNode);
+PROTOCOL_DATA.decisionTree = (PROTOCOL_DATA.decisionTree || []).map(standardizeLeafNode);
 
 // Compatibilidade com UI existente
 export const CONTATOS: Contato[] = PROTOCOL_DATA.services.map((service) => ({
@@ -765,7 +766,7 @@ const serviceIdsByTarget = (target?: Service['type']) =>
 
 export const FLUXOS: Record<string, Fluxo> = Object.fromEntries(
   Object.keys(categoryToFluxo).map((category) => {
-    const leaves = PROTOCOL_DATA.decisionTree.filter((node) => node.isLeaf && node.category === category);
+    const leaves = (PROTOCOL_DATA.decisionTree || []).filter((node) => node.isLeaf && node.category === category);
     const meta = categoryToFluxo[category];
     const id = category.toLowerCase().replace(/[^a-z0-9]/gi, '-');
 
