@@ -1,5 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+import GlobalSearch from './GlobalSearch';
 
 const navItems = [
   { label: 'Início', path: '/' },
@@ -32,19 +33,25 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
             </div>
           </div>
 
-          <nav className="hidden md:flex gap-2">
+          <div className="hidden md:flex items-center gap-3">
+            <GlobalSearch />
+            <nav className="flex gap-2">
             {navItems.map((item) => (
               <NavLink key={item.path} to={item.path} className={navPillClass}>
                 {item.label}
               </NavLink>
             ))}
-          </nav>
+            </nav>
+          </div>
         </div>
       </header>
 
       <main className="container-page pb-24 md:pb-8">{children}</main>
 
       <nav className="fixed inset-x-0 bottom-0 z-50 border-t border-border bg-white px-2 py-2 md:hidden">
+        <div className="mb-2 px-1">
+          <GlobalSearch />
+        </div>
         <ul className="grid grid-cols-5 gap-1">
           {navItems.map((item) => (
             <li key={item.path}>

@@ -1,13 +1,13 @@
-# Anexo III — Registro Interno de Ocorrência
+# Como utilizar os Anexos I, II e III
 
-## Registro da ocorrência
-Consolidar linha do tempo e evidências institucionais.
+## Quando usar o Anexo I
+Para registro inicial de sinais e situação observada.
 
-## Medidas adotadas
-Indicar responsáveis, prazos e comunicação interna.
+## Quando usar o Anexo II
+Quando houver necessidade de escuta qualificada.
 
-## Fechamento
-Registrar devolutiva e plano de monitoramento.
+## Quando usar o Anexo III
+Para consolidação interna e acompanhamento institucional.
 
 ## Observações complementares
 Este campo deve ser preenchido com linguagem objetiva, sem julgamentos, preservando sigilo e foco na proteção.

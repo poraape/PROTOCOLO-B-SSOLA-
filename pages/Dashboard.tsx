@@ -28,14 +28,14 @@ export const Dashboard: React.FC = () => {
             <div className="mt-6 flex gap-3">
               <button
                 onClick={() => navigate('/decisor')}
-                className="px-6 py-3 rounded-xl bg-blue-700 text-white hover:bg-blue-800 transition font-medium"
+                className="px-6 py-3 rounded-xl bg-blue-700 text-white hover:bg-blue-800 transition font-medium focus-visible:ring-2 focus-visible:ring-brand-500"
               >
                 Iniciar atendimento guiado
               </button>
 
               <button
                 onClick={() => navigate('/rede')}
-                className="px-6 py-3 rounded-xl border border-slate-300 text-slate-700 hover:bg-slate-100 transition"
+                className="px-6 py-3 rounded-xl border border-slate-300 text-slate-700 hover:bg-slate-100 transition focus-visible:ring-2 focus-visible:ring-brand-500"
               >
                 Abrir Rede de Apoio
               </button>
@@ -55,7 +55,7 @@ export const Dashboard: React.FC = () => {
             <span className="badge">Modelos/Anexos essenciais</span>
             <p className="mt-3 font-semibold text-text">Anexo I, Anexo II e orientações.</p>
           </button>
-          <button onClick={() => navigate('/versao')} className="card text-left hover:border-brand-200">
+          <button onClick={() => navigate('/versao')} className="card text-left hover:border-brand-200 focus-visible:ring-2 focus-visible:ring-brand-500">
             <span className="badge-accent">Versão e Governança</span>
             <p className="mt-3 font-semibold text-text">Vigência, atualização e base institucional.</p>
           </button>

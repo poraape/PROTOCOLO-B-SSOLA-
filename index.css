@@ -117,3 +117,53 @@ a {
   .container-page { padding: 32px 24px; }
   .card { padding: 24px; }
 }
+
+.protocol-viewer {
+  scroll-behavior: smooth;
+}
+
+.prose h1,
+.prose h2,
+.prose h3 {
+  color: #0f172a;
+  font-weight: 700;
+  margin-top: 1.25rem;
+}
+
+.prose p,
+.prose li {
+  color: #334155;
+  line-height: 1.65;
+}
+
+.prose ul {
+  list-style: disc;
+  padding-left: 1.2rem;
+}
+
+.prose hr {
+  border: 0;
+  border-top: 1px solid #e2e8f0;
+  margin: 1rem 0;
+}
+
+.prose mark {
+  background: #fef08a;
+  padding: 0 2px;
+}
+
+@media print {
+  aside,
+  button,
+  input {
+    display: none !important;
+  }
+
+  body {
+    background: white;
+  }
+
+  .prose {
+    box-shadow: none;
+  }
+}
