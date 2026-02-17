@@ -22,7 +22,10 @@ export const DecisionWizard: React.FC = () => {
 
   const breadcrumb = history.slice(0, -1).map((step, idx) => ({ idx, node: nodeMap.get(step.nodeId), answer: history[idx + 1]?.selectedOptionLabel }));
 
-  const goToNext = (nextNodeId: string, selectedOptionLabel: string) => setHistory((prev) => [...prev, { nodeId: nextNodeId, selectedOptionLabel }]);
+  const goToNext = (nextNodeId: string, selectedOptionLabel: string) => {
+    const safeNextNodeId = nodeMap.has(nextNodeId) ? nextNodeId : 'leaf_duvida_padrao';
+    setHistory((prev) => [...prev, { nodeId: safeNextNodeId, selectedOptionLabel }]);
+  };
   const goBack = () => history.length > 1 && setHistory((prev) => prev.slice(0, -1));
   const resetWizard = () => setHistory([{ nodeId: 'root' }]);
 
