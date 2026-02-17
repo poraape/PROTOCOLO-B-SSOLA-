@@ -6,17 +6,38 @@ export const Dashboard: React.FC = () => {
 
   return (
     <div className="space-y-5">
-      <section className="card">
+      <section className="bg-white rounded-2xl shadow-sm border border-slate-200 p-8 mb-8">
         <div className="flex items-start gap-4">
-          <SchoolShield className="h-11 w-11 shrink-0" />
-          <div className="flex-1">
-            <h1 className="text-2xl font-extrabold text-text">Hub de Comando — Protocolo Bússola</h1>
-            <p className="mt-2 text-sm text-muted">
-              Atendimento guiado para situações escolares, com foco em ação rápida e encaminhamento correto.
+          <img
+            src="/assets/logo-escola.png"
+            alt="EE Ermelino Matarazzo"
+            className="h-14 w-auto object-contain"
+          />
+
+          <div>
+            <h1 className="text-2xl md:text-3xl font-semibold text-slate-900">
+              Guia de Acolhimento — Protocolo Bússola
+            </h1>
+
+            <p className="mt-2 text-slate-600 max-w-2xl">
+              Ferramenta interna de apoio à decisão para situações escolares,
+              com foco em acolhimento responsável e encaminhamento adequado.
             </p>
-            <div className="mt-4 flex flex-wrap gap-3">
-              <button onClick={() => navigate('/decisor')} className="btn-primary focus-visible:ring-2 focus-visible:ring-brand-500">Iniciar atendimento</button>
-              <button onClick={() => navigate('/rede')} className="btn-secondary focus-visible:ring-2 focus-visible:ring-brand-500">Ver Rede de Apoio</button>
+
+            <div className="mt-6 flex gap-3">
+              <button
+                onClick={() => navigate('/decisor')}
+                className="px-6 py-3 rounded-xl bg-blue-700 text-white hover:bg-blue-800 transition font-medium"
+              >
+                Iniciar atendimento guiado
+              </button>
+
+              <button
+                onClick={() => navigate('/rede')}
+                className="px-6 py-3 rounded-xl border border-slate-300 text-slate-700 hover:bg-slate-100 transition"
+              >
+                Abrir Rede de Apoio
+              </button>
             </div>
           </div>
         </div>
@@ -33,16 +54,12 @@ export const Dashboard: React.FC = () => {
             <span className="badge">Modelos/Anexos essenciais</span>
             <p className="mt-3 font-semibold text-text">Anexo I, Anexo II e orientações.</p>
           </button>
-          <button onClick={() => navigate('/sobre')} className="card text-left hover:border-brand-200">
+          <button onClick={() => navigate('/versao')} className="card text-left hover:border-brand-200">
             <span className="badge-accent">Versão e Governança</span>
             <p className="mt-3 font-semibold text-text">Vigência, atualização e base institucional.</p>
           </button>
         </div>
       </section>
-
-      <footer className="panel px-4 py-3 text-center text-xs font-semibold text-muted">
-        Baseado no Protocolo (Fev/2026) — EE Ermelino Matarazzo
-      </footer>
     </div>
   );
 };

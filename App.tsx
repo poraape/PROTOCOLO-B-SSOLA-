@@ -30,6 +30,7 @@ const App: React.FC = () => {
           <Route path="/simulador" element={<SimulatorPage />} />
           <Route path="/faq" element={<FAQPage />} />
           <Route path="/sobre" element={<AboutPage />} />
+          <Route path="/versao" element={<AboutPage />} />
         </Routes>
       </Layout>
     </Router>

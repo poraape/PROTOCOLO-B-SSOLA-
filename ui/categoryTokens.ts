@@ -2,107 +2,65 @@ export type CategoryId =
   | 'emocional'
   | 'violencia'
   | 'vulnerabilidade'
-  | 'convivencia'
-  | 'pedagogico'
-  | 'saude_fisica'
+  | 'conflito'
+  | 'pedagogica'
+  | 'fisica'
   | 'duvida';
 
 export type CategoryToken = {
-  id: CategoryId;
+  emoji: string;
   label: string;
   short: string;
-  emoji: string;
-  tint: {
-    bg: string;
-    border: string;
-    text: string;
-    ring: string;
-  };
+  tint: string;
 };
 
 export const CATEGORY_TOKENS: Record<CategoryId, CategoryToken> = {
   emocional: {
-    id: 'emocional',
-    label: 'Saúde emocional / comportamento',
-    short: 'Sofrimento, mudanças de humor, comportamento persistente.',
     emoji: '🧠',
-    tint: {
-      bg: 'bg-brand-50',
-      border: 'border-brand-200',
-      text: 'text-brand-900',
-      ring: 'focus-visible:ring-brand-300'
-    }
+    label: 'Saúde emocional / comportamento',
+    short: 'Sofrimento emocional, mudanças de humor, comportamento persistente.',
+    tint: 'bg-blue-50 border-blue-200 text-blue-900'
   },
+
   violencia: {
-    id: 'violencia',
-    label: 'Violação de direitos / violência',
-    short: 'Agressão, ameaça, suspeita de abuso, violação de direitos.',
     emoji: '🛡️',
-    tint: {
-      bg: 'bg-danger-50',
-      border: 'border-danger-200',
-      text: 'text-danger-900',
-      ring: 'focus-visible:ring-danger-200'
-    }
+    label: 'Violação de direitos / violência',
+    short: 'Agressão, ameaça, suspeita de abuso ou violação de direitos.',
+    tint: 'bg-red-50 border-red-200 text-red-900'
   },
+
   vulnerabilidade: {
-    id: 'vulnerabilidade',
-    label: 'Vulnerabilidade social / familiar',
-    short: 'Falta de recursos, negligência, fragilidade social/familiar.',
     emoji: '🏠',
-    tint: {
-      bg: 'bg-success-50',
-      border: 'border-success-200',
-      text: 'text-success-900',
-      ring: 'focus-visible:ring-success-200'
-    }
+    label: 'Vulnerabilidade social / familiar',
+    short: 'Fragilidade familiar, negligência, ausência de suporte.',
+    tint: 'bg-green-50 border-green-200 text-green-900'
   },
-  convivencia: {
-    id: 'convivencia',
-    label: 'Convivência escolar / conflito',
-    short: 'Brigas, bullying, conflitos recorrentes, clima de sala.',
+
+  conflito: {
     emoji: '🤝',
-    tint: {
-      bg: 'bg-accent-50',
-      border: 'border-accent-200',
-      text: 'text-accent-900',
-      ring: 'focus-visible:ring-accent-200'
-    }
+    label: 'Convivência escolar / conflito',
+    short: 'Brigas, bullying, conflitos recorrentes em sala.',
+    tint: 'bg-amber-50 border-amber-200 text-amber-900'
   },
-  pedagogico: {
-    id: 'pedagogico',
+
+  pedagogica: {
+    emoji: '📚',
     label: 'Dificuldade pedagógica persistente',
     short: 'Queda de desempenho, evasão, barreiras de aprendizagem.',
-    emoji: '📚',
-    tint: {
-      bg: 'bg-indigo-50',
-      border: 'border-indigo-200',
-      text: 'text-indigo-900',
-      ring: 'focus-visible:ring-indigo-200'
-    }
+    tint: 'bg-violet-50 border-violet-200 text-violet-900'
   },
-  saude_fisica: {
-    id: 'saude_fisica',
-    label: 'Saúde física / queixa clínica',
-    short: 'Sintomas físicos, dor, mal-estar, necessidade de avaliação.',
+
+  fisica: {
     emoji: '🩺',
-    tint: {
-      bg: 'bg-sky-50',
-      border: 'border-sky-200',
-      text: 'text-sky-900',
-      ring: 'focus-visible:ring-sky-200'
-    }
+    label: 'Saúde física / queixa clínica',
+    short: 'Sintomas físicos, dor, mal-estar ou necessidade de avaliação.',
+    tint: 'bg-cyan-50 border-cyan-200 text-cyan-900'
   },
+
   duvida: {
-    id: 'duvida',
-    label: 'Não sei / preciso de apoio',
-    short: 'Em dúvida, escolha aqui para escalonamento seguro.',
     emoji: '❓',
-    tint: {
-      bg: 'bg-slate-50',
-      border: 'border-slate-200',
-      text: 'text-slate-900',
-      ring: 'focus-visible:ring-slate-200'
-    }
+    label: 'Não sei / preciso de apoio',
+    short: 'Em dúvida, escolha esta opção para orientação segura.',
+    tint: 'bg-slate-100 border-slate-300 text-slate-800'
   }
 };
