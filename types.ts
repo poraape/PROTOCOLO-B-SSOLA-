@@ -1,4 +1,38 @@
 export type RiskLevel = 'BAIXO' | 'MÉDIO' | 'ALTO' | 'EMERGENCIAL';
+export type RiskLevelV2 = 'BAIXO' | 'MEDIO' | 'ALTO';
+
+export type DecisionCategory =
+  | 'EMOCIONAL_COMPORTAMENTO'
+  | 'VIOLACAO_DIREITOS_VIOLENCIA'
+  | 'VULNERABILIDADE_SOCIAL_FAMILIAR'
+  | 'CONVIVENCIA_CONFLITOS'
+  | 'DIFICULDADE_PEDAGOGICA'
+  | 'SAUDE_FISICA'
+  | 'NAO_SEI';
+
+export type ServiceTarget =
+  | 'EMERGENCIA_192_193'
+  | 'UPA_HOSPITAL'
+  | 'UBS'
+  | 'CAPS_IJ'
+  | 'CAPS_ADULTO'
+  | 'CONSELHO_TUTELAR'
+  | 'CRAS'
+  | 'CREAS'
+  | 'GESTAO_ESCOLAR'
+  | 'OUTROS';
+
+export interface RecordRequirement {
+  system: 'CONVIVA' | 'OUTRO' | 'NENHUM';
+  due: string;
+  notes?: string;
+}
+
+export interface SourceRef {
+  label: string;
+  filePath?: string;
+  section?: string;
+}
 
 export interface FlowOption {
   label: string;
@@ -23,7 +57,7 @@ export interface FlowNode {
   options: FlowOption[];
   isLeaf?: boolean;
   riskLevel?: RiskLevel;
-  category?: 'SAÚDE' | 'SOCIAL' | 'DIREITOS_SGD' | 'EDUCAÇÃO' | 'EMERGÊNCIA';
+  category?: 'SAÚDE' | 'SOCIAL' | 'DIREITOS_SGD' | 'EDUCAÇÃO' | 'EMERGÊNCIA' | DecisionCategory;
   tags?: string[];
   guidance?: string[];
   severityCriteria?: string[];
@@ -34,9 +68,11 @@ export interface FlowNode {
   doNow?: string[];
   contactTargets?: ServiceTarget[];
   deadline?: string;
-  recordRequired?: string[];
-  sourceRef?: SourceReference;
+  recordRequired?: RecordRequirement[];
+  sourceRef?: SourceRef;
   notes?: string;
+  escalationRule?: 'SE_DUVIDA_ESCALE';
+  serviceCharacterization?: string[];
 }
 
 export interface Service {
@@ -51,11 +87,11 @@ export interface Service {
   officialSource?: string;
   verifiedAt?: string;
   verifiedBy?: string;
-  validUntil?: string;
-  coordinates?: {
-    lat: number;
-    lng: number;
-  };
+  type?: ServiceTarget;
+  phones?: string[];
+  howToCall?: string;
+  sourceOfficial?: string;
+  coordinates?: { lat: number; lng: number };
 }
 
 export interface DocumentTemplate {

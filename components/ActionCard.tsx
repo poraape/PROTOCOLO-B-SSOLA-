@@ -10,34 +10,20 @@ interface ActionCardProps {
 }
 
 const urgencyStyles: Record<string, { badge: string; ring: string; title: string }> = {
-  BAIXO: {
-    badge: 'bg-emerald-100 text-emerald-800',
-    ring: 'ring-emerald-200 border-emerald-200',
-    title: 'Baixa urgência'
-  },
-  'MÉDIO': {
-    badge: 'bg-amber-100 text-amber-800',
-    ring: 'ring-amber-200 border-amber-200',
-    title: 'Urgência moderada'
-  },
-  ALTO: {
-    badge: 'bg-red-100 text-red-800',
-    ring: 'ring-red-200 border-red-200',
-    title: 'Alta urgência'
-  },
-  EMERGENCIAL: {
-    badge: 'bg-red-600 text-white',
-    ring: 'ring-red-300 border-red-300',
-    title: 'Emergencial'
-  }
+  BAIXO: { badge: 'bg-emerald-100 text-emerald-800', ring: 'ring-emerald-200 border-emerald-200', title: 'Baixo' },
+  'MÉDIO': { badge: 'bg-amber-100 text-amber-800', ring: 'ring-amber-200 border-amber-200', title: 'Médio' },
+  ALTO: { badge: 'bg-red-100 text-red-800', ring: 'ring-red-200 border-red-200', title: 'Alto' },
+  EMERGENCIAL: { badge: 'bg-red-600 text-white', ring: 'ring-red-300 border-red-300', title: 'Emergencial' }
 };
 
 const normalizePhoneToTel = (phone: string) => `tel:${phone.replace(/\D/g, '')}`;
+const mapsLink = (address: string) => `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`;
 
 export const ActionCard: React.FC<ActionCardProps> = ({ leafNode, services }) => {
   const risk = leafNode.riskLevel || 'MÉDIO';
   const riskStyle = urgencyStyles[risk];
-  const primaryService = services[0];
+
+  const sourceLink = getSourceLink(leafNode.sourceRef);
 
   const sourceLink = getSourceLink(leafNode.sourceRef);
 
@@ -47,67 +33,75 @@ export const ActionCard: React.FC<ActionCardProps> = ({ leafNode, services }) =>
         <p className="text-xs font-bold uppercase tracking-widest text-slate-500">Resultado do protocolo</p>
         <h2 className="text-3xl font-extrabold text-slate-900">{leafNode.question}</h2>
         <span className={`inline-flex rounded-full px-3 py-1 text-xs font-black uppercase tracking-wide ${riskStyle.badge}`}>
-          🚨 {riskStyle.title} · {risk}
+          🚨 Risco {riskStyle.title}
         </span>
       </header>
-
 
       <IndicatorsAccordion items={leafNode.indicators || leafNode.severityCriteria} />
 
       <div className="mt-6">
-        <h3 className="text-sm font-black uppercase tracking-wide text-slate-600">📋 Ações imediatas</h3>
+        <h3 className="text-sm font-black uppercase tracking-wide text-slate-600">FAÇA AGORA</h3>
         <ol className="mt-3 list-decimal space-y-2 pl-5 text-sm leading-relaxed text-slate-800">
-          {(leafNode.guidance || []).map((item, index) => (
+          {(leafNode.doNow || leafNode.guidance || []).slice(0, 3).map((item, index) => (
             <li key={`${leafNode.id}-action-${index}`}>{item}</li>
           ))}
         </ol>
       </div>
 
-      {!!leafNode.forbiddenActions?.length && (
-        <div className="mt-5 rounded-2xl border border-red-200 bg-red-50 p-4">
-          <h4 className="text-sm font-black uppercase tracking-wide text-red-700">⛔ Evitar</h4>
-          <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-red-800">
-            {leafNode.forbiddenActions.map((item, index) => (
-              <li key={`${leafNode.id}-forbidden-${index}`}>{item}</li>
+      <div className="mt-4 rounded-xl border border-slate-200 bg-slate-50 p-3">
+        <h3 className="text-sm font-black uppercase tracking-wide text-slate-600">Prazo</h3>
+        <p className="mt-1 text-sm text-slate-800">{leafNode.deadline || 'Hoje'}</p>
+      </div>
+
+      {!!leafNode.recordRequired?.length && (
+        <div className="mt-4 rounded-xl border border-slate-200 bg-slate-50 p-3">
+          <h3 className="text-sm font-black uppercase tracking-wide text-slate-600">Registro</h3>
+          <ul className="mt-1 text-sm text-slate-800">
+            {leafNode.recordRequired.map((record, index) => (
+              <li key={`${record.system}-${index}`}>{record.system} · até {record.due}{record.notes ? ` · ${record.notes}` : ''}</li>
             ))}
           </ul>
         </div>
       )}
 
+      <IndicatorsAccordion
+        items={leafNode.serviceCharacterization}
+        title="Como escolher o serviço?"
+        microcopy="Este bloco é apoio educativo; siga o protocolo oficial e a gestão em caso de dúvida."
+      />
 
-      <div className="mt-3">
-        {leafNode.sourceRef && sourceLink ? (
-          <a
-            href={sourceLink.href}
-            target={sourceLink.isExternal ? '_blank' : undefined}
-            rel={sourceLink.isExternal ? 'noreferrer' : undefined}
-            className="inline-flex items-center gap-1 text-xs font-semibold text-slate-500 underline-offset-2 hover:text-slate-700 hover:underline"
-            title={leafNode.sourceRef.label}
-          >
-            📎 Base normativa
-          </a>
+      <div className="mt-6 rounded-2xl bg-slate-50 p-4">
+        <h4 className="text-xs font-black uppercase tracking-widest text-slate-600">Quem acionar</h4>
+        {!!services.length ? (
+          <ul className="mt-2 space-y-3 text-sm text-slate-700">
+            {services.map((service) => (
+              <li key={service.id} className="rounded-xl border border-slate-200 bg-white p-3">
+                <p className="font-semibold">{service.name}</p>
+                <p className="text-xs text-slate-500">{service.address}</p>
+                <div className="mt-2 flex flex-wrap gap-2">
+                  <a className="rounded-lg bg-[#007AFF] px-3 py-1 text-xs font-bold text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500" href={normalizePhoneToTel(service.phone)}>Ligar</a>
+                  <button className="rounded-lg border px-3 py-1 text-xs font-bold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500" onClick={() => navigator.clipboard.writeText(`${service.name}\n${service.address}\n${service.phone}`)}>Copiar</button>
+                  <a className="rounded-lg border px-3 py-1 text-xs font-bold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500" href={mapsLink(service.address)} target="_blank" rel="noreferrer">Abrir rota</a>
+                </div>
+              </li>
+            ))}
+          </ul>
         ) : (
-          <p className="text-xs font-semibold text-amber-700">Base normativa não especificada — revisar.</p>
+          <p className="mt-2 text-sm font-semibold text-amber-700">Serviço não cadastrado; contate a gestão (pendente).</p>
         )}
       </div>
 
-      <div className="mt-6 grid gap-3 sm:grid-cols-2">
-        {primaryService ? (
-          <a
-            href={normalizePhoneToTel(primaryService.phone)}
-            className="inline-flex items-center justify-center rounded-2xl bg-[#007AFF] px-4 py-3 text-sm font-bold text-white transition hover:bg-[#005fcc] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500"
-          >
-            📞 Ligar agora ({primaryService.phone})
-          </a>
-        ) : (
-          <button
-            disabled
-            className="inline-flex items-center justify-center rounded-2xl bg-slate-200 px-4 py-3 text-sm font-bold text-slate-500"
-          >
-            📞 Sem telefone sugerido
-          </button>
-        )}
+      {leafNode.sourceRef && (
+        <div className="mt-4 text-xs text-slate-600">
+          <strong>Fonte:</strong> {leafNode.sourceRef.label}
+          {leafNode.sourceRef.section ? ` · ${leafNode.sourceRef.section}` : ''}
+          {leafNode.sourceRef.filePath ? ` · ${leafNode.sourceRef.filePath}` : ''}
+        </div>
+      )}
 
+      <div className="mt-3 text-xs font-bold text-slate-600">Em dúvida: escale para gestão escolar.</div>
+
+      <div className="mt-6 grid gap-3 sm:grid-cols-2">
         <Link
           to="/recursos"
           className="inline-flex items-center justify-center rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm font-bold text-slate-700 transition hover:border-slate-400"
@@ -115,20 +109,6 @@ export const ActionCard: React.FC<ActionCardProps> = ({ leafNode, services }) =>
           📂 Abrir documentos necessários
         </Link>
       </div>
-
-      {!!services.length && (
-        <div className="mt-6 rounded-2xl bg-slate-50 p-4">
-          <h4 className="text-xs font-black uppercase tracking-widest text-slate-600">Serviços sugeridos</h4>
-          <ul className="mt-2 space-y-2 text-sm text-slate-700">
-            {services.map((service) => (
-              <li key={service.id}>
-                <p className="font-semibold">{service.name}</p>
-                <p className="text-xs text-slate-500">{service.address}</p>
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
     </section>
   );
 };

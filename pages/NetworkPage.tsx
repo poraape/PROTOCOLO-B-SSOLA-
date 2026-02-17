@@ -1,8 +1,9 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { ProtocolVersionBadge } from '../components/ProtocolVersionBadge';
 import { NetworkMap } from '../components/NetworkMap';
 import { PROTOCOL_DATA } from '../content/protocolData';
-import { checkNetworkValidity } from '../services/checkNetworkValidity';
+import { ProtocolVersionBadge } from '../components/ProtocolVersionBadge';
+import { shouldUseListFallback } from '../services/networkFallback';
 import { Service } from '../types';
 
 type NetworkFilter = 'TODOS' | 'SAUDE' | 'SOCIAL' | 'TUTELAR' | 'SEGURANCA';
@@ -41,8 +42,6 @@ const hasCoordinates = (service: Service): service is ServiceWithCoordinates => 
 export const NetworkPage: React.FC = () => {
   const [search, setSearch] = useState('');
   const [filter, setFilter] = useState<NetworkFilter>('TODOS');
-  const [expiredServiceIds, setExpiredServiceIds] = useState<string[]>([]);
-  const [hasExpiredServices, setHasExpiredServices] = useState(false);
 
   const filters: { id: NetworkFilter; label: string }[] = [
     { id: 'TODOS', label: 'Todos' },
@@ -64,12 +63,6 @@ export const NetworkPage: React.FC = () => {
 
   const mappableServices = useMemo(() => services.filter(hasCoordinates), [services]);
 
-  useEffect(() => {
-    const { expiredServiceIds: expiredIds, hasExpiredServices: hasExpired } = checkNetworkValidity(PROTOCOL_DATA.services);
-    setExpiredServiceIds(expiredIds);
-    setHasExpiredServices(hasExpired);
-  }, []);
-
   return (
     <div className="mx-auto max-w-5xl space-y-6 pb-20">
       <header className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
@@ -79,13 +72,6 @@ export const NetworkPage: React.FC = () => {
       </header>
 
       <ProtocolVersionBadge />
-
-
-      {hasExpiredServices && (
-        <section className="rounded-2xl border border-amber-300 bg-amber-50 px-4 py-3 text-sm font-semibold text-amber-900 shadow-sm">
-          Existem serviços com verificação pendente.
-        </section>
-      )}
 
       <section className="rounded-3xl border border-slate-200 bg-white p-4 shadow-sm">
         <div className="mb-4">
@@ -113,18 +99,18 @@ export const NetworkPage: React.FC = () => {
         </div>
       </section>
 
-      {mappableServices.length ? (
-        <section className="rounded-3xl border border-slate-200 bg-white p-3 shadow-sm">
-          <div className="mb-2 px-2 text-xs font-bold text-slate-500">Mapa interativo da rede ({mappableServices.length} alfinetes)</div>
-          <div className="h-[360px] overflow-hidden rounded-2xl border border-slate-200">
+      <section className="rounded-3xl border border-slate-200 bg-white p-3 shadow-sm">
+        <div className="mb-2 px-2 text-xs font-bold text-slate-500">Mapa interativo da rede ({mappableServices.length} alfinetes)</div>
+        <div className="h-[360px] overflow-hidden rounded-2xl border border-slate-200">
+          {mappableServices.length ? (
             <NetworkMap services={mappableServices} />
-          </div>
-        </section>
-      ) : (
-        <section className="rounded-3xl border border-slate-200 bg-white p-4 text-center text-sm font-semibold text-slate-500 shadow-sm">
-          Mapa oculto: serviços filtrados sem coordenadas fixas. Use a lista de contatos abaixo.
-        </section>
-      )}
+          ) : (
+            <div className="flex h-full items-center justify-center text-center text-sm font-semibold text-slate-500">
+              Mapa oculto: serviços filtrados sem coordenadas fixas. Use a lista de contatos abaixo.
+            </div>
+          )}
+        </div>
+      </section>
 
       <section className="grid grid-cols-1 gap-4">
         {services.map((service) => (

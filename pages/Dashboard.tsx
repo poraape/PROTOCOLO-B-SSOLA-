@@ -20,6 +20,12 @@ export const Dashboard: React.FC = () => {
     }
   ];
 
+  const supportActions = [
+    { title: 'Busca Rápida', icon: '🔎', onClick: () => navigate('/busca') },
+    { title: 'Glossário', icon: '🧩', onClick: () => navigate('/glossario') },
+    { title: 'FAQ', icon: '❓', onClick: () => navigate('/faq') },
+    { title: 'Simulador', icon: '🎯', onClick: () => navigate('/simulador') },
+  ];
 
   return (
     <div className="space-y-6">

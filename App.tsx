@@ -10,6 +10,7 @@ import { ResourcesPage } from './pages/ResourcesPage';
 import { FlowsListPage } from './pages/FlowsListPage';
 import { BuscaPage } from './pages/BuscaPage';
 import { GlossaryPage } from './pages/GlossaryPage';
+import { SimulatorPage } from './pages/SimulatorPage';
 import { FAQPage } from './pages/FAQPage';
 import { AboutPage } from './pages/AboutPage';
 
@@ -26,6 +27,7 @@ const App: React.FC = () => {
           <Route path="/recursos" element={<ResourcesPage />} />
           <Route path="/busca" element={<BuscaPage />} />
           <Route path="/glossario" element={<GlossaryPage />} />
+          <Route path="/simulador" element={<SimulatorPage />} />
           <Route path="/faq" element={<FAQPage />} />
           <Route path="/sobre" element={<AboutPage />} />
         </Routes>
