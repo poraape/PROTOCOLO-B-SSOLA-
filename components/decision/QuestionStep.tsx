@@ -10,6 +10,9 @@ interface QuestionStepProps {
 
 export const QuestionStep: React.FC<QuestionStepProps> = ({ node, onSelect }) => {
   const twoColumns = node.options.length > 4 || node.id === 'n_categoria_situacao';
+  const hasUncertaintyOption = node.options.some((option) =>
+    option.label.toLowerCase().includes('não sei') || option.label.toLowerCase().includes('nao sei')
+  );
 
   return (
     <section className="card">
@@ -40,8 +43,8 @@ export const QuestionStep: React.FC<QuestionStepProps> = ({ node, onSelect }) =>
           >
             Não sei / preciso de apoio
           </button>
-        </div>
-      )}
+        )}
+      </div>
     </section>
   );
 };

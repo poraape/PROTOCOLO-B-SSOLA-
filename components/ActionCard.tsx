@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { FlowNode, Service } from '../types';
 import { getSourceLink } from '../services/getSourceLink';
 
@@ -16,10 +16,21 @@ const urgencyStyles: Record<string, string> = {
 };
 
 const normalizePhoneToTel = (phone: string) => `tel:${phone.replace(/\D/g, '')}`;
-const mapsLink = (address: string) => `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`;
+const isGenericAddress = (address?: string) => {
+  if (!address) return true;
+  return /acionamento telef[oô]nico|canal remoto|secretaria escolar digital|canal estadual|canal nacional|foro regional/i.test(address);
+};
+
+const mapsLink = (service: Service) => {
+  const fallbackRegion = 'Ermelino Matarazzo São Paulo';
+  const query = isGenericAddress(service.address)
+    ? `${service.name} ${fallbackRegion}`
+    : `${service.name} ${service.address}`;
+
+  return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
+};
 
 export const ActionCard: React.FC<ActionCardProps> = ({ leafNode, services }) => {
-  const navigate = useNavigate();
   const risk = leafNode.riskLevel || 'MÉDIO';
   const sourceLink = getSourceLink(leafNode.sourceRef);
 
@@ -52,7 +63,7 @@ export const ActionCard: React.FC<ActionCardProps> = ({ leafNode, services }) =>
                   <div className="mt-2 flex flex-wrap gap-2">
                     <a className="btn-primary text-xs focus-visible:ring-2 focus-visible:ring-brand-500" href={normalizePhoneToTel(service.phone)}>Ligar agora</a>
                     <button className="btn-secondary text-xs focus-visible:ring-2 focus-visible:ring-brand-500" onClick={() => navigator.clipboard.writeText(`${service.name}\n${service.address}\n${service.phone}`)}>Copiar</button>
-                    {service.address && <a className="btn-secondary text-xs focus-visible:ring-2 focus-visible:ring-brand-500" href={mapsLink(service.address)} target="_blank" rel="noreferrer">Abrir rota</a>}
+                    <a className="btn-secondary text-xs focus-visible:ring-2 focus-visible:ring-brand-500" href={mapsLink(service)} target="_blank" rel="noreferrer">Abrir rota</a>
                   </div>
                 </li>
               ))}
