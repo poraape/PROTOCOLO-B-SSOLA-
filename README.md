@@ -73,6 +73,8 @@ npm run build
 A lógica de negócio **não deve ficar hardcoded nas páginas**.  
 O projeto adota **Single Source of Truth** em `data.ts`.
 
+**Regra de profundidade do decisor:** O decisor não deve ultrapassar 5 perguntas por caminho.
+
 ### Regra de manutenção
 Se você precisar:
 - alterar telefone,

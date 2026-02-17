@@ -25,6 +25,8 @@ export const ActionCard: React.FC<ActionCardProps> = ({ leafNode, services }) =>
 
   const sourceLink = getSourceLink(leafNode.sourceRef);
 
+  const sourceLink = getSourceLink(leafNode.sourceRef);
+
   return (
     <section className={`rounded-3xl border bg-white p-6 shadow-sm ring-2 ${riskStyle.ring}`}>
       <header className="space-y-3">

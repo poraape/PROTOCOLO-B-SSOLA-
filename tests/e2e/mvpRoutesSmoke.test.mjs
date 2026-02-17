@@ -11,8 +11,8 @@ test('mvp route /sobre exists', () => {
 
 test('primary navigation includes only core MVP labels', () => {
   assert.match(layout, /label:\s*'Início'/);
-  assert.match(layout, /label:\s*'Atendimento'/);
+  assert.match(layout, /label:\s*'Decisor'/);
   assert.match(layout, /label:\s*'Rede'/);
   assert.match(layout, /label:\s*'Recursos'/);
-  assert.match(layout, /label:\s*'Sobre'/);
+  assert.match(layout, /label:\s*'Versão'/);
 });

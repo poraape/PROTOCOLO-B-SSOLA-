@@ -115,7 +115,14 @@ export const NetworkPage: React.FC = () => {
       <section className="grid grid-cols-1 gap-4">
         {services.map((service) => (
           <article key={service.id} className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
-            <h2 className="text-lg font-extrabold text-slate-900">{service.name}</h2>
+            <div className="flex items-center justify-between gap-2">
+              <h2 className="text-lg font-extrabold text-slate-900">{service.name}</h2>
+              {expiredServiceIds.includes(service.id) && (
+                <span className="rounded-full border border-amber-300 bg-amber-100 px-2 py-1 text-[10px] font-black uppercase tracking-wide text-amber-800">
+                  ⚠ Verificação necessária
+                </span>
+              )}
+            </div>
 
             <dl className="mt-3 space-y-2 text-sm text-slate-700">
               <div>
