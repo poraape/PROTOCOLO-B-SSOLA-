@@ -298,10 +298,6 @@ const standardizeLeafNode = (node: FlowNode): FlowNode => {
       section: node.id
     },
     notes: STANDARD_LEAF_NOTE,
-    helperText: node.helperText || 'Responda apenas o que você observa agora.',
-    showDoubt: node.showDoubt ?? true,
-    doNowShort: (node.doNowShort || doNow).slice(0, 3),
-    escalation: node.escalation || 'Gestão escolar',
     referralType: node.referralType || inferReferralType(node)
   };
 };
@@ -382,7 +378,8 @@ export const PROTOCOL_DATA: ProtocolData = {
         { label: 'Vulnerabilidade social / familiar', nextNodeId: 'n_social_triagem', categoryId: 'vulnerabilidade' },
         { label: 'Convivência escolar / conflito', nextNodeId: 'n_convivencia_triagem', categoryId: 'convivencia' },
         { label: 'Dificuldade pedagógica persistente', nextNodeId: 'n_pedagogico_triagem', categoryId: 'pedagogico' },
-        { label: 'Saúde física / queixa clínica', nextNodeId: 'n_fisico_triagem', categoryId: 'saude_fisica' }
+        { label: 'Saúde física / queixa clínica', nextNodeId: 'n_fisico_triagem', categoryId: 'saude_fisica' },
+        { label: 'Não sei / preciso de apoio', nextNodeId: 'leaf_duvida_padrao', categoryId: 'duvida' }
       ],
       category: 'NAO_SEI',
       fallbackNextNodeId: 'leaf_duvida_padrao'
@@ -781,14 +778,7 @@ export const PROTOCOL_DATA: ProtocolData = {
   }
 };
 
-
-const enrichNodeMicrocopy = (node: FlowNode): FlowNode => ({
-  ...node,
-  helperText: node.helperText || 'Responda apenas o que você observa agora. Em dúvida, use “Não sei / preciso de apoio”.',
-  showDoubt: node.showDoubt ?? true
-});
-
-PROTOCOL_DATA.decisionTree = (PROTOCOL_DATA.decisionTree || []).map(standardizeLeafNode).map(enrichNodeMicrocopy);
+PROTOCOL_DATA.decisionTree = (PROTOCOL_DATA.decisionTree || []).map(standardizeLeafNode);
 
 // Compatibilidade com UI existente
 export const CONTATOS: Contato[] = PROTOCOL_DATA.services.map((service) => ({

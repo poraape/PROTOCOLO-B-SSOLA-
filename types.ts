@@ -86,9 +86,6 @@ export interface FlowNode {
   notes?: string;
   escalationRule?: 'SE_DUVIDA_ESCALE';
   serviceCharacterization?: string[];
-  showDoubt?: boolean;
-  doNowShort?: string[];
-  escalation?: string;
   referralType?: ReferralType;
 }
 

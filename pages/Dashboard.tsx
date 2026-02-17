@@ -5,45 +5,35 @@ export const Dashboard: React.FC = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="section-container space-y-5">
-      <div className="card-elevated section-header">
-        <div className="badge-soft mb-3">Ferramenta institucional interna</div>
-
-        <h2 className="section-title">Atendimento Guiado — Protocolo Bússola</h2>
-
-        <p className="section-subtitle">
-          Apoio à decisão para situações escolares, com foco em ação rápida e encaminhamento adequado.
-        </p>
-
-        <div className="mt-5 flex flex-wrap gap-3">
-          <button
-            onClick={() => navigate('/decisor')}
-            className="rounded-lg bg-blue-800 px-5 py-2.5 text-white transition hover:bg-blue-900 focus-visible:ring-2 focus-visible:ring-brand-500"
-          >
-            Iniciar atendimento
-          </button>
-
-          <button
-            onClick={() => navigate('/rede')}
-            className="rounded-lg border border-gray-300 px-5 py-2.5 transition hover:bg-gray-50 focus-visible:ring-2 focus-visible:ring-brand-500"
-          >
-            Ver Rede de Apoio
-          </button>
+    <div className="space-y-5">
+      <section className="card">
+        <div className="flex items-start gap-4">
+          <SchoolShield className="h-11 w-11 shrink-0" />
+          <div className="flex-1">
+            <h1 className="text-2xl font-extrabold text-text">Hub de Comando — Protocolo Bússola</h1>
+            <p className="mt-2 text-sm text-muted">
+              Atendimento guiado para situações escolares, com foco em ação rápida e encaminhamento correto.
+            </p>
+            <div className="mt-4 flex flex-wrap gap-3">
+              <button onClick={() => navigate('/decisor')} className="btn-primary focus-visible:ring-2 focus-visible:ring-brand-500">Iniciar atendimento</button>
+              <button onClick={() => navigate('/rede')} className="btn-secondary focus-visible:ring-2 focus-visible:ring-brand-500">Ver Rede de Apoio</button>
+            </div>
+          </div>
         </div>
-      </div>
+      </section>
 
       <section>
         <h2 className="mb-2 text-sm font-bold uppercase tracking-wide text-muted">Acesso rápido</h2>
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-          <button onClick={() => navigate('/rede')} className="card-soft text-left hover:border-brand-200">
+          <button onClick={() => navigate('/rede')} className="card text-left hover:border-brand-200">
             <span className="badge-success">Rede de Apoio</span>
             <p className="mt-3 font-semibold text-text">Contatos essenciais para encaminhamento.</p>
           </button>
-          <button onClick={() => navigate('/recursos')} className="card-soft text-left hover:border-brand-200">
+          <button onClick={() => navigate('/recursos')} className="card text-left hover:border-brand-200">
             <span className="badge">Modelos/Anexos essenciais</span>
             <p className="mt-3 font-semibold text-text">Anexo I, Anexo II e orientações.</p>
           </button>
-          <button onClick={() => navigate('/sobre')} className="card-soft text-left hover:border-brand-200">
+          <button onClick={() => navigate('/sobre')} className="card text-left hover:border-brand-200">
             <span className="badge-accent">Versão e Governança</span>
             <p className="mt-3 font-semibold text-text">Vigência, atualização e base institucional.</p>
           </button>
