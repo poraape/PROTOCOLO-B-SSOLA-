@@ -50,9 +50,9 @@ export const DecisionWizard: React.FC = () => {
     );
   }
 
-  const leafServices = (currentNode.serviceIds || [])
-    .map((serviceId) => PROTOCOL_DATA.services.find((service) => service.id === serviceId))
-    .filter((service): service is NonNullable<typeof service> => !!service);
+  const leafServices = (currentNode.contactTargets || [])
+    .flatMap((target) => PROTOCOL_DATA.services.filter((service) => service.type === target))
+    .filter((service, index, array) => array.findIndex((item) => item.id === service.id) === index);
 
   return (
     <section className="relative pb-24" aria-live="polite">
