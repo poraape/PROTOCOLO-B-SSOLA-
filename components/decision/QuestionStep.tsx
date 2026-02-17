@@ -22,11 +22,10 @@ const normalizeCategoryId = (categoryId?: string): CategoryId | null => {
 };
 
 export const QuestionStep: React.FC<QuestionStepProps> = ({ node, onSelect }) => {
+  const twoColumns = node.options.length > 4 || node.id === 'n_categoria_situacao';
   const hasUncertaintyOption = node.options.some((option) =>
     option.label.toLowerCase().includes('não sei') || option.label.toLowerCase().includes('nao sei')
   );
-
-  const isCategoryStep = node.id === 'n_categoria_situacao';
 
   return (
     <section className="card">
@@ -56,7 +55,6 @@ export const QuestionStep: React.FC<QuestionStepProps> = ({ node, onSelect }) =>
 
           return (
             <button
-              type="button"
               key={`${option.nextNodeId}-${option.label}`}
               onClick={() => onSelect(option.nextNodeId, option.label)}
               className="btn-secondary w-full py-4 text-left text-base focus-visible:ring-2 focus-visible:ring-brand-500"
