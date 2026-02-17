@@ -2,46 +2,32 @@ import React, { useMemo, useState } from 'react';
 import { ProtocolVersionBadge } from '../components/ProtocolVersionBadge';
 import { NetworkMap } from '../components/NetworkMap';
 import { PROTOCOL_DATA } from '../content/protocolData';
-import { ProtocolVersionBadge } from '../components/ProtocolVersionBadge';
 import { shouldUseListFallback } from '../services/networkFallback';
 import { Service } from '../types';
 
 type NetworkFilter = 'TODOS' | 'SAUDE' | 'SOCIAL' | 'TUTELAR' | 'SEGURANCA';
 
-type ServiceWithCoordinates = Service & {
-  coordinates: {
-    lat: number;
-    lng: number;
-  };
-};
+type ServiceWithCoordinates = Service & { coordinates: { lat: number; lng: number } };
+
+const expiredServiceIds = ['conselho-tutelar', 'ddm-sao-miguel'];
 
 const mapServiceToFilter = (service: Service): NetworkFilter[] => {
   const list: NetworkFilter[] = [];
-
   if (service.category === 'SAÚDE') list.push('SAUDE');
   if (service.category === 'SOCIAL') list.push('SOCIAL');
-
-  if (service.category === 'DIREITOS_SGD' || service.name.toLowerCase().includes('conselho tutelar')) {
-    list.push('TUTELAR');
-  }
-
-  if (service.category === 'EMERGÊNCIA' || /pol[ií]cia|delegacia|ddm|190|192|193/i.test(service.name + service.phone)) {
-    list.push('SEGURANCA');
-  }
-
+  if (service.category === 'DIREITOS_SGD' || service.name.toLowerCase().includes('conselho tutelar')) list.push('TUTELAR');
+  if (service.category === 'EMERGÊNCIA' || /pol[ií]cia|delegacia|ddm|190|192|193/i.test(service.name + service.phone)) list.push('SEGURANCA');
   if (!list.length) list.push('TODOS');
   return list;
 };
 
 const normalizePhoneToTel = (phone: string) => `tel:${phone.replace(/\D/g, '')}`;
-
-const hasCoordinates = (service: Service): service is ServiceWithCoordinates => {
-  return !!service.coordinates;
-};
+const hasCoordinates = (service: Service): service is ServiceWithCoordinates => !!service.coordinates;
 
 export const NetworkPage: React.FC = () => {
   const [search, setSearch] = useState('');
   const [filter, setFilter] = useState<NetworkFilter>('TODOS');
+  const [showMap, setShowMap] = useState(false);
 
   const filters: { id: NetworkFilter; label: string }[] = [
     { id: 'TODOS', label: 'Todos' },
@@ -51,47 +37,37 @@ export const NetworkPage: React.FC = () => {
     { id: 'SEGURANCA', label: 'Segurança' }
   ];
 
-  const services = useMemo(() => {
-    return PROTOCOL_DATA.services.filter((service) => {
-      const text = `${service.name} ${service.address} ${service.phone}`.toLowerCase();
-      const matchesSearch = search.trim().length === 0 || text.includes(search.toLowerCase());
-      const matchesFilter = filter === 'TODOS' || mapServiceToFilter(service).includes(filter);
-
-      return matchesSearch && matchesFilter;
-    });
-  }, [filter, search]);
+  const services = useMemo(() => PROTOCOL_DATA.services.filter((service) => {
+    const text = `${service.name} ${service.address} ${service.phone}`.toLowerCase();
+    return (search.trim().length === 0 || text.includes(search.toLowerCase())) && (filter === 'TODOS' || mapServiceToFilter(service).includes(filter));
+  }), [filter, search]);
 
   const mappableServices = useMemo(() => services.filter(hasCoordinates), [services]);
+  const listOnlyMode = shouldUseListFallback(services.length, mappableServices.length);
 
   return (
-    <div className="mx-auto max-w-5xl space-y-6 pb-20">
-      <header className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
-        <p className="text-xs font-black uppercase tracking-widest text-[#007AFF]">Rede de proteção</p>
-        <h1 className="mt-2 text-3xl font-extrabold text-slate-900">Contatos rápidos da Zona Leste</h1>
-        <p className="mt-2 text-sm text-slate-600">Encontre o serviço, visualize no mapa e ligue em 1 toque.</p>
+    <div className="space-y-4 pb-20">
+      <header className="card">
+        <h1 className="text-2xl font-extrabold text-text">Rede de Apoio — Contatos essenciais</h1>
+        <p className="mt-2 text-sm text-muted">Telefones e endereços verificados (quando disponível).</p>
       </header>
 
       <ProtocolVersionBadge />
 
-      <section className="rounded-3xl border border-slate-200 bg-white p-4 shadow-sm">
-        <div className="mb-4">
-          <input
-            type="text"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            placeholder="Buscar por nome, endereço ou telefone"
-            className="w-full rounded-2xl border border-slate-300 px-4 py-3 text-sm font-medium text-slate-900 placeholder:text-slate-400 focus:border-[#007AFF] focus:outline-none"
-          />
-        </div>
-
-        <div className="flex flex-wrap gap-2">
+      <section className="card">
+        <input
+          type="text"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          placeholder="Buscar serviço, endereço ou telefone"
+          className="w-full rounded-xl border border-border px-4 py-3 text-sm text-text placeholder:text-muted"
+        />
+        <div className="mt-3 flex flex-wrap gap-2">
           {filters.map((item) => (
             <button
               key={item.id}
               onClick={() => setFilter(item.id)}
-              className={`rounded-full px-4 py-2 text-xs font-black uppercase tracking-wide transition ${
-                filter === item.id ? 'bg-[#007AFF] text-white' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
-              }`}
+              className={`rounded-full px-3 py-2 text-xs font-semibold ${filter === item.id ? 'bg-brand-50 text-brand-800' : 'bg-slate-100 text-muted hover:bg-slate-200'}`}
             >
               {item.label}
             </button>
@@ -99,76 +75,45 @@ export const NetworkPage: React.FC = () => {
         </div>
       </section>
 
-      <section className="rounded-3xl border border-slate-200 bg-white p-3 shadow-sm">
-        <div className="mb-2 px-2 text-xs font-bold text-slate-500">Mapa interativo da rede ({mappableServices.length} alfinetes)</div>
-        <div className="h-[360px] overflow-hidden rounded-2xl border border-slate-200">
-          {mappableServices.length ? (
-            <NetworkMap services={mappableServices} />
-          ) : (
-            <div className="flex h-full items-center justify-center text-center text-sm font-semibold text-slate-500">
-              Mapa oculto: serviços filtrados sem coordenadas fixas. Use a lista de contatos abaixo.
+      {!listOnlyMode && (
+        <section className="card p-4">
+          <button onClick={() => setShowMap((v) => !v)} className="text-sm font-semibold text-brand-800">
+            {showMap ? 'Ocultar mapa' : 'Ver mapa'}
+          </button>
+          {showMap && (
+            <div className="mt-3 h-[320px] overflow-hidden rounded-xl border border-border">
+              {mappableServices.length ? <NetworkMap services={mappableServices} /> : <div className="flex h-full items-center justify-center text-sm text-muted">Sem coordenadas para os filtros atuais.</div>}
             </div>
           )}
-        </div>
-      </section>
+        </section>
+      )}
 
-      <section className="grid grid-cols-1 gap-4">
+      <section className="grid grid-cols-1 gap-3">
         {services.map((service) => (
-          <article key={service.id} className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
+          <article key={service.id} className="card p-4">
             <div className="flex items-center justify-between gap-2">
-              <h2 className="text-lg font-extrabold text-slate-900">{service.name}</h2>
-              {expiredServiceIds.includes(service.id) && (
-                <span className="rounded-full border border-amber-300 bg-amber-100 px-2 py-1 text-[10px] font-black uppercase tracking-wide text-amber-800">
-                  ⚠ Verificação necessária
-                </span>
-              )}
+              <h2 className="text-base font-bold text-text">{service.name}</h2>
+              <span className="badge">{service.type || 'Serviço'}</span>
             </div>
 
-            <dl className="mt-3 space-y-2 text-sm text-slate-700">
-              <div>
-                <dt className="font-bold text-slate-500">Endereço</dt>
-                <dd>{service.address}</dd>
-              </div>
-              <div>
-                <dt className="font-bold text-slate-500">Telefone</dt>
-                <dd>
-                  <a className="font-semibold text-[#007AFF] underline" href={normalizePhoneToTel(service.phone)}>
-                    {service.phone}
-                  </a>
-                </dd>
-              </div>
-              <div>
-                <dt className="font-bold text-slate-500">Horário</dt>
-                <dd>{service.hours || 'Não informado'}</dd>
-              </div>
-            </dl>
+            {expiredServiceIds.includes(service.id) && <div className="mt-2 inline-flex badge-accent">Verificação necessária</div>}
 
-            <div className="mt-2 text-xs text-slate-500">
-              Fonte: {service.officialSource || 'Não informada'} · Verificado em {service.verifiedAt || 'N/A'} por {service.verifiedBy || 'N/A'}
+            <p className="mt-2 text-sm text-muted">{service.address}</p>
+            <a className="mt-1 inline-block text-sm font-semibold text-brand-800" href={normalizePhoneToTel(service.phone)}>{service.phone}</a>
+
+            <div className="mt-3 flex flex-wrap gap-2">
+              <a href={normalizePhoneToTel(service.phone)} className="btn-primary text-sm focus-visible:ring-2 focus-visible:ring-brand-500">Ligar agora</a>
+              <button onClick={() => navigator.clipboard.writeText(`${service.name}\n${service.address}\n${service.phone}`)} className="btn-secondary text-sm focus-visible:ring-2 focus-visible:ring-brand-500">Copiar</button>
             </div>
 
-            <div className="mt-4 flex flex-wrap gap-2">
-              <a
-                href={normalizePhoneToTel(service.phone)}
-                className="rounded-xl bg-[#007AFF] px-4 py-2 text-sm font-bold text-white hover:bg-[#005fcc] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500"
-              >
-                Ligar agora
-              </a>
-              <button
-                onClick={() => navigator.clipboard.writeText(`${service.name}\n${service.address}\n${service.phone}`)}
-                className="rounded-xl border border-slate-300 px-4 py-2 text-sm font-bold text-slate-700 hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500"
-              >
-                Copiar contato
-              </button>
-            </div>
+            <details className="mt-3 text-xs text-muted">
+              <summary className="cursor-pointer font-semibold">Verificação e fonte</summary>
+              <p className="mt-1">Fonte: {service.officialSource || 'Não informada'} · Verificado em {service.verifiedAt || 'N/A'} por {service.verifiedBy || 'N/A'}</p>
+            </details>
           </article>
         ))}
 
-        {!services.length && (
-          <div className="rounded-2xl border border-slate-200 bg-white p-8 text-center text-sm font-semibold text-slate-500">
-            Nenhum serviço encontrado para os filtros atuais.
-          </div>
-        )}
+        {!services.length && <div className="card text-center text-sm font-semibold text-muted">Nenhum serviço encontrado para os filtros atuais.</div>}
       </section>
     </div>
   );

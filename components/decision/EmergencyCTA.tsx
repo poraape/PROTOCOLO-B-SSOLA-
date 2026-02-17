@@ -1,18 +1,20 @@
 import React from 'react';
 import { FlowNode } from '../../types';
 
-const getPanicLink = (node?: FlowNode) => {
-  if (!node || node.category === 'EMERGÊNCIA' || node.riskLevel === 'EMERGENCIAL') {
-    return 'tel:190';
-  }
-  return 'tel:192';
+const shouldShowEmergency = (node?: FlowNode) => {
+  if (!node) return false;
+  return node.category === 'EMERGÊNCIA' || node.riskLevel === 'EMERGENCIAL' || node.riskLevel === 'ALTO';
 };
 
-export const EmergencyCTA: React.FC<{ node?: FlowNode }> = ({ node }) => {
+export const EmergencyCTA: React.FC<{ node?: FlowNode; isMobile?: boolean }> = ({ node, isMobile = false }) => {
+  if (!shouldShowEmergency(node)) return null;
+
   return (
     <a
-      href={getPanicLink(node)}
-      className="fixed bottom-24 right-6 z-40 rounded-full bg-red-600 px-5 py-3 text-sm font-black text-white shadow-lg hover:bg-red-700"
+      href="tel:190"
+      className={isMobile
+        ? 'fixed bottom-20 right-4 z-40 rounded-xl bg-danger-600 px-4 py-3 text-sm font-bold text-white shadow-soft'
+        : 'inline-flex rounded-xl bg-danger-600 px-4 py-2 text-sm font-bold text-white shadow-soft'}
     >
       EMERGÊNCIA 190/192
     </a>
