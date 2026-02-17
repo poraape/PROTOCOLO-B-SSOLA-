@@ -15,14 +15,16 @@ interface NetworkMapProps {
 }
 
 export const NetworkMap: React.FC<NetworkMapProps> = ({ services }) => {
-  if (!services.length) return null;
+  const verifiedServices = services.filter((service) => service.geoStatus !== "PENDENTE");
 
-  const center: [number, number] = [services[0].coordinates.lat, services[0].coordinates.lng];
+  if (!verifiedServices.length) return null;
+
+  const center: [number, number] = [verifiedServices[0].coordinates.lat, verifiedServices[0].coordinates.lng];
 
   return (
     <MapContainer center={center} zoom={13} style={{ height: '100%', width: '100%' }}>
       <TileLayer attribution="&copy; OpenStreetMap contributors" url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-      {services.map((service) => (
+      {verifiedServices.map((service) => (
         <Marker key={service.id} position={[service.coordinates.lat, service.coordinates.lng]}>
           <Popup>
             <strong>{service.name}</strong>

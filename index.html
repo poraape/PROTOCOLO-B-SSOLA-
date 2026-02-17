@@ -12,85 +12,34 @@
 
   <script>
     tailwind.config = {
-      darkMode: 'class',
       theme: {
         extend: {
           colors: {
-            ios: {
-              bg: '#F8F9FA',
-              darkBg: '#0F172A'
-            }
-          }
+            brand: {50:'#EFF6FF',100:'#DBEAFE',200:'#BFDBFE',300:'#93C5FD',400:'#60A5FA',500:'#2563EB',600:'#1D4ED8',700:'#1E40AF',800:'#1E3A8A',900:'#172554'},
+            accent: {50:'#FFFBEB',100:'#FEF3C7',200:'#FDE68A',300:'#FCD34D',400:'#FACC15',500:'#EAB308',600:'#CA8A04',700:'#A16207',800:'#854D0E',900:'#713F12'},
+            success: {50:'#F0FDF4',100:'#DCFCE7',200:'#BBF7D0',300:'#86EFAC',400:'#4ADE80',500:'#22C55E',600:'#16A34A',700:'#15803D',800:'#166534',900:'#14532D'},
+            danger: {50:'#FEF2F2',100:'#FEE2E2',200:'#FECACA',300:'#FCA5A5',400:'#F87171',500:'#EF4444',600:'#DC2626',700:'#B91C1C',800:'#991B1B',900:'#7F1D1D'},
+            bg: '#F5F7FA',
+            surface: '#FFFFFF',
+            subtle: '#F8FAFC',
+            border: '#E2E8F0',
+            text: '#0F172A',
+            muted: '#475569'
+          },
+          boxShadow: { soft: '0 2px 10px rgba(15,23,42,.06)' },
+          borderRadius: { xl: '14px', '2xl': '18px' }
         }
       }
     };
-
-    (function() {
-      const theme = localStorage.getItem('theme') || 'light';
-      if (theme === 'dark') {
-        document.documentElement.classList.add('dark');
-      } else {
-        document.documentElement.classList.remove('dark');
-      }
-    })();
   </script>
 
-  <style>
-    body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-      -webkit-font-smoothing: antialiased;
-      background-color: #F8F9FA;
-      color: #111827;
-      transition: background-color 0.3s ease, color 0.3s ease;
-    }
-
-    .dark body {
-      background-color: #0F172A;
-      color: #F8FAFC;
-    }
-
-    .ios-card {
-      background: #FFFFFF;
-      border-radius: 28px;
-      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    .dark .ios-card {
-      background: #1E293B;
-      border-color: rgba(255, 255, 255, 0.05);
-    }
-
-    .ios-card:active {
-      transform: scale(0.96);
-    }
-
-    .shadow-ios {
-      box-shadow: 0 4px 24px -6px rgba(0, 0, 0, 0.04), 0 2px 12px -4px rgba(0, 0, 0, 0.02);
-    }
-
-    .dark .shadow-ios {
-      box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
-    }
-
-    .no-scrollbar::-webkit-scrollbar {
-      display: none;
-    }
-
-    .no-scrollbar {
-      -ms-overflow-style: none;
-      scrollbar-width: none;
-    }
-
-    .dark .leaflet-tile {
-      filter: invert(100%) hue-rotate(180deg) brightness(95%) contrast(90%);
-    }
-
-    .leaflet-container {
-      font-family: inherit;
-    }
+    <style>
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    .leaflet-container { font-family: inherit; }
   </style>
 </head>
-<body class="select-none overflow-x-hidden">
+<body class="overflow-x-hidden">
   <div id="root"></div>
   <script type="module" src="/index.tsx"></script>
 </body>
