@@ -47,11 +47,11 @@ export const Dashboard: React.FC = () => {
       <section>
         <h2 className="mb-2 text-sm font-bold uppercase tracking-wide text-muted">Acesso rápido</h2>
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-          <button onClick={() => navigate('/rede')} className="card text-left hover:border-brand-200">
+          <button onClick={() => navigate('/rede')} className="card text-left hover:border-brand-200 focus-visible:ring-2 focus-visible:ring-brand-500">
             <span className="badge-success">Rede de Apoio</span>
             <p className="mt-3 font-semibold text-text">Contatos essenciais para encaminhamento.</p>
           </button>
-          <button onClick={() => navigate('/recursos')} className="card text-left hover:border-brand-200">
+          <button onClick={() => navigate('/recursos')} className="card text-left hover:border-brand-200 focus-visible:ring-2 focus-visible:ring-brand-500">
             <span className="badge">Modelos/Anexos essenciais</span>
             <p className="mt-3 font-semibold text-text">Anexo I, Anexo II e orientações.</p>
           </button>

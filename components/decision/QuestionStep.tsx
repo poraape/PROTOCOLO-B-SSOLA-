@@ -66,6 +66,7 @@ export const QuestionStep: React.FC<QuestionStepProps> = ({ node, onSelect }) =>
 
         {!hasUncertaintyOption && (node.fallbackNextNodeId || node.id !== 'leaf_duvida_padrao') && (
           <button
+            type="button"
             onClick={() => onSelect(node.fallbackNextNodeId || 'leaf_duvida_padrao', 'Não sei / preciso de apoio')}
             className="w-full rounded-xl border border-accent-200 bg-accent-50 px-5 py-4 text-left text-base font-semibold text-accent-800 focus-visible:ring-2 focus-visible:ring-brand-500"
           >
