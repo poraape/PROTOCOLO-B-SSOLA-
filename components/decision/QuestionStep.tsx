@@ -22,11 +22,10 @@ const normalizeCategoryId = (categoryId?: string): CategoryId | null => {
 };
 
 export const QuestionStep: React.FC<QuestionStepProps> = ({ node, onSelect }) => {
+  const twoColumns = node.options.length > 4 || node.id === 'n_categoria_situacao';
   const hasUncertaintyOption = node.options.some((option) =>
     option.label.toLowerCase().includes('não sei') || option.label.toLowerCase().includes('nao sei')
   );
-
-  const isCategoryStep = node.id === 'n_categoria_situacao';
 
   return (
     <section className="card">
