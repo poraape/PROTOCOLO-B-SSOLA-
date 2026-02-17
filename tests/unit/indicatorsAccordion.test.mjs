@@ -18,9 +18,9 @@ test('indicators accordion supports open state with list region rendering', () =
 });
 
 test('decision flow includes indicators in 3 relevant flows', () => {
-  assert.match(protocolSource, /id:\s*'n_saude_mental'[\s\S]*?indicators:/);
-  assert.match(protocolSource, /id:\s*'n_violacoes'[\s\S]*?indicators:/);
-  assert.match(protocolSource, /id:\s*'n_social'[\s\S]*?indicators:/);
+  assert.match(protocolSource, /id:\s*'root'[\s\S]*?indicators:/);
+  assert.match(protocolSource, /id:\s*'n_mental_triagem'[\s\S]*?indicators:/);
+  assert.match(protocolSource, /id:\s*'n_fisico_triagem'[\s\S]*?indicators:/);
 });
 
 test('accordion includes keyboard-focus visibility classes and aria labels', () => {

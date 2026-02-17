@@ -19,7 +19,7 @@ export const QuestionStep: React.FC<QuestionStepProps> = ({ node, onSelect }) =>
         microcopy="Use os sinais como apoio descritivo. Em caso de dúvida, registre e escale para a gestão escolar."
       />
 
-      <div className="mt-6 grid gap-3" aria-label="Ações de resposta">
+      <div className={`mt-6 grid gap-3 ${node.id === 'n_categoria_situacao' ? 'sm:grid-cols-2' : ''}`} aria-label="Ações de resposta">
         {node.options.map((option) => (
           <button
             key={option.nextNodeId}
@@ -30,12 +30,12 @@ export const QuestionStep: React.FC<QuestionStepProps> = ({ node, onSelect }) =>
           </button>
         ))}
 
-        {(node.fallbackNextNodeId || node.id !== 'leaf_ambiguo') && (
+        {(node.fallbackNextNodeId || node.id !== 'leaf_duvida_padrao') && (
           <button
-            onClick={() => onSelect(node.fallbackNextNodeId || 'leaf_ambiguo', 'Não sei classificar / preciso de apoio')}
+            onClick={() => onSelect(node.fallbackNextNodeId || 'leaf_duvida_padrao', 'Não sei / dúvida')}
             className="rounded-2xl border border-amber-300 bg-amber-50 px-5 py-4 text-left text-base font-bold text-amber-900 transition hover:border-amber-400 hover:bg-amber-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500"
           >
-            ❔ Não sei classificar / preciso de apoio
+            ❔ Não sei / dúvida
           </button>
         )}
       </div>

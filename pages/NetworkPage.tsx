@@ -2,6 +2,8 @@ import React, { useMemo, useState } from 'react';
 import { ProtocolVersionBadge } from '../components/ProtocolVersionBadge';
 import { NetworkMap } from '../components/NetworkMap';
 import { PROTOCOL_DATA } from '../content/protocolData';
+import { ProtocolVersionBadge } from '../components/ProtocolVersionBadge';
+import { shouldUseListFallback } from '../services/networkFallback';
 import { Service } from '../types';
 
 type NetworkFilter = 'TODOS' | 'SAUDE' | 'SOCIAL' | 'TUTELAR' | 'SEGURANCA';
