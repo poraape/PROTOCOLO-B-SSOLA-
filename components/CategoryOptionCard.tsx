@@ -9,7 +9,6 @@ type Props = {
 export function CategoryOptionCard({ category, onClick }: Props) {
   return (
     <button
-      type="button"
       onClick={onClick}
       className={`w-full text-left rounded-xl border p-5 transition hover:shadow-md focus-visible:ring-2 focus-visible:ring-brand-500 ${category.tint}`}
     >
