@@ -1,178 +1,61 @@
-# Protocolo Bússola
-### **Sistema de Apoio à Decisão Escolar** · *“Proteção como ato de coragem”*
+# Protocolo Bússola — Webapp institucional de acolhimento escolar
 
-![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=white)
-![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white)
-![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
-![Status](https://img.shields.io/badge/Status-Stable-2EA043)
+O **Protocolo Bússola** é um aplicativo web de apoio à decisão para situações de vulnerabilidade, risco e encaminhamento de estudantes no contexto escolar. O projeto foi estruturado para transformar protocolos institucionais longos em uma navegação prática por rotas, com orientação de ação imediata, consulta de rede de proteção e acesso a modelos de registro.
 
-> **🔒 Privacidade Absoluta**  
-> Este app **não coleta dados**. Todo o processamento ocorre no navegador do usuário.
+A solução é orientada a escolas iniciantes na implementação de protocolo de acolhimento: busca simplicidade operacional, linguagem direta e clareza de responsabilidade entre professor, coordenação e direção. O sistema **apoia** a decisão institucional, mas não substitui avaliação profissional, protocolos legais nem acionamento urgente da rede quando necessário.
 
----
+No estado atual, o repositório é predominantemente frontend (React + Vite), com conteúdo institucional em arquivos TypeScript e Markdown. Há funcionalidades de consulta e navegação estruturada, porém com lacunas de governança típicas de MVP (como trilha de auditoria robusta e controle técnico de permissões).
 
-## 1) Sobre o Projeto
+## Como a escola usa na prática (fluxo resumido)
+1. A equipe identifica uma situação e abre o **Decisor** (`/#/decisor`).
+2. O app orienta classificação por risco e ação inicial.
+3. A equipe consulta contatos em **Rede** (`/#/rede`).
+4. Registra com apoio dos **Modelos** (`/#/modelos`).
+5. Coordenação/direção conduzem encaminhamento e acompanhamento.
 
-O **Protocolo Bússola** foi criado para a **E.E. Ermelino Matarazzo (CIE 2835 - DE Leste 1/SP)** como uma ferramenta prática de apoio ao professor e à gestão escolar em situações de violência, vulnerabilidade e risco.
-
-A proposta do produto é transformar um protocolo originalmente em papel (PDF extenso) em um **Wizard de Decisão Interativo**, rápido de usar em contexto real de escola.
-
-Base normativa institucional:
-- **Protocolo de Acolhimento Fev/2026**
-- Referências do **CONVIVA/SP**
-- Diretrizes do **ECA** e marcos educacionais aplicáveis
-
-### Módulos principais
-- **Decisor (Fluxos):** árvore guiada de perguntas e ações imediatas.
-- **Rede de Proteção:** contatos territoriais com telefone clicável e rota por mapas.
-- **Documentos:** gerador de formulário para registro (Anexo I) e apoio à formalização de encaminhamentos.
-
----
-
-## 2) Funcionalidades-Chave
-
-- ⚡ **Decisão Rápida**  
-  Navegação guiada para casos urgentes com foco em ação imediata e redução de dúvida operacional.
-
-- 📱 **PWA / Offline-First**  
-  Aplicação preparada para uso progressivo em ambientes de conectividade instável, com experiência de app em dispositivo móvel.
-
-- 🖨️ **Gerador de Documentos**  
-  Criação de conteúdo para **Anexo I** e apoio a registros sem depender de editor externo.
-
-- 📍 **Rede Territorial da Zona Leste**  
-  Serviços como **UBS Ermelino**, **CAPS IJ**, **CRAS**, **Conselho Tutelar** e emergências (190/192) organizados para acionamento rápido.
-
----
-
-## 3) Instalação e Execução (Desenvolvimento)
-
+## Como rodar localmente
 ### Pré-requisitos
-- **Node.js 20+** (recomendado: Node 20 LTS)
-- **npm 10+**
+- Node.js 20+
+- npm 10+
 
 ### Comandos
-
 ```bash
 npm install
 npm run dev
 npm run build
+npm test
 ```
 
-### Scripts disponíveis
-- `npm run dev` → inicia ambiente local de desenvolvimento.
-- `npm run build` → gera build de produção.
-- `npm run preview` → pré-visualiza build localmente.
+## Documentação oficial do projeto
+- Blueprint técnico institucional: `docs/01-blueprints/BLUEPRINT_TECNICO_INSTITUCIONAL.md`
+- Blueprint usuário/comunidade: `docs/01-blueprints/BLUEPRINT_USUARIO_COMUNIDADE.md`
+- Guia rápido operacional: `docs/04-uso-e-treinamento/GUIA_RAPIDO_OPERACIONAL.md`
+- Privacidade e dados: `docs/03-governanca-e-lgpd/PRIVACIDADE_E_DADOS.md`
+- Trilha de auditoria e registros: `docs/03-governanca-e-lgpd/TRILHA_DE_AUDITORIA_E_REGISTROS.md`
+- Roadmap: `docs/06-roadmap/ROADMAP.md`
+- Glossário institucional: `docs/00-visao-geral/GLOSSARIO.md`
+
+## Estrutura resumida
+- `App.tsx`: roteamento principal.
+- `pages/`: telas e fluxos por módulo.
+- `components/`: componentes compartilhados.
+- `content/protocolData.ts`: fonte principal de dados e regras.
+- `public/protocol/` e `public/anexos/`: documentos institucionais em markdown.
+- `docs/`: documentação oficial de governança e operação.
+
+## Status do projeto
+**MVP funcional em desenvolvimento institucional contínuo.**
+
+### Entregue
+- Decisor com árvore de triagem.
+- Rede de serviços e contatos.
+- Consulta ao protocolo e anexos.
+- FAQ, glossário e simulador.
+
+### Lacunas críticas (prioridade)
+- Controle de acesso por perfil (não implementado).
+- Trilha de auditoria institucional (não implementada).
+- Política formal de retenção/descarte e privacidade operacional detalhada.
 
 ---
-
-## 4) Arquitetura de Dados (o “cérebro” do sistema)
-
-> **Seção crítica para manutenção.**
-
-A lógica de negócio **não deve ficar hardcoded nas páginas**.  
-O projeto adota **Single Source of Truth** em `data.ts`.
-
-**Regra de profundidade do decisor:** O decisor não deve ultrapassar 5 perguntas por caminho.
-
-### Regra de manutenção
-Se você precisar:
-- alterar telefone,
-- atualizar endereço,
-- mudar regras de fluxo,
-- incluir/editar campos de anexos,
-
-edite prioritariamente **`data.ts`** (e, quando necessário, `types.ts`).
-
-As páginas (`pages/`) devem apenas **consumir** essa estrutura.
-
-### Exemplo simplificado de estrutura de fluxo
-
-```ts
-export const PROTOCOL_DATA = {
-  decisionTree: [
-    {
-      id: 'root',
-      question: 'Qual é o tipo principal da demanda?',
-      options: [
-        { label: '🏥 SAÚDE', nextNodeId: 'saude_tipo' },
-        { label: '🚨 EMERGÊNCIA', nextNodeId: 'emergencia_folha' }
-      ]
-    },
-    {
-      id: 'emergencia_folha',
-      question: 'Risco de vida iminente.',
-      isLeaf: true,
-      riskLevel: 'EMERGENCIAL',
-      serviceIds: ['samu', 'policia-militar'],
-      guidance: ['Acionar imediatamente SAMU (192) e/ou Polícia Militar (190).']
-    }
-  ],
-  services: [/* diretório territorial */],
-  documentTemplates: [/* anexos e campos obrigatórios */]
-};
-```
-
----
-
-## 5) Stack Tecnológico
-
-- **React + Vite**
-- **TypeScript**
-- **Tailwind CSS**
-- Arquitetura **client-side only** (sem backend de aplicação)
-- Preparado para hospedagem gratuita em **Vercel** ou **GitHub Pages**
-
----
-
-## 6) Deploy (Custo Zero) – Vercel
-
-### Passo a passo rápido
-1. Faça push do repositório para GitHub.
-2. Acesse [https://vercel.com](https://vercel.com) e faça login.
-3. Clique em **Add New Project**.
-4. Conecte o repositório do projeto.
-5. Confirme as configurações (Vite geralmente é detectado automaticamente):
-   - Build command: `npm run build`
-   - Output directory: `dist`
-6. Clique em **Deploy**.
-7. Após publicar, teste rotas principais (`/`, `/decisor`, `/rede`, `/recursos`).
-
-> Dica: para ambientes institucionais, registre o domínio em menu fácil (atalho na tela inicial dos dispositivos da escola).
-
----
-
-## 7) Estrutura de Pastas
-
-```text
-.
-├── components/          # Componentes reutilizáveis de UI (ex.: Layout, Wizard, ActionCard, SchoolShield)
-├── pages/               # Páginas/rotas principais da aplicação
-├── data.ts              # Fonte única dos dados e regras do protocolo (Single Source of Truth)
-├── types.ts             # Tipagem central das entidades (fluxos, serviços, documentos)
-├── App.tsx              # Registro de rotas da aplicação
-├── index.tsx            # Bootstrap React
-├── index.css            # Estilos globais
-├── index.html           # HTML base + configuração Tailwind CDN
-├── vite.config.ts       # Configuração de build/dev do Vite
-└── README.md            # Documento institucional/técnico do projeto
-```
-
----
-
-## 8) Jurídico e Créditos
-
-### Aviso de responsabilidade
-Este software é uma ferramenta de **apoio à decisão**.  
-A decisão final, os encaminhamentos formais e a responsabilidade funcional permanecem com os profissionais e autoridades competentes.
-
-### Créditos institucionais
-- Equipe pedagógica e gestora da **E.E. Ermelino Matarazzo**.
-- Base legal e orientadora: **ECA**, **LDB**, normativas e diretrizes de proteção escolar aplicáveis no Estado de São Paulo.
-
----
-
-## 9) Compromisso Público
-
-O Protocolo Bússola existe para apoiar quem está na linha de frente da escola pública:  
-**agir com rapidez, registrar com qualidade e proteger com responsabilidade.**
+Ferramenta de apoio institucional para proteção escolar responsável.
