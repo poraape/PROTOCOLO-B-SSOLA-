@@ -176,7 +176,7 @@ export const FlowPage: React.FC = () => {
                                        key={lIdx}
                                        onClick={(e) => {
                                           e.stopPropagation();
-                                          if (link.idRecurso) navigate('/recursos');
+                                          if (link.idRecurso) navigate('/protocolo');
                                           else if (link.url) window.open(link.url, '_blank');
                                        }}
                                        className="px-4 py-2 bg-white dark:bg-slate-800 hover:bg-[#007AFF] hover:text-white rounded-xl text-[10px] font-black uppercase tracking-widest transition-all border border-slate-200 dark:border-slate-700 shadow-sm active:scale-90"

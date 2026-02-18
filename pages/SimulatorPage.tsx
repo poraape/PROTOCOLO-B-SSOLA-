@@ -4,14 +4,14 @@ import { ROLEPLAY_SCENARIOS } from '../data';
 interface ScenarioOption {
   id: string;
   text: string;
-  isBest: boolean;
+  score: number;
   feedback: string;
 }
 
 interface Scenario {
   id: string;
   title: string;
-  situation: string;
+  description: string;
   options: ScenarioOption[];
   protocolHint: string;
 }
@@ -32,7 +32,7 @@ export const SimulatorPage: React.FC = () => {
   const handleChoose = (option: ScenarioOption) => {
     if (selected) return;
     setSelected(option.id);
-    if (option.isBest) setScore((s) => s + 1);
+    setScore((s) => s + option.score);
   };
 
   const next = () => {
@@ -65,17 +65,17 @@ export const SimulatorPage: React.FC = () => {
           Cenário {index + 1} de {scenarios.length}
         </p>
         <h2 className="mt-2 text-xl font-extrabold text-slate-900">{current.title}</h2>
-        <p className="mt-2 text-sm text-slate-700">{current.situation}</p>
+        <p className="mt-2 text-sm text-slate-700">{current.description}</p>
 
         <div className="mt-5 space-y-2">
           {current.options.map((option) => {
             const active = selected === option.id;
             const showResult = !!selected;
             const stateClass = showResult
-              ? option.isBest
+              ? option.score >= 2
                 ? 'border-emerald-300 bg-emerald-50'
                 : active
-                  ? 'border-red-300 bg-red-50'
+                  ? 'border-amber-300 bg-amber-50'
                   : 'border-slate-200 bg-white'
               : 'border-slate-300 bg-white hover:border-[#007AFF]';
 
@@ -116,9 +116,16 @@ export const SimulatorPage: React.FC = () => {
           )}
 
           <div className="rounded-xl border border-slate-300 px-4 py-2 text-sm font-bold text-slate-700">
-            Pontuação: {score}/{scenarios.length}
+            Pontuação: {score}/{scenarios.length * 2}
           </div>
         </div>
+
+        {finished && (
+          <div className="bg-green-50 border border-green-200 p-4 mt-6 rounded-xl">
+            <strong>Reflexão Institucional:</strong>
+            Este exercício não substitui o decisor real. Utilize o fluxo oficial sempre que houver situação concreta.
+          </div>
+        )}
       </section>
     </div>
   );

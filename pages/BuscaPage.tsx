@@ -1,7 +1,7 @@
 
 import React, { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FLUXOS, CONTATOS, RECURSOS } from '../data';
+import { FLUXOS, CONTATOS } from '../data';
 
 export const BuscaPage: React.FC = () => {
   const navigate = useNavigate();
@@ -21,11 +21,7 @@ export const BuscaPage: React.FC = () => {
       c.categoria.toLowerCase().includes(query.toLowerCase())
     ).map(c => ({ ...c, type: 'Contato' }));
 
-    const recursos = RECURSOS.filter(r => 
-      r.titulo.toLowerCase().includes(query.toLowerCase())
-    ).map(r => ({ ...r, type: 'Recurso' }));
-
-    return [...fluxos, ...contatos, ...recursos];
+    return [...fluxos, ...contatos];
   }, [query]);
 
   return (
@@ -65,12 +61,11 @@ export const BuscaPage: React.FC = () => {
               onClick={() => {
                 if (res.type === 'Fluxo') navigate(`/fluxos/${res.id}`);
                 if (res.type === 'Contato') navigate('/rede');
-                if (res.type === 'Recurso') navigate('/recursos');
               }}
               className="w-full ios-card p-6 border border-slate-100 dark:border-slate-800 flex items-center gap-4 text-left hover:border-[#007AFF] transition-all bg-white dark:bg-slate-900"
             >
               <div className="w-12 h-12 rounded-xl bg-slate-50 dark:bg-slate-800 flex items-center justify-center text-2xl">
-                {res.type === 'Fluxo' ? (res.icon || '📋') : res.type === 'Contato' ? '📞' : '📄'}
+                {res.type === 'Fluxo' ? (res.icon || '📋') : '📞'}
               </div>
               <div>
                 <div className="flex items-center gap-2">

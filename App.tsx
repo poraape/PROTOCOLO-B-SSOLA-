@@ -6,7 +6,6 @@ import { Dashboard } from './pages/Dashboard';
 import { DecisorPage } from './pages/DecisorPage';
 import { FlowPage } from './pages/FlowPage';
 import { NetworkPage } from './pages/NetworkPage';
-import { ResourcesPage } from './pages/ResourcesPage';
 import { FlowsListPage } from './pages/FlowsListPage';
 import { BuscaPage } from './pages/BuscaPage';
 import { GlossaryPage } from './pages/GlossaryPage';
@@ -55,7 +54,6 @@ const App: React.FC = () => {
           <Route path="/fluxos" element={<FlowsListPage />} />
           <Route path="/fluxos/:id" element={<FlowPage />} />
           <Route path="/rede" element={<NetworkPage />} />
-          <Route path="/recursos" element={<ResourcesPage />} />
           <Route path="/busca" element={<BuscaPage />} />
           <Route path="/glossario" element={<GlossaryPage />} />
           <Route path="/simulador" element={<SimulatorPage />} />

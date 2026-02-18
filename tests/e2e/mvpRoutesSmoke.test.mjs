@@ -13,6 +13,9 @@ test('primary navigation includes only core MVP labels', () => {
   assert.match(layout, /label:\s*'Início'/);
   assert.match(layout, /label:\s*'Decisor'/);
   assert.match(layout, /label:\s*'Rede'/);
-  assert.match(layout, /label:\s*'Recursos'/);
+  assert.match(layout, /label:\s*'Glossário'/);
+  assert.match(layout, /label:\s*'FAQ'/);
+  assert.match(layout, /label:\s*'Simulador'/);
+  assert.doesNotMatch(layout, /label:\s*'Recursos'/);
   assert.match(layout, /label:\s*'Versão'/);
 });

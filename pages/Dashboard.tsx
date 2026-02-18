@@ -51,9 +51,9 @@ export const Dashboard: React.FC = () => {
             <span className="badge-success">Rede de Apoio</span>
             <p className="mt-3 font-semibold text-text">Contatos essenciais para encaminhamento.</p>
           </button>
-          <button onClick={() => navigate('/recursos')} className="card text-left hover:border-brand-200 focus-visible:ring-2 focus-visible:ring-brand-500">
-            <span className="badge">Modelos/Anexos essenciais</span>
-            <p className="mt-3 font-semibold text-text">Anexo I, Anexo II e orientações.</p>
+          <button onClick={() => navigate('/glossario')} className="card text-left hover:border-brand-200 focus-visible:ring-2 focus-visible:ring-brand-500">
+            <span className="badge">Glossário formativo</span>
+            <p className="mt-3 font-semibold text-text">Termos institucionais e contextos escolares.</p>
           </button>
           <button onClick={() => navigate('/versao')} className="card text-left hover:border-brand-200 focus-visible:ring-2 focus-visible:ring-brand-500">
             <span className="badge-accent">Versão e Governança</span>
