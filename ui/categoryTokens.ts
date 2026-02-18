@@ -23,7 +23,7 @@ export const CATEGORY_TOKENS: Record<CategoryId, CategoryToken> = {
     label: 'Saúde emocional / comportamento',
     short: 'Sofrimento emocional, mudanças de humor, comportamento persistente.',
     description: 'Situações de sofrimento psíquico e comportamento que impactam o cotidiano escolar.',
-    examples: ['Isolamento repentino', 'Crises de choro', 'Autoagressão'],
+    examples: ['Isolamento frequente', 'Crises de choro recorrentes', 'Autolesão', 'Ideação suicida'],
     whenToUse: 'Quando houver alteração emocional recorrente, com ou sem risco imediato.',
     tint: 'bg-blue-50 border-blue-200 text-blue-900'
   },
@@ -33,7 +33,7 @@ export const CATEGORY_TOKENS: Record<CategoryId, CategoryToken> = {
     label: 'Violação de direitos / violência',
     short: 'Agressão, ameaça, suspeita de abuso ou violação de direitos.',
     description: 'Cenários com suspeita ou confirmação de violência e necessidade de proteção legal.',
-    examples: ['Relato de abuso', 'Ameaça grave', 'Violência doméstica'],
+    examples: ['Relato de abuso', 'Violência sexual', 'Ameaça grave', 'Violência doméstica'],
     whenToUse: 'Quando houver risco à integridade ou possível violação de direitos.',
     tint: 'bg-red-50 border-red-200 text-red-900'
   },
@@ -43,7 +43,7 @@ export const CATEGORY_TOKENS: Record<CategoryId, CategoryToken> = {
     label: 'Vulnerabilidade social / familiar',
     short: 'Fragilidade familiar, negligência, ausência de suporte.',
     description: 'Demandas sociais e familiares que prejudicam permanência e proteção escolar.',
-    examples: ['Insegurança alimentar', 'Negligência', 'Ausências frequentes'],
+    examples: ['Insegurança alimentar', 'Negligência', 'Falta de cuidado básico', 'Ausências frequentes'],
     whenToUse: 'Quando a barreira principal for social/familiar e exigir rede socioassistencial.',
     tint: 'bg-green-50 border-green-200 text-green-900'
   },
@@ -53,7 +53,7 @@ export const CATEGORY_TOKENS: Record<CategoryId, CategoryToken> = {
     label: 'Convivência escolar / conflito',
     short: 'Brigas, bullying, conflitos recorrentes em sala.',
     description: 'Problemas de convivência que podem ser mediados com ações pedagógicas e protetivas.',
-    examples: ['Bullying', 'Brigas repetidas', 'Cyberconflito'],
+    examples: ['Bullying', 'Brigas repetidas', 'Cyberbullying', 'Ameaças entre pares'],
     whenToUse: 'Quando o foco for restaurar convivência e prevenir escalada de violência.',
     tint: 'bg-amber-50 border-amber-200 text-amber-900'
   },

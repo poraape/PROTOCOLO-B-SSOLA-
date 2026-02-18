@@ -1,6 +1,7 @@
 export type ProtocolRiskLevel = 'BAIXO' | 'MÉDIO' | 'ALTO' | 'EMERGENCIAL';
 export type ActionPriority = 'IMEDIATA' | 'URGENTE' | 'ORIENTAÇÃO';
-export type ServiceType = 'EMERGENCIAL' | 'GESTAO' | 'SAUDE' | 'PROTECAO' | 'APOIO';
+export type ServiceType = 'EMERGENCIAL' | 'PROTECAO' | 'SAUDE' | 'APOIO_SOCIAL' | 'GESTAO' | 'EDUCACAO';
+export type ServiceNetworkType = 'emergencia' | 'saude' | 'social' | 'direitos' | 'educacao';
 
 export type RiskLevel = 'EMERGENCIA' | 'ALTA_PRIORIDADE' | 'APOIO_INSTITUCIONAL' | 'OUTROS';
 export type RiskLevelV2 = 'BAIXO' | 'MEDIO' | 'ALTO';
@@ -65,6 +66,15 @@ export interface SourceReference {
   section?: string;
 }
 
+export interface DecisionResult {
+  classification: 'BAIXA' | 'MEDIA' | 'ALTA' | 'EMERGENCIA';
+  priority: 'ORIENTACAO' | 'URGENTE' | 'IMEDIATO';
+  mainServiceId: string;
+  secondaryServiceIds?: string[];
+  deadline: string;
+  justification: string;
+}
+
 export interface FlowNode {
   id: string;
   question: string;
@@ -96,6 +106,7 @@ export interface FlowNode {
   actionSummary?: string;
   whatToDoNow?: string;
   whyThisService?: string;
+  decisionResult?: DecisionResult;
 }
 
 export interface Service {
@@ -112,6 +123,7 @@ export interface Service {
   verifiedBy?: string;
   type: ServiceType;
   targetType?: ServiceTarget;
+  networkType: ServiceNetworkType;
   phones?: string[];
   howToCall?: string;
   sourceOfficial?: string;

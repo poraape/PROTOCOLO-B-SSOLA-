@@ -54,6 +54,7 @@ const App: React.FC = () => {
           <Route path="/fluxos" element={<FlowsListPage />} />
           <Route path="/fluxos/:id" element={<FlowPage />} />
           <Route path="/rede" element={<NetworkPage />} />
+          <Route path="/rede/:id" element={<NetworkPage />} />
           <Route path="/busca" element={<BuscaPage />} />
           <Route path="/glossario" element={<GlossaryPage />} />
           <Route path="/simulador" element={<SimulatorPage />} />

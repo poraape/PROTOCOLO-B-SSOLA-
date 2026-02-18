@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { NetworkMap } from '../components/NetworkMap';
 import { PROTOCOL_DATA } from '../content/protocolData';
 import { shouldUseListFallback } from '../services/networkFallback';
@@ -27,11 +27,13 @@ const hasCoordinates = (service: Service): service is ServiceWithCoordinates => 
 export const NetworkPage: React.FC = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
+  const params = useParams<{ id?: string }>();
   const [search, setSearch] = useState('');
   const [filter, setFilter] = useState<NetworkFilter>('TODOS');
   const [showMap, setShowMap] = useState(false);
   const referralFilter = (searchParams.get('referral') || '').trim();
   const normalizedReferralFilter = referralFilter.toLowerCase();
+  const highlightId = (params.id || searchParams.get('highlight') || '').trim();
 
   const filters: { id: NetworkFilter; label: string }[] = [
     { id: 'TODOS', label: 'Todos' },
@@ -108,9 +110,9 @@ export const NetworkPage: React.FC = () => {
 
       <section className="grid grid-cols-1 gap-3">
         {services.map((service) => (
-          <article key={service.id} className="card p-4">
+          <article key={service.id} className={`card p-4 ${service.id === highlightId ? 'border-brand-300 bg-brand-50' : ''}`}>
             <div className="flex items-center justify-between gap-2">
-              <h2 className="text-base font-bold text-text">{service.name}</h2>
+              <h2 id={`service-${service.id}`} className="text-base font-bold text-text">{service.name}</h2>
               <span className="badge">{service.type || 'Serviço'}</span>
             </div>
 

@@ -1,6 +1,8 @@
-import { ActionPriority, ContactTarget, Contato, DocumentTemplate, FlowNode, Fluxo, ProtocolData, Recurso, Service, ServiceTarget } from '../types';
+import { ActionPriority, ContactTarget, Contato, DecisionResult, DocumentTemplate, FlowNode, Fluxo, ProtocolData, Recurso, Service, ServiceTarget } from '../types';
 
-const BASE_SERVICES: Service[] = [
+type RawService = Omit<Service, 'type' | 'targetType' | 'phones' | 'howToCall' | 'riskLevel' | 'strategicDescription' | 'geoStatus' | 'sourceOfficial' | 'officialSource' | 'verifiedAt' | 'verifiedBy' | 'networkType'>;
+
+const BASE_SERVICES: RawService[] = [
   {
     id: 'ubs-ermelino',
     name: 'UBS Ermelino Matarazzo',
@@ -187,13 +189,13 @@ const SERVICE_TARGET_BY_ID: Record<string, Service['targetType']> = {
   'disque-denuncia': 'OUTROS'
 };
 
-const inferServiceRiskLevel = (service: Service): Service['riskLevel'] => {
+const inferServiceRiskLevel = (service: RawService): Service['riskLevel'] => {
   if (service.category === 'EMERGÊNCIA' || /\b(190|192|193)\b/.test(service.phone)) return 'EMERGENCIA';
   if (service.category === 'DIREITOS_SGD' || /conselho tutelar|ddm|delegacia/i.test(service.name)) return 'ALTA_PRIORIDADE';
   return 'APOIO_INSTITUCIONAL';
 };
 
-const inferStrategicDescription = (service: Service): string => {
+const inferStrategicDescription = (service: RawService): string => {
   if (service.id === 'samu') {
     return 'Acionar imediatamente em risco à vida, perda de consciência, tentativa de suicídio ou emergência clínica grave.';
   }
@@ -219,12 +221,23 @@ const inferStrategicDescription = (service: Service): string => {
 };
 
 
-const inferServiceType = (service: Omit<Service, 'type'>): Service['type'] => {
+const inferServiceType = (service: RawService): Service['type'] => {
   if (service.category === 'EMERGÊNCIA') return 'EMERGENCIAL';
-  if (service.id === 'de-leste1' || service.id === 'conviva') return 'GESTAO';
+  if (service.id === 'de-leste1') return 'GESTAO';
+  if (service.id === 'conviva') return 'EDUCACAO';
   if (service.category === 'SAÚDE') return 'SAUDE';
   if (service.category === 'DIREITOS_SGD') return 'PROTECAO';
-  return 'APOIO';
+  if (service.category === 'SOCIAL') return 'APOIO_SOCIAL';
+  return 'EDUCACAO';
+};
+
+
+const inferServiceNetworkType = (service: RawService): Service['networkType'] => {
+  if (service.category === 'EMERGÊNCIA') return 'emergencia';
+  if (service.category === 'SAÚDE') return 'saude';
+  if (service.category === 'SOCIAL') return 'social';
+  if (service.category === 'DIREITOS_SGD') return 'direitos';
+  return 'educacao';
 };
 
 const SERVICES: Service[] = BASE_SERVICES.map((service) => ({
@@ -236,6 +249,7 @@ const SERVICES: Service[] = BASE_SERVICES.map((service) => ({
   phones: service.phone.split('/').map((item) => item.trim()),
   howToCall: 'Use telefone institucional listado na rede oficial.',
   type: inferServiceType(service),
+  networkType: inferServiceNetworkType(service),
   riskLevel: inferServiceRiskLevel(service),
   strategicDescription: inferStrategicDescription(service),
   geoStatus: service.coordinates ? 'VERIFICADO' : 'PENDENTE',
@@ -281,6 +295,68 @@ const inferReferralType = (node: FlowNode): FlowNode['referralType'] => {
   return 'OUTROS';
 };
 
+
+const DEFAULT_MAIN_SERVICE_BY_CATEGORY: Record<string, string> = {
+  EMOCIONAL_COMPORTAMENTO: 'caps-ij',
+  VIOLACAO_DIREITOS_VIOLENCIA: 'conselho-tutelar',
+  VULNERABILIDADE_SOCIAL_FAMILIAR: 'cras-ermelino',
+  CONVIVENCIA_CONFLITOS: 'de-leste1',
+  DIFICULDADE_PEDAGOGICA: 'conviva',
+  SAUDE_FISICA: 'ubs-ermelino',
+  NAO_SEI: 'de-leste1'
+};
+
+const resolveDecisionResult = (node: FlowNode, serviceIds: string[], riskLevel: NonNullable<FlowNode['riskLevel']>): DecisionResult => {
+  const text = `${node.id} ${node.question}`.toLowerCase();
+
+  let mainServiceId = serviceIds[0] || DEFAULT_MAIN_SERVICE_BY_CATEGORY[node.category || 'NAO_SEI'] || 'de-leste1';
+  let secondaryServiceIds = serviceIds.filter((serviceId) => serviceId !== mainServiceId);
+
+  if (riskLevel === 'EMERGENCIAL' || /emerg|risco imediato/.test(text)) {
+    mainServiceId = 'samu';
+    secondaryServiceIds = Array.from(new Set(['policia-militar', ...secondaryServiceIds]));
+  } else if (/sexual/.test(text)) {
+    mainServiceId = 'conselho-tutelar';
+    secondaryServiceIds = Array.from(new Set(['ddm-sao-miguel', 'ubs-ermelino', ...secondaryServiceIds]));
+  } else if (/drog|subst/.test(text)) {
+    mainServiceId = 'caps-ad';
+    secondaryServiceIds = Array.from(new Set(['ubs-ermelino', ...secondaryServiceIds]));
+  } else if (/mental|autoagress|autoles|suicid/.test(text) || node.id === 'leaf_mental_agudo') {
+    mainServiceId = 'caps-ij';
+    secondaryServiceIds = Array.from(new Set(['ubs-ermelino', ...secondaryServiceIds]));
+  } else if (/fisic|clinic|upa/.test(text) || node.category === 'SAUDE_FISICA') {
+    mainServiceId = 'ubs-ermelino';
+  } else if (/vulnerab|social|familiar|cras/.test(text) || node.category === 'VULNERABILIDADE_SOCIAL_FAMILIAR') {
+    mainServiceId = 'cras-ermelino';
+  } else if (/violenc.*confirm|conselho|direitos|creas/.test(text) || node.id === 'leaf_direitos_conselho_rede') {
+    mainServiceId = 'creas-ermelino';
+    secondaryServiceIds = Array.from(new Set(['conselho-tutelar', ...secondaryServiceIds]));
+  } else if (/pedagog|aprendizagem|rendimento/.test(text) || node.category === 'DIFICULDADE_PEDAGOGICA') {
+    mainServiceId = 'conviva';
+    secondaryServiceIds = Array.from(new Set(['de-leste1', ...secondaryServiceIds]));
+  } else if (/violac|direitos/.test(text)) {
+    mainServiceId = 'conselho-tutelar';
+  }
+
+  if (!serviceIds.includes(mainServiceId)) {
+    secondaryServiceIds = Array.from(new Set([...serviceIds, ...secondaryServiceIds].filter((serviceId) => serviceId !== mainServiceId)));
+  }
+
+  const classification: DecisionResult['classification'] =
+    riskLevel === 'EMERGENCIAL' ? 'EMERGENCIA' : riskLevel === 'ALTO' ? 'ALTA' : riskLevel === 'BAIXO' ? 'BAIXA' : 'MEDIA';
+  const priority: DecisionResult['priority'] =
+    classification === 'EMERGENCIA' ? 'IMEDIATO' : classification === 'ALTA' ? 'URGENTE' : 'ORIENTACAO';
+
+  return {
+    classification,
+    priority,
+    mainServiceId,
+    secondaryServiceIds,
+    deadline: node.deadline || DEFAULT_DEADLINE_BY_RISK[riskLevel || 'MÉDIO'],
+    justification: node.whyThisService || 'Serviço principal definido por gravidade, competência técnica e proteção imediata do estudante.'
+  };
+};
+
 const standardizeLeafNode = (node: FlowNode): FlowNode => {
   const isLeafNode = node.isLeaf || node.id.startsWith('leaf_') || node.id.endsWith('_folha');
   if (!isLeafNode) return node;
@@ -296,10 +372,10 @@ const standardizeLeafNode = (node: FlowNode): FlowNode => {
 
   const serviceIds = node.serviceIds || contactTargets.map((target) => target.serviceId);
   const includesManagement = contactTargets.some((target) => target.serviceId === 'GESTAO_ESCOLAR');
-  const actionPriority: ActionPriority = riskLevel === 'EMERGENCIAL' ? 'IMEDIATA' : riskLevel === 'ALTO' ? 'URGENTE' : 'ORIENTAÇÃO';
-  const preferredPrimary = serviceIds.find((serviceId) => serviceId !== 'GESTAO_ESCOLAR') || serviceIds[0];
-  const primaryServiceIds = node.primaryServiceIds || (preferredPrimary ? [preferredPrimary] : []);
-  const secondaryServiceIds = node.secondaryServiceIds || serviceIds.filter((serviceId) => !primaryServiceIds.includes(serviceId));
+  const decisionResult = resolveDecisionResult(node, serviceIds, riskLevel);
+  const actionPriority: ActionPriority = decisionResult.priority === 'IMEDIATO' ? 'IMEDIATA' : decisionResult.priority === 'URGENTE' ? 'URGENTE' : 'ORIENTAÇÃO';
+  const primaryServiceIds = node.primaryServiceIds || [decisionResult.mainServiceId];
+  const secondaryServiceIds = node.secondaryServiceIds || Array.from(new Set([...(decisionResult.secondaryServiceIds || []), ...serviceIds.filter((serviceId) => !primaryServiceIds.includes(serviceId))]));
 
   return {
     ...node,
@@ -317,8 +393,9 @@ const standardizeLeafNode = (node: FlowNode): FlowNode => {
     notifyManagement: typeof node.notifyManagement === 'boolean' ? node.notifyManagement : includesManagement,
     actionSummary: node.actionSummary || `Encaminhar ${node.question.toLowerCase()} com prioridade ${actionPriority.toLowerCase()}.`,
     whatToDoNow: node.whatToDoNow || doNow[0],
-    whyThisService: node.whyThisService || 'Serviços selecionados conforme risco, proteção necessária e competência da rede.' ,
-    deadline: node.deadline || DEFAULT_DEADLINE_BY_RISK[riskLevel || 'MÉDIO'],
+    whyThisService: node.whyThisService || decisionResult.justification,
+    decisionResult,
+    deadline: node.deadline || decisionResult.deadline || DEFAULT_DEADLINE_BY_RISK[riskLevel || 'MÉDIO'],
     recordRequired: node.recordRequired || normalizeRecordRequired(doNow),
     sourceRef: node.sourceRef || {
       label: `Protocolo ${PROTOCOL_DATA.metadata.protocolVersion}`,
