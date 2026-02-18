@@ -1,4 +1,7 @@
 export type ProtocolRiskLevel = 'BAIXO' | 'MÉDIO' | 'ALTO' | 'EMERGENCIAL';
+export type ActionPriority = 'IMEDIATA' | 'URGENTE' | 'ORIENTAÇÃO';
+export type ServiceType = 'EMERGENCIAL' | 'PROTECAO' | 'SAUDE' | 'APOIO_SOCIAL' | 'GESTAO' | 'EDUCACAO';
+export type ServiceNetworkType = 'emergencia' | 'saude' | 'social' | 'direitos' | 'educacao';
 
 export type RiskLevel = 'EMERGENCIA' | 'ALTA_PRIORIDADE' | 'APOIO_INSTITUCIONAL' | 'OUTROS';
 export type RiskLevelV2 = 'BAIXO' | 'MEDIO' | 'ALTO';
@@ -37,6 +40,7 @@ export interface RecordRequirement {
   system: 'CONVIVA' | 'OUTRO' | 'NENHUM';
   due: string;
   notes?: string;
+  description?: string;
 }
 
 export interface SourceRef {
@@ -52,7 +56,7 @@ export interface FlowOption {
 }
 
 
-export interface ServiceTarget {
+export interface ContactTarget {
   serviceId: string;
   channel?: 'telefone' | 'presencial' | 'institucional';
 }
@@ -61,6 +65,15 @@ export interface SourceReference {
   label: string;
   filePath?: string;
   section?: string;
+}
+
+export interface DecisionResult {
+  classification: 'BAIXA' | 'MEDIA' | 'ALTA' | 'EMERGENCIA';
+  priority: 'ORIENTACAO' | 'URGENTE' | 'IMEDIATO';
+  primaryServiceId: string;
+  secondaryServiceIds?: string[];
+  deadline: string;
+  justification: string;
 }
 
 export interface FlowNode {
@@ -79,15 +92,26 @@ export interface FlowNode {
   helperText?: string;
   indicators?: string[];
   doNow?: string[];
-  contactTargets?: ServiceTarget[];
+  contactTargets?: ServiceTarget[] | ContactTarget[];
   deadline?: string;
   recordRequired?: RecordRequirement[];
   sourceRef?: SourceRef;
   notes?: string;
+  description?: string;
   escalationRule?: 'SE_DUVIDA_ESCALE';
   serviceCharacterization?: string[];
   referralType?: ReferralType;
+  actionPriority?: ActionPriority;
+  primaryServiceIds?: string[];
+  secondaryServiceIds?: string[];
+  notifyManagement?: boolean;
+  actionSummary?: string;
+  whatToDoNow?: string;
+  whyThisService?: string;
+  decisionResult?: DecisionResult;
+  primaryServiceId?: string;
 }
+
 
 export interface Service {
   id: string;
@@ -98,10 +122,13 @@ export interface Service {
   hours?: string;
   coverage?: string;
   notes?: string;
+  description?: string;
   officialSource?: string;
   verifiedAt?: string;
   verifiedBy?: string;
-  type?: ServiceTarget;
+  type: ServiceType;
+  targetType?: ServiceTarget;
+  networkType: ServiceNetworkType;
   phones?: string[];
   howToCall?: string;
   sourceOfficial?: string;

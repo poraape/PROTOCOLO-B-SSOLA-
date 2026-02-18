@@ -8,6 +8,7 @@ import { DecisionSummary } from './decision/DecisionSummary';
 import { EmergencyCTA } from './decision/EmergencyCTA';
 import { DecisionHistoryPanel } from './decision/DecisionHistoryPanel';
 import { useBreakpoint } from '../hooks/useBreakpoint';
+import { validateTreeDepth } from '../services/validateTreeDepth';
 
 interface DecisionStep { nodeId: string; selectedOptionLabel?: string; }
 
@@ -31,13 +32,23 @@ export const DecisionWizard: React.FC = () => {
 
   if (!currentNode) return <div className="card border-danger-200 bg-danger-50 text-danger-700">Erro: fluxo não encontrado.</div>;
 
-  const leafServices = (currentNode.contactTargets || [])
-    .flatMap((target) => PROTOCOL_DATA.services.filter((service) => service.type === target))
-    .filter((service, index, array) => array.findIndex((item) => item.id === service.id) === index);
+  const leafServices = PROTOCOL_DATA.services;
+  const treeDepth = useMemo(() => validateTreeDepth(PROTOCOL_DATA.decisionTree, 12).maxDepth, []);
 
   return (
     <section className="relative" aria-live="polite">
-      <DecisionSummary stepNumber={history.length} canGoBack={history.length > 1} onGoBack={goBack} onReset={resetWizard} />
+      <div className="card mb-4">
+        <h1 className="text-2xl font-extrabold text-text">Decisor Escolar</h1>
+        <p className="mt-1 text-sm text-muted">Responda às perguntas para receber orientação imediata. Duração média: 30 segundos.</p>
+      </div>
+
+      <DecisionSummary
+        stepNumber={history.length}
+        totalSteps={Math.max(treeDepth - 1, history.length)}
+        canGoBack={history.length > 1}
+        onGoBack={goBack}
+        onReset={resetWizard}
+      />
 
       <div className="mt-4 grid gap-4 lg:grid-cols-3 lg:items-start">
         <div className="space-y-4 lg:col-span-2">

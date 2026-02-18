@@ -18,7 +18,9 @@ export function CategoryOptionCard({ category, onClick }: Props) {
         <div>
           <div className="font-semibold text-base">{category.label}</div>
 
-          <div className="text-sm mt-1 opacity-80">{category.short}</div>
+          <div className="text-sm mt-1 opacity-80">{category.description}</div>
+          <p className="mt-2 text-xs"><strong>Exemplos:</strong> {category.examples.slice(0, 3).join(', ')}.</p>
+          <p className="mt-1 text-xs"><strong>Quando usar:</strong> {category.whenToUse}</p>
         </div>
       </div>
     </button>

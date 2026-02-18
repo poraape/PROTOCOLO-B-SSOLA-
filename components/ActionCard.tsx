@@ -16,31 +16,43 @@ const urgencyStyles: Record<string, string> = {
 };
 
 const normalizePhoneToTel = (phone: string) => `tel:${phone.replace(/\D/g, '')}`;
-const isGenericAddress = (address?: string) => {
-  if (!address) return true;
-  return /acionamento telef[oô]nico|canal remoto|secretaria escolar digital|canal estadual|canal nacional|foro regional/i.test(address);
-};
 
-const mapsLink = (service: Service) => {
-  const fallbackRegion = 'Ermelino Matarazzo São Paulo';
-  const query = isGenericAddress(service.address)
-    ? `${service.name} ${fallbackRegion}`
-    : `${service.name} ${service.address}`;
+const serviceLink = (serviceId: string) => `/rede?highlight=${serviceId}`;
 
-  return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
-};
+const ServiceItem: React.FC<{ service: Service; highlight?: boolean }> = ({ service, highlight = false }) => (
+  <li className={`panel p-3 ${highlight ? 'border-brand-300 bg-brand-50' : ''}`}>
+    <div className="flex items-center justify-between gap-2">
+      <p className="font-semibold text-text">{service.name}</p>
+      <span className="badge text-xs">{service.type}</span>
+    </div>
+    <p className="mt-1 text-xs text-muted">{service.address}</p>
+    <a className="mt-1 inline-block text-sm font-semibold text-brand-800" href={normalizePhoneToTel(service.phone)}>{service.phone}</a>
+    <div className="mt-2">
+      <Link className="btn-secondary text-xs focus-visible:ring-2 focus-visible:ring-brand-500" to={serviceLink(service.id)}>Ver na Rede</Link>
+    </div>
+  </li>
+);
 
 export const ActionCard: React.FC<ActionCardProps> = ({ leafNode, services }) => {
   const risk = leafNode.riskLevel || 'MÉDIO';
   const sourceLink = getSourceLink(leafNode.sourceRef);
 
+  const primaryServiceId = leafNode.decisionResult?.primaryServiceId || leafNode.primaryServiceIds?.[0] || leafNode.serviceIds?.[0];
+  const primaryService = services.find((service) => service.id === primaryServiceId) || services.find((service) => service.id === 'de-leste1') || services[0];
+
+  const secondaryIds = leafNode.decisionResult?.secondaryServiceIds || leafNode.secondaryServiceIds || [];
+  const secondaryServices = services.filter((service) => secondaryIds.includes(service.id) && service.id !== primaryService?.id);
+
   return (
     <section className="grid gap-4 lg:grid-cols-2">
       <article className="rounded-2xl border border-brand-100 bg-brand-50 p-5">
-        <div className="mb-3">
-          <span className={urgencyStyles[risk] || 'badge'}>Risco {risk}</span>
+        <div className="mb-3 flex flex-wrap gap-2">
+          <span className={urgencyStyles[risk] || 'badge'}>Classificação: {leafNode.decisionResult?.classification || risk}</span>
+          <span className="badge">Prioridade: {leafNode.decisionResult?.priority || leafNode.actionPriority || 'ORIENTAÇÃO'}</span>
         </div>
-        <h2 className="text-xl font-extrabold text-brand-900">Faça agora</h2>
+
+        <h3 className="text-base font-bold text-brand-900">O que fazer agora</h3>
+        <p className="mt-1 text-sm text-brand-900">{leafNode.whatToDoNow || leafNode.doNow?.[0]}</p>
         <ol className="mt-3 list-decimal space-y-2 pl-5 text-sm text-brand-900">
           {(leafNode.doNow || leafNode.guidance || []).slice(0, 3).map((item, index) => (
             <li key={`${leafNode.id}-action-${index}`}>{item}</li>
@@ -50,38 +62,39 @@ export const ActionCard: React.FC<ActionCardProps> = ({ leafNode, services }) =>
 
       <aside className="space-y-3">
         <div className="card p-4">
-          <h3 className="text-sm font-bold uppercase tracking-wide text-muted">Quem acionar</h3>
-          {!!services.length ? (
+          <h3 className="text-sm font-bold uppercase tracking-wide text-muted">Serviço principal</h3>
+          {primaryService && <ul className="mt-2 space-y-2"><ServiceItem service={primaryService} highlight /></ul>}
+        </div>
+
+        {!!secondaryServices.length && (
+          <div className="card p-4">
+            <h4 className="text-sm font-bold uppercase tracking-wide text-muted">Serviços complementares</h4>
             <ul className="mt-2 space-y-2">
-              {services.map((service) => (
-                <li key={service.id} className="panel p-3">
-                  <div className="flex items-center justify-between gap-2">
-                    <p className="font-semibold text-text">{service.name}</p>
-                    <span className="badge text-xs">{service.type || 'Serviço'}</span>
-                  </div>
-                  <p className="mt-1 text-xs text-muted">{service.address}</p>
-                  <div className="mt-2 flex flex-wrap gap-2">
-                    <a className="btn-primary text-xs focus-visible:ring-2 focus-visible:ring-brand-500" href={normalizePhoneToTel(service.phone)}>Ligar agora</a>
-                    <button className="btn-secondary text-xs focus-visible:ring-2 focus-visible:ring-brand-500" onClick={() => navigator.clipboard.writeText(`${service.name}\n${service.address}\n${service.phone}`)}>Copiar</button>
-                    <a className="btn-secondary text-xs focus-visible:ring-2 focus-visible:ring-brand-500" href={mapsLink(service)} target="_blank" rel="noreferrer">Abrir rota</a>
-                  </div>
-                </li>
-              ))}
+              {secondaryServices.map((service) => <ServiceItem key={service.id} service={service} />)}
             </ul>
-          ) : (
-            <p className="mt-2 text-sm font-semibold text-accent-800">Serviço não cadastrado; contate a gestão.</p>
-          )}
+          </div>
+        )}
+
+        <div className="card p-4 text-sm text-text">
+          <h3 className="text-sm font-bold uppercase tracking-wide text-muted">Prazo</h3>
+          <p className="mt-2">{leafNode.deadline || leafNode.decisionResult?.deadline || 'Hoje'}</p>
         </div>
 
         <div className="card p-4 text-sm text-text">
-          <h3 className="text-sm font-bold uppercase tracking-wide text-muted">Prazo e registro</h3>
-          <p className="mt-2"><strong>Prazo:</strong> {leafNode.deadline || 'Hoje'}</p>
-          {!!leafNode.recordRequired?.length && (
+          <h3 className="text-sm font-bold uppercase tracking-wide text-muted">Justificativa</h3>
+          <p className="mt-2">{leafNode.decisionResult?.justification || leafNode.whyThisService || 'Encaminhamento definido por risco e competência da rede.'}</p>
+        </div>
+
+        <div className="card p-4 text-sm text-text">
+          <h3 className="text-sm font-bold uppercase tracking-wide text-muted">Registro obrigatório</h3>
+          {!!leafNode.recordRequired?.length ? (
             <ul className="mt-2 list-disc pl-5">
               {leafNode.recordRequired.map((record, index) => (
                 <li key={`${record.system}-${index}`}>{record.system} · até {record.due}</li>
               ))}
             </ul>
+          ) : (
+            <p className="mt-2">Sem exigência explícita no protocolo para este cenário.</p>
           )}
         </div>
       </aside>
