@@ -860,18 +860,34 @@ export const RECURSOS: Recurso[] = PROTOCOL_DATA.documentTemplates.map((doc) => 
 export const GLOSSARY_SEED = [
   {
     id: 'g1',
-    term: 'talarico',
-    meaning: 'Conflito relacional envolvendo ciúmes entre colegas.',
-    context: 'Pode aparecer em conflitos que escalam para bullying ou agressão verbal.',
-    riskFlag: 'atenção',
+    term: 'Busca Ativa',
+    definition: 'Procedimento de acompanhamento quando há ausência recorrente do estudante, com tentativa de contato com família e rede.',
+    context: 'Aplicável quando houver faltas reiteradas ou evasão escolar.',
+    category: 'Procedimentos',
     createdAt: new Date().toISOString()
   },
   {
     id: 'g2',
-    term: 'cancelar',
-    meaning: 'Excluir publicamente alguém do grupo, muitas vezes em redes sociais.',
-    context: 'Relacionar com exclusão social/cyberbullying se recorrente.',
-    riskFlag: 'alerta',
+    term: 'Notificação Compulsória',
+    definition: 'Obrigação legal de comunicar suspeitas ou confirmações de violência contra crianças e adolescentes aos órgãos competentes.',
+    context: 'Prevista no ECA e legislações correlatas.',
+    category: 'Base Legal',
+    createdAt: new Date().toISOString()
+  },
+  {
+    id: 'g3',
+    term: 'Violência Institucional',
+    definition: 'Práticas ou omissões da instituição que possam causar dano psicológico ou moral ao estudante.',
+    context: 'Exige avaliação da gestão e possível revisão de procedimento.',
+    category: 'Conceitos',
+    createdAt: new Date().toISOString()
+  },
+  {
+    id: 'g4',
+    term: 'Escalonamento',
+    definition: 'Encaminhamento progressivo da demanda para instâncias superiores (Coordenação → Direção → Rede).',
+    context: 'Quando a situação ultrapassa competência individual.',
+    category: 'Fluxo Operacional',
     createdAt: new Date().toISOString()
   }
 ];
@@ -880,83 +896,67 @@ export const ROLEPLAY_SCENARIOS = [
   {
     id: 's1',
     title: 'Isolamento + queda de rendimento',
-    situation: 'Estudante que participava bem ficou isolado, faltando mais e com queda brusca nas notas.',
+    description: 'Estudante que participava bem ficou isolado, faltando mais e com queda brusca nas notas.',
     protocolHint: 'Aplicar registro inicial, escuta qualificada e acionar fluxo multifatorial quando necessário.',
     options: [
-      {
-        id: 'a',
-        text: 'Aguardar mais um mês para ver se melhora sozinho.',
-        isBest: false,
-        feedback: 'Conduta inadequada: posterga proteção e pode agravar o caso.'
-      },
-      {
-        id: 'b',
-        text: 'Registrar Anexo I no mesmo dia, comunicar coordenação e iniciar busca ativa.',
-        isBest: true,
-        feedback: 'Correto: ação precoce, registro e escalonamento estruturado.'
-      },
-      {
-        id: 'c',
-        text: 'Conversar em público com o aluno para pressionar presença.',
-        isBest: false,
-        feedback: 'Conduta inadequada: pode expor e revitimizar.'
-      }
+      { id: 'a', text: 'Aguardar mais um mês para ver se melhora sozinho.', score: 0, feedback: 'Conduta inadequada: posterga proteção e pode agravar o caso.' },
+      { id: 'b', text: 'Registrar Anexo I no mesmo dia, comunicar coordenação e iniciar busca ativa.', score: 2, feedback: 'Correto: ação precoce, registro e escalonamento estruturado.' },
+      { id: 'c', text: 'Conversar em público com o aluno para pressionar presença.', score: 0, feedback: 'Conduta inadequada: pode expor e revitimizar.' }
     ]
   },
   {
     id: 's2',
     title: 'Relato de possível violência sexual',
-    situation: 'Estudante relata situação de abuso, com medo de represália familiar.',
+    description: 'Estudante relata situação de abuso, com medo de represália familiar.',
     protocolHint: 'Escuta qualificada mínima, proteção imediata, CT/autoridades e não revitimização.',
     options: [
-      {
-        id: 'a',
-        text: 'Pedir detalhes repetidamente para confirmar história.',
-        isBest: false,
-        feedback: 'Conduta inadequada: risco de revitimização.'
-      },
-      {
-        id: 'b',
-        text: 'Fazer escuta qualificada essencial e acionar direção/CT imediatamente.',
-        isBest: true,
-        feedback: 'Correto: preserva proteção e segue competência institucional.'
-      },
-      {
-        id: 'c',
-        text: 'Ligar primeiro para o suposto agressor para esclarecimentos.',
-        isBest: false,
-        feedback: 'Conduta inadequada: expõe a vítima e compromete proteção.'
-      }
+      { id: 'a', text: 'Pedir detalhes repetidamente para confirmar história.', score: 0, feedback: 'Conduta inadequada: risco de revitimização.' },
+      { id: 'b', text: 'Fazer escuta qualificada essencial e acionar direção/CT imediatamente.', score: 2, feedback: 'Correto: preserva proteção e segue competência institucional.' },
+      { id: 'c', text: 'Ligar primeiro para o suposto agressor para esclarecimentos.', score: 0, feedback: 'Conduta inadequada: expõe a vítima e compromete proteção.' }
     ]
   },
   {
     id: 's3',
     title: 'Cyberbullying com exposição de imagem',
-    situation: 'Turma compartilha foto de colega com ofensas em grupo digital.',
+    description: 'Turma compartilha foto de colega com ofensas em grupo digital.',
     protocolHint: 'Interrupção da exposição, proteção da vítima, registro e escalonamento jurídico quando necessário.',
     options: [
-      {
-        id: 'a',
-        text: 'Tratar como “brincadeira” e encerrar sem registro.',
-        isBest: false,
-        feedback: 'Conduta inadequada: invisibiliza violência e recorrência.'
-      },
-      {
-        id: 'b',
-        text: 'Proteger vítima, registrar ocorrência e acionar família/gestão.',
-        isBest: true,
-        feedback: 'Correto: responde à violação com medidas educativas e protetivas.'
-      },
-      {
-        id: 'c',
-        text: 'Punir imediatamente sem escuta de envolvidos.',
-        isBest: false,
-        feedback: 'Inadequado: sem investigação pedagógica e registro correto.'
-      }
+      { id: 'a', text: 'Tratar como “brincadeira” e encerrar sem registro.', score: 0, feedback: 'Conduta inadequada: invisibiliza violência e recorrência.' },
+      { id: 'b', text: 'Proteger vítima, registrar ocorrência e acionar família/gestão.', score: 2, feedback: 'Correto: responde à violação com medidas educativas e protetivas.' },
+      { id: 'c', text: 'Punir imediatamente sem escuta de envolvidos.', score: 0, feedback: 'Inadequado: sem investigação pedagógica e registro correto.' }
+    ]
+  },
+  {
+    id: 'auto-lesao',
+    title: 'Suspeita de Autolesão',
+    description: 'Aluno apresenta cortes superficiais no braço e evita responder perguntas.',
+    protocolHint: 'Escuta qualificada, proteção imediata e comunicação à gestão.',
+    options: [
+      { id: 'a', text: 'Ignorar para não constranger', score: 0, feedback: 'Omissão pode agravar risco. Situações de autolesão exigem escuta e comunicação à gestão.' },
+      { id: 'b', text: 'Conversar em local reservado e comunicar coordenação', score: 2, feedback: 'Conduta adequada. Escuta qualificada + acionamento institucional.' }
+    ]
+  },
+  {
+    id: 'conflito-docente',
+    title: 'Conflito com Professor',
+    description: 'Aluno acusa professor de tratamento humilhante em sala.',
+    protocolHint: 'Escuta inicial qualificada e mediação institucional conforme fluxo interno.',
+    options: [
+      { id: 'a', text: 'Encaminhar diretamente à direção', score: 1, feedback: 'Pode ser adequado, mas escuta inicial qualificada é recomendada.' },
+      { id: 'b', text: 'Registrar relato e acionar protocolo interno de mediação', score: 2, feedback: 'Favorece escuta institucional e evita escalonamento precipitado.' }
+    ]
+  },
+  {
+    id: 'negligencia',
+    title: 'Possível Negligência Familiar',
+    description: 'Estudante relata dormir sozinho e não ter alimentação regular.',
+    protocolHint: 'Registro formal, avaliação de risco com gestão e eventual acionamento da rede de proteção.',
+    options: [
+      { id: 'a', text: 'Avisar família imediatamente', score: 1, feedback: 'Contato pode ser necessário, mas requer avaliação prévia com gestão.' },
+      { id: 'b', text: 'Registrar e discutir com coordenação para avaliação de risco', score: 2, feedback: 'Conduta alinhada ao protocolo e proteção da criança.' }
     ]
   }
 ];
-
 
 export const FAQ_CONTENT_META = {
   contentOrigin: 'DERIVADA' as const,

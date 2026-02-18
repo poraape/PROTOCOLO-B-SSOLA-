@@ -5,6 +5,7 @@ import App from './App';
 import { PROTOCOL_DATA } from './content/protocolData';
 import { validateTreeDepth } from './services/validateTreeDepth';
 import './index.css';
+import 'leaflet/dist/leaflet.css';
 
 
 if (import.meta.env.DEV) {

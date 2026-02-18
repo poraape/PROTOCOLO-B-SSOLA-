@@ -88,7 +88,7 @@ export const ActionCard: React.FC<ActionCardProps> = ({ leafNode, services }) =>
 
       <div className="lg:col-span-2 text-xs text-muted">
         {sourceLink ? <details><summary className="cursor-pointer">Base normativa (ver referência)</summary><a className="mt-2 inline-block" href={sourceLink.href} target="_blank" rel="noreferrer">{sourceLink.label}</a></details> : null}
-        <div className="mt-3"><Link to="/recursos" className="btn-secondary focus-visible:ring-2 focus-visible:ring-brand-500">Abrir documentos necessários</Link></div>
+        <div className="mt-3"><Link to="/protocolo" className="btn-secondary focus-visible:ring-2 focus-visible:ring-brand-500">Consultar protocolo oficial</Link></div>
       </div>
     </section>
   );

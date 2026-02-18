@@ -164,6 +164,10 @@ export default function ProtocoloViewer() {
       </aside>
 
       <main className="flex-1 p-6 overflow-y-auto">
+        <div className="bg-blue-50 border-l-4 border-blue-600 p-4 mb-6">
+          <strong>Consulta Oficial:</strong>
+          Para formulários, modelos e anexos formais, consulte o Protocolo Institucional oficial aprovado pela gestão escolar.
+        </div>
         <div className="flex justify-between items-center mb-6 gap-3 flex-wrap">
           <input
             type="text"
