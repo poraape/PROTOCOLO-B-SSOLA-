@@ -1,6 +1,7 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import GlobalSearch from './GlobalSearch';
+import { DISCLAIMER_TEXT, SCHOOL_CONFIG } from '../content/schoolConfig';
 
 const navItems = [
   { label: 'Início', path: '/' },
@@ -28,8 +29,8 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
             />
 
             <div>
-              <div className="text-slate-900 font-semibold">Protocolo Bússola</div>
-              <div className="text-xs text-slate-500">EE Ermelino Matarazzo</div>
+              <div className="text-slate-900 font-semibold">{SCHOOL_CONFIG.appName}</div>
+              <div className="text-xs text-slate-500">{SCHOOL_CONFIG.schoolName}</div>
             </div>
           </div>
 
@@ -46,7 +47,12 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
         </div>
       </header>
 
-      <main className="container-page pb-24 md:pb-8">{children}</main>
+      <main className="container-page space-y-4 pb-24 md:pb-8">
+        <div className="rounded-xl border border-accent-200 bg-accent-50 px-4 py-3 text-sm text-accent-900" role="note">
+          {DISCLAIMER_TEXT}
+        </div>
+        {children}
+      </main>
 
       <nav className="fixed inset-x-0 bottom-0 z-50 border-t border-border bg-white px-2 py-2 md:hidden">
         <div className="mb-2 px-1">
@@ -67,7 +73,7 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
         <div className="max-w-6xl mx-auto px-6 py-6 text-xs text-slate-500 text-center">
           Ferramenta interna de apoio à decisão.
           Baseada no Protocolo Oficial (Fev/2026).
-          Uso institucional — EE Ermelino Matarazzo.
+          {SCHOOL_CONFIG.institutionalUseLabel} — {SCHOOL_CONFIG.schoolName}.
         </div>
       </footer>
     </div>

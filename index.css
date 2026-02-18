@@ -7,6 +7,7 @@
   --text: #0F172A;
   --muted: #475569;
   --focus: rgba(37, 99, 235, 0.35);
+  --brand-primary: #1E3A8A;
 }
 
 * {
@@ -74,11 +75,11 @@ a {
 }
 
 .btn-primary {
-  background: #1E3A8A;
+  background: var(--brand-primary);
   color: #fff;
   border-radius: 14px;
   padding: 12px 18px;
-  border: 1px solid #1E3A8A;
+  border: 1px solid var(--brand-primary);
   font-weight: 600;
 }
 
@@ -155,15 +156,26 @@ a {
 @media print {
   aside,
   button,
-  input {
+  input,
+  nav {
     display: none !important;
   }
 
   body {
     background: white;
+    color: #0f172a;
   }
 
-  .prose {
+  .prose,
+  .card {
     box-shadow: none;
+    border-color: #cbd5e1;
+  }
+
+  main::before {
+    content: 'Uso institucional • Registro para proteção escolar';
+    display: block;
+    font-weight: 700;
+    margin-bottom: 12px;
   }
 }

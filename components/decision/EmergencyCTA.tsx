@@ -1,5 +1,6 @@
 import React from 'react';
 import { FlowNode } from '../../types';
+import { SCHOOL_CONFIG } from '../../content/schoolConfig';
 
 const shouldShowEmergency = (node?: FlowNode) => {
   if (!node) return false;
@@ -11,12 +12,12 @@ export const EmergencyCTA: React.FC<{ node?: FlowNode; isMobile?: boolean }> = (
 
   return (
     <a
-      href="tel:190"
+      href={`tel:${SCHOOL_CONFIG.emergency.police}`}
       className={isMobile
         ? 'fixed bottom-20 right-4 z-40 rounded-xl bg-danger-600 px-4 py-3 text-sm font-bold text-white shadow-soft'
         : 'inline-flex rounded-xl bg-danger-600 px-4 py-2 text-sm font-bold text-white shadow-soft'}
     >
-      EMERGÊNCIA 190/192
+      EMERGÊNCIA {SCHOOL_CONFIG.emergency.police}/{SCHOOL_CONFIG.emergency.samu}
     </a>
   );
 };
