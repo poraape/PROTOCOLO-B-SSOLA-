@@ -1,4 +1,6 @@
 export type ProtocolRiskLevel = 'BAIXO' | 'MÉDIO' | 'ALTO' | 'EMERGENCIAL';
+export type ActionPriority = 'IMEDIATA' | 'URGENTE' | 'ORIENTAÇÃO';
+export type ServiceType = 'EMERGENCIAL' | 'GESTAO' | 'SAUDE' | 'PROTECAO' | 'APOIO';
 
 export type RiskLevel = 'EMERGENCIA' | 'ALTA_PRIORIDADE' | 'APOIO_INSTITUCIONAL' | 'OUTROS';
 export type RiskLevelV2 = 'BAIXO' | 'MEDIO' | 'ALTO';
@@ -52,7 +54,7 @@ export interface FlowOption {
 }
 
 
-export interface ServiceTarget {
+export interface ContactTarget {
   serviceId: string;
   channel?: 'telefone' | 'presencial' | 'institucional';
 }
@@ -79,7 +81,7 @@ export interface FlowNode {
   helperText?: string;
   indicators?: string[];
   doNow?: string[];
-  contactTargets?: ServiceTarget[];
+  contactTargets?: ServiceTarget[] | ContactTarget[];
   deadline?: string;
   recordRequired?: RecordRequirement[];
   sourceRef?: SourceRef;
@@ -87,6 +89,13 @@ export interface FlowNode {
   escalationRule?: 'SE_DUVIDA_ESCALE';
   serviceCharacterization?: string[];
   referralType?: ReferralType;
+  actionPriority?: ActionPriority;
+  primaryServiceIds?: string[];
+  secondaryServiceIds?: string[];
+  notifyManagement?: boolean;
+  actionSummary?: string;
+  whatToDoNow?: string;
+  whyThisService?: string;
 }
 
 export interface Service {
@@ -101,7 +110,8 @@ export interface Service {
   officialSource?: string;
   verifiedAt?: string;
   verifiedBy?: string;
-  type?: ServiceTarget;
+  type: ServiceType;
+  targetType?: ServiceTarget;
   phones?: string[];
   howToCall?: string;
   sourceOfficial?: string;

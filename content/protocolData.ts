@@ -1,4 +1,4 @@
-import { Contato, DocumentTemplate, FlowNode, Fluxo, ProtocolData, Recurso, Service, ServiceTarget } from '../types';
+import { ActionPriority, ContactTarget, Contato, DocumentTemplate, FlowNode, Fluxo, ProtocolData, Recurso, Service, ServiceTarget } from '../types';
 
 const BASE_SERVICES: Service[] = [
   {
@@ -165,7 +165,7 @@ const BASE_SERVICES: Service[] = [
   }
 ];
 
-const SERVICE_TYPE_BY_ID: Record<string, Service['type']> = {
+const SERVICE_TARGET_BY_ID: Record<string, Service['targetType']> = {
   'ubs-ermelino': 'UBS',
   'caps-ij': 'CAPS_IJ',
   'caps-adulto': 'CAPS_ADULTO',
@@ -218,14 +218,24 @@ const inferStrategicDescription = (service: Service): string => {
   return 'Apoio institucional para orientação, registro e continuidade do cuidado.';
 };
 
+
+const inferServiceType = (service: Omit<Service, 'type'>): Service['type'] => {
+  if (service.category === 'EMERGÊNCIA') return 'EMERGENCIAL';
+  if (service.id === 'de-leste1' || service.id === 'conviva') return 'GESTAO';
+  if (service.category === 'SAÚDE') return 'SAUDE';
+  if (service.category === 'DIREITOS_SGD') return 'PROTECAO';
+  return 'APOIO';
+};
+
 const SERVICES: Service[] = BASE_SERVICES.map((service) => ({
   sourceOfficial: 'Fonte oficial institucional (validação interna)',
   officialSource: 'Fonte oficial institucional (validação interna)',
   verifiedAt: '2026-02-10',
   verifiedBy: 'Coordenação Escolar',
-  type: SERVICE_TYPE_BY_ID[service.id] || 'OUTROS',
+  targetType: SERVICE_TARGET_BY_ID[service.id] || 'OUTROS',
   phones: service.phone.split('/').map((item) => item.trim()),
   howToCall: 'Use telefone institucional listado na rede oficial.',
+  type: inferServiceType(service),
   riskLevel: inferServiceRiskLevel(service),
   strategicDescription: inferStrategicDescription(service),
   geoStatus: service.coordinates ? 'VERIFICADO' : 'PENDENTE',
@@ -261,7 +271,7 @@ const normalizeRecordRequired = (actions: string[]) => {
 };
 
 const inferReferralType = (node: FlowNode): FlowNode['referralType'] => {
-  const targets = (node.contactTargets || []) as unknown as string[];
+  const targets = (node.contactTargets || []).map((target) => (typeof target === 'string' ? target : target.serviceId));
   if (targets.includes('EMERGENCIA_192_193') || targets.includes('UPA_HOSPITAL') || node.category === 'EMERGÊNCIA') return 'EMERGENCIA';
   if (targets.includes('CAPS_IJ') || targets.includes('CAPS_ADULTO')) return 'CAPS';
   if (targets.includes('UBS')) return 'UBS';
@@ -278,7 +288,18 @@ const standardizeLeafNode = (node: FlowNode): FlowNode => {
   const riskLevel = inferLeafRisk(node);
   const baseActions = (node.doNow || node.guidance || []).slice(0, 3);
   const doNow = baseActions.length ? baseActions : ['Registrar situação no Anexo I.', 'Acionar serviço responsável.', 'Acompanhar devolutiva com a gestão.'];
-  const contactTargets: ServiceTarget[] = (node.contactTargets || (node.serviceIds || []).map((serviceId) => ({ serviceId })));
+  const rawTargets = node.contactTargets || [];
+  const contactTargets: ContactTarget[] = rawTargets.length
+    ? rawTargets.map((target) => (typeof target === 'string' ? { serviceId: target } : target))
+    : (node.serviceIds || []).map((serviceId) => ({ serviceId }));
+
+
+  const serviceIds = node.serviceIds || contactTargets.map((target) => target.serviceId);
+  const includesManagement = contactTargets.some((target) => target.serviceId === 'GESTAO_ESCOLAR');
+  const actionPriority: ActionPriority = riskLevel === 'EMERGENCIAL' ? 'IMEDIATA' : riskLevel === 'ALTO' ? 'URGENTE' : 'ORIENTAÇÃO';
+  const preferredPrimary = serviceIds.find((serviceId) => serviceId !== 'GESTAO_ESCOLAR') || serviceIds[0];
+  const primaryServiceIds = node.primaryServiceIds || (preferredPrimary ? [preferredPrimary] : []);
+  const secondaryServiceIds = node.secondaryServiceIds || serviceIds.filter((serviceId) => !primaryServiceIds.includes(serviceId));
 
   return {
     ...node,
@@ -289,7 +310,14 @@ const standardizeLeafNode = (node: FlowNode): FlowNode => {
     doNow,
     guidance: doNow,
     contactTargets,
-    serviceIds: node.serviceIds || contactTargets.map((target) => target.serviceId),
+    serviceIds,
+    actionPriority: node.actionPriority || actionPriority,
+    primaryServiceIds,
+    secondaryServiceIds,
+    notifyManagement: typeof node.notifyManagement === 'boolean' ? node.notifyManagement : includesManagement,
+    actionSummary: node.actionSummary || `Encaminhar ${node.question.toLowerCase()} com prioridade ${actionPriority.toLowerCase()}.`,
+    whatToDoNow: node.whatToDoNow || doNow[0],
+    whyThisService: node.whyThisService || 'Serviços selecionados conforme risco, proteção necessária e competência da rede.' ,
     deadline: node.deadline || DEFAULT_DEADLINE_BY_RISK[riskLevel || 'MÉDIO'],
     recordRequired: node.recordRequired || normalizeRecordRequired(doNow),
     sourceRef: node.sourceRef || {
@@ -809,8 +837,8 @@ const categoryToFluxo: Record<string, { codigo: string; icon: string; risco: Flu
   NAO_SEI: { codigo: '?', icon: '❔', risco: 'moderado' }
 };
 
-const serviceIdsByTarget = (target?: Service['type']) =>
-  PROTOCOL_DATA.services.filter((service) => service.type === target).map((service) => service.id);
+const serviceIdsByTarget = (target?: Service['targetType']) =>
+  PROTOCOL_DATA.services.filter((service) => service.targetType === target).map((service) => service.id);
 
 export const FLUXOS: Record<string, Fluxo> = Object.fromEntries(
   Object.keys(categoryToFluxo).map((category) => {
@@ -829,7 +857,7 @@ export const FLUXOS: Record<string, Fluxo> = Object.fromEntries(
         icon: meta.icon,
         contatosUteis: Array.from(
           new Set(
-            leaves.flatMap((leaf) => (leaf.contactTargets || []).flatMap((target) => serviceIdsByTarget(target)))
+            leaves.flatMap((leaf) => (leaf.contactTargets || []).flatMap((target) => serviceIdsByTarget(typeof target === 'string' ? target : target.serviceId)))
           )
         ),
         cenarios: leaves.map((leaf) => ({
@@ -837,7 +865,7 @@ export const FLUXOS: Record<string, Fluxo> = Object.fromEntries(
           titulo: leaf.question,
           descricao: (leaf.doNow || []).join(' '),
           recomendacaoImediata: leaf.doNow?.[0] || 'Seguir protocolo institucional.',
-          acionar: (leaf.contactTargets || []).flatMap((target) => serviceIdsByTarget(target)),
+          acionar: (leaf.contactTargets || []).flatMap((target) => serviceIdsByTarget(typeof target === 'string' ? target : target.serviceId)),
           documento: leaf.recordRequired?.length ? 'Registro institucional' : 'Sem exigência explícita',
           prazoNotificacao: leaf.deadline || 'Hoje'
         }))
