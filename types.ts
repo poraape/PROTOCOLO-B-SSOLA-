@@ -40,6 +40,7 @@ export interface RecordRequirement {
   system: 'CONVIVA' | 'OUTRO' | 'NENHUM';
   due: string;
   notes?: string;
+  description?: string;
 }
 
 export interface SourceRef {
@@ -69,7 +70,7 @@ export interface SourceReference {
 export interface DecisionResult {
   classification: 'BAIXA' | 'MEDIA' | 'ALTA' | 'EMERGENCIA';
   priority: 'ORIENTACAO' | 'URGENTE' | 'IMEDIATO';
-  mainServiceId: string;
+  primaryServiceId: string;
   secondaryServiceIds?: string[];
   deadline: string;
   justification: string;
@@ -96,6 +97,7 @@ export interface FlowNode {
   recordRequired?: RecordRequirement[];
   sourceRef?: SourceRef;
   notes?: string;
+  description?: string;
   escalationRule?: 'SE_DUVIDA_ESCALE';
   serviceCharacterization?: string[];
   referralType?: ReferralType;
@@ -107,7 +109,9 @@ export interface FlowNode {
   whatToDoNow?: string;
   whyThisService?: string;
   decisionResult?: DecisionResult;
+  primaryServiceId?: string;
 }
+
 
 export interface Service {
   id: string;
@@ -118,6 +122,7 @@ export interface Service {
   hours?: string;
   coverage?: string;
   notes?: string;
+  description?: string;
   officialSource?: string;
   verifiedAt?: string;
   verifiedBy?: string;

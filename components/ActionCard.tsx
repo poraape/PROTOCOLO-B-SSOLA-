@@ -17,7 +17,7 @@ const urgencyStyles: Record<string, string> = {
 
 const normalizePhoneToTel = (phone: string) => `tel:${phone.replace(/\D/g, '')}`;
 
-const serviceLink = (serviceId: string) => `/rede/${serviceId}`;
+const serviceLink = (serviceId: string) => `/rede?highlight=${serviceId}`;
 
 const ServiceItem: React.FC<{ service: Service; highlight?: boolean }> = ({ service, highlight = false }) => (
   <li className={`panel p-3 ${highlight ? 'border-brand-300 bg-brand-50' : ''}`}>
@@ -37,7 +37,7 @@ export const ActionCard: React.FC<ActionCardProps> = ({ leafNode, services }) =>
   const risk = leafNode.riskLevel || 'MÉDIO';
   const sourceLink = getSourceLink(leafNode.sourceRef);
 
-  const primaryServiceId = leafNode.decisionResult?.mainServiceId || leafNode.primaryServiceIds?.[0] || leafNode.serviceIds?.[0];
+  const primaryServiceId = leafNode.decisionResult?.primaryServiceId || leafNode.primaryServiceIds?.[0] || leafNode.serviceIds?.[0];
   const primaryService = services.find((service) => service.id === primaryServiceId) || services.find((service) => service.id === 'de-leste1') || services[0];
 
   const secondaryIds = leafNode.decisionResult?.secondaryServiceIds || leafNode.secondaryServiceIds || [];
