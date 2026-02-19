@@ -52,7 +52,19 @@ export interface SourceRef {
 export interface FlowOption {
   label: string;
   nextNodeId: string;
-  categoryId?: 'emocional' | 'violencia' | 'vulnerabilidade' | 'convivencia' | 'pedagogico' | 'saude_fisica' | 'duvida';
+  categoryId?:
+    | 'emocional'
+    | 'violencia'
+    | 'vulnerabilidade'
+    | 'convivencia'
+    | 'pedagogico'
+    | 'saude_fisica'
+    | 'duvida'
+    | 'drogas'
+    | 'gravidez'
+    | 'evasao'
+    | 'inclusao'
+    | 'discriminacao';
 }
 
 
@@ -136,6 +148,9 @@ export interface Service {
   riskLevel?: RiskLevel;
   strategicDescription?: string;
   geoStatus?: 'VERIFICADO' | 'PENDENTE';
+  whenToUse?: string[];
+  whenNotToUse?: string[];
+  differentiationNote?: string;
 }
 
 export interface NetworkService {

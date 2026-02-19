@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { FlowNode, Service } from '../types';
 import { getSourceLink } from '../services/getSourceLink';
+import { AlertPanel } from './decision/AlertPanel';
 
 interface ActionCardProps {
   leafNode: FlowNode;
@@ -18,6 +19,14 @@ const urgencyStyles: Record<string, string> = {
 const normalizePhoneToTel = (phone: string) => `tel:${phone.replace(/\D/g, '')}`;
 
 const serviceLink = (serviceId: string) => `/rede?highlight=${serviceId}`;
+
+const categoryKeyFromLeaf = (leaf: FlowNode): 'mental_health' | 'violence' | 'physical_health' | 'pedagogical' | 'registration' | 'emergency' => {
+  if (leaf.riskLevel === 'EMERGENCIAL' || leaf.category === 'EMERGÊNCIA') return 'emergency';
+  if (leaf.category === 'EMOCIONAL_COMPORTAMENTO') return 'mental_health';
+  if (leaf.category === 'VIOLACAO_DIREITOS_VIOLENCIA' || leaf.category === 'CONVIVENCIA_CONFLITOS') return 'violence';
+  if (leaf.category === 'SAUDE_FISICA') return 'physical_health';
+  return 'pedagogical';
+};
 
 const ServiceItem: React.FC<{ service: Service; highlight?: boolean }> = ({ service, highlight = false }) => (
   <li className={`panel p-3 ${highlight ? 'border-brand-300 bg-brand-50' : ''}`}>
@@ -50,6 +59,8 @@ export const ActionCard: React.FC<ActionCardProps> = ({ leafNode, services }) =>
           <span className={urgencyStyles[risk] || 'badge'}>Classificação: {leafNode.decisionResult?.classification || risk}</span>
           <span className="badge">Prioridade: {leafNode.decisionResult?.priority || leafNode.actionPriority || 'ORIENTAÇÃO'}</span>
         </div>
+
+        <div className="mb-3"><AlertPanel context="inline" ruleId={leafNode.id.toUpperCase().startsWith('R') ? leafNode.id.toUpperCase() : undefined} categoryKey={categoryKeyFromLeaf(leafNode)} /></div>
 
         <h3 className="text-base font-bold text-brand-900">O que fazer agora</h3>
         <p className="mt-1 text-sm text-brand-900">{leafNode.whatToDoNow || leafNode.doNow?.[0]}</p>
