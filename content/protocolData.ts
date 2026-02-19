@@ -1,959 +1,554 @@
-import { ActionPriority, ContactTarget, Contato, DecisionResult, DocumentTemplate, FlowNode, Fluxo, ProtocolData, Recurso, Service, ServiceTarget } from '../types';
-
-type RawService = Omit<Service, 'type' | 'targetType' | 'phones' | 'howToCall' | 'riskLevel' | 'strategicDescription' | 'geoStatus' | 'sourceOfficial' | 'officialSource' | 'verifiedAt' | 'verifiedBy' | 'networkType'>;
-
-const BASE_SERVICES: RawService[] = [
-  {
-    id: 'ubs-ermelino',
-    name: 'UBS Ermelino Matarazzo',
-    category: 'SAÚDE',
-    address: 'Rua Antônio de Freitas Toledo, 185 - Ermelino Matarazzo - São Paulo/SP - CEP 03812-050',
-    phone: '(11) 2545-8235 / (11) 2542-0945',
-    coordinates: { lat: -23.4869, lng: -46.4793 },
-    hours: 'Seg a Sex, 7h às 19h',
-    notes: 'Porta de entrada SUS para saúde geral e cuidado longitudinal.'
-  },
-  {
-    id: 'caps-ij',
-    name: 'CAPS Infantojuvenil II Ermelino Matarazzo',
-    category: 'SAÚDE',
-    address: 'Rua Antônio Bonici, 18 - Ermelino Matarazzo - São Paulo/SP - CEP 03811-060',
-    phone: '(11) 3294-3828 / (11) 2544-1490',
-    coordinates: { lat: -23.4877, lng: -46.4807 },
-    hours: 'Seg a Sex, 7h às 19h',
-    notes: 'Sofrimento psíquico infantojuvenil com necessidade de cuidado especializado.'
-  },
-  {
-    id: 'caps-adulto',
-    name: 'CAPS Adulto II Ermelino Matarazzo',
-    category: 'SAÚDE',
-    address: 'Avenida Boturussu, 168 - Parque Boturussu - São Paulo/SP - CEP 03804-000',
-    phone: '(11) 2546-6787 / (11) 2544-0406',
-    coordinates: { lat: -23.4938, lng: -46.4749 },
-    hours: 'Seg a Sex, 7h às 19h'
-  },
-  {
-    id: 'caps-ad',
-    name: 'CAPS AD II Ermelino Matarazzo',
-    category: 'SAÚDE',
-    address: 'Rua João Antônio de Andrade, 804 - Parque Boturussu - São Paulo/SP - CEP 03804-000',
-    phone: '(11) 2943-9276 / (11) 2546-2597',
-    coordinates: { lat: -23.4942, lng: -46.4743 },
-    hours: 'Seg a Sex, 7h às 19h'
-  },
-  {
-    id: 'upa-ermelino',
-    name: 'UPA Ermelino Matarazzo',
-    category: 'SAÚDE',
-    address: 'Rua Miguel Novais, 113 - Vila Paranaguá - São Paulo/SP - CEP 03807-370',
-    phone: '(11) 2574-3258',
-    coordinates: { lat: -23.4912, lng: -46.4686 },
-    hours: '24 horas'
-  },
-  {
-    id: 'cras-ermelino',
-    name: 'CRAS Ermelino',
-    category: 'SOCIAL',
-    address: 'Avenida Paranaguá, 2045 - Ermelino Matarazzo - São Paulo/SP - CEP 03806-010',
-    phone: '(11) 2545-3211 / (11) 2545-3222',
-    coordinates: { lat: -23.486, lng: -46.4718 },
-    hours: 'Seg a Sex, 8h às 18h'
-  },
-  {
-    id: 'creas-ermelino',
-    name: 'CREAS Ermelino',
-    category: 'SOCIAL',
-    address: 'Avenida Boturussu, 131 - Ermelino Matarazzo - São Paulo/SP - CEP 03804-000',
-    phone: '(11) 2541-7882',
-    coordinates: { lat: -23.4929, lng: -46.4747 },
-    hours: 'Seg a Sex, 8h às 18h'
-  },
-  {
-    id: 'conselho-tutelar',
-    name: 'Conselho Tutelar Ermelino Matarazzo',
-    category: 'DIREITOS_SGD',
-    address: 'Rua Chesira Maltauro, 342 - Ermelino Matarazzo - São Paulo/SP - CEP 03811-100',
-    phone: '(11) 2214-9050 / (11) 2546-0657 / (11) 2546-3257',
-    coordinates: { lat: -23.4885, lng: -46.4801 },
-    notes: 'Acionamento obrigatório em ameaça/violação de direitos de criança e adolescente.'
-  },
-  {
-    id: 'ddm-sao-miguel',
-    name: 'DDM São Miguel Paulista',
-    category: 'DIREITOS_SGD',
-    address: 'Rua Dríades, 50 - 2º andar - São Miguel Paulista - São Paulo/SP - CEP 08010-190',
-    phone: '(11) 6154-1362 / (11) 6153-7666',
-    coordinates: { lat: -23.4996, lng: -46.4449 }
-  },
-  {
-    id: 'delegacia-civil-197',
-    name: 'Polícia Civil (orientação e acionamento)',
-    category: 'DIREITOS_SGD',
-    address: 'Canal remoto SSP-SP',
-    phone: '197',
-    notes: 'Para orientação e acionamento da Polícia Civil. Em violência em curso, usar 190.'
-  },
-  {
-    id: 'defensoria',
-    name: 'Defensoria Pública',
-    category: 'DIREITOS_SGD',
-    address: 'Canal estadual / foro regional',
-    phone: '0800 773 4340'
-  },
-  {
-    id: 'de-leste1',
-    name: 'Diretoria de Ensino Região Leste 1',
-    category: 'EDUCAÇÃO',
-    address: 'Rua Caetano de Campos, 220 - Tatuapé - São Paulo/SP - CEP 03088-010',
-    phone: '0800 770 0012',
-    coordinates: { lat: -23.5409, lng: -46.5797 },
-    notes: 'Apoio institucional, supervisão e orientação técnica.'
-  },
-  {
-    id: 'conviva',
-    name: 'Plataforma Conviva / SED',
-    category: 'EDUCAÇÃO',
-    address: 'Secretaria Escolar Digital',
-    phone: 'Acesso institucional',
-    notes: 'Registro obrigatório de ocorrências quando previsto em protocolo.'
-  },
-  {
-    id: 'policia-militar',
-    name: 'Polícia Militar',
-    category: 'EMERGÊNCIA',
-    address: 'Acionamento telefônico',
-    phone: '190',
-    hours: '24 horas'
-  },
-  {
-    id: 'samu',
-    name: 'SAMU',
-    category: 'EMERGÊNCIA',
-    address: 'Acionamento telefônico',
-    phone: '192',
-    hours: '24 horas'
-  },
-  {
-    id: 'bombeiros',
-    name: 'Corpo de Bombeiros',
-    category: 'EMERGÊNCIA',
-    address: 'Acionamento telefônico',
-    phone: '193',
-    hours: '24 horas'
-  },
-  {
-    id: 'disque-100',
-    name: 'Disque 100 - Direitos Humanos',
-    category: 'EMERGÊNCIA',
-    address: 'Canal remoto nacional',
-    phone: '100',
-    hours: '24 horas'
-  },
-  {
-    id: 'cvv',
-    name: 'CVV - Centro de Valorização da Vida',
-    category: 'EMERGÊNCIA',
-    address: 'Canal remoto nacional',
-    phone: '188',
-    hours: '24 horas'
-  },
-  {
-    id: 'disque-denuncia',
-    name: 'Disque Denúncia SSP-SP',
-    category: 'EMERGÊNCIA',
-    address: 'Canal remoto estadual',
-    phone: '181',
-    hours: '24 horas'
-  }
-];
-
-const SERVICE_TARGET_BY_ID: Record<string, Service['targetType']> = {
-  'ubs-ermelino': 'UBS',
-  'caps-ij': 'CAPS_IJ',
-  'caps-adulto': 'CAPS_ADULTO',
-  'caps-ad': 'OUTROS',
-  'upa-ermelino': 'UPA_HOSPITAL',
-  'cras-ermelino': 'CRAS',
-  'creas-ermelino': 'CREAS',
-  'conselho-tutelar': 'CONSELHO_TUTELAR',
-  'ddm-sao-miguel': 'OUTROS',
-  'delegacia-civil-197': 'OUTROS',
-  defensoria: 'OUTROS',
-  'de-leste1': 'GESTAO_ESCOLAR',
-  conviva: 'OUTROS',
-  'policia-militar': 'OUTROS',
-  samu: 'EMERGENCIA_192_193',
-  bombeiros: 'EMERGENCIA_192_193',
-  'disque-100': 'OUTROS',
-  cvv: 'OUTROS',
-  'disque-denuncia': 'OUTROS'
-};
-
-const inferServiceRiskLevel = (service: RawService): Service['riskLevel'] => {
-  if (service.category === 'EMERGÊNCIA' || /\b(190|192|193)\b/.test(service.phone)) return 'EMERGENCIA';
-  if (service.category === 'DIREITOS_SGD' || /conselho tutelar|ddm|delegacia/i.test(service.name)) return 'ALTA_PRIORIDADE';
-  return 'APOIO_INSTITUCIONAL';
-};
-
-const inferStrategicDescription = (service: RawService): string => {
-  if (service.id === 'samu') {
-    return 'Acionar imediatamente em risco à vida, perda de consciência, tentativa de suicídio ou emergência clínica grave.';
-  }
-  if (service.id === 'conselho-tutelar') {
-    return 'Acionar em suspeita ou confirmação de violação de direitos de criança/adolescente.';
-  }
-  if (service.id === 'ubs-ermelino') {
-    return 'Encaminhar para avaliação clínica, saúde mental leve/moderada e acompanhamento longitudinal.';
-  }
-  if (service.category === 'EMERGÊNCIA') {
-    return 'Canal de resposta imediata para cenários críticos com risco iminente.';
-  }
-  if (service.category === 'DIREITOS_SGD') {
-    return 'Serviço de proteção e garantia de direitos para encaminhamento prioritário.';
-  }
-  if (service.category === 'SOCIAL') {
-    return 'Apoio socioassistencial para proteção social e acompanhamento familiar.';
-  }
-  if (service.category === 'SAÚDE') {
-    return 'Rede de cuidado em saúde para avaliação e continuidade do atendimento.';
-  }
-  return 'Apoio institucional para orientação, registro e continuidade do cuidado.';
-};
-
-
-const inferServiceType = (service: RawService): Service['type'] => {
-  if (service.category === 'EMERGÊNCIA') return 'EMERGENCIAL';
-  if (service.id === 'de-leste1') return 'GESTAO';
-  if (service.id === 'conviva') return 'EDUCACAO';
-  if (service.category === 'SAÚDE') return 'SAUDE';
-  if (service.category === 'DIREITOS_SGD') return 'PROTECAO';
-  if (service.category === 'SOCIAL') return 'APOIO_SOCIAL';
-  return 'EDUCACAO';
-};
-
-
-const inferServiceNetworkType = (service: RawService): Service['networkType'] => {
-  if (service.category === 'EMERGÊNCIA') return 'emergencia';
-  if (service.category === 'SAÚDE') return 'saude';
-  if (service.category === 'SOCIAL') return 'social';
-  if (service.category === 'DIREITOS_SGD') return 'direitos';
-  return 'educacao';
-};
-
-
-const inferServiceDescription = (service: RawService): string => {
-  if (service.id === 'samu') return 'Acione imediatamente em risco à vida e emergência clínica grave.';
-  if (service.id === 'policia-militar') return 'Acione imediatamente em violência em curso e risco à integridade física.';
-  if (service.id === 'conselho-tutelar') return 'Notifique o Conselho Tutelar em suspeita ou violação de direitos de crianças e adolescentes.';
-  if (service.id === 'cras-ermelino') return 'Oriente busca ao CRAS para proteção social básica e acompanhamento familiar.';
-  if (service.id === 'creas-ermelino') return 'Acione o CREAS para violência confirmada e proteção social especial.';
-  if (service.id === 'caps-ij') return 'Oriente busca ao CAPS IJ para cuidado especializado em saúde mental infantojuvenil.';
-  if (service.id === 'caps-ad') return 'Oriente busca ao CAPS AD para cuidado em uso problemático de álcool e outras drogas.';
-  if (service.id === 'ubs-ermelino') return 'Oriente busca à UBS como porta de entrada do SUS para avaliação clínica e acompanhamento.';
-  if (service.category === 'EDUCAÇÃO') return 'Informe a gestão e siga o protocolo institucional de registro e acompanhamento.';
-  return 'Serviço oficial da rede para encaminhamento conforme competência institucional.';
-};
-
-const SERVICES: Service[] = BASE_SERVICES.map((service) => ({
-  sourceOfficial: 'Fonte oficial institucional (validação interna)',
-  officialSource: 'Fonte oficial institucional (validação interna)',
-  verifiedAt: '2026-02-10',
-  verifiedBy: 'Coordenação Escolar',
-  targetType: SERVICE_TARGET_BY_ID[service.id] || 'OUTROS',
-  phones: service.phone.split('/').map((item) => item.trim()),
-  howToCall: 'Use telefone institucional listado na rede oficial.',
-  type: inferServiceType(service),
-  networkType: inferServiceNetworkType(service),
-  riskLevel: inferServiceRiskLevel(service),
-  strategicDescription: inferStrategicDescription(service),
-  description: inferServiceDescription(service),
-  geoStatus: service.coordinates ? 'VERIFICADO' : 'PENDENTE',
-  ...service
-}));
-
-const STANDARD_LEAF_NOTE = 'Em caso de dúvida, escale para gestão escolar.';
-
-const DEFAULT_DEADLINE_BY_RISK: Record<string, string> = {
-  EMERGENCIAL: 'Imediato',
-  ALTO: 'Até 24h',
-  MÉDIO: 'Até 72h',
-  BAIXO: 'Até 7 dias'
-};
-
-const inferLeafCategory = (node: FlowNode): FlowNode['category'] => {
-  if (node.category) return node.category;
-  if (node.id.includes('sexual') || node.id.includes('violencia') || node.id.includes('direitos')) return 'DIREITOS_SGD';
-  if (node.id.includes('social') || node.id.includes('fome') || node.id.includes('familiar')) return 'SOCIAL';
-  return 'EDUCAÇÃO';
-};
-
-const inferLeafRisk = (node: FlowNode): FlowNode['riskLevel'] => {
-  if (node.riskLevel) return node.riskLevel;
-  if (node.id.includes('sexual')) return 'EMERGENCIAL';
-  if (node.id.includes('violencia')) return 'ALTO';
-  return 'MÉDIO';
-};
-
-const normalizeRecordRequired = (actions: string[]) => {
-  const hasAnexoII = actions.some((action) => /anexo ii/i.test(action));
-  return hasAnexoII ? ['Anexo I', 'Anexo II'] : ['Anexo I'];
-};
-
-const inferReferralType = (node: FlowNode): FlowNode['referralType'] => {
-  const targets = (node.contactTargets || []).map((target) => (typeof target === 'string' ? target : target.serviceId));
-  if (targets.includes('EMERGENCIA_192_193') || targets.includes('UPA_HOSPITAL') || node.category === 'EMERGÊNCIA') return 'EMERGENCIA';
-  if (targets.includes('CAPS_IJ') || targets.includes('CAPS_ADULTO')) return 'CAPS';
-  if (targets.includes('UBS')) return 'UBS';
-  if (targets.includes('CONSELHO_TUTELAR')) return 'CONSELHO_TUTELAR';
-  if (targets.includes('CRAS') || targets.includes('CREAS')) return 'CRAS_CREAS';
-  if (targets.includes('GESTAO_ESCOLAR')) return 'GESTAO_ESCOLAR';
-  return 'OUTROS';
-};
-
-
-
-const resolveServiceIdsFromTargets = (contactTargets: ContactTarget[], fallbackServiceIds?: string[]) => {
-  if (fallbackServiceIds?.length) return fallbackServiceIds;
-
-  const resolved = contactTargets.flatMap((target) => {
-    const asServiceId = SERVICES.find((service) => service.id === target.serviceId);
-    if (asServiceId) return [asServiceId.id];
-
-    const byTargetType = SERVICES.filter((service) => service.targetType === target.serviceId).map((service) => service.id);
-    return byTargetType;
-  });
-
-  return Array.from(new Set(resolved));
-};
-
-const DEFAULT_MAIN_SERVICE_BY_CATEGORY: Record<string, string> = {
-  EMOCIONAL_COMPORTAMENTO: 'caps-ij',
-  VIOLACAO_DIREITOS_VIOLENCIA: 'conselho-tutelar',
-  VULNERABILIDADE_SOCIAL_FAMILIAR: 'cras-ermelino',
-  CONVIVENCIA_CONFLITOS: 'de-leste1',
-  DIFICULDADE_PEDAGOGICA: 'conviva',
-  SAUDE_FISICA: 'ubs-ermelino',
-  NAO_SEI: 'de-leste1'
-};
-
-
-const pickPrimaryByTypeOrder = (serviceIds: string[]): string | undefined => {
-  const resolved = serviceIds
-    .map((serviceId) => SERVICES.find((service) => service.id === serviceId))
-    .filter((service): service is Service => !!service);
-
-  const findByType = (type: Service['type']) => resolved.find((service) => service.type === type)?.id;
-
-  return (
-    findByType('EMERGENCIAL')
-    || findByType('PROTECAO')
-    || findByType('SAUDE')
-    || findByType('GESTAO')
-    || resolved[0]?.id
-  );
-};
-
-const sanitizeActionText = (value: string): string => value
-  .replace(/se necess[aá]rio/gi, 'quando houver risco identificado')
-  .replace(/avaliar depois/gi, 'acione o serviço no prazo definido')
-  .replace(/verificar/gi, 'confirme')
-  .trim();
-
-const resolveDecisionResult = (node: FlowNode, serviceIds: string[], riskLevel: NonNullable<FlowNode['riskLevel']>): DecisionResult => {
-  const text = `${node.id} ${node.question}`.toLowerCase();
-
-  let primaryServiceId = pickPrimaryByTypeOrder(serviceIds) || DEFAULT_MAIN_SERVICE_BY_CATEGORY[node.category || 'NAO_SEI'] || 'de-leste1';
-  let secondaryServiceIds = serviceIds.filter((serviceId) => serviceId !== primaryServiceId);
-
-  if (riskLevel === 'EMERGENCIAL' || /emerg|risco imediato/.test(text)) {
-    primaryServiceId = 'samu';
-    secondaryServiceIds = Array.from(new Set(['policia-militar', ...secondaryServiceIds]));
-  } else if (/sexual/.test(text)) {
-    primaryServiceId = 'conselho-tutelar';
-    secondaryServiceIds = Array.from(new Set(['ddm-sao-miguel', 'ubs-ermelino', ...secondaryServiceIds]));
-  } else if (/drog|subst/.test(text)) {
-    primaryServiceId = 'caps-ad';
-    secondaryServiceIds = Array.from(new Set(['ubs-ermelino', ...secondaryServiceIds]));
-  } else if (/mental|autoagress|autoles|suicid/.test(text) || node.id === 'leaf_mental_agudo') {
-    primaryServiceId = 'caps-ij';
-    secondaryServiceIds = Array.from(new Set(['ubs-ermelino', ...secondaryServiceIds]));
-  } else if (/fisic|clinic|upa/.test(text) || node.category === 'SAUDE_FISICA') {
-    primaryServiceId = 'ubs-ermelino';
-  } else if (/vulnerab|social|familiar|cras/.test(text) || node.category === 'VULNERABILIDADE_SOCIAL_FAMILIAR') {
-    primaryServiceId = 'cras-ermelino';
-  } else if (/violenc.*confirm|conselho|direitos|creas/.test(text) || node.id === 'leaf_direitos_conselho_rede') {
-    primaryServiceId = 'creas-ermelino';
-    secondaryServiceIds = Array.from(new Set(['conselho-tutelar', ...secondaryServiceIds]));
-  } else if (/pedagog|aprendizagem|rendimento/.test(text) || node.category === 'DIFICULDADE_PEDAGOGICA') {
-    primaryServiceId = 'conviva';
-    secondaryServiceIds = Array.from(new Set(['de-leste1', ...secondaryServiceIds]));
-  }
-
-  if (!serviceIds.includes(primaryServiceId)) {
-    secondaryServiceIds = Array.from(new Set([...serviceIds, ...secondaryServiceIds].filter((serviceId) => serviceId !== primaryServiceId)));
-  }
-
-  secondaryServiceIds = Array.from(new Set(secondaryServiceIds.filter((serviceId) => serviceId !== primaryServiceId)));
-
-  const classification: DecisionResult['classification'] =
-    riskLevel === 'EMERGENCIAL' ? 'EMERGENCIA' : riskLevel === 'ALTO' ? 'ALTA' : riskLevel === 'BAIXO' ? 'BAIXA' : 'MEDIA';
-  const priority: DecisionResult['priority'] =
-    classification === 'EMERGENCIA' ? 'IMEDIATO' : classification === 'ALTA' ? 'URGENTE' : 'ORIENTACAO';
-
-  const serviceName = SERVICES.find((service) => service.id === primaryServiceId)?.name || 'serviço oficial da rede';
-
-  return {
-    classification,
-    priority,
-    primaryServiceId,
-    secondaryServiceIds,
-    deadline: node.deadline || DEFAULT_DEADLINE_BY_RISK[riskLevel || 'MÉDIO'],
-    justification: node.whyThisService || `Base institucional: ${serviceName} é o serviço principal para este nível de risco e competência de atendimento.`
-  };
-};
-
-const standardizeLeafNode = (node: FlowNode): FlowNode => {
-  const isLeafNode = node.isLeaf || node.id.startsWith('leaf_') || node.id.endsWith('_folha');
-  if (!isLeafNode) return node;
-
-  const riskLevel = inferLeafRisk(node);
-  const baseActions = (node.doNow || node.guidance || []).slice(0, 3);
-  const doNowRaw = baseActions.length ? baseActions : ['Registre a situação no Anexo I.', 'Acione imediatamente o serviço responsável.', 'Informe a gestão e acompanhe a devolutiva institucional.'];
-  const doNow = doNowRaw.map(sanitizeActionText);
-  const rawTargets = node.contactTargets || [];
-  const contactTargets: ContactTarget[] = rawTargets.length
-    ? rawTargets.map((target) => (typeof target === 'string' ? { serviceId: target } : target))
-    : (node.serviceIds || []).map((serviceId) => ({ serviceId }));
-
-
-  const serviceIds = resolveServiceIdsFromTargets(contactTargets, node.serviceIds);
-  const includesManagement = contactTargets.some((target) => target.serviceId === 'GESTAO_ESCOLAR');
-  const decisionResult = resolveDecisionResult(node, serviceIds, riskLevel);
-  const actionPriority: ActionPriority = decisionResult.priority === 'IMEDIATO' ? 'IMEDIATA' : decisionResult.priority === 'URGENTE' ? 'URGENTE' : 'ORIENTAÇÃO';
-  const primaryServiceId = node.primaryServiceId || node.primaryServiceIds?.[0] || decisionResult.primaryServiceId;
-  const primaryServiceIds = node.primaryServiceIds || [primaryServiceId];
-  const secondaryServiceIds = node.secondaryServiceIds || Array.from(new Set([...(decisionResult.secondaryServiceIds || []), ...serviceIds.filter((serviceId) => !primaryServiceIds.includes(serviceId))]));
-
-  return {
-    ...node,
-    isLeaf: true,
-    options: node.options || [],
-    category: inferLeafCategory(node),
-    riskLevel,
-    doNow,
-    guidance: doNow,
-    contactTargets,
-    serviceIds,
-    actionPriority: node.actionPriority || actionPriority,
-    primaryServiceIds,
-    secondaryServiceIds,
-    notifyManagement: typeof node.notifyManagement === 'boolean' ? node.notifyManagement : includesManagement,
-    actionSummary: node.actionSummary || `Encaminhar ${node.question.toLowerCase()} com prioridade ${actionPriority.toLowerCase()}.`,
-    whatToDoNow: node.whatToDoNow ? sanitizeActionText(node.whatToDoNow) : doNow[0],
-    whyThisService: node.whyThisService || decisionResult.justification,
-    decisionResult,
-    primaryServiceId,
-    deadline: node.deadline || decisionResult.deadline || DEFAULT_DEADLINE_BY_RISK[riskLevel || 'MÉDIO'],
-    recordRequired: node.recordRequired || normalizeRecordRequired(doNow),
-    sourceRef: node.sourceRef || {
-      label: `Protocolo ${PROTOCOL_DATA.metadata.protocolVersion}`,
-      filePath: 'public/protocolo',
-      section: node.id
-    },
-    notes: STANDARD_LEAF_NOTE,
-    referralType: node.referralType || inferReferralType(node)
-  };
-};
-
+import { Contato, DocumentTemplate, FlowNode, Fluxo, ProtocolData, Recurso, Service } from '../types';
 
 const DOCUMENT_TEMPLATES: DocumentTemplate[] = [
   {
-    id: 'anexo-i-ficha-inicial',
-    title: 'Anexo I - Ficha de Registro Inicial',
+    id: 'anexo-i-registro',
+    title: 'Anexo I — Registro Inicial de Ocorrência',
     annex: 'Anexo I',
-    purpose: 'Registrar identificação do caso, sinais observados e histórico escolar relevante.',
-    requiredFields: [
-      'Data e hora do registro',
-      'Nome completo do estudante',
-      'RA / Turma / Turno',
-      'Descrição objetiva dos fatos observados',
-      'Ações imediatas adotadas pela escola',
-      'Nome e função de quem registrou',
-      'Assinatura da gestão'
-    ],
+    purpose: 'Documentar fatos observados e encaminhamentos imediatos com linguagem objetiva.',
+    requiredFields: ['Data/hora', 'Local', 'Envolvidos', 'Descrição factual', 'Ações realizadas'],
     confidentialityLevel: 'RESTRITO'
   },
   {
-    id: 'anexo-ii-escuta',
-    title: 'Anexo II - Escuta Qualificada',
+    id: 'anexo-ii-encaminhamento',
+    title: 'Anexo II — Encaminhamento para Rede',
     annex: 'Anexo II',
-    purpose: 'Documentar relato espontâneo da criança/adolescente com proteção contra revitimização.',
-    requiredFields: [
-      'Data, hora e local da escuta',
-      'Profissional responsável pela escuta',
-      'Relato espontâneo (texto literal, sem indução)',
-      'Sinais de risco imediato',
-      'Encaminhamentos realizados',
-      'Órgãos notificados',
-      'Assinatura e ciência da direção'
-    ],
+    purpose: 'Formalizar envio para serviço externo e registrar retorno esperado.',
+    requiredFields: ['Serviço acionado', 'Responsável pelo contato', 'Protocolo/número', 'Prazo de retorno'],
     confidentialityLevel: 'SIGILOSO'
+  }
+];
+
+const decisionTree: FlowNode[] = [
+  {
+    id: 'root',
+    question: 'Qual situação descreve melhor o caso atual?',
+    fallbackNextNodeId: 'leaf_duvida_padrao',
+    indicators: ['Risco imediato', 'Evento em andamento', 'Violência contra criança/adolescente'],
+    options: [
+      { label: 'Emergência imediata', nextNodeId: 'EMERGENCIA_IMEDIATA' },
+      { label: 'Arma na escola', nextNodeId: 'ARMA_ESCOLA' },
+      { label: 'Tiros na região', nextNodeId: 'TIROTEIO_EXTERNO' },
+      { label: 'Risco de suicídio', nextNodeId: 'RISCO_SUICIDIO' },
+      { label: 'Autolesão', nextNodeId: 'AUTOLESAO' },
+      { label: 'Violência doméstica', nextNodeId: 'VIOLENCIA_DOMESTICA' },
+      { label: 'Abuso sexual', nextNodeId: 'ABUSO_SEXUAL' },
+      { label: 'Surto mental', nextNodeId: 'SURTO_MENTAL' },
+      { label: 'Briga com lesão', nextNodeId: 'BRIGA_COM_LESAO' },
+      { label: 'Sofrimento psíquico', nextNodeId: 'SOFRIMENTO_PSIQUICO' },
+      { label: 'Uso de substâncias', nextNodeId: 'USO_SUBSTANCIAS' },
+      { label: 'Gravidez na adolescência', nextNodeId: 'GRAVIDEZ_ADOLESCENCIA' },
+      { label: 'Evasão escolar', nextNodeId: 'EVASAO_RISCO' },
+      { label: 'Bullying', nextNodeId: 'BULLYING' },
+      { label: 'Discriminação', nextNodeId: 'DISCRIMINACAO' },
+      { label: 'Dificuldade pedagógica', nextNodeId: 'DIFICULDADE_PEDAGOGICA' },
+      { label: 'Inclusão PcD', nextNodeId: 'INCLUSAO_PCD' },
+      { label: 'Conflito interpessoal', nextNodeId: 'CONFLITO_INTERPESSOAL' },
+      { label: 'Saúde física leve', nextNodeId: 'SAUDE_FISICA_LEVE' },
+      { label: 'Não sei / dúvida', nextNodeId: 'leaf_duvida_padrao' }
+    ]
+  },
+
+  {
+    id: 'n_mental_triagem',
+    question: 'Triagem rápida de saúde mental',
+    options: [{ label: 'Seguir para sofrimento psíquico', nextNodeId: 'SOFRIMENTO_PSIQUICO' }],
+    indicators: ['Tristeza persistente', 'Isolamento', 'Alteração abrupta de comportamento']
+  },
+  {
+    id: 'n_fisico_triagem',
+    question: 'Triagem rápida de saúde física',
+    options: [{ label: 'Seguir para saúde física leve', nextNodeId: 'SAUDE_FISICA_LEVE' }],
+    indicators: ['Febre', 'Dor persistente', 'Mal-estar sem risco imediato']
+  },
+  {
+    id: 'EMERGENCIA_IMEDIATA',
+    question: 'Situação de risco IMEDIATO de vida ou lesão grave em curso',
+    isLeaf: true,
+    options: [],
+    riskLevel: 'EMERGENCIAL',
+    doNow: [
+      'Garantir segurança: afastar, não confrontar, não mover se trauma',
+      'SAMU 192 (lesão/inconsciente) | PM 190 (arma/invasão) | Bombeiros 193 (incêndio)',
+      'Localização: EE Ermelino Matarazzo, Jardim Belém, Zona Leste SP',
+      'Acionar Direção imediatamente',
+      'Não deixar o aluno sozinho',
+      'Registrar: hora, sequência, providências'
+    ],
+    forbiddenActions: ['Intervir fisicamente sozinho', 'Deixar o local sem acionar emergência'],
+    contactTargets: ['EMERGENCIA_192_193'],
+    deadline: 'AGORA — minutos',
+    recordRequired: [{ system: 'CONVIVA', due: '2h', notes: 'Registro imediato de crise crítica.' }]
+  },
+  {
+    id: 'ARMA_ESCOLA',
+    question: 'Aluno com objeto perigoso ou arma',
+    isLeaf: true,
+    options: [],
+    riskLevel: 'EMERGENCIAL',
+    doNow: [
+      'NÃO abordar sozinho, NÃO tentar tomar o objeto',
+      'PM 190 imediatamente — porte de arma de fogo é crime',
+      'Afastar outros alunos discretamente',
+      'Comunicar Direção'
+    ],
+    forbiddenActions: ['Abordar sozinho', 'Tentar tomar o objeto'],
+    contactTargets: ['EMERGENCIA_192_193', 'GESTAO_ESCOLAR'],
+    recordRequired: [{ system: 'CONVIVA', due: '2h', notes: 'Sigilo reforçado e cadeia de comunicação.' }]
+  },
+  {
+    id: 'TIROTEIO_EXTERNO',
+    question: 'Tiros ouvidos / conflito armado externo',
+    isLeaf: true,
+    options: [],
+    riskLevel: 'EMERGENCIAL',
+    doNow: [
+      'PM 190 IMEDIATAMENTE',
+      'Protocolo de lockdown: trancar salas, afastar de janelas e muros',
+      'NINGUÉM SAI até autorização da PM',
+      "Comunicar famílias: 'Todos estão bem, aguardando normalização'",
+      'Após: registro + apoio psicossocial à equipe e alunos'
+    ],
+    contactTargets: ['EMERGENCIA_192_193', 'GESTAO_ESCOLAR'],
+    recordRequired: [{ system: 'CONVIVA', due: '2h', notes: 'Notificar gestão e incidente coletivo.' }]
+  },
+  {
+    id: 'RISCO_SUICIDIO',
+    question: 'Aluno disse querer se matar ou morrer, distribuiu pertences, escreveu despedida',
+    isLeaf: true,
+    options: [],
+    riskLevel: 'ALTO',
+    guidance: [
+      'NÃO DEIXAR O ALUNO SOZINHO EM NENHUM MOMENTO',
+      'Retirar para espaço seguro, retirar objetos de risco',
+      'Acionar Direção AGORA',
+      "Perguntar diretamente: 'Você tem um plano de como faria isso?'",
+      'Se tiver plano definido: SAMU 192 imediatamente',
+      'Se sem plano: contatar família HOJE, encaminhar CAPS IJ II',
+      'Não prometer guardar segredo',
+      'Não deixar sair da escola sozinho'
+    ],
+    forbiddenActions: ['Minimizar (\'é fase\', \'quer atenção\')', 'Prometer sigilo', 'Deixar ir embora sozinho', 'Contar para a turma'],
+    contactTargets: ['CAPS_IJ', 'EMERGENCIA_192_193', 'CONSELHO_TUTELAR'],
+    deadline: 'HOJE — horas',
+    recordRequired: [{ system: 'CONVIVA', due: '24h', notes: 'Ficha restrita, acesso limitado à gestão' }]
+  },
+  {
+    id: 'AUTOLESAO',
+    question: 'Marcas de cortes, queimaduras ou relato de se machucar propositalmente',
+    isLeaf: true,
+    options: [],
+    riskLevel: 'ALTO',
+    guidance: [
+      'Autolesão NEM SEMPRE indica intenção de morrer — é estratégia de enfrentamento',
+      "Convidar com calma: 'Percebi algumas marcas. Você pode me contar como se sente?'",
+      'Verificar se há intenção de morrer → se sim, goto RISCO_SUICIDIO',
+      'Verificar se lesões precisam de cuidado médico agora → se sim, UPA',
+      'Comunicar família HOJE',
+      'Encaminhar CAPS IJ II com carta urgente',
+      'NÃO enviar o aluno sozinho para casa'
+    ],
+    forbiddenActions: ['Pedir que mostre ferimentos para outros', 'Expor publicamente', 'Enviar sozinho para casa', 'Punir ou envergonhar'],
+    contactTargets: ['CAPS_IJ', 'UPA_HOSPITAL'],
+    deadline: 'HOJE',
+    recordRequired: [{ system: 'CONVIVA', due: '24h', notes: 'Ficha restrita' }]
+  },
+  {
+    id: 'VIOLENCIA_DOMESTICA',
+    question: 'Hematomas inexplicáveis, marcas, ou relato de violência em casa',
+    isLeaf: true,
+    options: [],
+    riskLevel: 'ALTO',
+    guidance: [
+      'NOTIFICAÇÃO OBRIGATÓRIA — Lei 13.431/2017 + ECA art. 13',
+      'Qualquer SUSPEITA já obriga notificação — não é preciso ter certeza',
+      'Escuta protegida: perguntas abertas, anotar as palavras EXATAS da criança',
+      "NÃO: 'Seu pai te bateu?' — SIM: 'Como você está? Quer me contar?'",
+      'Notificar Conselho Tutelar HOJE via 156 ou presencialmente',
+      'NÃO comunicar o agressor suspeito antes de combinar com o CT',
+      'Se lesão visível: UBS ou UPA para registro médico'
+    ],
+    forbiddenActions: ['Comunicar o agressor suspeito antes do CT', 'Confrontar a família', 'Prometer sigilo à vítima', 'Investigar sozinho sem acionar o CT'],
+    contactTargets: ['CONSELHO_TUTELAR', 'UBS'],
+    deadline: 'HOJE',
+    recordRequired: [{ system: 'CONVIVA', due: '24h', notes: 'Ficha restrita, anonimato da equipe notificante' }]
+  },
+  {
+    id: 'ABUSO_SEXUAL',
+    question: 'Relato ou suspeita de abuso ou exploração sexual',
+    isLeaf: true,
+    options: [],
+    riskLevel: 'ALTO',
+    guidance: [
+      'MÁXIMA PRIORIDADE — Notificação imediata',
+      'NÃO reinquirir, NÃO pedir detalhes, NÃO buscar provas físicas',
+      'Escuta protegida única — depoimento especial é papel do sistema de justiça',
+      'CT + UBS/UPA imediatamente',
+      'SE abuso nas últimas 72h: UPA IMEDIATAMENTE (profilaxia HIV, IST, gravidez)',
+      'NÃO comunicar agressor ou família do agressor antes do CT'
+    ],
+    forbiddenActions: ['Reinquirir ou pedir detalhes', 'Confrontar o suposto agressor', 'Comunicar família do agressor antes do CT', 'Minimizar o relato'],
+    contactTargets: ['CONSELHO_TUTELAR', 'UPA_HOSPITAL', 'UBS'],
+    deadline: 'HOJE — ou AGORA se nas últimas 72h',
+    recordRequired: [{ system: 'CONVIVA', due: '2h', notes: 'Sigiloso' }]
+  },
+  {
+    id: 'SURTO_MENTAL',
+    question: 'Comportamento muito desorganizado, fala desconectada da realidade, agitação intensa',
+    isLeaf: true,
+    options: [],
+    riskLevel: 'ALTO',
+    guidance: [
+      'NÃO confrontar, NÃO gritar, NÃO conter fisicamente sem necessidade',
+      'Afastar demais alunos com calma',
+      "Falar devagar, voz baixa: 'Estou aqui. Você está seguro.'",
+      'SAMU 192 — surto psicótico requer avaliação médica',
+      '1 adulto fica ao lado com calma enquanto aguarda'
+    ],
+    contactTargets: ['EMERGENCIA_192_193', 'CAPS_IJ'],
+    recordRequired: [{ system: 'CONVIVA', due: '24h', notes: 'Registro clínico-escolar essencial.' }]
+  },
+  {
+    id: 'BRIGA_COM_LESAO',
+    question: 'Briga física com lesão visível ou arma',
+    isLeaf: true,
+    options: [],
+    riskLevel: 'ALTO',
+    guidance: [
+      'NUNCA se interpor fisicamente sozinho — chamar outros adultos',
+      'Dispersar plateia imediatamente',
+      'Primeiros socorros se lesão leve',
+      'SAMU se lesão grave',
+      'PM se houver arma',
+      'Ouvir as partes SEPARADAMENTE depois'
+    ],
+    forbiddenActions: ['Interpor fisicamente sozinho', 'Chamar polícia para briga sem lesão grave', 'Tomar partido publicamente'],
+    contactTargets: ['EMERGENCIA_192_193', 'GESTAO_ESCOLAR'],
+    recordRequired: [{ system: 'CONVIVA', due: '24h', notes: 'Com participação da gestão.' }]
+  },
+  {
+    id: 'SOFRIMENTO_PSIQUICO',
+    question: 'Aluno muito triste, ansioso, retraído, choro frequente por semanas',
+    isLeaf: true,
+    options: [],
+    riskLevel: 'MÉDIO',
+    guidance: [
+      'Verificar se há autolesão ou ideação suicida → se sim, escalar',
+      'Escuta empática reservada',
+      'Adaptações pedagógicas temporárias',
+      'Encaminhar UBS com carta de referência',
+      'Se 2+ semanas sem melhora: CAPS IJ II',
+      'Monitoramento quinzenal'
+    ],
+    forbiddenActions: ['Ignorar como \'adolescência\'', 'Pressionar para \'reagir\'', 'Expor na turma'],
+    contactTargets: ['UBS', 'CAPS_IJ', 'CRAS'],
+    deadline: '3-5 dias úteis'
+  },
+  {
+    id: 'USO_SUBSTANCIAS',
+    question: 'Sinais de uso de substância ou aluno flagrado usando',
+    isLeaf: true,
+    options: [],
+    riskLevel: 'MÉDIO',
+    guidance: [
+      'Se comprometimento grave de consciência: SAMU 192 imediatamente',
+      'Se cooperativo: retirar com discrição, espaço reservado, escuta sem punição',
+      'NÃO chamar polícia apenas por uso — uso é questão de saúde',
+      'Se suspeita de tráfico: isso é crime — BO + Direção',
+      'Comunicar família + encaminhar CAPS AD'
+    ],
+    forbiddenActions: ['Chamar polícia só por uso de substância', 'Expor publicamente', 'Punir sem acolher'],
+    contactTargets: ['CAPS_ADULTO', 'UBS', 'CONSELHO_TUTELAR'],
+    deadline: 'Hoje'
+  },
+  {
+    id: 'GRAVIDEZ_ADOLESCENCIA',
+    question: 'Aluna grávida ou suspeita de gravidez',
+    isLeaf: true,
+    options: [],
+    riskLevel: 'MÉDIO',
+    guidance: [
+      'Se gravidez por violência sexual: escalar para ABUSO_SEXUAL',
+      'Acolhimento sigiloso, sem julgamento',
+      'Garantir permanência na escola — ECA + LDB garantem o direito',
+      'Encaminhar UBS para pré-natal imediatamente',
+      'Comunicar família COM CONSENTIMENTO da aluna',
+      'Adaptações pedagógicas imediatas',
+      'CRAS se vulnerabilidade socioeconômica'
+    ],
+    forbiddenActions: ['Expor, transferir ou constranger a aluna', 'Comunicar família sem consentimento da aluna primeiro'],
+    contactTargets: ['UBS', 'CRAS'],
+    deadline: 'Semana atual'
+  },
+  {
+    id: 'EVASAO_RISCO',
+    question: 'Aluno com 25%+ de faltas ou sumiu sem justificativa',
+    isLeaf: true,
+    options: [],
+    riskLevel: 'MÉDIO',
+    guidance: [
+      'Contato imediato com família (telefone, bilhete, visita)',
+      'Se suspeita de trabalho infantil, violência ou conflito grave: CT obrigatório (ECA art. 56)',
+      'Verificar se sofre bullying na escola',
+      'Plano de retorno + adaptações se necessário'
+    ],
+    contactTargets: ['CONSELHO_TUTELAR', 'CRAS'],
+    deadline: '24-48h para primeiro contato'
+  },
+  {
+    id: 'BULLYING',
+    question: 'Exclusão sistemática, apelidos, ameaças repetidas, humilhação',
+    isLeaf: true,
+    options: [],
+    riskLevel: 'MÉDIO',
+    guidance: [
+      'Ouvir vítima em espaço privado primeiro',
+      'NÃO chamar agressor imediatamente',
+      'Registrar data, hora, o que aconteceu, impacto',
+      'Comunicar Coordenação e famílias hoje',
+      'Plano: conversa com agressor + turma (sem expor vítima)',
+      'Cyberbullying: preservar prints, orientar família sobre BO se crime'
+    ],
+    forbiddenActions: ['Minimizar como \'brincadeira\'', 'Expor a vítima na frente da turma', 'Confrontar agressor sem preparo'],
+    contactTargets: ['GESTAO_ESCOLAR', 'CONSELHO_TUTELAR'],
+    deadline: 'Hoje + monitoramento 30 dias'
+  },
+  {
+    id: 'DISCRIMINACAO',
+    question: 'Racismo, LGBTfobia, capacitismo ou assédio',
+    isLeaf: true,
+    options: [],
+    riskLevel: 'MÉDIO',
+    guidance: [
+      'Acolher vítima imediatamente em espaço reservado',
+      'Registrar com precisão (data, hora, o que foi dito/feito, testemunhas)',
+      'Comunicar Direção — tratamento institucional obrigatório',
+      'Ação pedagógica na turma sobre direitos (sem expor vítima)',
+      'Racismo é crime inafiançável (Lei 7.716/89)',
+      'Se reincidente: CT + DE Leste 1 + Defensoria'
+    ],
+    contactTargets: ['GESTAO_ESCOLAR', 'CONSELHO_TUTELAR'],
+    deadline: 'Hoje'
+  },
+  {
+    id: 'DIFICULDADE_PEDAGOGICA',
+    question: 'Aluno não acompanha, reprova repetidamente, defasagem crônica',
+    isLeaf: true,
+    options: [],
+    riskLevel: 'MÉDIO',
+    guidance: [
+      'Verificar se surgiu recentemente (possível causa situacional)',
+      'Verificar se há diagnóstico de deficiência ou transtorno → PEI/AEE',
+      'Verificar outros sinais (saúde, faltas, bullying) antes de concluir',
+      'Plano de apoio pedagógico + reforço + coordenação',
+      'Se suspeita de TDAH, dislexia, déficit sensorial: encaminhar UBS'
+    ],
+    forbiddenActions: ['Tratar como preguiça sem investigar', 'Punir com reprovação como única resposta'],
+    contactTargets: ['UBS', 'GESTAO_ESCOLAR'],
+    deadline: 'Semana atual + reavaliação 30 dias'
+  },
+  {
+    id: 'INCLUSAO_PCD',
+    question: 'Aluno com deficiência sem atendimento adequado ou excluído',
+    isLeaf: true,
+    options: [],
+    riskLevel: 'MÉDIO',
+    guidance: [
+      'Verificar se há PEI ativo — se não: elaborar imediatamente',
+      'Verificar barreiras físicas, comunicacionais e pedagógicas',
+      'Revisar AEE e ensino colaborativo',
+      'Se discriminação: goto DISCRIMINACAO',
+      'Se família precisa de suporte: CRAS + UBS (encaminha ao CER)'
+    ],
+    forbiddenActions: ['Recusar matrícula ou segregar', 'Ignorar barreiras atitudinais'],
+    contactTargets: ['GESTAO_ESCOLAR', 'CRAS', 'UBS']
+  },
+  {
+    id: 'CONFLITO_INTERPESSOAL',
+    question: 'Desentendimento entre alunos ou professor-aluno sem gravidade física',
+    isLeaf: true,
+    options: [],
+    riskLevel: 'BAIXO',
+    guidance: [
+      'Separar as partes, não resolver em público',
+      'Ouvir cada parte separadamente',
+      'Mediação pela Coordenação Pedagógica',
+      'Práticas restaurativas se disponíveis',
+      'Comunicar famílias se persistir'
+    ],
+    forbiddenActions: ['Forçar reconciliação imediata', 'Expor publicamente'],
+    contactTargets: ['GESTAO_ESCOLAR']
+  },
+  {
+    id: 'SAUDE_FISICA_LEVE',
+    question: 'Mal-estar, febre, vômito, dor — sem risco imediato',
+    isLeaf: true,
+    options: [],
+    riskLevel: 'BAIXO',
+    guidance: [
+      'Manter em local arejado e confortável',
+      'Comunicar família para buscar o aluno',
+      'NÃO medicar sem prescrição e autorização dos responsáveis',
+      'Febre > 40°C com confusão ou convulsão: SAMU 192',
+      'Crise de asma grave sem resposta à bombinha: SAMU 192'
+    ],
+    contactTargets: ['UBS']
+  },
+  { id: 'leaf_duvida_padrao', question: 'Em caso de dúvida, escale para gestão.', options: [], isLeaf: true, riskLevel: 'MÉDIO', guidance: ['Acionar coordenação e direção para avaliação conjunta.'], contactTargets: ['GESTAO_ESCOLAR'] }
+];
+
+const services: Service[] = [
+  {
+    id: 'UBS_ERMELINO',
+    name: 'UBS Ermelino Matarazzo',
+    category: 'SAÚDE',
+    type: 'APOIO_SOCIAL',
+    networkType: 'saude',
+    address: 'Rua Antônio de Freitas Toledo, 185 — Jardim Belém',
+    phone: '(11) 2545-8235',
+    hours: 'Segunda a Sexta, 7h–19h',
+    description: 'Atenção básica, pré-natal, PSE, avaliação para PcD, IST, encaminhamentos especializados',
+    notes: 'Não atende urgências. Para urgências: UPA ou SAMU.',
+    coordinates: { lat: -23.5256, lng: -46.4742 }
+  },
+  {
+    id: 'CAPS_IJ',
+    name: 'CAPS Infantojuvenil II Ermelino Matarazzo',
+    category: 'SAÚDE',
+    type: 'SAUDE',
+    networkType: 'saude',
+    address: 'Rua Ahmad El Hind, 107 — Jardim Matarazzo',
+    phone: '(11) 3294-3828',
+    hours: 'Segunda a Sexta, 7h–19h',
+    description: 'Saúde mental especializada para crianças e adolescentes. Autolesão, risco de suicídio, surto, dependência química em jovens.',
+    notes: 'Para urgências agudas: UPA/SAMU primeiro, depois encaminhar ao CAPS.',
+    coordinates: { lat: -23.5148, lng: -46.4689 }
+  },
+  {
+    id: 'CAPS_AD',
+    name: 'CAPS AD II Ermelino Matarazzo',
+    category: 'SAÚDE',
+    type: 'SAUDE',
+    networkType: 'saude',
+    address: 'Subprefeitura Ermelino Matarazzo — verificar endereço atual via 156',
+    phone: '156',
+    hours: 'Segunda a Sexta, horário comercial',
+    description: 'Uso problemático de álcool e drogas. Adolescentes 16+ e adultos.'
+  },
+  {
+    id: 'UPA_ERMELINO',
+    name: 'UPA Ermelino Matarazzo',
+    category: 'EMERGÊNCIA',
+    type: 'EMERGENCIAL',
+    networkType: 'emergencia',
+    address: 'Rua Miguel Novais, 113 — Vila Paranaguá',
+    phone: '(11) 2574-3258',
+    hours: '24 horas, 7 dias',
+    description: 'Urgências, abuso sexual recente (até 72h — profilaxia), crises psiquiátricas moderadas.',
+    coordinates: { lat: -23.5094, lng: -46.4755 }
+  },
+  {
+    id: 'SAMU',
+    name: 'SAMU 192',
+    category: 'EMERGÊNCIA',
+    type: 'EMERGENCIAL',
+    networkType: 'emergencia',
+    address: 'Atendimento móvel',
+    phone: '192',
+    hours: '24 horas',
+    description: 'Risco imediato de vida: tentativa de suicídio, convulsão, inconsciência, intoxicação grave, agressão física grave.',
+    howToCall: "Dizer: 'EE Ermelino Matarazzo, Jardim Belém, Zona Leste. [Descreva a situação]'"
+  },
+  {
+    id: 'CRAS_ERMELINO',
+    name: 'CRAS Ermelino Matarazzo',
+    category: 'SOCIAL',
+    type: 'APOIO_SOCIAL',
+    networkType: 'social',
+    address: 'Avenida Paranaguá, 1492 — Ermelino Matarazzo',
+    phone: '(11) 2545-3211',
+    hours: 'Segunda a Sexta, 8h–17h',
+    description: 'Proteção básica: CadÚnico, Bolsa Família, BPC, SCFV, orientação social. Para famílias em vulnerabilidade sem violação grave.',
+    notes: 'NÃO atende violação grave de direitos — para isso: CREAS'
+  },
+  {
+    id: 'CREAS',
+    name: 'CREAS — Proteção Especial',
+    category: 'SOCIAL',
+    type: 'PROTECAO',
+    networkType: 'social',
+    address: 'Verificar via 156 ou Subprefeitura Ermelino Matarazzo',
+    phone: '156',
+    description: 'Violência intrafamiliar, negligência grave, trabalho infantil, exploração sexual, situação de rua.'
+  },
+  {
+    id: 'CONSELHO_TUTELAR',
+    name: 'Conselho Tutelar Ermelino Matarazzo',
+    category: 'DIREITOS_SGD',
+    type: 'PROTECAO',
+    networkType: 'direitos',
+    address: 'Avenida Milene Elias — Ermelino Matarazzo',
+    phone: '156',
+    hours: 'Plantão 24h para urgências; horário comercial para demandas gerais',
+    description: 'Zelar pelos direitos de crianças e adolescentes. Notificação obrigatória em qualquer suspeita de violência ou negligência.',
+    notes: 'A escola não precisa esgotar tentativas internas antes de notificar em casos graves. Notificação é dever legal.'
+  },
+  {
+    id: 'PM_190',
+    name: 'Polícia Militar — 190',
+    category: 'EMERGÊNCIA',
+    type: 'EMERGENCIAL',
+    networkType: 'emergencia',
+    address: 'Atendimento territorial',
+    phone: '190',
+    hours: '24 horas',
+    description: 'Arma de fogo, invasão armada, conflito armado externo, ameaça de morte iminente, agressão física grave em curso.',
+    notes: 'NÃO acionar para: indisciplina, uso de substância, brigas sem lesão grave.'
+  },
+  {
+    id: 'GESTAO_ESCOLAR',
+    name: 'Gestão Escolar — EE Ermelino Matarazzo',
+    category: 'EDUCAÇÃO',
+    type: 'GESTAO',
+    networkType: 'educacao',
+    address: 'Rua Abel Tavares s/n — Jardim Belém',
+    phone: '(11) 0000-0000',
+    hours: 'Segunda a Sexta, horário escolar',
+    description: 'Direção e coordenação para gestão de crise, proteção e documentação interna.'
   }
 ];
 
 export const PROTOCOL_DATA: ProtocolData = {
   institution: {
-    name: 'E.E. Ermelino Matarazzo',
-    cie: '2835',
-    diretoriaEnsino: 'DE Leste 1'
+    name: 'EE Ermelino Matarazzo',
+    cie: '000000',
+    diretoriaEnsino: 'Diretoria de Ensino Leste 1'
   },
   metadata: {
     protocolVersion: '2026.02',
     effectiveDate: '2026-02-01',
-    lastReviewedAt: '2026-02-10',
-    reviewedBy: 'Coordenação Escolar'
+    lastReviewedAt: '2026-02-19',
+    reviewedBy: 'Comissão de Proteção Escolar'
   },
-  decisionTree: [
-    {
-      id: 'root',
-      question: 'Existe risco imediato à vida, integridade física ou segurança agora?',
-      indicators: [
-        'Agressão física em curso',
-        'Ameaça concreta e iminente',
-        'Perda de consciência',
-        'Tentativa de autoagressão em curso',
-        'Risco físico imediato'
-      ],
-      options: [
-      // legado: Não sei / dúvida
-        { label: 'Sim (risco imediato)', nextNodeId: 'leaf_emergencia_imediata' },
-        { label: 'Não', nextNodeId: 'n_categoria_situacao' }
-      ],
-      fallbackNextNodeId: 'leaf_duvida_padrao'
-    },
-    {
-      id: 'n_categoria_situacao',
-      question: 'Qual destas opções mais descreve a situação?',
-      helperText: 'Escolha o que você observa agora. Em dúvida, use “Não sei / preciso de apoio”.',
-      options: [
-        { label: 'Saúde emocional / comportamento', nextNodeId: 'n_mental_triagem', categoryId: 'emocional' },
-        { label: 'Violação de direitos / violência', nextNodeId: 'n_direitos_triagem', categoryId: 'violencia' },
-        { label: 'Vulnerabilidade social / familiar', nextNodeId: 'n_social_triagem', categoryId: 'vulnerabilidade' },
-        { label: 'Convivência escolar / conflito', nextNodeId: 'n_convivencia_triagem', categoryId: 'convivencia' },
-        { label: 'Dificuldade pedagógica persistente', nextNodeId: 'n_pedagogico_triagem', categoryId: 'pedagogico' },
-        { label: 'Saúde física / queixa clínica', nextNodeId: 'n_fisico_triagem', categoryId: 'saude_fisica' },
-        { label: 'Não sei / preciso de apoio', nextNodeId: 'leaf_duvida_padrao', categoryId: 'duvida' }
-      ],
-      category: 'NAO_SEI',
-      fallbackNextNodeId: 'leaf_duvida_padrao'
-    },
-    {
-      id: 'n_mental_triagem',
-      question: 'Há indicação de risco autolesivo/autoagressão OU crise intensa com risco de dano?',
-      indicators: ['Verbalização de desejo de morrer', 'Automutilação', 'Crise intensa com risco de dano'],
-      options: [
-        { label: 'Sim', nextNodeId: 'leaf_mental_agudo' },
-        { label: 'Não', nextNodeId: 'n_mental_leve_mod' }
-      ],
-      category: 'EMOCIONAL_COMPORTAMENTO',
-      fallbackNextNodeId: 'leaf_duvida_padrao'
-    },
-    {
-      id: 'n_mental_leve_mod',
-      question: 'A situação é persistente/recorrente e interfere no funcionamento escolar?',
-      options: [
-        { label: 'Sim', nextNodeId: 'leaf_mental_ubs' },
-        { label: 'Não', nextNodeId: 'leaf_mental_acomp_escola' }
-      ],
-      category: 'EMOCIONAL_COMPORTAMENTO',
-      fallbackNextNodeId: 'leaf_duvida_padrao'
-    },
-    {
-      id: 'n_direitos_triagem',
-      question: 'Há suspeita de violência (física/sexual) ou negligência grave?',
-      indicators: ['Relato de violência', 'Sinais físicos sem explicação consistente', 'Negligência grave percebida'],
-      options: [
-        { label: 'Sim', nextNodeId: 'n_direitos_urgencia' },
-        { label: 'Não', nextNodeId: 'leaf_direitos_orientacao' }
-      ],
-      category: 'VIOLACAO_DIREITOS_VIOLENCIA',
-      fallbackNextNodeId: 'leaf_duvida_padrao'
-    },
-    {
-      id: 'n_direitos_urgencia',
-      question: 'A situação indica risco atual/imediato?',
-      options: [
-        { label: 'Sim', nextNodeId: 'leaf_direitos_emergencia' },
-        { label: 'Não', nextNodeId: 'leaf_direitos_conselho_rede' }
-      ],
-      category: 'VIOLACAO_DIREITOS_VIOLENCIA',
-      fallbackNextNodeId: 'leaf_duvida_padrao'
-    },
-    {
-      id: 'n_social_triagem',
-      question: 'Há necessidade de apoio socioassistencial?',
-      options: [
-        { label: 'Sim', nextNodeId: 'leaf_social_cras' },
-        { label: 'Não', nextNodeId: 'leaf_social_gestao' }
-      ],
-      category: 'VULNERABILIDADE_SOCIAL_FAMILIAR',
-      fallbackNextNodeId: 'leaf_duvida_padrao'
-    },
-    {
-      id: 'n_convivencia_triagem',
-      question: 'Há ameaça concreta ou risco físico?',
-      options: [
-        { label: 'Sim', nextNodeId: 'leaf_convivencia_risco' },
-        { label: 'Não', nextNodeId: 'leaf_convivencia_mediacao' }
-      ],
-      category: 'CONVIVENCIA_CONFLITOS',
-      fallbackNextNodeId: 'leaf_duvida_padrao'
-    },
-    {
-      id: 'n_pedagogico_triagem',
-      question: 'É persistente e afeta rendimento/frequência?',
-      options: [
-        { label: 'Sim', nextNodeId: 'leaf_pedagogico_plano' },
-        { label: 'Não', nextNodeId: 'leaf_pedagogico_rotina' }
-      ],
-      category: 'DIFICULDADE_PEDAGOGICA',
-      fallbackNextNodeId: 'leaf_duvida_padrao'
-    },
-    {
-      id: 'n_fisico_triagem',
-      question: 'Há sinais de gravidade ou o estudante está muito debilitado?',
-      indicators: ['Desmaio', 'Falta de ar', 'Dor intensa ou sangramento importante'],
-      options: [
-        { label: 'Sim', nextNodeId: 'leaf_fisico_urgencia' },
-        { label: 'Não', nextNodeId: 'leaf_fisico_ubs' }
-      ],
-      category: 'SAUDE_FISICA',
-      fallbackNextNodeId: 'leaf_duvida_padrao'
-    },
-
-    {
-      id: 'leaf_emergencia_imediata',
-      question: 'Emergência imediata',
-      options: [],
-      isLeaf: true,
-      category: 'NAO_SEI',
-      riskLevel: 'ALTO',
-      doNow: [
-        'Acione emergência (192/193) imediatamente.',
-        'Garanta segurança do ambiente e afaste riscos.',
-        'Informe a gestão escolar assim que possível.'
-      ],
-      contactTargets: ['EMERGENCIA_192_193', 'UPA_HOSPITAL', 'GESTAO_ESCOLAR'],
-      deadline: 'Imediato',
-      sourceRef: { label: 'Protocolo institucional', filePath: 'public/protocolo', section: 'Emergências e proteção imediata' },
-      escalationRule: 'SE_DUVIDA_ESCALE'
-    },
-    {
-      id: 'leaf_duvida_padrao',
-      question: 'Dúvida / classificação incerta',
-      options: [],
-      isLeaf: true,
-      category: 'NAO_SEI',
-      riskLevel: 'MÉDIO',
-      doNow: [
-        'Proteja o estudante e mantenha supervisão.',
-        'Escale imediatamente para a gestão escolar.',
-        'Se houver suspeita de risco à saúde/segurança, busque a porta de entrada SUS (UBS/urgência) com orientação da gestão.'
-      ],
-      contactTargets: ['GESTAO_ESCOLAR', 'UBS'],
-      deadline: 'Hoje',
-      notes: 'Em caso de dúvida, não adie escalonamento.',
-      sourceRef: { label: 'Protocolo institucional', filePath: 'public/protocolo', section: 'Governança e fluxo geral' },
-      escalationRule: 'SE_DUVIDA_ESCALE'
-    },
-    {
-      id: 'leaf_mental_agudo',
-      question: 'Saúde emocional com sinais agudos',
-      options: [],
-      isLeaf: true,
-      category: 'EMOCIONAL_COMPORTAMENTO',
-      riskLevel: 'MÉDIO',
-      doNow: [
-        'Escale para gestão imediatamente.',
-        'Acione serviço de saúde mental conforme rede (CAPS IJ quando aplicável).',
-        'Se houver risco físico imediato, acione emergência.'
-      ],
-      contactTargets: ['GESTAO_ESCOLAR', 'CAPS_IJ', 'UBS'],
-      deadline: 'Hoje',
-      sourceRef: { label: 'Protocolo institucional', filePath: 'public/protocolo', section: 'Saúde mental e sinais de alerta' },
-      serviceCharacterization: [
-        'UBS: porta de entrada para saúde geral e demandas leves/moderadas.',
-        'CAPS: atenção especializada em sofrimento psíquico intenso e crise.',
-        'UPA/Hospital: urgência/emergência com risco imediato.',
-        'Este bloco é apoio educativo; siga o protocolo oficial e a gestão em caso de dúvida.'
-      ],
-      escalationRule: 'SE_DUVIDA_ESCALE'
-    },
-    {
-      id: 'leaf_mental_ubs',
-      question: 'Saúde emocional persistente com impacto escolar',
-      options: [],
-      isLeaf: true,
-      category: 'EMOCIONAL_COMPORTAMENTO',
-      riskLevel: 'MÉDIO',
-      doNow: [
-        'Escale para gestão e registre conforme rotina.',
-        'Oriente busca de avaliação na UBS (porta de entrada).',
-        'Acompanhe e monitore sinais de alerta.'
-      ],
-      contactTargets: ['GESTAO_ESCOLAR', 'UBS'],
-      deadline: 'Em até 7 dias (ou conforme protocolo)',
-      sourceRef: { label: 'Protocolo institucional', filePath: 'public/protocolo', section: 'Acolhimento e encaminhamento em saúde' },
-      serviceCharacterization: [
-        'UBS: porta de entrada para saúde geral e demandas leves/moderadas.',
-        'CAPS: atenção especializada em sofrimento psíquico intenso e crise.',
-        'UPA/Hospital: urgência/emergência com risco imediato.',
-        'Este bloco é apoio educativo; siga o protocolo oficial e a gestão em caso de dúvida.'
-      ],
-      escalationRule: 'SE_DUVIDA_ESCALE'
-    },
-    {
-      id: 'leaf_mental_acomp_escola',
-      question: 'Saúde emocional leve com acompanhamento escolar',
-      options: [],
-      isLeaf: true,
-      category: 'EMOCIONAL_COMPORTAMENTO',
-      riskLevel: 'BAIXO',
-      doNow: [
-        'Acolha e registre internamente conforme protocolo.',
-        'Agende retorno/monitoramento.',
-        'Escale se houver piora ou sinais de alerta.'
-      ],
-      contactTargets: ['GESTAO_ESCOLAR'],
-      deadline: 'Hoje',
-      sourceRef: { label: 'Protocolo institucional', filePath: 'public/protocolo', section: 'Acolhimento escolar' },
-      escalationRule: 'SE_DUVIDA_ESCALE'
-    },
-    {
-      id: 'leaf_direitos_emergencia',
-      question: 'Violação de direitos com risco imediato',
-      options: [],
-      isLeaf: true,
-      category: 'VIOLACAO_DIREITOS_VIOLENCIA',
-      riskLevel: 'ALTO',
-      doNow: [
-        'Garanta proteção imediata e não exponha a vítima.',
-        'Acione emergência se necessário.',
-        'Escale para gestão e acione rede de proteção conforme protocolo (Conselho/CREAS).'
-      ],
-      contactTargets: ['GESTAO_ESCOLAR', 'EMERGENCIA_192_193', 'CONSELHO_TUTELAR', 'CREAS'],
-      deadline: 'Imediato',
-      recordRequired: [{ system: 'CONVIVA', due: 'Hoje', notes: 'Registrar ocorrência quando aplicável.' }],
-      sourceRef: { label: 'Protocolo institucional', filePath: 'public/protocolo', section: 'Violência e proteção integral' },
-      escalationRule: 'SE_DUVIDA_ESCALE'
-    },
-    {
-      id: 'leaf_direitos_conselho_rede',
-      question: 'Violação de direitos sem risco imediato',
-      options: [],
-      isLeaf: true,
-      category: 'VIOLACAO_DIREITOS_VIOLENCIA',
-      riskLevel: 'ALTO',
-      doNow: [
-        'Escale para gestão e siga o fluxo de proteção.',
-        'Acione Conselho Tutelar conforme protocolo.',
-        'Registre conforme exigência institucional quando aplicável.'
-      ],
-      contactTargets: ['GESTAO_ESCOLAR', 'CONSELHO_TUTELAR', 'CREAS'],
-      deadline: 'Hoje (até 48h se protocolo exigir)',
-      recordRequired: [{ system: 'CONVIVA', due: 'Hoje', notes: 'Conforme fluxo de proteção da escola.' }],
-      sourceRef: { label: 'Protocolo institucional', filePath: 'public/protocolo', section: 'Notificação e rede de proteção' },
-      escalationRule: 'SE_DUVIDA_ESCALE'
-    },
-    {
-      id: 'leaf_direitos_orientacao',
-      question: 'Sinais inespecíficos de direitos/violência',
-      options: [],
-      isLeaf: true,
-      category: 'VIOLACAO_DIREITOS_VIOLENCIA',
-      riskLevel: 'MÉDIO',
-      doNow: [
-        'Escale para gestão para avaliação do caso.',
-        'Registre conforme protocolo.',
-        'Se surgir suspeita/risco, retorne ao fluxo de violência.'
-      ],
-      contactTargets: ['GESTAO_ESCOLAR'],
-      deadline: 'Hoje',
-      sourceRef: { label: 'Protocolo institucional', filePath: 'public/protocolo', section: 'Fluxo protetivo e governança' },
-      escalationRule: 'SE_DUVIDA_ESCALE'
-    },
-    {
-      id: 'leaf_social_cras',
-      question: 'Vulnerabilidade social com necessidade de apoio socioassistencial',
-      options: [],
-      isLeaf: true,
-      category: 'VULNERABILIDADE_SOCIAL_FAMILIAR',
-      riskLevel: 'MÉDIO',
-      doNow: [
-        'Escale para gestão/POC responsável.',
-        'Acione CRAS para suporte socioassistencial conforme rede.',
-        'Registre e acompanhe.'
-      ],
-      contactTargets: ['GESTAO_ESCOLAR', 'CRAS'],
-      deadline: 'Em até 7 dias (ou conforme protocolo)',
-      sourceRef: { label: 'Protocolo institucional', filePath: 'public/protocolo', section: 'Vulnerabilidade social e permanência' },
-      escalationRule: 'SE_DUVIDA_ESCALE'
-    },
-    {
-      id: 'leaf_social_gestao',
-      question: 'Situação social com acompanhamento pela gestão',
-      options: [],
-      isLeaf: true,
-      category: 'VULNERABILIDADE_SOCIAL_FAMILIAR',
-      riskLevel: 'BAIXO',
-      doNow: ['Escale para gestão e registre conforme protocolo.', 'Acompanhe evolução.'],
-      contactTargets: ['GESTAO_ESCOLAR'],
-      deadline: 'Hoje',
-      sourceRef: { label: 'Protocolo institucional', filePath: 'public/protocolo', section: 'Acompanhamento escolar' },
-      escalationRule: 'SE_DUVIDA_ESCALE'
-    },
-    {
-      id: 'leaf_convivencia_risco',
-      question: 'Convivência com ameaça concreta ou risco físico',
-      options: [],
-      isLeaf: true,
-      category: 'CONVIVENCIA_CONFLITOS',
-      riskLevel: 'ALTO',
-      doNow: [
-        'Interrompa a situação e garanta segurança.',
-        'Escale para gestão.',
-        'Se necessário, acione rede/autoridades conforme protocolo.'
-      ],
-      contactTargets: ['GESTAO_ESCOLAR', 'CONSELHO_TUTELAR'],
-      deadline: 'Hoje',
-      sourceRef: { label: 'Protocolo institucional', filePath: 'public/protocolo', section: 'Convivência e prevenção de violência' },
-      escalationRule: 'SE_DUVIDA_ESCALE'
-    },
-    {
-      id: 'leaf_convivencia_mediacao',
-      question: 'Convivência escolar para mediação pedagógica',
-      options: [],
-      isLeaf: true,
-      category: 'CONVIVENCIA_CONFLITOS',
-      riskLevel: 'BAIXO',
-      doNow: [
-        'Acolha e registre.',
-        'Ative mediação/medidas educativas conforme protocolo.',
-        'Monitore e escale se houver recorrência.'
-      ],
-      contactTargets: ['GESTAO_ESCOLAR'],
-      deadline: 'Hoje',
-      sourceRef: { label: 'Protocolo institucional', filePath: 'public/protocolo', section: 'Convivência e mediação' },
-      escalationRule: 'SE_DUVIDA_ESCALE'
-    },
-    {
-      id: 'leaf_pedagogico_plano',
-      question: 'Dificuldade pedagógica persistente',
-      options: [],
-      isLeaf: true,
-      category: 'DIFICULDADE_PEDAGOGICA',
-      riskLevel: 'MÉDIO',
-      doNow: [
-        'Encaminhe para coordenação pedagógica/gestão.',
-        'Ajuste plano pedagógico e acione família.',
-        'Se houver suspeita de questão de saúde, sugerir UBS (porta de entrada).'
-      ],
-      contactTargets: ['GESTAO_ESCOLAR', 'UBS'],
-      deadline: 'Em até 15 dias (ou conforme protocolo)',
-      sourceRef: { label: 'Protocolo institucional', filePath: 'public/protocolo', section: 'Acompanhamento pedagógico' },
-      serviceCharacterization: [
-        'UBS: porta de entrada para saúde geral e demandas leves/moderadas.',
-        'CAPS: atenção especializada em sofrimento psíquico intenso e crise.',
-        'UPA/Hospital: urgência/emergência com risco imediato.',
-        'Este bloco é apoio educativo; siga o protocolo oficial e a gestão em caso de dúvida.'
-      ],
-      escalationRule: 'SE_DUVIDA_ESCALE'
-    },
-    {
-      id: 'leaf_pedagogico_rotina',
-      question: 'Dificuldade pedagógica de rotina',
-      options: [],
-      isLeaf: true,
-      category: 'DIFICULDADE_PEDAGOGICA',
-      riskLevel: 'BAIXO',
-      doNow: ['Oriente intervenção pedagógica de rotina.', 'Monitore e registre.', 'Escale se persistir.'],
-      contactTargets: ['GESTAO_ESCOLAR'],
-      deadline: 'Em até 30 dias',
-      sourceRef: { label: 'Protocolo institucional', filePath: 'public/protocolo', section: 'Intervenção pedagógica' },
-      escalationRule: 'SE_DUVIDA_ESCALE'
-    },
-    {
-      id: 'leaf_fisico_urgencia',
-      question: 'Saúde física com sinais de gravidade',
-      options: [],
-      isLeaf: true,
-      category: 'SAUDE_FISICA',
-      riskLevel: 'ALTO',
-      doNow: [
-        'Escale para gestão imediatamente.',
-        'Acione urgência (UPA) e/ou emergência (192) conforme gravidade.',
-        'Notifique responsáveis conforme protocolo.'
-      ],
-      contactTargets: ['GESTAO_ESCOLAR', 'UPA_HOSPITAL', 'EMERGENCIA_192_193'],
-      deadline: 'Hoje',
-      sourceRef: { label: 'Protocolo institucional', filePath: 'public/protocolo', section: 'Emergências clínicas' },
-      serviceCharacterization: [
-        'UBS: porta de entrada para saúde geral e demandas leves/moderadas.',
-        'CAPS: atenção especializada em sofrimento psíquico intenso e crise.',
-        'UPA/Hospital: urgência/emergência com risco imediato.',
-        'Este bloco é apoio educativo; siga o protocolo oficial e a gestão em caso de dúvida.'
-      ],
-      escalationRule: 'SE_DUVIDA_ESCALE'
-    },
-    {
-      id: 'leaf_fisico_ubs',
-      question: 'Saúde física sem sinais de gravidade',
-      options: [],
-      isLeaf: true,
-      category: 'SAUDE_FISICA',
-      riskLevel: 'BAIXO',
-      doNow: [
-        'Oriente avaliação na UBS (porta de entrada).',
-        'Registre e acompanhe.',
-        'Escale se piorar.'
-      ],
-      contactTargets: ['GESTAO_ESCOLAR', 'UBS'],
-      deadline: 'Em até 7 dias',
-      sourceRef: { label: 'Protocolo institucional', filePath: 'public/protocolo', section: 'Encaminhamento em saúde' },
-      serviceCharacterization: [
-        'UBS: porta de entrada para saúde geral e demandas leves/moderadas.',
-        'CAPS: atenção especializada em sofrimento psíquico intenso e crise.',
-        'UPA/Hospital: urgência/emergência com risco imediato.',
-        'Este bloco é apoio educativo; siga o protocolo oficial e a gestão em caso de dúvida.'
-      ],
-      escalationRule: 'SE_DUVIDA_ESCALE'
-    }
-  ],
-  services: SERVICES,
+  decisionTree,
+  services,
   documentTemplates: DOCUMENT_TEMPLATES,
   instruments: {
-    anexoI: {
-      requiredFields: DOCUMENT_TEMPLATES.find((doc) => doc.annex === 'Anexo I')?.requiredFields || []
-    },
-    anexoII: {
-      requiredFields: DOCUMENT_TEMPLATES.find((doc) => doc.annex === 'Anexo II')?.requiredFields || []
-    }
+    anexoI: { requiredFields: DOCUMENT_TEMPLATES[0].requiredFields },
+    anexoII: { requiredFields: DOCUMENT_TEMPLATES[1].requiredFields }
   }
 };
 
-PROTOCOL_DATA.decisionTree = (PROTOCOL_DATA.decisionTree || []).map(standardizeLeafNode);
-
-// Compatibilidade com UI existente
 export const CONTATOS: Contato[] = PROTOCOL_DATA.services.map((service) => ({
   id: service.id,
   categoria:
-    service.category === 'SAÚDE'
+    service.networkType === 'saude'
       ? 'saude'
-      : service.category === 'SOCIAL'
+      : service.networkType === 'social'
         ? 'assistencia'
-        : service.category === 'DIREITOS_SGD'
+        : service.networkType === 'direitos'
           ? 'protecao'
-          : service.category === 'EDUCAÇÃO'
+          : service.networkType === 'educacao'
             ? 'educacao'
             : 'emergencia',
   nome: service.name,
@@ -962,48 +557,62 @@ export const CONTATOS: Contato[] = PROTOCOL_DATA.services.map((service) => ({
   horario: service.hours
 }));
 
-const categoryToFluxo: Record<string, { codigo: string; icon: string; risco: Fluxo['risco'] }> = {
-  EMOCIONAL_COMPORTAMENTO: { codigo: 'E', icon: '🧠', risco: 'moderado' },
-  VIOLACAO_DIREITOS_VIOLENCIA: { codigo: 'D', icon: '⚖️', risco: 'urgencia' },
-  VULNERABILIDADE_SOCIAL_FAMILIAR: { codigo: 'S', icon: '🤝', risco: 'moderado' },
-  CONVIVENCIA_CONFLITOS: { codigo: 'C', icon: '🏫', risco: 'moderado' },
-  DIFICULDADE_PEDAGOGICA: { codigo: 'P', icon: '📚', risco: 'baixo' },
-  SAUDE_FISICA: { codigo: 'F', icon: '🏥', risco: 'alto' },
-  NAO_SEI: { codigo: '?', icon: '❔', risco: 'moderado' }
+const flowMap: Record<string, { codigo: string; titulo: string; descricao: string; risco: 'baixo' | 'moderado' | 'alto' | 'urgencia'; icon: string; nodeIds: string[]; contatosUteis: string[] }> = {
+  pedagógico: {
+    codigo: 'A',
+    titulo: 'Pedagógico e permanência',
+    descricao: 'Dificuldade de aprendizagem, evasão, inclusão e conflitos escolares.',
+    risco: 'moderado',
+    icon: '🎓',
+    nodeIds: ['DIFICULDADE_PEDAGOGICA', 'EVASAO_RISCO', 'INCLUSAO_PCD', 'CONFLITO_INTERPESSOAL'],
+    contatosUteis: ['UBS_ERMELINO', 'CRAS_ERMELINO', 'GESTAO_ESCOLAR']
+  },
+  saúdeMental: {
+    codigo: 'B',
+    titulo: 'Saúde mental e comportamento',
+    descricao: 'Sofrimento psíquico, autolesão, risco de suicídio, uso de substâncias e surtos.',
+    risco: 'alto',
+    icon: '🧠',
+    nodeIds: ['SOFRIMENTO_PSIQUICO', 'AUTOLESAO', 'RISCO_SUICIDIO', 'USO_SUBSTANCIAS', 'SURTO_MENTAL'],
+    contatosUteis: ['CAPS_IJ', 'CAPS_AD', 'SAMU']
+  },
+  violência: {
+    codigo: 'C',
+    titulo: 'Violências e proteção integral',
+    descricao: 'Violência doméstica, abuso sexual, discriminação, arma e eventos críticos.',
+    risco: 'urgencia',
+    icon: '🛡️',
+    nodeIds: ['VIOLENCIA_DOMESTICA', 'ABUSO_SEXUAL', 'DISCRIMINACAO', 'ARMA_ESCOLA', 'TIROTEIO_EXTERNO', 'EMERGENCIA_IMEDIATA'],
+    contatosUteis: ['CONSELHO_TUTELAR', 'PM_190', 'UPA_ERMELINO']
+  }
 };
 
-const serviceIdsByTarget = (target?: Service['targetType']) =>
-  PROTOCOL_DATA.services.filter((service) => service.targetType === target).map((service) => service.id);
-
 export const FLUXOS: Record<string, Fluxo> = Object.fromEntries(
-  Object.keys(categoryToFluxo).map((category) => {
-    const leaves = (PROTOCOL_DATA.decisionTree || []).filter((node) => node.isLeaf && node.category === category);
-    const meta = categoryToFluxo[category];
-    const id = category.toLowerCase().replace(/[^a-z0-9]/gi, '-');
+  Object.entries(flowMap).map(([id, flow]) => {
+    const cenarios = flow.nodeIds.map((nodeId) => {
+      const node = PROTOCOL_DATA.decisionTree.find((item) => item.id === nodeId);
+      return {
+        id: `${id}-${nodeId}`,
+        titulo: node?.question || nodeId,
+        descricao: node?.guidance?.[0] || node?.doNow?.[0] || 'Consultar protocolo institucional.',
+        recomendacaoImediata: node?.doNow?.[0] || node?.guidance?.[0] || 'Acionar coordenação.',
+        acionar: node?.contactTargets?.map((target) => (typeof target === 'string' ? target : target.serviceId)) || ['GESTAO_ESCOLAR'],
+        documento: 'Anexo I',
+        prazoNotificacao: node?.deadline || '24h'
+      };
+    });
 
     return [
       id,
       {
         id,
-        codigo: meta.codigo,
-        titulo: category.replace(/_/g, '/'),
-        descricao: `Fluxos ${category.replace(/_/g, '/')} organizados por gravidade e proteção.`,
-        risco: meta.risco,
-        icon: meta.icon,
-        contatosUteis: Array.from(
-          new Set(
-            leaves.flatMap((leaf) => (leaf.contactTargets || []).flatMap((target) => serviceIdsByTarget(typeof target === 'string' ? target : target.serviceId)))
-          )
-        ),
-        cenarios: leaves.map((leaf) => ({
-          id: leaf.id,
-          titulo: leaf.question,
-          descricao: (leaf.doNow || []).join(' '),
-          recomendacaoImediata: leaf.doNow?.[0] || 'Seguir protocolo institucional.',
-          acionar: (leaf.contactTargets || []).flatMap((target) => serviceIdsByTarget(typeof target === 'string' ? target : target.serviceId)),
-          documento: leaf.recordRequired?.length ? 'Registro institucional' : 'Sem exigência explícita',
-          prazoNotificacao: leaf.deadline || 'Hoje'
-        }))
+        codigo: flow.codigo,
+        titulo: flow.titulo,
+        descricao: flow.descricao,
+        risco: flow.risco,
+        icon: flow.icon,
+        cenarios,
+        contatosUteis: flow.contatosUteis
       }
     ];
   })
@@ -1016,112 +625,117 @@ export const RECURSOS: Recurso[] = PROTOCOL_DATA.documentTemplates.map((doc) => 
   formato: 'pdf',
   obrigatorio: true,
   camposObrigatorios: doc.requiredFields,
-  contentOrigin: 'OFICIAL',
-  sourceRef: `Protocolo ${PROTOCOL_DATA.metadata.protocolVersion} · ${doc.annex}`
+  contentOrigin: 'DERIVADA',
+  sourceRef: 'Protocolo Bússola — EE Ermelino Matarazzo'
 }));
 
 export const GLOSSARY_SEED = [
-  {
-    id: 'g1',
-    term: 'Busca Ativa',
-    definition: 'Procedimento de acompanhamento quando há ausência recorrente do estudante, com tentativa de contato com família e rede.',
-    context: 'Aplicável quando houver faltas reiteradas ou evasão escolar.',
-    category: 'Procedimentos',
-    createdAt: new Date().toISOString()
-  },
-  {
-    id: 'g2',
-    term: 'Notificação Compulsória',
-    definition: 'Obrigação legal de comunicar suspeitas ou confirmações de violência contra crianças e adolescentes aos órgãos competentes.',
-    context: 'Prevista no ECA e legislações correlatas.',
-    category: 'Base Legal',
-    createdAt: new Date().toISOString()
-  },
-  {
-    id: 'g3',
-    term: 'Violência Institucional',
-    definition: 'Práticas ou omissões da instituição que possam causar dano psicológico ou moral ao estudante.',
-    context: 'Exige avaliação da gestão e possível revisão de procedimento.',
-    category: 'Conceitos',
-    createdAt: new Date().toISOString()
-  },
-  {
-    id: 'g4',
-    term: 'Escalonamento',
-    definition: 'Encaminhamento progressivo da demanda para instâncias superiores (Coordenação → Direção → Rede).',
-    context: 'Quando a situação ultrapassa competência individual.',
-    category: 'Fluxo Operacional',
-    createdAt: new Date().toISOString()
-  }
+  { term: 'Acolhimento', definition: 'Receber o aluno sem julgamento e sem pressa. Primeiro passo de qualquer fluxo.' },
+  { term: 'Escuta qualificada', definition: 'Ouvir ativamente, sem interrupções, sem julgamentos, anotando as palavras exatas da pessoa.' },
+  { term: 'Notificação obrigatória', definition: 'Comunicação formal ao CT em qualquer suspeita de violência. Não precisa ter certeza.' },
+  { term: 'Escuta protegida', definition: 'Ouvir a vítima sem perguntas sugestivas. Anotar o que foi dito com as palavras exatas. NÃO reinquirir.' },
+  { term: 'Depoimento especial', definition: 'Oitiva de vítima conduzida por especialista — papel do sistema de justiça, não da escola.' },
+  { term: 'Autolesão', definition: 'Machucar-se propositalmente. NEM SEMPRE indica intenção de morrer. Requer acolhimento, não punição.' },
+  { term: 'Ideação suicida', definition: 'Pensamentos sobre querer morrer. Qualquer relato deve ser levado a sério. Nunca minimizar.' },
+  { term: 'PEI', definition: 'Plano Educacional Individualizado — adaptações, estratégias e metas para estudantes com deficiência.' },
+  { term: 'AEE', definition: 'Atendimento Educacional Especializado — sala de recursos. Complementa, não substitui o ensino comum.' },
+  { term: 'PSE', definition: 'Programa Saúde na Escola — parceria UBS-escola para ações coletivas de promoção de saúde.' },
+  { term: 'CRAS', definition: 'Proteção social básica: benefícios, SCFV, orientação social para famílias vulneráveis.' },
+  { term: 'CREAS', definition: 'Proteção especial: violência, negligência grave, trabalho infantil, exploração sexual.' },
+  { term: 'Rede intersetorial', definition: 'Conjunto de serviços de diferentes áreas que atuam juntos. A escola é parte, não o único responsável.' },
+  { term: 'ECA', definition: 'Estatuto da Criança e do Adolescente — define direitos e obrigações de toda a sociedade, incluindo a escola.' },
+  { term: 'Lei 13.431/2017', definition: 'Lei de proteção de crianças vítimas de violência. Define escuta protegida e obrigações de notificação.' }
 ];
 
 export const ROLEPLAY_SCENARIOS = [
   {
-    id: 's1',
-    title: 'Isolamento + queda de rendimento',
-    description: 'Estudante que participava bem ficou isolado, faltando mais e com queda brusca nas notas.',
-    protocolHint: 'Aplicar registro inicial, escuta qualificada e acionar fluxo multifatorial quando necessário.',
-    options: [
-      { id: 'a', text: 'Aguardar mais um mês para ver se melhora sozinho.', score: 0, feedback: 'Conduta inadequada: posterga proteção e pode agravar o caso.' },
-      { id: 'b', text: 'Registrar Anexo I no mesmo dia, comunicar coordenação e iniciar busca ativa.', score: 2, feedback: 'Correto: ação precoce, registro e escalonamento estruturado.' },
-      { id: 'c', text: 'Conversar em público com o aluno para pressionar presença.', score: 0, feedback: 'Conduta inadequada: pode expor e revitimizar.' }
-    ]
+    id: 'CEN001',
+    title: 'Lucas, 14 anos, tristeza + queda de rendimento',
+    riskLevel: 'MÉDIO',
+    tags: ['pedagógico', 'saúde mental', 'CRAS', 'UBS'],
+    context: 'Mãe desempregada, mora no Jardim Belém, distorção idade-série.',
+    entryNodeId: 'DIFICULDADE_PEDAGOGICA',
+    expectedNodeId: 'SOFRIMENTO_PSIQUICO',
+    expectedContacts: ['CRAS', 'UBS'],
+    idealPath: ['Professor', 'Coordenação', 'Escuta', 'Sem autolesão', 'Adaptações', 'CRAS', 'UBS'],
+    outcome: 'Interno + CRAS + UBS'
   },
   {
-    id: 's2',
-    title: 'Relato de possível violência sexual',
-    description: 'Estudante relata situação de abuso, com medo de represália familiar.',
-    protocolHint: 'Escuta qualificada mínima, proteção imediata, CT/autoridades e não revitimização.',
-    options: [
-      { id: 'a', text: 'Pedir detalhes repetidamente para confirmar história.', score: 0, feedback: 'Conduta inadequada: risco de revitimização.' },
-      { id: 'b', text: 'Fazer escuta qualificada essencial e acionar direção/CT imediatamente.', score: 2, feedback: 'Correto: preserva proteção e segue competência institucional.' },
-      { id: 'c', text: 'Ligar primeiro para o suposto agressor para esclarecimentos.', score: 0, feedback: 'Conduta inadequada: expõe a vítima e compromete proteção.' }
-    ]
+    id: 'CEN002',
+    title: 'Mariana, 16 anos, marcas de cortes no braço',
+    riskLevel: 'ALTO',
+    tags: ['autolesão', 'família', 'CAPS IJ'],
+    context: 'Conflito familiar intenso, pais separados, cobre com pulseiras.',
+    entryNodeId: 'AUTOLESAO',
+    expectedNodeId: 'AUTOLESAO',
+    expectedContacts: ['CAPS_IJ', 'UPA_HOSPITAL'],
+    idealPath: ['Prof EF', 'Espaço privado', 'Confirma autolesão', 'Sem ideação de morte', 'Mãe acionada', 'CAPS IJ II'],
+    outcome: 'Escola + família + CAPS IJ'
   },
   {
-    id: 's3',
-    title: 'Cyberbullying com exposição de imagem',
-    description: 'Turma compartilha foto de colega com ofensas em grupo digital.',
-    protocolHint: 'Interrupção da exposição, proteção da vítima, registro e escalonamento jurídico quando necessário.',
-    options: [
-      { id: 'a', text: 'Tratar como “brincadeira” e encerrar sem registro.', score: 0, feedback: 'Conduta inadequada: invisibiliza violência e recorrência.' },
-      { id: 'b', text: 'Proteger vítima, registrar ocorrência e acionar família/gestão.', score: 2, feedback: 'Correto: responde à violação com medidas educativas e protetivas.' },
-      { id: 'c', text: 'Punir imediatamente sem escuta de envolvidos.', score: 0, feedback: 'Inadequado: sem investigação pedagógica e registro correto.' }
-    ]
+    id: 'CEN003',
+    title: 'João, 13 anos, “vou me matar” no WhatsApp',
+    riskLevel: 'ALTO',
+    tags: ['ideação suicida', 'print', 'família'],
+    context: 'Conflito com pai na véspera, print enviado por colegas.',
+    entryNodeId: 'RISCO_SUICIDIO',
+    expectedNodeId: 'RISCO_SUICIDIO',
+    expectedContacts: ['CAPS_IJ', 'EMERGENCIA_192_193'],
+    idealPath: ['Professor', 'Coordenação', 'Sala reservada', 'Sem plano', 'Mãe convocada', 'CAPS IJ ou UPA'],
+    outcome: 'Escola + família + CAPS IJ'
   },
   {
-    id: 'auto-lesao',
-    title: 'Suspeita de Autolesão',
-    description: 'Aluno apresenta cortes superficiais no braço e evita responder perguntas.',
-    protocolHint: 'Escuta qualificada, proteção imediata e comunicação à gestão.',
-    options: [
-      { id: 'a', text: 'Ignorar para não constranger', score: 0, feedback: 'Omissão pode agravar risco. Situações de autolesão exigem escuta e comunicação à gestão.' },
-      { id: 'b', text: 'Conversar em local reservado e comunicar coordenação', score: 2, feedback: 'Conduta adequada. Escuta qualificada + acionamento institucional.' }
-    ]
+    id: 'CEN004',
+    title: 'Ana Paula, 12 anos, hematomas inexplicáveis',
+    riskLevel: 'ALTO',
+    tags: ['violência doméstica', 'notificação', 'CT'],
+    context: 'Mora com padrasto, comportamento retraído, choro ao ser perguntada.',
+    entryNodeId: 'VIOLENCIA_DOMESTICA',
+    expectedNodeId: 'VIOLENCIA_DOMESTICA',
+    expectedContacts: ['CONSELHO_TUTELAR', 'UBS'],
+    idealPath: ['Professora', 'Coordenação', 'Escuta protegida', 'Choro sem relato verbal', 'Notificação CT', 'UBS'],
+    outcome: 'CT + UBS + monitoramento escolar'
   },
   {
-    id: 'conflito-docente',
-    title: 'Conflito com Professor',
-    description: 'Aluno acusa professor de tratamento humilhante em sala.',
-    protocolHint: 'Escuta inicial qualificada e mediação institucional conforme fluxo interno.',
-    options: [
-      { id: 'a', text: 'Encaminhar diretamente à direção', score: 1, feedback: 'Pode ser adequado, mas escuta inicial qualificada é recomendada.' },
-      { id: 'b', text: 'Registrar relato e acionar protocolo interno de mediação', score: 2, feedback: 'Favorece escuta institucional e evita escalonamento precipitado.' }
-    ]
+    id: 'CEN005',
+    title: 'Rafael, 17 anos, maconha no banheiro',
+    riskLevel: 'MÉDIO',
+    tags: ['substâncias', 'PSE', 'primeira ocorrência'],
+    context: '3º EM, uso recreativo, sem sinais de dependência.',
+    entryNodeId: 'USO_SUBSTANCIAS',
+    expectedNodeId: 'USO_SUBSTANCIAS',
+    expectedContacts: ['CAPS_ADULTO', 'UBS'],
+    idealPath: ['Agente', 'Coordenação', 'Escuta', 'Sem tráfico', 'Família', 'UBS', 'PSE'],
+    outcome: 'Acolhimento + família + UBS'
   },
   {
-    id: 'negligencia',
-    title: 'Possível Negligência Familiar',
-    description: 'Estudante relata dormir sozinho e não ter alimentação regular.',
-    protocolHint: 'Registro formal, avaliação de risco com gestão e eventual acionamento da rede de proteção.',
-    options: [
-      { id: 'a', text: 'Avisar família imediatamente', score: 1, feedback: 'Contato pode ser necessário, mas requer avaliação prévia com gestão.' },
-      { id: 'b', text: 'Registrar e discutir com coordenação para avaliação de risco', score: 2, feedback: 'Conduta alinhada ao protocolo e proteção da criança.' }
-    ]
+    id: 'CEN006',
+    title: 'Beatriz, 15 anos, grávida, família não sabe',
+    riskLevel: 'MÉDIO',
+    tags: ['gravidez', 'permanência', 'pré-natal'],
+    context: 'Gestação em contexto consensual e sigiloso.',
+    entryNodeId: 'GRAVIDEZ_ADOLESCENCIA',
+    expectedNodeId: 'GRAVIDEZ_ADOLESCENCIA',
+    expectedContacts: ['UBS', 'CRAS'],
+    idealPath: ['Secretária', 'Coordenação', 'Sem violência sexual', 'Permanência garantida', 'UBS pré-natal'],
+    outcome: 'Escola + família (com consentimento) + UBS + CRAS se necessário'
+  },
+  {
+    id: 'CEN007',
+    title: 'Tiros próximos durante o recreio',
+    riskLevel: 'EMERGENCIAL',
+    tags: ['lockdown', 'PM 190', 'crise coletiva'],
+    context: 'Conflito armado externo em horário de circulação de alunos.',
+    entryNodeId: 'TIROTEIO_EXTERNO',
+    expectedNodeId: 'TIROTEIO_EXTERNO',
+    expectedContacts: ['EMERGENCIA_192_193', 'GESTAO_ESCOLAR'],
+    idealPath: ['Funcionário', 'Lockdown', 'PM 190', 'Famílias comunicadas', 'Apoio psicossocial pós-crise'],
+    outcome: 'Lockdown + PM + suporte coletivo'
   }
 ];
 
 export const FAQ_CONTENT_META = {
-  contentOrigin: 'DERIVADA' as const,
-  sourceRef: `Orientação operacional da unidade baseada no protocolo ${PROTOCOL_DATA.metadata.protocolVersion}`
+  version: '2026.02',
+  source: 'Protocolo Bússola EE Ermelino Matarazzo',
+  updatedAt: '2026-02-19'
 };
