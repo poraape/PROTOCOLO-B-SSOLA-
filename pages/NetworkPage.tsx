@@ -1,139 +1,97 @@
 import React, { useMemo, useState } from 'react';
-import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { NetworkMap } from '../components/NetworkMap';
 import { PROTOCOL_DATA } from '../content/protocolData';
-import { shouldUseListFallback } from '../services/networkFallback';
 import { Service } from '../types';
 
-type NetworkFilter = 'TODOS' | 'SAUDE' | 'SOCIAL' | 'TUTELAR' | 'SEGURANCA';
+type FilterCategory = 'TODOS' | 'SAÚDE' | 'SOCIAL' | 'DIREITOS_SGD' | 'EMERGÊNCIA' | 'EDUCAÇÃO';
 
 type ServiceWithCoordinates = Service & { coordinates: { lat: number; lng: number } };
 
-const expiredServiceIds = ['conselho-tutelar', 'ddm-sao-miguel'];
-
-const mapServiceToFilter = (service: Service): NetworkFilter[] => {
-  const list: NetworkFilter[] = [];
-  if (service.category === 'SAÚDE') list.push('SAUDE');
-  if (service.category === 'SOCIAL') list.push('SOCIAL');
-  if (service.category === 'DIREITOS_SGD' || service.name.toLowerCase().includes('conselho tutelar')) list.push('TUTELAR');
-  if (service.category === 'EMERGÊNCIA' || /pol[ií]cia|delegacia|ddm|190|192|193/i.test(service.name + service.phone)) list.push('SEGURANCA');
-  if (!list.length) list.push('TODOS');
-  return list;
-};
-
-const normalizePhoneToTel = (phone: string) => `tel:${phone.replace(/\D/g, '')}`;
-const hasCoordinates = (service: Service): service is ServiceWithCoordinates => !!service.coordinates;
+const hasCoordinates = (service: Service): service is ServiceWithCoordinates => Boolean(service.coordinates);
+const toTel = (phone: string) => `tel:${phone.replace(/\D/g, '')}`;
 
 export const NetworkPage: React.FC = () => {
-  const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
-  const params = useParams<{ id?: string }>();
+  const [filter, setFilter] = useState<FilterCategory>('TODOS');
   const [search, setSearch] = useState('');
-  const [filter, setFilter] = useState<NetworkFilter>('TODOS');
-  const [showMap, setShowMap] = useState(false);
-  const referralFilter = (searchParams.get('referral') || '').trim();
-  const normalizedReferralFilter = referralFilter.toLowerCase();
-  const highlightId = (params.id || searchParams.get('highlight') || '').trim();
+  const [showMap, setShowMap] = useState(true);
+  const [expanded, setExpanded] = useState<Record<string, boolean>>({});
 
-  const filters: { id: NetworkFilter; label: string }[] = [
-    { id: 'TODOS', label: 'Todos' },
-    { id: 'SAUDE', label: 'Saúde' },
-    { id: 'SOCIAL', label: 'Social' },
-    { id: 'TUTELAR', label: 'Tutelar' },
-    { id: 'SEGURANCA', label: 'Segurança' }
-  ];
+  const filters: FilterCategory[] = ['TODOS', 'SAÚDE', 'SOCIAL', 'DIREITOS_SGD', 'EMERGÊNCIA', 'EDUCAÇÃO'];
 
-  const services = useMemo(() => PROTOCOL_DATA.services.filter((service) => {
-    const text = `${service.name} ${service.address} ${service.phone}`.toLowerCase();
-    const matchesSearch = search.trim().length === 0 || text.includes(search.toLowerCase());
-    const matchesFilter = filter === 'TODOS' || mapServiceToFilter(service).includes(filter);
-    const matchesReferral = !normalizedReferralFilter || text.includes(normalizedReferralFilter);
-    return matchesSearch && matchesFilter && matchesReferral;
-  }), [filter, search, normalizedReferralFilter]);
+  const services = useMemo(() => {
+    return PROTOCOL_DATA.services.filter((service) => {
+      const text = `${service.name} ${service.address}`.toLowerCase();
+      const bySearch = search.trim() === '' || text.includes(search.toLowerCase());
+      const byCategory = filter === 'TODOS' || service.category === filter;
+      return bySearch && byCategory;
+    });
+  }, [filter, search]);
 
-  const mappableServices = useMemo(() => services.filter(hasCoordinates), [services]);
-  const listOnlyMode = shouldUseListFallback(services.length, mappableServices.length);
+  const mappable = useMemo(() => services.filter(hasCoordinates), [services]);
 
   return (
     <div className="space-y-4 pb-20">
       <header className="card">
-        <h1 className="text-2xl font-extrabold text-text">Rede de Apoio — Contatos essenciais</h1>
-        <p className="mt-2 text-sm text-muted">Telefones e endereços verificados (quando disponível).</p>
+        <h1 className="text-2xl font-extrabold text-text">Rede intersetorial</h1>
+        <p className="mt-1 text-sm text-muted">Filtre por categoria e use os contatos clicáveis para encaminhamento.</p>
       </header>
 
-      {referralFilter && (
-        <div className="rounded-md border border-blue-200 bg-blue-50 p-3 text-sm">
-          Exibindo serviços recomendados para:
-          <strong className="ml-1">{referralFilter}</strong>
-          <button
-            className="ml-3 text-blue-700 underline focus-visible:ring-2 focus-visible:ring-brand-500"
-            onClick={() => navigate('/rede')}
-          >
-            Limpar filtro
-          </button>
-        </div>
-      )}
-
-      <section className="card">
+      <section className="card space-y-3">
         <input
-          type="text"
           value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          placeholder="Buscar serviço, endereço ou telefone"
-          className="w-full rounded-xl border border-border px-4 py-3 text-sm text-text placeholder:text-muted"
+          onChange={(event) => setSearch(event.target.value)}
+          className="w-full rounded-xl border border-border px-4 py-3 focus-visible:ring-2 focus-visible:ring-brand-500"
+          placeholder="Buscar por nome de serviço"
         />
-        <div className="mt-3 flex flex-wrap gap-2">
+        <div className="flex flex-wrap gap-2">
           {filters.map((item) => (
-            <button
-              key={item.id}
-              onClick={() => setFilter(item.id)}
-              className={`rounded-full px-3 py-2 text-xs font-semibold ${filter === item.id ? 'bg-brand-50 text-brand-800' : 'bg-slate-100 text-muted hover:bg-slate-200'}`}
-            >
-              {item.label}
+            <button key={item} onClick={() => setFilter(item)} className={`rounded-full px-3 py-2 text-xs font-bold focus-visible:ring-2 focus-visible:ring-brand-500 ${filter === item ? 'bg-brand-50 text-brand-900' : 'bg-slate-100 text-slate-600'}`}>
+              {item}
             </button>
           ))}
         </div>
       </section>
 
-      {!listOnlyMode && (
-        <section className="card p-4">
-          <button onClick={() => setShowMap((v) => !v)} className="text-sm font-semibold text-brand-800">
-            {showMap ? 'Ocultar mapa' : 'Ver mapa'}
-          </button>
-          {showMap && (
-            <div className="mt-3 h-[320px] overflow-hidden rounded-xl border border-border">
-              {mappableServices.length ? <NetworkMap services={mappableServices} /> : <div className="flex h-full items-center justify-center text-sm text-muted">Sem coordenadas para os filtros atuais.</div>}
-            </div>
-          )}
-        </section>
-      )}
+      <section className="card">
+        <button onClick={() => setShowMap((prev) => !prev)} className="btn-secondary focus-visible:ring-2 focus-visible:ring-brand-500" style={{ minHeight: 48 }}>
+          {showMap ? 'Ocultar mapa' : 'Mostrar mapa'}
+        </button>
+        {showMap && (
+          <div className="mt-3 h-[340px] overflow-hidden rounded-xl border border-border">
+            {mappable.length > 0 ? <NetworkMap services={mappable} /> : <div className="flex h-full items-center justify-center text-sm">Sem coordenadas disponíveis nos serviços filtrados.</div>}
+          </div>
+        )}
+      </section>
 
       <section className="grid grid-cols-1 gap-3">
         {services.map((service) => (
-          <article key={service.id} className={`card p-4 ${service.id === highlightId ? 'border-brand-300 bg-brand-50' : ''}`}>
+          <article key={service.id} className="card p-4">
             <div className="flex items-center justify-between gap-2">
-              <h2 id={`service-${service.id}`} className="text-base font-bold text-text">{service.name}</h2>
-              <span className="badge">{service.type || 'Serviço'}</span>
+              <h2 className="text-base font-bold">{service.name}</h2>
+              <span className="badge">{service.category}</span>
             </div>
+            <p className="mt-1 text-sm text-muted">{service.address}</p>
+            <a href={toTel(service.phone)} className="mt-1 inline-block text-sm font-bold text-brand-800">{service.phone}</a>
+            {service.hours ? <p className="mt-1 text-xs text-muted">Horário: {service.hours}</p> : null}
+            {service.description ? <p className="mt-2 text-sm">{service.description}</p> : null}
+            {service.notes ? <p className="mt-1 text-xs text-muted">Obs: {service.notes}</p> : null}
+            {service.howToCall ? <p className="mt-1 text-xs font-semibold text-brand-700">Como acionar: {service.howToCall}</p> : null}
 
-            {expiredServiceIds.includes(service.id) && <div className="mt-2 inline-flex badge-accent">Verificação necessária</div>}
+            <button
+              onClick={() => setExpanded((prev) => ({ ...prev, [service.id]: !prev[service.id] }))}
+              className="btn-secondary mt-3"
+              style={{ minHeight: 48 }}
+            >
+              Como encaminhar
+            </button>
 
-            <p className="mt-2 text-sm text-muted">{service.address}</p>
-            <a className="mt-1 inline-block text-sm font-semibold text-brand-800" href={normalizePhoneToTel(service.phone)}>{service.phone}</a>
-
-            <div className="mt-3 flex flex-wrap gap-2">
-              <a href={normalizePhoneToTel(service.phone)} className="btn-primary text-sm focus-visible:ring-2 focus-visible:ring-brand-500">Ligar agora</a>
-              <button onClick={() => navigator.clipboard.writeText(`${service.name}\n${service.address}\n${service.phone}`)} className="btn-secondary text-sm focus-visible:ring-2 focus-visible:ring-brand-500">Copiar</button>
-            </div>
-
-            <details className="mt-3 text-xs text-muted">
-              <summary className="cursor-pointer font-semibold">Verificação e fonte</summary>
-              <p className="mt-1">Fonte: {service.officialSource || 'Não informada'} · Verificado em {service.verifiedAt || 'N/A'} por {service.verifiedBy || 'N/A'}</p>
-            </details>
+            {expanded[service.id] && (
+              <div className="mt-2 rounded-lg bg-slate-50 p-3 text-sm">
+                Registrar no Anexo I e comunicar gestão. Em seguida, contatar {service.name} por telefone e formalizar no Anexo II quando houver envio externo.
+              </div>
+            )}
           </article>
         ))}
-
-        {!services.length && <div className="card text-center text-sm font-semibold text-muted">Nenhum serviço encontrado para os filtros atuais.</div>}
       </section>
     </div>
   );
