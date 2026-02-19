@@ -9,6 +9,7 @@ import { EmergencyCTA } from './decision/EmergencyCTA';
 import { DecisionHistoryPanel } from './decision/DecisionHistoryPanel';
 import { useBreakpoint } from '../hooks/useBreakpoint';
 import { validateTreeDepth } from '../services/validateTreeDepth';
+import { AlertPanel } from './decision/AlertPanel';
 
 interface DecisionStep { nodeId: string; selectedOptionLabel?: string; }
 
@@ -55,6 +56,7 @@ export const DecisionWizard: React.FC = () => {
           {!isMobile && <EmergencyCTA node={currentNode} isMobile={false} />}
           {!isDesktop && <FlowBreadcrumb items={breadcrumb as Array<{ idx: number; node?: FlowNode; answer?: string }>} />}
           {!currentNode.isLeaf ? <QuestionStep node={currentNode} onSelect={goToNext} /> : <ActionCard leafNode={currentNode} services={leafServices} />}
+          <AlertPanel context="orientacoes" />
 
           {isMobile ? (
             <div className="card">

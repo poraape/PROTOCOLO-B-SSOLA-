@@ -3,6 +3,7 @@ import { FlowNode } from '../../types';
 import { IndicatorsAccordion } from '../IndicatorsAccordion';
 import { CategoryOptionCard } from '../CategoryOptionCard';
 import { CATEGORY_TOKENS, CategoryId } from '../../ui/categoryTokens';
+import { AlertPanel } from './AlertPanel';
 
 interface QuestionStepProps {
   node: FlowNode;
@@ -21,6 +22,14 @@ const normalizeCategoryId = (categoryId?: string): CategoryId | null => {
   return (legacyMap[categoryId] || categoryId) as CategoryId;
 };
 
+
+const categoryKeyFromNode = (nodeId: string): 'mental_health' | 'violence' | 'physical_health' | 'pedagogical' | 'registration' | 'emergency' => {
+  if (nodeId.includes('mental') || nodeId.includes('drogas')) return 'mental_health';
+  if (nodeId.includes('direitos') || nodeId.includes('convivencia') || nodeId.includes('discriminacao') || nodeId.includes('violencia')) return 'violence';
+  if (nodeId.includes('fisico') || nodeId.includes('gravidez')) return 'physical_health';
+  return 'pedagogical';
+};
+
 export const QuestionStep: React.FC<QuestionStepProps> = ({ node, onSelect }) => {
   const hasUncertaintyOption = node.options.some((option) =>
     option.label.toLowerCase().includes('não sei') || option.label.toLowerCase().includes('nao sei')
@@ -32,6 +41,8 @@ export const QuestionStep: React.FC<QuestionStepProps> = ({ node, onSelect }) =>
     <section className="card">
       <h2 className="text-2xl font-extrabold leading-tight text-text">{node.question}</h2>
       <p className="mt-2 text-sm text-muted">Escolha uma opção para continuar o protocolo.</p>
+
+      <AlertPanel context="inline" ruleId={node.id.toUpperCase().startsWith('R') ? node.id.toUpperCase() : undefined} categoryKey={categoryKeyFromNode(node.id)} />
 
       <IndicatorsAccordion
         items={node.indicators || node.severityCriteria}
