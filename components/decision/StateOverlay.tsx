@@ -8,16 +8,16 @@ const STYLE_BY_TYPE: Record<StateType, string> = {
   success: 'border-emerald-200 bg-emerald-50 text-emerald-800'
 };
 
-const LABEL_BY_TYPE: Record<StateType, string> = {
-  loading: 'Carregando',
-  error: 'Atenção',
-  success: 'Concluído'
+const ICON_BY_TYPE: Record<StateType, string> = {
+  loading: '⏳',
+  error: '⚠️',
+  success: '✓'
 };
 
 export const StateOverlay: React.FC<{ type: StateType; text: string; inline?: boolean }> = ({ type, text, inline = false }) => {
   const box = (
     <div className={`rounded-2xl border p-4 text-sm font-semibold ${STYLE_BY_TYPE[type]}`} role="status" aria-live="polite">
-      <span className="mr-2">{LABEL_BY_TYPE[type]}:</span>
+      <span className="mr-2">{ICON_BY_TYPE[type]}</span>
       {text}
     </div>
   );

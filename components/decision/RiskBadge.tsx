@@ -1,5 +1,6 @@
 import React from 'react';
 import { normalizeRiskTokenLevel, riskTokens } from '../../src/tokens/riskTokens';
+import { riskIcons } from '../../src/icons/riskIcons';
 
 export const RiskBadge: React.FC<{ level?: string }> = ({ level }) => {
   const normalizedLevel = normalizeRiskTokenLevel(level);
@@ -10,7 +11,7 @@ export const RiskBadge: React.FC<{ level?: string }> = ({ level }) => {
       className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-sm font-semibold"
       style={{ backgroundColor: token.bg, color: token.text, borderColor: token.border, boxShadow: token.shadow }}
     >
-      {token.icon} {normalizedLevel}
+      {riskIcons[normalizedLevel]} {normalizedLevel}
     </span>
   );
 };
