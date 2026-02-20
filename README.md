@@ -270,3 +270,30 @@ Regras não negociáveis para telas críticas do DECISOR:
 7. Cor somente para risco, SLA e obrigatoriedade legal (sem uso decorativo).
 8. Ação principal acima da dobra no mobile.
 
+
+---
+
+## Nova Versão V2 (Experimental)
+
+A V2 do decisor introduz melhorias estruturais para triagem sob pressão:
+
+- arquitetura hierárquica de decisão com níveis claros;
+- triagem crítica obrigatória como primeira etapa;
+- subfluxos por categoria sem pré-passos cosméticos;
+- leaf executável (ação, contato, prazo e registro);
+- persistência local de progresso e rastreabilidade simplificada.
+
+### Como ativar a feature flag
+
+1. Acesse `#/decisor`.
+2. Marque **“Usar Nova Versão V2 (Experimental)”** no topo da tela.
+3. Desmarque para retornar ao fluxo legado.
+
+### Documentação técnica da V2
+
+- [Arquitetura V2](docs/ARCHITECTURE-V2.md)
+- [Guia de Migração](docs/MIGRATION-GUIDE.md)
+
+### Screenshots
+
+- Placeholder: incluir capturas de `DecisionScreen`, `CategoryGrid` e `ResultScreen` após validação funcional completa.

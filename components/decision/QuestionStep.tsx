@@ -81,38 +81,6 @@ export const QuestionStep: React.FC<QuestionStepProps> = ({ node, onSelect }) =>
     }
   ];
 
-
-  const quickSignalEntries = [
-    {
-      key: 'P',
-      title: 'P - Pedagógicos',
-      examples: 'Aluno não está aprendendo; faltas recorrentes.',
-      nextNodeId: 'n_pedagogico_triagem',
-      label: 'Entrada rápida P'
-    },
-    {
-      key: 'S',
-      title: 'S - Saúde Mental',
-      examples: 'Chorando muito; fala de se machucar/morrer.',
-      nextNodeId: 'n_mental_triagem',
-      label: 'Entrada rápida S'
-    },
-    {
-      key: 'F',
-      title: 'F - Saúde Física',
-      examples: 'Desmaio; convulsão; febre alta.',
-      nextNodeId: 'n_fisico_triagem',
-      label: 'Entrada rápida F'
-    },
-    {
-      key: 'V',
-      title: 'V - Violências/Proteção',
-      examples: 'Briga; bullying; objeto perigoso; suspeita de abuso.',
-      nextNodeId: 'n_direitos_triagem',
-      label: 'Entrada rápida V'
-    }
-  ];
-
   return (
     <section className="card">
       <h2 className="text-2xl font-extrabold leading-tight text-text">{node.question}</h2>
@@ -121,7 +89,7 @@ export const QuestionStep: React.FC<QuestionStepProps> = ({ node, onSelect }) =>
       <AlertPanel context="inline" ruleId={node.id.toUpperCase().startsWith('R') ? node.id.toUpperCase() : undefined} categoryKey={categoryKeyFromNode(node.id)} />
 
 
-      {node.id === 'root' ? (
+      {node.id === 'root_risk_check' ? (
         <div className="mt-4 rounded-xl border border-brand-100 bg-white p-4">
           <h3 className="text-sm font-bold text-brand-900">O que você está vendo agora?</h3>
           <div className="mt-3 grid gap-2 sm:grid-cols-2">
