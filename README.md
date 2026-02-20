@@ -254,3 +254,19 @@ Até o momento, **não há licença explicitamente definida** no repositório.
 - O módulo de busca é estático e em memória (reindexado no carregamento), adequado ao MVP, mas sem persistência, relevância avançada ou telemetria.
 - Páginas de conteúdo (protocolo/anexos) fazem renderização Markdown simplificada e `dangerouslySetInnerHTML`; para evolução, recomenda-se política explícita de sanitização mais robusta.
 - Não há backend institucional implementado; qualquer registro oficial permanece externo ao aplicativo (ex.: instrumentos e sistemas formais da rede).
+
+---
+
+## 1️⃣1️⃣ DIRETRIZES DE INTERFACE LIMPA (DECLUTTER)
+
+Regras não negociáveis para telas críticas do DECISOR:
+
+1. Máx. 80 palavras em tela crítica.
+2. Máx. 3 decisões visíveis simultâneas.
+3. Ação imediata sempre no primeiro bloco visual.
+4. Máx. 1 sinalização (emoji/ícone) por card, sempre com texto.
+5. Máx. 2 alertas por tela (1 crítico + 1 suporte).
+6. Texto curto, preferencialmente em bullets orientados por verbo de ação.
+7. Cor somente para risco, SLA e obrigatoriedade legal (sem uso decorativo).
+8. Ação principal acima da dobra no mobile.
+

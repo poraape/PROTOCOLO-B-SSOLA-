@@ -4,6 +4,8 @@ import { IndicatorsAccordion } from '../IndicatorsAccordion';
 import { CategoryOptionCard } from '../CategoryOptionCard';
 import { CATEGORY_TOKENS, CategoryId } from '../../ui/categoryTokens';
 import { AlertPanel } from './AlertPanel';
+import { SafetyGuidancePanel } from './SafetyGuidancePanel';
+import { getSafetyGuidanceGroups, SafetyContextId } from '../../content/safetyGuidance';
 
 interface QuestionStepProps {
   node: FlowNode;
@@ -30,19 +32,82 @@ const categoryKeyFromNode = (nodeId: string): 'mental_health' | 'violence' | 'ph
   return 'pedagogical';
 };
 
+const guidanceContextFromNode = (nodeId: string): SafetyContextId => {
+  if (nodeId.includes('direitos') || nodeId.includes('convivencia') || nodeId.includes('discriminacao') || nodeId.includes('violencia')) return 'violencia_protecao';
+  if (nodeId.includes('mental') || nodeId.includes('drogas')) return 'saude_mental_geral';
+  if (nodeId.includes('fisico') || nodeId.includes('gravidez')) return 'saude_fisica';
+  if (nodeId.includes('pedagog')) return 'pedagogico';
+  if (nodeId.includes('root_risk') || nodeId.includes('immediate')) return 'triagem_risco_imediato';
+  return 'triagem_risco_imediato';
+};
+
+
+const QUICK_SIGNAL_ENTRIES = [
+  {
+    key: 'P',
+    title: 'P - Pedagógicos',
+    examples: 'Aluno não está aprendendo; faltas recorrentes.',
+    nextNodeId: 'cat_pedagogico',
+    label: 'Entrada rápida P'
+  },
+  {
+    key: 'S',
+    title: 'S - Saúde Mental',
+    examples: 'Chorando muito; fala de se machucar/morrer.',
+    nextNodeId: 'cat_saude_emocional',
+    label: 'Entrada rápida S'
+  },
+  {
+    key: 'F',
+    title: 'F - Saúde Física',
+    examples: 'Desmaio; convulsão; febre alta.',
+    nextNodeId: 'cat_saude_fisica',
+    label: 'Entrada rápida F'
+  },
+  {
+    key: 'V',
+    title: 'V - Violências/Proteção',
+    examples: 'Briga; bullying; objeto perigoso; suspeita de abuso.',
+    nextNodeId: 'cat_violencia_direitos',
+    label: 'Entrada rápida V'
+  }
+] as const;
+
 export const QuestionStep: React.FC<QuestionStepProps> = ({ node, onSelect }) => {
   const hasUncertaintyOption = node.options.some((option) =>
     option.label.toLowerCase().includes('não sei') || option.label.toLowerCase().includes('nao sei')
   );
 
-  const isCategoryStep = node.id === 'n_categoria_situacao';
+  const isCategoryStep = node.id === 'category_home';
+  const safetyGroups = getSafetyGuidanceGroups(guidanceContextFromNode(node.id));
+
 
   return (
     <section className="card">
       <h2 className="text-2xl font-extrabold leading-tight text-text">{node.question}</h2>
-      <p className="mt-2 text-sm text-muted">Escolha uma opção para continuar o protocolo.</p>
+      <p className="mt-2 text-sm text-muted">Escolha a opção mais próxima do que você vê agora.</p>
 
       <AlertPanel context="inline" ruleId={node.id.toUpperCase().startsWith('R') ? node.id.toUpperCase() : undefined} categoryKey={categoryKeyFromNode(node.id)} />
+
+
+      {node.id === 'root_risk_check' ? (
+        <div className="mt-4 rounded-xl border border-brand-100 bg-white p-4">
+          <h3 className="text-sm font-bold text-brand-900">O que você está vendo agora?</h3>
+          <div className="mt-3 grid gap-2 sm:grid-cols-2">
+            {QUICK_SIGNAL_ENTRIES.map((entry) => (
+              <button
+                key={entry.key}
+                type="button"
+                onClick={() => onSelect(entry.nextNodeId, entry.label)}
+                className="rounded-xl border border-slate-200 bg-slate-50 p-3 text-left focus-visible:ring-2 focus-visible:ring-brand-500"
+              >
+                <p className="text-sm font-semibold text-text">{entry.title}</p>
+                <p className="mt-1 text-xs text-muted">{entry.examples}</p>
+              </button>
+            ))}
+          </div>
+        </div>
+      ) : null}
 
       <IndicatorsAccordion
         items={node.indicators || node.severityCriteria}
@@ -77,16 +142,18 @@ export const QuestionStep: React.FC<QuestionStepProps> = ({ node, onSelect }) =>
           );
         })}
 
-        {!hasUncertaintyOption && (node.fallbackNextNodeId || node.id !== 'leaf_duvida_padrao') && (
+        {!hasUncertaintyOption && (node.fallbackNextNodeId || node.id !== 'leaf_nao_sei') && (
           <button
             type="button"
-            onClick={() => onSelect(node.fallbackNextNodeId || 'leaf_duvida_padrao', 'Não sei / preciso de apoio')}
+            onClick={() => onSelect(node.fallbackNextNodeId || 'cat_nao_sei_apoio', 'Não tenho certeza — acionar apoio da gestão')}
             className="w-full rounded-xl border border-accent-200 bg-accent-50 px-5 py-4 text-left text-base font-semibold text-accent-800 focus-visible:ring-2 focus-visible:ring-brand-500"
           >
-            Não sei / preciso de apoio
+            Não tenho certeza — acionar apoio da gestão
           </button>
         )}
       </div>
+
+      <SafetyGuidancePanel mode="compact" groups={safetyGroups} />
     </section>
   );
 };
