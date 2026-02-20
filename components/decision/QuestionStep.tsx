@@ -4,6 +4,8 @@ import { IndicatorsAccordion } from '../IndicatorsAccordion';
 import { CategoryOptionCard } from '../CategoryOptionCard';
 import { CATEGORY_TOKENS, CategoryId } from '../../ui/categoryTokens';
 import { AlertPanel } from './AlertPanel';
+import { SafetyGuidancePanel } from './SafetyGuidancePanel';
+import { getSafetyGuidanceGroups, SafetyContextId } from '../../content/safetyGuidance';
 
 interface QuestionStepProps {
   node: FlowNode;
@@ -30,12 +32,54 @@ const categoryKeyFromNode = (nodeId: string): 'mental_health' | 'violence' | 'ph
   return 'pedagogical';
 };
 
+const guidanceContextFromNode = (nodeId: string): SafetyContextId => {
+  if (nodeId.includes('direitos') || nodeId.includes('convivencia') || nodeId.includes('discriminacao') || nodeId.includes('violencia')) return 'violencia_protecao';
+  if (nodeId.includes('mental') || nodeId.includes('drogas')) return 'saude_mental_geral';
+  if (nodeId.includes('fisico') || nodeId.includes('gravidez')) return 'saude_fisica';
+  if (nodeId.includes('pedagog')) return 'pedagogico';
+  if (nodeId.includes('root_risk') || nodeId.includes('immediate')) return 'triagem_risco_imediato';
+  return 'triagem_risco_imediato';
+};
+
 export const QuestionStep: React.FC<QuestionStepProps> = ({ node, onSelect }) => {
   const hasUncertaintyOption = node.options.some((option) =>
     option.label.toLowerCase().includes('não sei') || option.label.toLowerCase().includes('nao sei')
   );
 
-  const isCategoryStep = node.id === 'n_categoria_situacao';
+  const isCategoryStep = node.id === 'category_home';
+  const safetyGroups = getSafetyGuidanceGroups(guidanceContextFromNode(node.id));
+
+
+  const quickSignalEntries = [
+    {
+      key: 'P',
+      title: 'P - Pedagógicos',
+      examples: 'Aluno não está aprendendo; faltas recorrentes.',
+      nextNodeId: 'cat_pedagogico',
+      label: 'Entrada rápida P'
+    },
+    {
+      key: 'S',
+      title: 'S - Saúde Mental',
+      examples: 'Chorando muito; fala de se machucar/morrer.',
+      nextNodeId: 'cat_saude_emocional',
+      label: 'Entrada rápida S'
+    },
+    {
+      key: 'F',
+      title: 'F - Saúde Física',
+      examples: 'Desmaio; convulsão; febre alta.',
+      nextNodeId: 'cat_saude_fisica',
+      label: 'Entrada rápida F'
+    },
+    {
+      key: 'V',
+      title: 'V - Violências/Proteção',
+      examples: 'Briga; bullying; objeto perigoso; suspeita de abuso.',
+      nextNodeId: 'cat_violencia_direitos',
+      label: 'Entrada rápida V'
+    }
+  ];
 
 
   const quickSignalEntries = [
@@ -129,7 +173,7 @@ export const QuestionStep: React.FC<QuestionStepProps> = ({ node, onSelect }) =>
           );
         })}
 
-        {!hasUncertaintyOption && (node.fallbackNextNodeId || node.id !== 'leaf_duvida_padrao') && (
+        {!hasUncertaintyOption && (node.fallbackNextNodeId || node.id !== 'leaf_nao_sei') && (
           <button
             type="button"
             onClick={() => onSelect(node.fallbackNextNodeId || 'leaf_duvida_padrao', 'Não tenho certeza — acionar apoio da gestão')}
@@ -139,6 +183,8 @@ export const QuestionStep: React.FC<QuestionStepProps> = ({ node, onSelect }) =>
           </button>
         )}
       </div>
+
+      <SafetyGuidancePanel mode="compact" groups={safetyGroups} />
     </section>
   );
 };

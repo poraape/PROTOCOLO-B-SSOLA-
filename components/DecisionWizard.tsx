@@ -16,7 +16,7 @@ import { StateOverlay } from './decision/StateOverlay';
 interface DecisionStep { nodeId: string; selectedOptionLabel?: string; }
 
 export const DecisionWizard: React.FC = () => {
-  const [history, setHistory] = useState<DecisionStep[]>([{ nodeId: 'root' }]);
+  const [history, setHistory] = useState<DecisionStep[]>([{ nodeId: 'root_risk_check' }]);
   const [showMobileHistory, setShowMobileHistory] = useState(false);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const { isMobile, isDesktop } = useBreakpoint();
@@ -34,7 +34,9 @@ export const DecisionWizard: React.FC = () => {
     window.setTimeout(() => setIsTransitioning(false), 120);
   };
   const goBack = () => history.length > 1 && setHistory((prev) => prev.slice(0, -1));
-  const resetWizard = () => setHistory([{ nodeId: 'root' }]);
+  const resetWizard = () => setHistory([{ nodeId: 'root_risk_check' }]);
+  const goToCategoryHome = () => setHistory([{ nodeId: 'root_risk_check' }, { nodeId: 'category_home', selectedOptionLabel: 'Voltar para categorias' }]);
+  const goToSupport = () => setHistory([{ nodeId: 'root_risk_check' }, { nodeId: 'cat_nao_sei_apoio', selectedOptionLabel: 'Falar com gestão' }, { nodeId: 'leaf_nao_sei', selectedOptionLabel: 'Apoio da gestão' }]);
 
   if (!currentNode) return <StateOverlay type="error" text="Falha na rota. Reinicie e chame Gestão." inline />;
 
@@ -43,11 +45,6 @@ export const DecisionWizard: React.FC = () => {
 
   return (
     <section className="relative" aria-live="polite">
-      <div className="card mb-4">
-        <h1 className="text-2xl font-extrabold text-text">Decisor Escolar</h1>
-        <p className="mt-1 text-sm text-muted">Responda às perguntas para receber orientação imediata. Duração média: 30 segundos.</p>
-      </div>
-
       <DecisionSummary
         stepNumber={history.length}
         totalSteps={Math.max(treeDepth - 1, history.length)}
@@ -55,6 +52,19 @@ export const DecisionWizard: React.FC = () => {
         onGoBack={goBack}
         onReset={resetWizard}
       />
+
+
+      <div className="mt-3 flex flex-wrap gap-2">
+        <button type="button" className="btn-secondary text-sm focus-visible:ring-2 focus-visible:ring-brand-500" onClick={goToCategoryHome}>
+          ← Voltar para categorias
+        </button>
+        <button type="button" className="btn-secondary text-sm focus-visible:ring-2 focus-visible:ring-brand-500" onClick={resetWizard}>
+          Reclassificar
+        </button>
+        <button type="button" className="btn-secondary text-sm focus-visible:ring-2 focus-visible:ring-brand-500" onClick={goToSupport}>
+          Falar com gestão
+        </button>
+      </div>
 
       <div className="mt-4 grid gap-4 lg:grid-cols-3 lg:items-start">
         <div className="space-y-4 lg:col-span-2">

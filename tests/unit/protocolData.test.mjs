@@ -12,7 +12,7 @@ test('protocol metadata fields are present in source-of-truth', () => {
 });
 
 test('root node has explicit uncertainty fallback', () => {
-  assert.match(source, /id:\s*'root'/);
-  assert.match(source, /fallbackNextNodeId:\s*'leaf_duvida_padrao'/);
+  assert.match(source, /id:\s*'root_risk_check'/);
+  assert.match(source, /fallbackNextNodeId:\s*'cat_nao_sei_apoio'/);
   assert.match(source, /Não sei \/ dúvida/);
 });
