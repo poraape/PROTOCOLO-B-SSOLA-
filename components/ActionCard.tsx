@@ -70,7 +70,7 @@ export const ActionCard: React.FC<ActionCardProps> = ({ leafNode, services, onRe
 
   return (
     <section className="grid gap-4 lg:grid-cols-2">
-      <article className="rounded-2xl border border-brand-100 bg-brand-50 p-5 lg:col-span-2">
+      <article className="rounded-2xl border border-brand-100 bg-brand-50 p-5 shadow-md lg:col-span-2">
         <div className="mb-3 flex flex-wrap gap-2">
           <span className="inline-flex items-center gap-2"><span className="text-xs font-semibold text-muted">Classificação:</span><RiskBadge level={risk} /></span>
           <span className="badge">Prioridade: {leafNode.decisionResult?.priority || leafNode.actionPriority || 'ORIENTAÇÃO'}</span>
@@ -200,7 +200,7 @@ export const ActionCard: React.FC<ActionCardProps> = ({ leafNode, services, onRe
 
       {confirmFormal ? (
         <div className="fixed inset-0 z-[70] bg-black/40 p-4" onClick={() => setConfirmFormal(false)}>
-          <div className="mx-auto mt-24 max-w-md rounded-2xl border border-accent-200 bg-white p-5" onClick={(event) => event.stopPropagation()}>
+          <div className="glass-overlay mx-auto mt-24 max-w-md p-5 shadow-lg" onClick={(event) => event.stopPropagation()}>
             <h3 className="text-lg font-extrabold text-text">Você confirma que vai executar esta ação agora?</h3>
             <p className="mt-2 text-sm text-muted">Esta confirmação não substitui o registro no sistema oficial da escola.</p>
             <div className="mt-4 flex gap-2">
