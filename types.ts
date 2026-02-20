@@ -120,6 +120,7 @@ export interface FlowNode {
   actionSummary?: string;
   whatToDoNow?: string;
   whyThisService?: string;
+  mandatoryTodayAction?: string;
   decisionResult?: DecisionResult;
   primaryServiceId?: string;
 }
