@@ -37,6 +37,7 @@ const guidanceContextFromNode = (nodeId: string): SafetyContextId => {
   if (nodeId.includes('mental') || nodeId.includes('drogas')) return 'saude_mental_geral';
   if (nodeId.includes('fisico') || nodeId.includes('gravidez')) return 'saude_fisica';
   if (nodeId.includes('pedagog')) return 'pedagogico';
+  if (nodeId.includes('root_risk') || nodeId.includes('immediate')) return 'triagem_risco_imediato';
   return 'triagem_risco_imediato';
 };
 
@@ -45,7 +46,7 @@ export const QuestionStep: React.FC<QuestionStepProps> = ({ node, onSelect }) =>
     option.label.toLowerCase().includes('não sei') || option.label.toLowerCase().includes('nao sei')
   );
 
-  const isCategoryStep = node.id === 'n_categoria_situacao';
+  const isCategoryStep = node.id === 'category_home';
   const safetyGroups = getSafetyGuidanceGroups(guidanceContextFromNode(node.id));
 
 
@@ -54,28 +55,28 @@ export const QuestionStep: React.FC<QuestionStepProps> = ({ node, onSelect }) =>
       key: 'P',
       title: 'P - Pedagógicos',
       examples: 'Aluno não está aprendendo; faltas recorrentes.',
-      nextNodeId: 'n_pedagogico_triagem',
+      nextNodeId: 'cat_pedagogico',
       label: 'Entrada rápida P'
     },
     {
       key: 'S',
       title: 'S - Saúde Mental',
       examples: 'Chorando muito; fala de se machucar/morrer.',
-      nextNodeId: 'n_mental_triagem',
+      nextNodeId: 'cat_saude_emocional',
       label: 'Entrada rápida S'
     },
     {
       key: 'F',
       title: 'F - Saúde Física',
       examples: 'Desmaio; convulsão; febre alta.',
-      nextNodeId: 'n_fisico_triagem',
+      nextNodeId: 'cat_saude_fisica',
       label: 'Entrada rápida F'
     },
     {
       key: 'V',
       title: 'V - Violências/Proteção',
       examples: 'Briga; bullying; objeto perigoso; suspeita de abuso.',
-      nextNodeId: 'n_direitos_triagem',
+      nextNodeId: 'cat_violencia_direitos',
       label: 'Entrada rápida V'
     }
   ];
@@ -88,7 +89,7 @@ export const QuestionStep: React.FC<QuestionStepProps> = ({ node, onSelect }) =>
       <AlertPanel context="inline" ruleId={node.id.toUpperCase().startsWith('R') ? node.id.toUpperCase() : undefined} categoryKey={categoryKeyFromNode(node.id)} />
 
 
-      {node.id === 'root' ? (
+      {node.id === 'root_risk_check' ? (
         <div className="mt-4 rounded-xl border border-brand-100 bg-white p-4">
           <h3 className="text-sm font-bold text-brand-900">O que você está vendo agora?</h3>
           <div className="mt-3 grid gap-2 sm:grid-cols-2">
@@ -140,10 +141,10 @@ export const QuestionStep: React.FC<QuestionStepProps> = ({ node, onSelect }) =>
           );
         })}
 
-        {!hasUncertaintyOption && (node.fallbackNextNodeId || node.id !== 'leaf_duvida_padrao') && (
+        {!hasUncertaintyOption && (node.fallbackNextNodeId || node.id !== 'leaf_nao_sei') && (
           <button
             type="button"
-            onClick={() => onSelect(node.fallbackNextNodeId || 'leaf_duvida_padrao', 'Não tenho certeza — acionar apoio da gestão')}
+            onClick={() => onSelect(node.fallbackNextNodeId || 'cat_nao_sei_apoio', 'Não tenho certeza — acionar apoio da gestão')}
             className="w-full rounded-xl border border-accent-200 bg-accent-50 px-5 py-4 text-left text-base font-semibold text-accent-800 focus-visible:ring-2 focus-visible:ring-brand-500"
           >
             Não tenho certeza — acionar apoio da gestão
