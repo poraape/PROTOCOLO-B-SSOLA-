@@ -13,6 +13,13 @@ if (import.meta.env.DEV) {
   console.info(`[Decisor] Profundidade máxima atual: ${maxDepth} nós.`);
 }
 
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/service-worker.js');
+  });
+}
+
 const rootElement = document.getElementById('root');
 if (!rootElement) {
   throw new Error("Could not find root element to mount to");
