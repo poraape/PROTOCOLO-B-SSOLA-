@@ -1695,7 +1695,7 @@ const REBUILT_DECISION_TREE: FlowNode[] = [
       { label: 'Emergência de saúde física', nextNodeId: 'leaf_imm_saude_fisica' },
       { label: 'Segurança do ambiente comprometida', nextNodeId: 'leaf_imm_seguranca_ambiente' },
       { label: 'Crise emocional aguda', nextNodeId: 'leaf_imm_crise_emocional_aguda' },
-      { label: 'Outro / não sei', nextNodeId: 'cat_nao_sei_apoio' }
+      { label: 'Outro / não sei', nextNodeId: 'leaf_imm_outro' }
     ],
     fallbackNextNodeId: 'cat_nao_sei_apoio'
   },
@@ -1748,29 +1748,552 @@ const REBUILT_DECISION_TREE: FlowNode[] = [
 
   { id: 'cat_nao_sei_apoio', question: 'Sem classificação segura no momento?', options: [{ label: 'Acionar gestão agora', nextNodeId: 'leaf_nao_sei' }], category: 'NAO_SEI', fallbackNextNodeId: 'leaf_nao_sei' },
 
-  { id: 'leaf_imm_violencia', question: '', options: [], isLeaf: true, riskLevel: 'EMERGENCIAL', category: 'NAO_SEI', actionSummary: 'Violência em curso — proteção imediata', doNow: ['Acionar 190 imediatamente.', 'Proteger estudantes e equipe em local seguro.', 'Comunicar direção sem atraso.'], primaryServiceId: 'policia-militar', secondaryServiceIds: ['conselho-tutelar', 'de-leste1'], deadline: 'Imediato', notifyManagement: true, recordRequired: [{ system: 'CONVIVA', due: 'Hoje', description: 'Registrar ocorrência crítica.' }], guidance: ['Evite confronto direto sem apoio.', 'Preserve evidências e testemunhas com sigilo.'], whyThisService: 'Risco imediato exige resposta policial e proteção institucional.', fallbackNextNodeId: 'cat_nao_sei_apoio', sourceRef: { label: 'Protocolo 2026.02 — emergência', filePath: 'content/protocolData.ts' } },
-  { id: 'leaf_imm_saude_fisica', question: '', options: [], isLeaf: true, riskLevel: 'EMERGENCIAL', category: 'NAO_SEI', actionSummary: 'Emergência física — atendimento imediato', doNow: ['Acionar 192 agora.', 'Prestar primeiros cuidados sem medicação própria.', 'Comunicar direção e família conforme protocolo.'], primaryServiceId: 'samu', secondaryServiceIds: ['upa-ermelino', 'de-leste1'], deadline: 'Imediato', notifyManagement: true, recordRequired: [{ system: 'CONVIVA', due: 'Hoje', description: 'Registrar sinais e acionamentos.' }], guidance: ['Se houver incêndio/risco estrutural acione 193.', 'Não deixe o estudante sozinho.'], whyThisService: 'SAMU é porta prioritária para urgências clínicas.', fallbackNextNodeId: 'cat_nao_sei_apoio', sourceRef: { label: 'Protocolo 2026.02 — saúde física', filePath: 'content/protocolData.ts' } },
-  { id: 'leaf_imm_seguranca_ambiente', question: '', options: [], isLeaf: true, riskLevel: 'EMERGENCIAL', category: 'NAO_SEI', actionSummary: 'Risco ambiental imediato — evacuação e emergência', doNow: ['Acionar 193/190 conforme cenário.', 'Isolar área de risco.', 'Informar direção e seguir plano interno de segurança.'], primaryServiceId: 'bombeiros', secondaryServiceIds: ['policia-militar', 'de-leste1'], deadline: 'Imediato', notifyManagement: true, recordRequired: [{ system: 'CONVIVA', due: 'Hoje', description: 'Registrar incidente de segurança.' }], guidance: ['Evite reentrada em área insegura.', 'Priorize evacuação assistida.'], whyThisService: 'Bombeiros e PM atuam em riscos ambientais e proteção coletiva.', fallbackNextNodeId: 'cat_nao_sei_apoio', sourceRef: { label: 'Protocolo 2026.02 — segurança', filePath: 'content/protocolData.ts' } },
-  { id: 'leaf_imm_crise_emocional_aguda', question: '', options: [], isLeaf: true, riskLevel: 'EMERGENCIAL', category: 'NAO_SEI', actionSummary: 'Crise emocional aguda — acolhimento e urgência', doNow: ['Acionar 192 se houver risco de auto/heteroagressão.', 'Manter estudante acompanhado e em ambiente protegido.', 'Comunicar gestão e acionar CAPS IJ após estabilização.'], primaryServiceId: 'samu', secondaryServiceIds: ['caps-ij', 'de-leste1'], deadline: 'Imediato', notifyManagement: true, recordRequired: [{ system: 'CONVIVA', due: 'Hoje', description: 'Registrar risco e encaminhamento.' }], guidance: ['Falar com calma e sem julgamento.', 'Não prometer sigilo absoluto.'], whyThisService: 'Crise aguda exige urgência clínica e suporte especializado.', fallbackNextNodeId: 'cat_nao_sei_apoio', sourceRef: { label: 'Protocolo 2026.02 — saúde mental', filePath: 'content/protocolData.ts' } },
-  { id: 'leaf_emocional_alto', question: '', options: [], isLeaf: true, riskLevel: 'ALTO', category: 'EMOCIONAL_COMPORTAMENTO', actionSummary: 'Sofrimento emocional alto — ação rápida', doNow: ['Acolher e manter supervisão.', 'Comunicar gestão hoje.', 'Acionar CAPS IJ prioritariamente.'], primaryServiceId: 'caps-ij', secondaryServiceIds: ['ubs-ermelino', 'de-leste1'], deadline: 'Hoje', notifyManagement: true, recordRequired: [{ system: 'CONVIVA', due: 'Hoje', description: 'Registrar sinais e rede acionada.' }], guidance: ['Monitorar piora e risco agudo.', 'Retornar ao ramo de emergência se necessário.'], whyThisService: 'CAPS IJ é referência em saúde mental infantojuvenil.', fallbackNextNodeId: 'cat_nao_sei_apoio', sourceRef: { label: 'Protocolo 2026.02 — seção emocional', filePath: 'content/protocolData.ts' } },
-  { id: 'leaf_emocional_moderado', question: '', options: [], isLeaf: true, riskLevel: 'MÉDIO', category: 'EMOCIONAL_COMPORTAMENTO', actionSummary: 'Sofrimento emocional moderado — encaminhar apoio', doNow: ['Acolher sem julgamento.', 'Comunicar gestão e registrar hoje.', 'Encaminhar CAPS IJ/UBS em até 48h.'], primaryServiceId: 'caps-ij', secondaryServiceIds: ['de-leste1', 'ubs-ermelino'], deadline: 'Hoje + 48h', notifyManagement: true, recordRequired: [{ system: 'CONVIVA', due: 'Hoje', description: 'Registrar observação e encaminhamento.' }], guidance: ['Manter acompanhamento escolar.', 'Escalar se houver piora.'], whyThisService: 'Apoio especializado reduz risco de agravamento.', fallbackNextNodeId: 'cat_nao_sei_apoio', sourceRef: { label: 'Protocolo 2026.02 — seção D2', filePath: 'content/protocolData.ts' } },
-  { id: 'leaf_emocional_leve', question: '', options: [], isLeaf: true, riskLevel: 'BAIXO', category: 'EMOCIONAL_COMPORTAMENTO', actionSummary: 'Sofrimento leve — acompanhamento escolar', doNow: ['Acolher e combinar plano de acompanhamento.', 'Comunicar coordenação.', 'Reavaliar em até 7 dias.'], primaryServiceId: 'de-leste1', secondaryServiceIds: ['ubs-ermelino'], deadline: 'Até 7 dias', notifyManagement: true, guidance: ['Registrar evolução escolar.', 'Escalar se recorrente.'], whyThisService: 'Gestão escolar coordena apoio inicial com rede.', fallbackNextNodeId: 'cat_nao_sei_apoio', sourceRef: { label: 'Protocolo 2026.02 — acompanhamento', filePath: 'content/protocolData.ts' } },
+  {
+    id: 'leaf_imm_violencia',
+    question: 'Violência ou ameaça armada em curso',
+    options: [],
+    isLeaf: true,
+    riskLevel: 'EMERGENCIAL',
+    category: 'VIOLACAO_DIREITOS_VIOLENCIA',
+    actionSummary: 'Violência física em andamento — acionar PM e proteger todos.',
+    doNow: [
+      'Acione PM 190 agora — informe endereço, número de envolvidos e se há arma.',
+      'Afaste todos para local seguro; não tente conter a briga sozinho.',
+      'Acione SAMU 192 se houver ferido.'
+    ],
+    primaryServiceId: 'policia-militar',
+    secondaryServiceIds: ['samu', 'conselho-tutelar', 'de-leste1'],
+    contactTargets: [
+      { serviceId: 'policia-militar', channel: 'telefone' },
+      { serviceId: 'samu', channel: 'telefone' },
+      { serviceId: 'conselho-tutelar', channel: 'telefone' },
+      { serviceId: 'de-leste1', channel: 'telefone' }
+    ],
+    notifyManagement: true,
+    deadline: 'Imediato',
+    whyThisService: 'PM age no flagrante e em risco físico em curso. SAMU para feridos. CT obrigatório se menor envolvido como vítima. DE Leste 1 deve ser informada no mesmo dia.',
+    forbiddenActions: [
+      'Não interponha seu corpo entre os envolvidos.',
+      'Não use PM como ameaça pedagógica — só em risco real.',
+      'Não confronte portador de arma.'
+    ],
+    recordRequired: [{ system: 'CONVIVA', due: 'Hoje', description: 'Registrar ocorrência após cessação do risco.' }],
+    fallbackNextNodeId: 'cat_nao_sei_apoio',
+    escalationRule: 'SE_DUVIDA_ESCALE'
+  },
+  {
+    id: 'leaf_imm_saude_fisica',
+    question: 'Emergência clínica com risco imediato de vida',
+    options: [],
+    isLeaf: true,
+    riskLevel: 'EMERGENCIAL',
+    category: 'SAUDE_FISICA',
+    actionSummary: 'Risco médico imediato — acionar SAMU e aguardar com o estudante.',
+    doNow: [
+      'Ligue SAMU 192 agora — não desligue, siga as instruções do atendente.',
+      'Não mova o estudante se houver suspeita de trauma; mantenha-o consciente e falando.',
+      'Envie um adulto para receber o SAMU na entrada da escola.'
+    ],
+    primaryServiceId: 'samu',
+    secondaryServiceIds: ['upa-ermelino', 'hospital-alipio'],
+    contactTargets: [
+      { serviceId: 'samu', channel: 'telefone' },
+      { serviceId: 'upa-ermelino', channel: 'presencial' },
+      { serviceId: 'hospital-alipio', channel: 'presencial' }
+    ],
+    notifyManagement: true,
+    deadline: 'Imediato',
+    whyThisService: 'SAMU vai até o local e estabiliza antes de transportar. UPA Ermelino e Hospital Alípio são destino para continuidade se necessário.',
+    forbiddenActions: [
+      'Não coloque nada na boca de quem está convulsionando.',
+      'Não force alimentação ou água.',
+      'Não transporte sozinho por carro particular em caso grave.'
+    ],
+    recordRequired: [{ system: 'CONVIVA', due: 'Hoje', description: 'Registrar após estabilização.' }],
+    fallbackNextNodeId: 'cat_nao_sei_apoio',
+    escalationRule: 'SE_DUVIDA_ESCALE'
+  },
+  {
+    id: 'leaf_imm_seguranca_ambiente',
+    question: 'Risco grave ao ambiente escolar',
+    options: [],
+    isLeaf: true,
+    riskLevel: 'EMERGENCIAL',
+    category: 'NAO_SEI',
+    actionSummary: 'Risco estrutural ou externo — evacuar e acionar Bombeiros/PM.',
+    doNow: [
+      'Inicie evacuação imediata pelas rotas de saída.',
+      'Ligue Bombeiros 193 (incêndio/desabamento) ou PM 190 (conflito armado externo).',
+      'Reúna todos no ponto de encontro e faça chamada para confirmar ausências.'
+    ],
+    primaryServiceId: 'bombeiros',
+    secondaryServiceIds: ['policia-militar', 'samu'],
+    contactTargets: [
+      { serviceId: 'bombeiros', channel: 'telefone' },
+      { serviceId: 'policia-militar', channel: 'telefone' },
+      { serviceId: 'samu', channel: 'telefone' }
+    ],
+    notifyManagement: true,
+    deadline: 'Imediato',
+    whyThisService: 'Bombeiros têm protocolo de resgate e combate a incêndio. PM age em conflito armado. SAMU para feridos.',
+    forbiddenActions: [
+      'Não reingresse no prédio antes da autorização dos Bombeiros.',
+      'Não tente combater incêndio estrutural com extintores manuais.'
+    ],
+    recordRequired: [{ system: 'OUTRO', due: 'Hoje', description: 'Relatório de incidente para DE Leste 1.' }],
+    fallbackNextNodeId: 'cat_nao_sei_apoio',
+    escalationRule: 'SE_DUVIDA_ESCALE'
+  },
+  {
+    id: 'leaf_imm_crise_emocional_aguda',
+    question: 'Crise emocional aguda com risco imediato',
+    options: [],
+    isLeaf: true,
+    riskLevel: 'EMERGENCIAL',
+    category: 'EMOCIONAL_COMPORTAMENTO',
+    actionSummary: 'Crise psíquica com risco físico — SAMU + não deixar sozinho.',
+    doNow: [
+      'Não deixe o estudante sozinho — fique ao lado com voz calma e presença firme.',
+      'Remova objetos de risco do alcance sem confrontar.',
+      'Ligue SAMU 192 se houver lesão física ou risco iminente de morte.'
+    ],
+    primaryServiceId: 'samu',
+    secondaryServiceIds: ['upa-ermelino', 'caps-ij'],
+    contactTargets: [
+      { serviceId: 'samu', channel: 'telefone' },
+      { serviceId: 'upa-ermelino', channel: 'presencial' },
+      { serviceId: 'caps-ij', channel: 'telefone' }
+    ],
+    notifyManagement: true,
+    deadline: 'Imediato',
+    whyThisService: 'SAMU para risco físico imediato. UPA para estabilização clínica. CAPS IJ é o seguimento especializado após estabilização.',
+    forbiddenActions: [
+      'Não confronte nem questione a seriedade da crise.',
+      'Não deixe o estudante sozinho.',
+      'Não acione PM para crise emocional sem violência em curso.'
+    ],
+    recordRequired: [
+      { system: 'CONVIVA', due: 'Hoje', description: 'Registrar após estabilização.' },
+      { system: 'OUTRO', due: 'Hoje', description: 'Anexo I — acionamentos e providências.' }
+    ],
+    fallbackNextNodeId: 'cat_nao_sei_apoio',
+    escalationRule: 'SE_DUVIDA_ESCALE'
+  },
+  {
+    id: 'leaf_imm_outro',
+    question: 'Risco imediato com cenário não identificado — apoio da gestão necessário',
+    options: [],
+    isLeaf: true,
+    riskLevel: 'EMERGENCIAL',
+    category: 'NAO_SEI',
+    actionSummary: 'Cenário de risco não classificável — acionar gestão e DE Leste 1 imediatamente.',
+    doNow: [
+      'Proteja o estudante e mantenha supervisão constante.',
+      'Acione a direção agora — não tome decisão isolada em risco imediato.',
+      'Se houver risco físico concreto, ligue SAMU 192 ou PM 190 enquanto aguarda a gestão.'
+    ],
+    primaryServiceId: 'de-leste1',
+    secondaryServiceIds: ['samu', 'policia-militar'],
+    contactTargets: [
+      { serviceId: 'de-leste1', channel: 'telefone' },
+      { serviceId: 'samu', channel: 'telefone' },
+      { serviceId: 'policia-militar', channel: 'telefone' }
+    ],
+    notifyManagement: true,
+    deadline: 'Imediato',
+    fallbackNextNodeId: 'cat_nao_sei_apoio',
+    whyThisService: 'DE Leste 1 é apoio institucional para situações sem classificação clara.',
+    escalationRule: 'SE_DUVIDA_ESCALE'
+  },
+  {
+    id: 'leaf_emocional_alto',
+    question: 'Sofrimento emocional grave com risco autolesivo ou crise intensa',
+    options: [],
+    isLeaf: true,
+    riskLevel: 'ALTO',
+    category: 'EMOCIONAL_COMPORTAMENTO',
+    actionSummary: 'Encaminhamento urgente ao CAPS IJ com vigilância escolar imediata.',
+    doNow: [
+      'Acolha em espaço privado e comunique direção imediatamente.',
+      'Ligue CAPS IJ (11) 3294-3828 ainda hoje para orientação.',
+      'Se houver risco físico imediato, acione SAMU 192 ou leve à UPA antes do CAPS.'
+    ],
+    primaryServiceId: 'caps-ij',
+    secondaryServiceIds: ['upa-ermelino', 'ubs-ermelino'],
+    notifyManagement: true,
+    deadline: '24h',
+    recordRequired: [
+      { system: 'CONVIVA', due: 'Hoje', description: 'Registro de sinais e ações.' },
+      { system: 'OUTRO', due: 'Hoje', description: 'Anexo I + Anexo II se houver relato.' }
+    ],
+    fallbackNextNodeId: 'cat_nao_sei_apoio',
+    escalationRule: 'SE_DUVIDA_ESCALE'
+  },
+  {
+    id: 'leaf_emocional_moderado',
+    question: 'Sofrimento emocional persistente com impacto funcional — sem risco imediato',
+    options: [],
+    isLeaf: true,
+    riskLevel: 'MÉDIO',
+    category: 'EMOCIONAL_COMPORTAMENTO',
+    actionSummary: 'Encaminhar para CAPS IJ ou UBS conforme disponibilidade e gravidade.',
+    doNow: [
+      'Registre sinais observados com data e encaminhe à coordenação.',
+      'Oriente a família a buscar UBS Ermelino como porta de entrada.',
+      'Inclua CVV 188 como recurso de apoio imediato fora da escola.'
+    ],
+    primaryServiceId: 'caps-ij',
+    secondaryServiceIds: ['ubs-ermelino', 'cvv'],
+    notifyManagement: true,
+    deadline: '72h',
+    recordRequired: [{ system: 'CONVIVA', due: 'Em 48h', description: 'Registrar sinais e encaminhamento.' }],
+    fallbackNextNodeId: 'cat_nao_sei_apoio',
+    escalationRule: 'SE_DUVIDA_ESCALE'
+  },
+  {
+    id: 'leaf_emocional_leve',
+    question: 'Sofrimento emocional leve ou episódico sem impacto funcional relevante',
+    options: [],
+    isLeaf: true,
+    riskLevel: 'BAIXO',
+    category: 'EMOCIONAL_COMPORTAMENTO',
+    actionSummary: 'Acompanhamento escolar com orientação preventiva — sem encaminhamento urgente.',
+    doNow: [
+      'Registre internamente e agende conversa de monitoramento em 15 dias.',
+      'Oriente professor de referência a observar evolução.',
+      'Se piorar, escalar para fluxo moderado/alto.'
+    ],
+    primaryServiceId: 'ubs-ermelino',
+    secondaryServiceIds: ['de-leste1'],
+    notifyManagement: false,
+    deadline: '7 dias',
+    recordRequired: [{ system: 'CONVIVA', due: 'Em 7 dias', description: 'Registro de monitoramento.' }],
+    fallbackNextNodeId: 'cat_nao_sei_apoio',
+    escalationRule: 'SE_DUVIDA_ESCALE'
+  },
+  {
+    id: 'leaf_viol_intra',
+    question: 'Suspeita ou confirmação de violência intrafamiliar',
+    options: [],
+    isLeaf: true,
+    riskLevel: 'ALTO',
+    category: 'VIOLACAO_DIREITOS_VIOLENCIA',
+    actionSummary: 'CT obrigatório hoje. Não contate família antes.',
+    doNow: [
+      'Notifique Conselho Tutelar hoje — (11) 2214-9050.',
+      'Não chame a família antes de avaliar com o CT se ela é a fonte do risco.',
+      'Registre com Anexo II e Anexo I.'
+    ],
+    primaryServiceId: 'conselho-tutelar',
+    secondaryServiceIds: ['creas-ermelino', 'upa-ermelino', 'dp-62'],
+    notifyManagement: true,
+    deadline: 'Hoje',
+    recordRequired: [
+      { system: 'CONVIVA', due: 'Hoje', description: 'Registro sigiloso.' },
+      { system: 'OUTRO', due: 'Hoje', description: 'Anexo I e Anexo II.' }
+    ],
+    fallbackNextNodeId: 'cat_nao_sei_apoio',
+    escalationRule: 'SE_DUVIDA_ESCALE'
+  },
+  {
+    id: 'leaf_viol_extra',
+    question: 'Violência ou ameaça com agressor externo à família',
+    options: [],
+    isLeaf: true,
+    riskLevel: 'ALTO',
+    category: 'VIOLACAO_DIREITOS_VIOLENCIA',
+    actionSummary: 'CT + DP + PM se risco atual.',
+    doNow: [
+      'Notifique CT hoje.',
+      'Oriente família a registrar BO na 62ª DP.',
+      'Se agressor ainda representa risco físico, acione PM 190.'
+    ],
+    primaryServiceId: 'conselho-tutelar',
+    secondaryServiceIds: ['dp-62', 'policia-militar', 'creas-ermelino'],
+    notifyManagement: true,
+    deadline: 'Hoje',
+    recordRequired: [
+      { system: 'CONVIVA', due: 'Hoje', description: 'Registrar acionamentos.' },
+      { system: 'OUTRO', due: 'Hoje', description: 'Anexo I.' }
+    ],
+    fallbackNextNodeId: 'cat_nao_sei_apoio',
+    escalationRule: 'SE_DUVIDA_ESCALE'
+  },
+  {
+    id: 'leaf_vuln_alta',
+    question: 'Vulnerabilidade grave com violação de direitos associada',
+    options: [],
+    isLeaf: true,
+    riskLevel: 'ALTO',
+    category: 'VULNERABILIDADE_SOCIAL_FAMILIAR',
+    actionSummary: 'CREAS e CT juntos — proteção especial.',
+    doNow: [
+      'Acione CREAS Ermelino.',
+      'Notifique CT simultaneamente quando houver menor em risco.',
+      'Registre com Anexo I e entregue cópia ao CREAS.'
+    ],
+    primaryServiceId: 'creas-ermelino',
+    secondaryServiceIds: ['conselho-tutelar', 'cras-ermelino'],
+    notifyManagement: true,
+    deadline: '24h',
+    recordRequired: [{ system: 'CONVIVA', due: 'Hoje', description: 'Registrar situação e acionamentos.' }],
+    fallbackNextNodeId: 'cat_nao_sei_apoio',
+    escalationRule: 'SE_DUVIDA_ESCALE'
+  },
+  {
+    id: 'leaf_vuln_moderada',
+    question: 'Vulnerabilidade social sem violação grave',
+    options: [],
+    isLeaf: true,
+    riskLevel: 'MÉDIO',
+    category: 'VULNERABILIDADE_SOCIAL_FAMILIAR',
+    actionSummary: 'CRAS como porta de entrada — benefícios, PAIF e SCFV.',
+    doNow: [
+      'Oriente família a procurar CRAS Ermelino.',
+      'Verifique elegibilidade para benefícios sociais.',
+      'Encaminhe adolescente para SCFV se houver vaga.'
+    ],
+    primaryServiceId: 'cras-ermelino',
+    secondaryServiceIds: ['scfv-ermelino', 'ubs-ermelino'],
+    notifyManagement: true,
+    deadline: '72h',
+    recordRequired: [{ system: 'CONVIVA', due: 'Em 72h', description: 'Registro de encaminhamento.' }],
+    fallbackNextNodeId: 'cat_nao_sei_apoio',
+    escalationRule: 'SE_DUVIDA_ESCALE'
+  },
+  {
+    id: 'leaf_conv_bullying',
+    question: 'Bullying sistemático, discriminação grave ou ameaça reiterada',
+    options: [],
+    isLeaf: true,
+    riskLevel: 'MÉDIO',
+    category: 'CONVIVENCIA_CONFLITOS',
+    actionSummary: 'CT se sem resolução em 15 dias. CAPS IJ se há dano psicológico.',
+    doNow: [
+      'Proteja a vítima e registre episódios com data.',
+      'Separe e ouça envolvidos individualmente.',
+      'Acione CT se houver crime ou reincidência sem resolução.'
+    ],
+    primaryServiceId: 'conselho-tutelar',
+    secondaryServiceIds: ['caps-ij', 'de-leste1'],
+    notifyManagement: true,
+    deadline: '72h',
+    recordRequired: [{ system: 'CONVIVA', due: 'Hoje', description: 'Registrar episódios e ações.' }],
+    fallbackNextNodeId: 'cat_nao_sei_apoio',
+    escalationRule: 'SE_DUVIDA_ESCALE'
+  },
+  {
+    id: 'leaf_conv_conflito_pontual',
+    question: 'Conflito interpessoal pontual sem padrão de violência',
+    options: [],
+    isLeaf: true,
+    riskLevel: 'BAIXO',
+    category: 'CONVIVENCIA_CONFLITOS',
+    actionSummary: 'Mediação escolar. Registrar e monitorar reincidência.',
+    doNow: [
+      'Ouça cada parte separadamente.',
+      'Aplique mediação conforme protocolo interno.',
+      'Registre e monitore: em reincidência, escalar para bullying.'
+    ],
+    primaryServiceId: 'de-leste1',
+    secondaryServiceIds: [],
+    notifyManagement: false,
+    deadline: '7 dias',
+    fallbackNextNodeId: 'cat_nao_sei_apoio',
+    escalationRule: 'SE_DUVIDA_ESCALE'
+  },
+  {
+    id: 'leaf_ped_evasao',
+    question: 'Evasão escolar ou ausência ≥5 dias consecutivos sem contato',
+    options: [],
+    isLeaf: true,
+    riskLevel: 'MÉDIO',
+    category: 'DIFICULDADE_PEDAGOGICA',
+    actionSummary: 'Busca ativa em 24h. CT se paradeiro desconhecido após tentativas.',
+    doNow: [
+      'Tente todos os contatos no mesmo dia e registre tentativas.',
+      'Acione CT se ≥5 dias sem resposta ou suspeita de risco doméstico.',
+      'Acione CRAS se vulnerabilidade econômica for causa provável.'
+    ],
+    primaryServiceId: 'conselho-tutelar',
+    secondaryServiceIds: ['cras-ermelino', 'de-leste1'],
+    notifyManagement: true,
+    deadline: '48h',
+    recordRequired: [{ system: 'CONVIVA', due: 'Hoje', description: 'Registrar tentativas de contato e acionamentos.' }],
+    fallbackNextNodeId: 'cat_nao_sei_apoio',
+    escalationRule: 'SE_DUVIDA_ESCALE'
+  },
+  {
+    id: 'leaf_ped_dificuldade',
+    question: 'Dificuldade de aprendizagem persistente sem causa externa aparente',
+    options: [],
+    isLeaf: true,
+    riskLevel: 'BAIXO',
+    category: 'DIFICULDADE_PEDAGOGICA',
+    actionSummary: 'Plano pedagógico diferenciado. UBS se suspeita de causa clínica.',
+    doNow: [
+      'Elabore ou revise PEI com coordenação e professor de referência.',
+      'Encaminhe à UBS se houver suspeita de causa clínica.',
+      'Comunique família e acompanhe evolução em 30 dias.'
+    ],
+    primaryServiceId: 'ubs-ermelino',
+    secondaryServiceIds: ['de-leste1'],
+    notifyManagement: false,
+    deadline: '15 dias',
+    recordRequired: [{ system: 'CONVIVA', due: 'Em 15 dias', description: 'Registro de PEI e encaminhamento.' }],
+    fallbackNextNodeId: 'cat_nao_sei_apoio',
+    escalationRule: 'SE_DUVIDA_ESCALE'
+  },
+  {
+    id: 'leaf_sf_urgente',
+    question: 'Urgência clínica — sintoma agudo hoje que não pode aguardar',
+    options: [],
+    isLeaf: true,
+    riskLevel: 'ALTO',
+    category: 'SAUDE_FISICA',
+    actionSummary: 'UPA Ermelino. SAMU se impossível transportar com segurança.',
+    doNow: [
+      'Leve à UPA Ermelino.',
+      'Se não puder transportar com segurança, ligue SAMU 192.',
+      'Avise responsáveis antes de sair.'
+    ],
+    primaryServiceId: 'upa-ermelino',
+    secondaryServiceIds: ['samu', 'hospital-alipio'],
+    notifyManagement: true,
+    deadline: 'Imediato',
+    recordRequired: [{ system: 'CONVIVA', due: 'Hoje', description: 'Registrar encaminhamento clínico.' }],
+    fallbackNextNodeId: 'cat_nao_sei_apoio',
+    escalationRule: 'SE_DUVIDA_ESCALE'
+  },
+  {
+    id: 'leaf_sf_rotina',
+    question: 'Queixa física estável — pode aguardar avaliação de rotina',
+    options: [],
+    isLeaf: true,
+    riskLevel: 'BAIXO',
+    category: 'SAUDE_FISICA',
+    actionSummary: 'UBS Ermelino ou UBS Vila Paranaguá. Sem urgência.',
+    doNow: [
+      'Oriente família a buscar UBS Ermelino ou UBS Vila Paranaguá.',
+      'Registre o encaminhamento e solicite retorno com informações da consulta.',
+      'Escale para urgência se o quadro mudar.'
+    ],
+    primaryServiceId: 'ubs-ermelino',
+    secondaryServiceIds: ['ubs-vila-paranagua'],
+    notifyManagement: false,
+    deadline: '7 dias',
+    fallbackNextNodeId: 'cat_nao_sei_apoio',
+    escalationRule: 'SE_DUVIDA_ESCALE'
+  },
+  {
+    id: 'leaf_sub_risco',
+    question: 'Uso problemático ou dependência de substâncias com prejuízo evidente',
+    options: [],
+    isLeaf: true,
+    riskLevel: 'ALTO',
+    category: 'EMOCIONAL_COMPORTAMENTO',
+    actionSummary: 'CAPS AD é o serviço principal. CT obrigatório se menor cooptado por tráfico.',
+    doNow: [
+      'Converse em local reservado e sem julgamento.',
+      'Encaminhe ao CAPS AD II.',
+      'Notifique CT se menor em situação de risco associada.'
+    ],
+    primaryServiceId: 'caps-ad',
+    secondaryServiceIds: ['conselho-tutelar', 'cras-ermelino', 'ubs-ermelino'],
+    notifyManagement: true,
+    deadline: '72h',
+    recordRequired: [{ system: 'CONVIVA', due: 'Em 72h', description: 'Registro de encaminhamento.' }],
+    fallbackNextNodeId: 'cat_nao_sei_apoio',
+    escalationRule: 'SE_DUVIDA_ESCALE'
+  },
+  {
+    id: 'leaf_sub_orientacao',
+    question: 'Suspeita ou uso episódico de substâncias sem dependência estabelecida',
+    options: [],
+    isLeaf: true,
+    riskLevel: 'MÉDIO',
+    category: 'EMOCIONAL_COMPORTAMENTO',
+    actionSummary: 'UBS + ação preventiva. SCFV para fortalecer vínculo social.',
+    doNow: [
+      'Aborde em espaço privado com postura educativa.',
+      'Encaminhe à UBS Ermelino para avaliação e ações PSE.',
+      'Inclua em atividade do SCFV se disponível.'
+    ],
+    primaryServiceId: 'ubs-ermelino',
+    secondaryServiceIds: ['scfv-ermelino'],
+    notifyManagement: true,
+    deadline: '7 dias',
+    fallbackNextNodeId: 'cat_nao_sei_apoio',
+    escalationRule: 'SE_DUVIDA_ESCALE'
+  },
+  {
+    id: 'leaf_grav_risco',
+    question: 'Gravidez com suspeita ou confirmação de violência sexual',
+    options: [],
+    isLeaf: true,
+    riskLevel: 'ALTO',
+    category: 'VIOLACAO_DIREITOS_VIOLENCIA',
+    actionSummary: 'UPA Ermelino se <72h. CT obrigatório. CREAS para acompanhamento.',
+    doNow: [
+      'Se violência ocorreu há <72h: leve à UPA Ermelino.',
+      'Notifique CT hoje.',
+      'Acione CREAS para acompanhamento especializado da família.'
+    ],
+    primaryServiceId: 'upa-ermelino',
+    secondaryServiceIds: ['conselho-tutelar', 'creas-ermelino', 'mp-infancia'],
+    notifyManagement: true,
+    deadline: 'Hoje',
+    recordRequired: [
+      { system: 'CONVIVA', due: 'Hoje', description: 'Registro sigiloso.' },
+      { system: 'OUTRO', due: 'Hoje', description: 'Anexo I e Anexo II.' }
+    ],
+    fallbackNextNodeId: 'cat_nao_sei_apoio',
+    escalationRule: 'SE_DUVIDA_ESCALE'
+  },
+  {
+    id: 'leaf_grav_acompanhamento',
+    question: 'Gravidez na adolescência sem violência — apoio e permanência escolar',
+    options: [],
+    isLeaf: true,
+    riskLevel: 'MÉDIO',
+    category: 'SAUDE_FISICA',
+    actionSummary: 'UBS para pré-natal. CRAS para benefícios. Escola garante permanência.',
+    doNow: [
+      'Garanta permanência escolar.',
+      'Encaminhe à UBS Ermelino para início do pré-natal.',
+      'Acione CRAS se houver vulnerabilidade econômica.'
+    ],
+    primaryServiceId: 'ubs-ermelino',
+    secondaryServiceIds: ['cras-ermelino', 'scfv-ermelino'],
+    notifyManagement: true,
+    deadline: '72h',
+    recordRequired: [{ system: 'CONVIVA', due: 'Em 72h', description: 'Registrar encaminhamentos.' }],
+    fallbackNextNodeId: 'cat_nao_sei_apoio',
+    escalationRule: 'SE_DUVIDA_ESCALE'
+  },
+  {
+    id: 'leaf_nao_sei',
+    question: 'Situação sem classificação clara — acionar gestão para avaliação conjunta',
+    options: [],
+    isLeaf: true,
+    riskLevel: 'MÉDIO',
+    category: 'NAO_SEI',
+    actionSummary: 'Não adie. Escale para gestão imediatamente e registre o que foi observado.',
+    doNow: [
+      'Comunique direção ou coordenação agora — descreva o que viu objetivamente.',
+      'Registre no Anexo I: data, o que foi observado, quem estava presente.',
+      'Se houver qualquer risco físico percebido: ligue SAMU 192 ou UBS para orientação.'
+    ],
+    primaryServiceId: 'de-leste1',
+    secondaryServiceIds: ['ubs-ermelino', 'conselho-tutelar'],
+    notifyManagement: true,
+    deadline: 'Hoje',
+    notes: 'Regra de ouro: em dúvida, trate como cenário mais grave. Nunca adie escalonamento.',
+    recordRequired: [{ system: 'CONVIVA', due: 'Hoje', description: 'Registrar observação e acionamento da gestão.' }],
+    fallbackNextNodeId: 'cat_nao_sei_apoio',
+    escalationRule: 'SE_DUVIDA_ESCALE'
+  }
 
-  { id: 'leaf_viol_intra', question: '', options: [], isLeaf: true, riskLevel: 'ALTO', category: 'VIOLACAO_DIREITOS_VIOLENCIA', actionSummary: 'Violência intrafamiliar — proteção imediata', doNow: ['Proteger a vítima e evitar exposição.', 'Comunicar direção e Conselho Tutelar hoje.', 'Registrar fatos objetivos com hora.'], primaryServiceId: 'conselho-tutelar', secondaryServiceIds: ['creas-ermelino', 'de-leste1'], deadline: 'Hoje', notifyManagement: true, mandatoryTodayAction: 'Notificar Conselho Tutelar e gestão hoje.', recordRequired: [{ system: 'CONVIVA', due: 'Hoje', description: 'Registro obrigatório de proteção.' }], guidance: ['Não confrontar suposto agressor.', 'Manter sigilo responsável.'], whyThisService: 'CT e CREAS são rede protetiva prioritária.', fallbackNextNodeId: 'cat_nao_sei_apoio', sourceRef: { label: 'Protocolo 2026.02 — proteção', filePath: 'content/protocolData.ts' } },
-  { id: 'leaf_viol_extra', question: '', options: [], isLeaf: true, riskLevel: 'ALTO', category: 'VIOLACAO_DIREITOS_VIOLENCIA', actionSummary: 'Violência extrafamiliar — acionar proteção', doNow: ['Garantir proteção da vítima.', 'Comunicar gestão e CT.', 'Acionar PM se houver ameaça atual.'], primaryServiceId: 'conselho-tutelar', secondaryServiceIds: ['policia-militar', 'de-leste1'], deadline: 'Hoje', notifyManagement: true, mandatoryTodayAction: 'Notificar Conselho Tutelar e gestão hoje.', recordRequired: [{ system: 'CONVIVA', due: 'Hoje', description: 'Registro obrigatório de violência.' }], guidance: ['Evitar revitimização na escuta.', 'Encaminhar UBS/UPA se houver lesão.'], whyThisService: 'Rede protetiva articula resposta intersetorial.', fallbackNextNodeId: 'cat_nao_sei_apoio', sourceRef: { label: 'Protocolo 2026.02 — proteção', filePath: 'content/protocolData.ts' } },
-  { id: 'leaf_vuln_alta', question: '', options: [], isLeaf: true, riskLevel: 'ALTO', category: 'VULNERABILIDADE_SOCIAL_FAMILIAR', actionSummary: 'Vulnerabilidade alta — intervenção prioritária', doNow: ['Comunicar gestão imediatamente.', 'Acionar CRAS/CREAS no mesmo dia.', 'Registrar e acompanhar caso.'], primaryServiceId: 'creas-ermelino', secondaryServiceIds: ['cras-ermelino', 'de-leste1'], deadline: 'Hoje', notifyManagement: true, recordRequired: [{ system: 'CONVIVA', due: 'Hoje', description: 'Registro de vulnerabilidade alta.' }], guidance: ['Priorizar segurança alimentar e proteção.', 'Monitorar frequência escolar.'], whyThisService: 'CREAS/CRAS organizam proteção social especializada.', fallbackNextNodeId: 'cat_nao_sei_apoio', sourceRef: { label: 'Protocolo 2026.02 — social', filePath: 'content/protocolData.ts' } },
-  { id: 'leaf_vuln_moderada', question: '', options: [], isLeaf: true, riskLevel: 'MÉDIO', category: 'VULNERABILIDADE_SOCIAL_FAMILIAR', actionSummary: 'Vulnerabilidade moderada — acompanhamento social', doNow: ['Comunicar gestão.', 'Encaminhar CRAS.', 'Acompanhar plano com família.'], primaryServiceId: 'cras-ermelino', secondaryServiceIds: ['de-leste1'], deadline: 'Até 72h', notifyManagement: true, guidance: ['Registrar devolutivas de rede.', 'Escalar se agravar.'], whyThisService: 'CRAS é porta de entrada socioassistencial.', fallbackNextNodeId: 'cat_nao_sei_apoio', sourceRef: { label: 'Protocolo 2026.02 — social', filePath: 'content/protocolData.ts' } },
-  { id: 'leaf_conv_bullying', question: '', options: [], isLeaf: true, riskLevel: 'MÉDIO', category: 'CONVIVENCIA_CONFLITOS', actionSummary: 'Bullying/recorrência — plano restaurativo', doNow: ['Interromper ciclo de agressão.', 'Comunicar gestão e responsáveis.', 'Aplicar plano de convivência e monitoramento.'], primaryServiceId: 'de-leste1', secondaryServiceIds: ['conselho-tutelar'], deadline: 'Hoje + 7 dias', notifyManagement: true, guidance: ['Registrar episódios e medidas.', 'Escalar para proteção se houver violência grave.'], whyThisService: 'Gestão escolar coordena medidas pedagógicas e protetivas.', fallbackNextNodeId: 'cat_nao_sei_apoio', sourceRef: { label: 'Protocolo 2026.02 — convivência', filePath: 'content/protocolData.ts' } },
-  { id: 'leaf_conv_conflito_pontual', question: '', options: [], isLeaf: true, riskLevel: 'BAIXO', category: 'CONVIVENCIA_CONFLITOS', actionSummary: 'Conflito pontual — mediação escolar', doNow: ['Acolher os envolvidos.', 'Aplicar mediação orientada.', 'Monitorar recorrência.'], primaryServiceId: 'de-leste1', secondaryServiceIds: [], deadline: 'Até 7 dias', notifyManagement: true, guidance: ['Registrar acordo pedagógico.', 'Escalar se houver ameaça.'], whyThisService: 'Mediação escolar resolve conflitos de baixa gravidade.', fallbackNextNodeId: 'cat_nao_sei_apoio', sourceRef: { label: 'Protocolo 2026.02 — convivência', filePath: 'content/protocolData.ts' } },
-  { id: 'leaf_ped_evasao', question: '', options: [], isLeaf: true, riskLevel: 'MÉDIO', category: 'DIFICULDADE_PEDAGOGICA', actionSummary: 'Risco pedagógico/evasão — busca ativa', doNow: ['Comunicar gestão e coordenação.', 'Iniciar busca ativa com família.', 'Acionar rede de apoio quando necessário.'], primaryServiceId: 'de-leste1', secondaryServiceIds: ['cras-ermelino'], deadline: 'Até 72h', notifyManagement: true, guidance: ['Registrar tentativas de contato.', 'Manter plano de retorno.'], whyThisService: 'Busca ativa reduz evasão e rompe barreiras de acesso.', fallbackNextNodeId: 'cat_nao_sei_apoio', sourceRef: { label: 'Protocolo 2026.02 — pedagógico', filePath: 'content/protocolData.ts' } },
-  { id: 'leaf_ped_dificuldade', question: '', options: [], isLeaf: true, riskLevel: 'BAIXO', category: 'DIFICULDADE_PEDAGOGICA', actionSummary: 'Dificuldade pedagógica — intervenção gradual', doNow: ['Ajustar plano pedagógico.', 'Alinhar com coordenação.', 'Reavaliar evolução.'], primaryServiceId: 'de-leste1', secondaryServiceIds: [], deadline: 'Até 15 dias', notifyManagement: true, guidance: ['Monitorar indicadores de aprendizagem.', 'Escalar se persistir sem resposta.'], whyThisService: 'Coordenação pedagógica organiza intervenção acadêmica.', fallbackNextNodeId: 'cat_nao_sei_apoio', sourceRef: { label: 'Protocolo 2026.02 — pedagógico', filePath: 'content/protocolData.ts' } },
-  { id: 'leaf_sf_urgente', question: '', options: [], isLeaf: true, riskLevel: 'ALTO', category: 'SAUDE_FISICA', actionSummary: 'Saúde física urgente — atendimento prioritário', doNow: ['Avaliar risco e acionar 192 se necessário.', 'Comunicar gestão.', 'Encaminhar UPA/UBS conforme quadro.'], primaryServiceId: 'samu', secondaryServiceIds: ['upa-ermelino', 'ubs-ermelino'], deadline: 'Hoje', notifyManagement: true, guidance: ['Não medicar com fármaco não prescrito.', 'Registrar sinais e tempo de início.'], whyThisService: 'SAMU/UPA respondem a urgências com maior segurança.', fallbackNextNodeId: 'cat_nao_sei_apoio', sourceRef: { label: 'Protocolo 2026.02 — saúde física', filePath: 'content/protocolData.ts' } },
-  { id: 'leaf_sf_rotina', question: '', options: [], isLeaf: true, riskLevel: 'BAIXO', category: 'SAUDE_FISICA', actionSummary: 'Saúde física de rotina — encaminhamento UBS', doNow: ['Orientar busca de UBS.', 'Comunicar gestão conforme rotina.', 'Acompanhar retorno.'], primaryServiceId: 'ubs-ermelino', secondaryServiceIds: [], deadline: 'Até 7 dias', notifyManagement: true, guidance: ['Registrar orientação dada.', 'Escalar se surgirem sinais de alarme.'], whyThisService: 'UBS é porta de entrada do cuidado longitudinal.', fallbackNextNodeId: 'cat_nao_sei_apoio', sourceRef: { label: 'Protocolo 2026.02 — saúde física', filePath: 'content/protocolData.ts' } },
-  { id: 'leaf_sub_risco', question: '', options: [], isLeaf: true, riskLevel: 'ALTO', category: 'EMOCIONAL_COMPORTAMENTO', actionSummary: 'Uso de substâncias com risco — intervenção imediata', doNow: ['Garantir segurança e supervisão.', 'Comunicar gestão.', 'Acionar CAPS AD/UBS.'], primaryServiceId: 'caps-ad', secondaryServiceIds: ['ubs-ermelino', 'de-leste1'], deadline: 'Hoje', notifyManagement: true, guidance: ['Evitar exposição e rotulagem.', 'Registrar sinais observáveis.'], whyThisService: 'CAPS AD oferece cuidado especializado para álcool e drogas.', fallbackNextNodeId: 'cat_nao_sei_apoio', sourceRef: { label: 'Protocolo 2026.02 — substâncias', filePath: 'content/protocolData.ts' } },
-  { id: 'leaf_sub_orientacao', question: '', options: [], isLeaf: true, riskLevel: 'MÉDIO', category: 'EMOCIONAL_COMPORTAMENTO', actionSummary: 'Suspeita de substâncias — orientação e monitoramento', doNow: ['Acolher e orientar.', 'Comunicar gestão.', 'Encaminhar UBS/CAPS AD conforme avaliação.'], primaryServiceId: 'ubs-ermelino', secondaryServiceIds: ['caps-ad'], deadline: 'Até 72h', notifyManagement: true, guidance: ['Registrar sem julgamento moral.', 'Escalar se houver risco de intoxicação.'], whyThisService: 'UBS/CAPS AD estruturam cuidado progressivo.', fallbackNextNodeId: 'cat_nao_sei_apoio', sourceRef: { label: 'Protocolo 2026.02 — substâncias', filePath: 'content/protocolData.ts' } },
-  { id: 'leaf_grav_risco', question: '', options: [], isLeaf: true, riskLevel: 'ALTO', category: 'SAUDE_FISICA', actionSummary: 'Gravidez com risco — cuidado prioritário', doNow: ['Comunicar gestão com sigilo responsável.', 'Encaminhar UBS/UPA conforme risco.', 'Articular apoio psicossocial.'], primaryServiceId: 'ubs-ermelino', secondaryServiceIds: ['upa-ermelino', 'de-leste1'], deadline: 'Hoje', notifyManagement: true, guidance: ['Preservar confidencialidade e proteção.', 'Escalar urgência clínica quando necessário.'], whyThisService: 'UBS/UPA garantem linha de cuidado materno-infantil.', fallbackNextNodeId: 'cat_nao_sei_apoio', sourceRef: { label: 'Protocolo 2026.02 — gravidez', filePath: 'content/protocolData.ts' } },
-  { id: 'leaf_grav_acompanhamento', question: '', options: [], isLeaf: true, riskLevel: 'MÉDIO', category: 'SAUDE_FISICA', actionSummary: 'Gravidez sem risco agudo — acompanhamento integrado', doNow: ['Orientar UBS para pré-natal.', 'Comunicar gestão para plano de permanência escolar.', 'Monitorar continuidade do cuidado.'], primaryServiceId: 'ubs-ermelino', secondaryServiceIds: ['de-leste1'], deadline: 'Até 72h', notifyManagement: true, guidance: ['Registrar plano pactuado.', 'Acionar rede social quando necessário.'], whyThisService: 'Acompanhamento precoce reduz risco e evasão.', fallbackNextNodeId: 'cat_nao_sei_apoio', sourceRef: { label: 'Protocolo 2026.02 — gravidez', filePath: 'content/protocolData.ts' } },
-  { id: 'leaf_nao_sei', question: '', options: [], isLeaf: true, riskLevel: 'MÉDIO', category: 'NAO_SEI', actionSummary: 'Classificação incerta — apoio imediato da gestão', doNow: ['Proteger o estudante e não atrasar decisão.', 'Acionar gestão imediatamente.', 'Encaminhar UBS/serviço de referência conforme orientação.'], primaryServiceId: 'de-leste1', secondaryServiceIds: ['ubs-ermelino'], deadline: 'Hoje', notifyManagement: true, mandatoryTodayAction: 'Acionar gestão escolar imediatamente.', recordRequired: [{ system: 'CONVIVA', due: 'Hoje', description: 'Registro de dúvida classificada com apoio da gestão.' }], guidance: ['Em dúvida, escale.', 'Reclassifique após avaliação da gestão.'], whyThisService: 'A governança escolar reduz risco de omissão em cenários incertos.', fallbackNextNodeId: 'cat_nao_sei_apoio', sourceRef: { label: 'Protocolo 2026.02 — fallback global', filePath: 'content/protocolData.ts' } }
 ];
 
 PROTOCOL_DATA.decisionTree = REBUILT_DECISION_TREE.map(standardizeLeafNode);
