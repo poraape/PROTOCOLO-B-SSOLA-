@@ -906,8 +906,39 @@ export const PROTOCOL_DATA: ProtocolData = {
       options: [
       // legado: Não sei / dúvida
         { label: 'Sim (risco imediato)', nextNodeId: 'leaf_emergencia_imediata' },
+        { label: 'Não', nextNodeId: 'n_pretriagem_recheck_risco' }
+      ],
+      fallbackNextNodeId: 'leaf_duvida_padrao'
+    },
+
+    {
+      id: 'n_pretriagem_recheck_risco',
+      question: 'Confirma: há risco imediato à integridade física neste momento?',
+      options: [
+        { label: 'Sim', nextNodeId: 'leaf_emergencia_imediata' },
+        { label: 'Não', nextNodeId: 'n_pretriagem_violencia' }
+      ],
+      category: 'NAO_SEI',
+      fallbackNextNodeId: 'leaf_duvida_padrao'
+    },
+    {
+      id: 'n_pretriagem_violencia',
+      question: 'Há suspeita ou relato de violência ou abuso?',
+      options: [
+        { label: 'Sim', nextNodeId: 'n_direitos_triagem' },
+        { label: 'Não', nextNodeId: 'n_pretriagem_emocional' }
+      ],
+      category: 'NAO_SEI',
+      fallbackNextNodeId: 'leaf_duvida_padrao'
+    },
+    {
+      id: 'n_pretriagem_emocional',
+      question: 'O principal problema é sofrimento emocional intenso?',
+      options: [
+        { label: 'Sim', nextNodeId: 'n_mental_triagem' },
         { label: 'Não', nextNodeId: 'n_categoria_situacao' }
       ],
+      category: 'NAO_SEI',
       fallbackNextNodeId: 'leaf_duvida_padrao'
     },
     {
@@ -1260,7 +1291,7 @@ export const PROTOCOL_DATA: ProtocolData = {
       ],
       contactTargets: ['GESTAO_ESCOLAR', 'CONSELHO_TUTELAR'],
       notifyManagement: true,
-      deadline: 'Hoje',
+      deadline: 'Imediato',
       recordRequired: [{ system: 'CONVIVA', due: 'Hoje', notes: 'Registrar ocorrência de discriminação com detalhes.' }],
       sourceRef: { label: 'Lei 7.716/89 (racismo) + ECA', filePath: 'public/protocolo', section: 'Discriminação e direitos humanos' },
       escalationRule: 'SE_DUVIDA_ESCALE'
@@ -1335,9 +1366,10 @@ export const PROTOCOL_DATA: ProtocolData = {
       options: [],
       isLeaf: true,
       category: 'NAO_SEI',
-      riskLevel: 'ALTO',
+      riskLevel: 'EMERGENCIAL',
+      mandatoryTodayAction: 'comunicar a Direção imediatamente e acionar serviço de emergência adequado.',
       doNow: [
-        'Acione emergência (192/193) imediatamente.',
+        'Acione emergência (190/192/193) imediatamente.',
         'Garanta segurança do ambiente e afaste riscos.',
         'Informe a gestão escolar assim que possível.'
       ],
@@ -1370,14 +1402,14 @@ export const PROTOCOL_DATA: ProtocolData = {
       options: [],
       isLeaf: true,
       category: 'EMOCIONAL_COMPORTAMENTO',
-      riskLevel: 'MÉDIO',
+      riskLevel: 'ALTO',
       doNow: [
-        'Escale para gestão imediatamente.',
-        'Acione serviço de saúde mental conforme rede (CAPS IJ quando aplicável).',
-        'Se houver risco físico imediato, acione emergência.'
+        'Acionar SAMU 192 ou encaminhar para UPA se houver risco imediato.',
+        'Comunicar a Direção imediatamente e manter vigilância contínua do estudante.',
+        'Encaminhar para CAPS IJ após estabilização clínica inicial.'
       ],
-      contactTargets: ['GESTAO_ESCOLAR', 'CAPS_IJ', 'UBS'],
-      deadline: 'Hoje',
+      contactTargets: ['GESTAO_ESCOLAR', 'EMERGENCIA_192_193', 'UPA_HOSPITAL', 'CAPS_IJ', 'UBS'],
+      deadline: 'Imediato',
       sourceRef: { label: 'Protocolo institucional', filePath: 'public/protocolo', section: 'Saúde mental e sinais de alerta' },
       serviceCharacterization: [
         'UBS: porta de entrada para saúde geral e demandas leves/moderadas.',
@@ -1434,6 +1466,7 @@ export const PROTOCOL_DATA: ProtocolData = {
       isLeaf: true,
       category: 'VIOLACAO_DIREITOS_VIOLENCIA',
       riskLevel: 'ALTO',
+      mandatoryTodayAction: 'notificar Conselho Tutelar e comunicar a Direção.',
       doNow: [
         'Garanta proteção imediata e não exponha a vítima.',
         'Acione emergência se necessário.',
@@ -1452,6 +1485,7 @@ export const PROTOCOL_DATA: ProtocolData = {
       isLeaf: true,
       category: 'VIOLACAO_DIREITOS_VIOLENCIA',
       riskLevel: 'ALTO',
+      mandatoryTodayAction: 'notificar Conselho Tutelar e comunicar a Direção.',
       doNow: [
         'Escale para gestão e siga o fluxo de proteção.',
         'Acione Conselho Tutelar conforme protocolo.',
@@ -1470,6 +1504,7 @@ export const PROTOCOL_DATA: ProtocolData = {
       isLeaf: true,
       category: 'VIOLACAO_DIREITOS_VIOLENCIA',
       riskLevel: 'MÉDIO',
+      mandatoryTodayAction: 'comunicar a Direção e manter vigilância institucional do caso.',
       doNow: [
         'Escale para gestão para avaliação do caso.',
         'Registre conforme protocolo.',

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import GlobalSearch from './GlobalSearch';
 import { DISCLAIMER_TEXT, SCHOOL_CONFIG } from '../content/schoolConfig';
 
@@ -38,18 +38,22 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
     <div className="min-h-screen bg-bg text-text">
       <header className="bg-white border-b border-slate-200">
         <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-3">
+          <Link
+            to="/decisor"
+            aria-label="Voltar para a tela inicial do Protocolo Bússola"
+            className="inline-flex items-center gap-2 rounded-md px-1 py-1 sm:gap-3 hover:bg-slate-100/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+          >
             <img
               src="/assets/logo-escola.png"
               alt="Logo EE Ermelino Matarazzo"
-              className="h-10 w-auto object-contain"
+              className="h-8 w-8 object-contain sm:h-9 sm:w-9"
             />
 
-            <div>
-              <div className="text-slate-900 font-semibold">{SCHOOL_CONFIG.appName}</div>
-              <div className="text-xs text-slate-500">{SCHOOL_CONFIG.schoolName}</div>
+            <div className="flex flex-col leading-tight">
+              <span className="text-sm font-semibold text-slate-900 sm:text-base">{SCHOOL_CONFIG.appName}</span>
+              <span className="text-xs text-slate-500 sm:text-sm">{SCHOOL_CONFIG.schoolName}</span>
             </div>
-          </div>
+          </Link>
 
           <div className="hidden md:flex items-center gap-3">
             <GlobalSearch />

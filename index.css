@@ -8,6 +8,18 @@
   --muted: #475569;
   --focus: rgba(37, 99, 235, 0.35);
   --brand-primary: #1E3A8A;
+  --contrast-min: 4.5;
+  --contrast-high: 7.0;
+  --type-h1-size: 28px;
+  --type-h1-line: 34px;
+  --type-h2-size: 22px;
+  --type-h2-line: 28px;
+  --type-body-size: 16px;
+  --type-body-line: 24px;
+  --type-label-size: 14px;
+  --type-label-line: 20px;
+  --type-micro-size: 12px;
+  --type-micro-line: 18px;
 }
 
 * {
