@@ -3,7 +3,7 @@ export interface SearchItem {
   title: string;
   content: string;
   route: string;
-  type: 'protocolo' | 'anexo' | 'rede' | 'decisor';
+  type: 'protocolo' | 'anexo' | 'rede' | 'decisor' | 'glossario';
 }
 
 export const searchIndex: SearchItem[] = [];
