@@ -294,6 +294,30 @@ const RAW_SCENARIOS_DATA: RawScenario[] = [
 ];
 
 
+export const SCENARIOS_DATA: Scenario[] = RAW_SCENARIOS_DATA.map((scenario) => ({
+  ...scenario,
+  treeTraversal: scenario.treeTraversal.map((step, index, steps) => {
+    const fallbackNext = steps[index + 1];
+    return {
+      ...step,
+      options:
+        step.options && step.options.length > 0
+          ? step.options
+          : fallbackNext
+            ? [
+                {
+                  nextStepId: fallbackNext.nodeId,
+                  impact: `Prosseguir para ${fallbackNext.label}`,
+                  isRecommended: true,
+                  legalBasis: 'Fluxo institucional do protocolo escolar.'
+                }
+              ]
+            : []
+    };
+  })
+}));
+
+
 export interface ScenarioDecisionMeta {
   protocolAlignment: string;
   probableImpact: string;
