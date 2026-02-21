@@ -124,7 +124,10 @@ const ResultScreenBase: React.FC<ResultScreenProps> = ({
                         {primaryService.details.name} — {primaryService.details.phone}
                       </a>
                     ) : (
-                      <span>Serviço principal não definido.</span>
+                      <div style={{ display: 'grid', gap: 4 }}>
+                        <span>Serviço principal indisponível. Avise a gestão e use contato de contingência.</span>
+                        <a href="#comunicar-gestao" style={{ color: 'var(--text)', fontWeight: 600 }}>➡️ Ir para Comunicar gestão</a>
+                      </div>
                     )}
                   </div>
 
@@ -133,7 +136,10 @@ const ResultScreenBase: React.FC<ResultScreenProps> = ({
                     {secondaryService?.details ? (
                       <span>{secondaryService.details.name} — {secondaryService.details.phone}</span>
                     ) : (
-                      <span>Sem serviço complementar principal.</span>
+                      <div style={{ display: 'grid', gap: 4 }}>
+                        <span>Sem serviço complementar definido para este caso.</span>
+                        <a href="#quem-acionar" style={{ color: 'var(--text)', fontWeight: 600 }}>➡️ Ver bloco Quem acionar</a>
+                      </div>
                     )}
                   </div>
                 </div>
