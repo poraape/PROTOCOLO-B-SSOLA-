@@ -245,7 +245,7 @@ export const decisionTreeV2: DecisionTreeV2 = {
     EMERGENCY_LEAF: makeLeaf({
       id: 'EMERGENCY_LEAF',
       riskClassification: 'EMERGENCIAL',
-      title: '🆘 Proteção imediata e acionamento emergencial',
+      title: '🆘 Acionar proteção imediata e ajuda emergencial',
       actions: [
         'Interrompa a exposição ao risco e mantenha o estudante acompanhado.',
         'Acione imediatamente o serviço principal e informe a gestão escolar.',
