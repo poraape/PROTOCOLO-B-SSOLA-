@@ -20,7 +20,8 @@ interface ActionCardProps {
 }
 
 const normalizePhoneToTel = (phone: string) => `tel:${phone.replace(/\D/g, '')}`;
-const serviceLink = (serviceId: string) => `/rede?highlight=${serviceId}`;
+const serviceLink = (serviceId: string, view: 'map' | 'list' = 'map') =>
+  `/rede?highlight=${encodeURIComponent(serviceId)}&view=${view}`;
 
 const categoryKeyFromLeaf = (leaf: FlowNode): 'mental_health' | 'violence' | 'physical_health' | 'pedagogical' | 'registration' | 'emergency' => {
   if (leaf.riskLevel === 'EMERGENCIAL' || leaf.category === 'EMERGÊNCIA') return 'emergency';
@@ -39,7 +40,8 @@ const ServiceItem: React.FC<{ service: Service; highlight?: boolean }> = ({ serv
     <p className="mt-1 text-xs text-muted">{service.address}</p>
     <a className="mt-1 inline-block text-sm font-semibold text-brand-800" href={normalizePhoneToTel(service.phone)}>{service.phone}</a>
     <div className="mt-2">
-      <Link className="btn-secondary text-xs focus-visible:ring-2 focus-visible:ring-brand-500" to={serviceLink(service.id)}>Ver na Rede</Link>
+      <Link className="btn-secondary text-xs focus-visible:ring-2 focus-visible:ring-brand-500" to={serviceLink(service.id, 'map')}>Ver no mapa</Link>
+      <Link className="btn-secondary ml-2 text-xs focus-visible:ring-2 focus-visible:ring-brand-500" to={serviceLink(service.id, 'list')}>Ver na lista</Link>
     </div>
   </li>
 );

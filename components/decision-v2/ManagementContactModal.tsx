@@ -60,7 +60,7 @@ export const ManagementContactModal: React.FC<ManagementContactModalProps> = ({ 
         }}
       >
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: designTokens.spacing.md }}>
-          <h3 style={{ margin: 0 }}>Falar com gestão</h3>
+          <h3 style={{ margin: 0 }}>Comunicar a gestão agora</h3>
           <button
             type="button"
             onClick={onClose}

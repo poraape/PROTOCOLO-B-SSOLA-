@@ -10,6 +10,7 @@ import { AppChip } from '../ui/AppChip';
 import { AppButton } from '../ui/AppButton';
 import { SidePanelOrientacoes } from '../ui/SidePanelOrientacoes';
 import { BottomSheetOrientacoes } from '../ui/BottomSheetOrientacoes';
+import { verbByIntentCapitalized } from '../../content/microcopyLexicon';
 
 interface ResultScreenProps {
   leaf: LeafNode;
@@ -109,7 +110,7 @@ const ResultScreenBase: React.FC<ResultScreenProps> = ({
           <AppCard
             strong
             className=""
-            heading="Resultado do Protocolo"
+            heading="O que fazer agora neste caso"
             subheading={leaf.primaryActions.title}
             rightSlot={<AppChip label={urgency.label} tone={urgencyTone[leaf.primaryActions.urgencyLevel]} />}
           >
@@ -123,7 +124,10 @@ const ResultScreenBase: React.FC<ResultScreenProps> = ({
                         {primaryService.details.name} — {primaryService.details.phone}
                       </a>
                     ) : (
-                      <span>Serviço principal não definido.</span>
+                      <div style={{ display: 'grid', gap: 4 }}>
+                        <span>Serviço principal indisponível. Avise a gestão e use contato de contingência.</span>
+                        <a href="#comunicar-gestao" style={{ color: 'var(--text)', fontWeight: 600 }}>➡️ Ir para Comunicar gestão</a>
+                      </div>
                     )}
                   </div>
 
@@ -132,13 +136,16 @@ const ResultScreenBase: React.FC<ResultScreenProps> = ({
                     {secondaryService?.details ? (
                       <span>{secondaryService.details.name} — {secondaryService.details.phone}</span>
                     ) : (
-                      <span>Sem serviço complementar principal.</span>
+                      <div style={{ display: 'grid', gap: 4 }}>
+                        <span>Sem serviço complementar definido para este caso.</span>
+                        <a href="#quem-acionar" style={{ color: 'var(--text)', fontWeight: 600 }}>➡️ Ver bloco Quem acionar</a>
+                      </div>
                     )}
                   </div>
                 </div>
               </AppCard>
 
-              <AppCard strong heading="COMUNICAR GESTÃO" subheading="Timing e papéis recomendados">
+              <AppCard strong heading={`${verbByIntentCapitalized('avisar_gestao')} gestão`.toUpperCase()} subheading="Timing e papéis recomendados">
                 <div style={{ display: 'grid', gap: 8 }}>
                   <AppChip label={managementNotification.timing} tone={timingTone[managementNotification.timing]} />
                   <div style={{ color: 'var(--text)' }}>
@@ -150,12 +157,12 @@ const ResultScreenBase: React.FC<ResultScreenProps> = ({
                   <div style={{ color: 'var(--text)' }}><strong>Obrigatório:</strong> {managementNotification.required ? 'Sim' : 'Não'}</div>
                   {managementNotification.message ? <div style={{ color: 'var(--text-muted)' }}>{managementNotification.message}</div> : null}
                   {managementNotification.required && onContactManagement ? (
-                    <AppButton variant="primary" onClick={onContactManagement}>Comunicar gestão</AppButton>
+                    <AppButton variant="primary" onClick={onContactManagement}>{verbByIntentCapitalized('avisar_gestao')} gestão</AppButton>
                   ) : null}
                 </div>
               </AppCard>
 
-              <AppCard strong heading="INSTRUMENTOS" subheading="Anexos recomendados para registro e encaminhamento">
+              <AppCard strong heading="Formulários e anexos para registro" subheading="Como registrar: anexos recomendados para registro e encaminhamento">
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
                   {leaf.instruments.length > 0 ? (
                     leaf.instruments.map((instrumentId, idx) => {
@@ -183,7 +190,7 @@ const ResultScreenBase: React.FC<ResultScreenProps> = ({
                 </div>
               </AppCard>
 
-              <AppCard strong heading="Contatos úteis" subheading={leaf.contactTargets.title}>
+              <AppCard strong heading="Quem acionar neste caso" subheading={leaf.contactTargets.title}>
                 <ul style={{ margin: 0, paddingLeft: 20, color: 'var(--text)', lineHeight: 1.6 }}>
                   {resolvedServices.map((serviceRef, idx) => (
                     <li key={`${serviceRef.serviceId}-${idx}`}>
