@@ -184,7 +184,7 @@ A escola identificou seis demandas prioritárias que justificam a elaboração e
 5. **Uso de substâncias psicoativas:** Suspeita ou confirmação de uso de álcool, tabaco ou outras drogas por estudantes, dentro ou fora da escola  
 6. **Violência sexual:** Situação crítica grave recente envolvendo violência sexual, cuja complexidade evidenciou a necessidade urgente de protocolos claros
 
-**Histórico de acionamento da rede:** A escola acionou a rede de proteção (Conselho Tutelar, serviços de saúde, assistência social) em poucas ocasiões anteriores, indicando ausência de cultura institucional consolidada de notificação e articulação intersetorial. A situação crítica grave recente mobilizou a equipe para a necessidade de organização formal de fluxos, procedimentos e capacitação.
+**Histórico de acionamento da rede:** A escola acionou a rede de proteção (Conselho Tutelar (CT), serviços de saúde, assistência social) em poucas ocasiões anteriores, indicando ausência de cultura institucional consolidada de notificação e articulação intersetorial. A situação crítica grave recente mobilizou a equipe para a necessidade de organização formal de fluxos, procedimentos e capacitação.
 
 📌 **NA ROTINA DA ESCOLA:** Este protocolo não surge de abstração teórica. Surge da realidade concreta da escola, das situações que a equipe já enfrentou ou enfrenta cotidianamente. As demandas listadas não são hipóteses: são desafios reais que precisam de respostas institucionais organizadas.
 
@@ -194,7 +194,7 @@ A escola identificou seis demandas prioritárias que justificam a elaboração e
 
 ### **1.3.1 Imperativo Legal e Institucional**
 
-🔴 **OBRIGATÓRIO POR LEI:** A Constituição Federal estabelece que a proteção integral de crianças e adolescentes é dever da família, da sociedade e do Estado, com absoluta prioridade. O Estatuto da Criança e do Adolescente (Lei 8.069/1990) atribui à escola papel central na rede de proteção, incluindo obrigação de comunicar ao Conselho Tutelar casos de suspeita ou confirmação de maus-tratos. A Lei 13.431/2017 estabelece direitos e garantias específicos para crianças e adolescentes vítimas ou testemunhas de violência, incluindo direito à escuta especializada e à não revitimização.
+🔴 **OBRIGATÓRIO POR LEI:** A Constituição Federal estabelece que a proteção integral de crianças e adolescentes é dever da família, da sociedade e do Estado, com absoluta prioridade. O Estatuto da Criança e do Adolescente (Lei 8.069/1990) atribui à escola papel central na rede de proteção, incluindo obrigação de comunicar ao Conselho Tutelar (CT) casos de suspeita ou confirmação de maus-tratos. A Lei 13.431/2017 estabelece direitos e garantias específicos para crianças e adolescentes vítimas ou testemunhas de violência, incluindo direito à escuta especializada e à não revitimização.
 
 🟡 **OBRIGATÓRIO INSTITUCIONALMENTE:** A SEDUC-SP, por meio do Programa CONVIVA e do Protocolo 179 (3ª versão, outubro/2025), estabelece diretrizes para prevenção, identificação e manejo de situações de vulnerabilidade e violência nas escolas estaduais. A Diretoria de Ensino Leste 1 orienta suas unidades escolares para elaboração de protocolos institucionais adaptados às realidades locais, em complementação às normativas gerais.
 
@@ -251,7 +251,7 @@ A vinculação à Diretoria de Ensino assegura:
 
 🟡 **OBRIGATÓRIO INSTITUCIONALMENTE:** A **Plataforma Conviva** é sistema informatizado oficial da SEDUC-SP para registro de situações de vulnerabilidade, violência e conflitos escolares. A plataforma permite notificação formal, acompanhamento de casos, geração de relatórios e articulação com rede de proteção.
 
-Todos os casos que se enquadrem em situações previstas no Protocolo 179/CONVIVA devem ser registrados na Plataforma Conviva, independentemente de notificações paralelas a outros órgãos (Conselho Tutelar, saúde, assistência social). O registro na plataforma não substitui comunicações urgentes por outros meios (telefone, presencial), mas é obrigatório para documentação institucional e acompanhamento sistêmico.
+Todos os casos que se enquadrem em situações previstas no Protocolo 179/CONVIVA devem ser registrados na Plataforma Conviva, independentemente de notificações paralelas a outros órgãos (Conselho Tutelar (CT), saúde, assistência social). O registro na plataforma não substitui comunicações urgentes por outros meios (telefone, presencial), mas é obrigatório para documentação institucional e acompanhamento sistêmico.
 
 ### **1.4.3 Professor Orientador de Convivência (POC)**
 
@@ -273,7 +273,7 @@ Este protocolo institucional **COMPLEMENTA** o Protocolo 179 em:
 
 ✅ **Detalhamento de fluxos internos:** Passo a passo específico da E.E. Ermelino Matarazzo, considerando estrutura, equipe e organização da unidade
 
-✅ **Adaptação ao território:** Mapeamento validado da rede de proteção local (Conselho Tutelar, CRAS, CREAS, UBS, CAPS IJ, Delegacia, Defensoria Pública) com endereços, telefones e horários atualizados
+✅ **Adaptação ao território:** Mapeamento validado da rede de proteção local (Conselho Tutelar (CT), CRAS, CREAS, UBS, CAPS IJ, Delegacia, Defensoria Pública) com endereços, telefones e horários atualizados
 
 ✅ **Instrumentos práticos:** Modelos de registro, fichas de acolhimento, roteiros de escuta, checklists, fluxogramas operacionais adaptados à realidade da escola
 
@@ -314,8 +314,8 @@ Este protocolo fundamenta-se em legislação federal, estadual e normativas inst
 
 - Art. 4º: Dever da família, comunidade, sociedade e Poder Público de assegurar, com absoluta prioridade, direitos fundamentais.  
 - Art. 5º: Nenhuma criança ou adolescente será objeto de qualquer forma de negligência, discriminação, exploração, violência, crueldade e opressão.  
-- Art. 13: Casos de suspeita ou confirmação de maus-tratos contra criança ou adolescente serão obrigatoriamente comunicados ao Conselho Tutelar, sem prejuízo de outras providências legais.  
-- Art. 56: Dirigentes de estabelecimentos de ensino fundamental comunicarão ao Conselho Tutelar casos de: maus-tratos; reiteração de faltas injustificadas e evasão escolar; elevados níveis de repetência.  
+- Art. 13: Casos de suspeita ou confirmação de maus-tratos contra criança ou adolescente serão obrigatoriamente comunicados ao Conselho Tutelar (CT), sem prejuízo de outras providências legais.  
+- Art. 56: Dirigentes de estabelecimentos de ensino fundamental comunicarão ao Conselho Tutelar (CT) casos de: maus-tratos; reiteração de faltas injustificadas e evasão escolar; elevados níveis de repetência.  
 - Art. 70: Dever de todos prevenir a ocorrência de ameaça ou violação dos direitos da criança e do adolescente.  
 - Art. 245: Deixar de comunicar autoridade competente sobre casos de suspeita ou confirmação de maus-tratos constitui infração administrativa punível com multa.
 
@@ -336,7 +336,7 @@ Este protocolo fundamenta-se em legislação federal, estadual e normativas inst
 
 🔴 **Lei 9.394/1996 – Lei de Diretrizes e Bases da Educação Nacional (LDB)**
 
-- Art. 12, VIII: Estabelecimentos de ensino têm incumbência de notificar Conselho Tutelar, Ministério Público e autoridades competentes casos de: maus-tratos, faltas injustificadas reiteradas, elevados níveis de repetência.
+- Art. 12, VIII: Estabelecimentos de ensino têm incumbência de notificar Conselho Tutelar (CT), Ministério Público e autoridades competentes casos de: maus-tratos, faltas injustificadas reiteradas, elevados níveis de repetência.
 
 🔴 **Lei 13.185/2015 – Programa de Combate à Intimidação Sistemática (Bullying)**
 
@@ -390,7 +390,7 @@ Este protocolo fundamenta-se em legislação federal, estadual e normativas inst
 
 - Define violências interpessoal e autoprovocada como eventos de notificação compulsória ao Sistema Único de Saúde (SUS).  
 - Profissionais de saúde e gestores devem notificar casos suspeitos ou confirmados de violência doméstica, sexual, tentativa de suicídio, autoprovocada.  
-- Aplicação na escola: A escola comunica Conselho Tutelar; os serviços de saúde que atenderem o estudante farão notificação compulsória ao sistema SINAN (Sistema de Informação de Agravos de Notificação).
+- Aplicação na escola: A escola comunica Conselho Tutelar (CT); os serviços de saúde que atenderem o estudante farão notificação compulsória ao sistema SINAN (Sistema de Informação de Agravos de Notificação).
 
 ---
 
@@ -404,8 +404,8 @@ Este protocolo fundamenta-se em legislação federal, estadual e normativas inst
 
 **A escola DEVE:**
 
-1. Comunicar ao Conselho Tutelar casos de suspeita ou confirmação de maus-tratos (ECA, art. 13 e 245\)  
-2. Comunicar ao Conselho Tutelar casos de reiteração de faltas injustificadas, evasão escolar, elevados níveis de repetência (ECA, art. 56; LDB, art. 12, VIII)  
+1. Comunicar ao Conselho Tutelar (CT) casos de suspeita ou confirmação de maus-tratos (ECA, art. 13 e 245\)  
+2. Comunicar ao Conselho Tutelar (CT) casos de reiteração de faltas injustificadas, evasão escolar, elevados níveis de repetência (ECA, art. 56; LDB, art. 12, VIII)  
 3. Assegurar direito à não revitimização (Lei 13.431/2017)  
 4. Implementar medidas de conscientização, prevenção e combate ao bullying (Lei 13.185/2015)  
 5. Tratar dados pessoais de estudantes em conformidade com LGPD, priorizando melhor interesse e proteção (Lei 13.709/2018)
@@ -414,7 +414,7 @@ Este protocolo fundamenta-se em legislação federal, estadual e normativas inst
 
 1. Investigar crimes ou apurar autoria e materialidade (atribuição de polícia e justiça)  
 2. Diagnosticar violência, transtornos ou patologias (atribuição de serviços de saúde especializados)  
-3. Substituir Conselho Tutelar, CRAS, CREAS, saúde ou justiça (cada órgão tem atribuição específica)  
+3. Substituir Conselho Tutelar (CT), CRAS, CREAS, saúde ou justiça (cada órgão tem atribuição específica)  
 4. Realizar depoimento especial (procedimento exclusivo de autoridade policial ou judiciária, conforme Lei 13.431/2017)  
 5. Expor estudante a procedimentos revitimizantes (repetição desnecessária de relatos, exposição pública, confronto com suposto agressor)
 
@@ -428,7 +428,7 @@ Este protocolo fundamenta-se em legislação federal, estadual e normativas inst
 
 ---
 
-📌 **NA ROTINA DA ESCOLA:** A escola tem papel essencial na rede de proteção, mas não é polícia, não é hospital, não é Conselho Tutelar. A força da escola está em fazer bem o que lhe compete: educar, acolher, notificar e acompanhar pedagogicamente. O protocolo organiza isso.
+📌 **NA ROTINA DA ESCOLA:** A escola tem papel essencial na rede de proteção, mas não é polícia, não é hospital, não é Conselho Tutelar (CT). A força da escola está em fazer bem o que lhe compete: educar, acolher, notificar e acompanhar pedagogicamente. O protocolo organiza isso.
 
 ---
 
@@ -461,7 +461,7 @@ Este capítulo fundamenta-se nas seguintes fontes:
 - Dossiê Contextual Simplificado da E.E. Ermelino Matarazzo (fevereiro/2026)  
 - Portal de Transparência da Educação do Estado de São Paulo  
 - Censo Escolar 2024 (INEP)  
-- Dados da Prefeitura de São Paulo (CRAS, CREAS, UBS, CAPS, Conselho Tutelar)  
+- Dados da Prefeitura de São Paulo (CRAS, CREAS, UBS, CAPS, Conselho Tutelar (CT))  
 - IBGE, Fundação Seade
 
 ---
@@ -508,9 +508,9 @@ A escola compromete-se com escuta única e qualificada sempre que possível, reg
 
 🔴 **OBRIGATÓRIO POR LEI / 🟡 OBRIGATÓRIO INSTITUCIONALMENTE:** Nenhum órgão ou instituição isoladamente é capaz de assegurar proteção integral a crianças e adolescentes em situação de vulnerabilidade ou violência. A complexidade das situações exige articulação entre educação, saúde, assistência social, segurança pública, justiça e direitos humanos. A intersetorialidade não é cooperação eventual ou facultativa: é condição estruturante da rede de proteção.
 
-A escola reconhece-se como parte integrante da rede, com atribuições específicas e limites claros. Articula-se organicamente com Conselho Tutelar, CRAS, CREAS, UBS, CAPS, Delegacia, Defensoria Pública, Ministério Público e outros equipamentos conforme cada caso. A articulação pressupõe comunicação formal, compartilhamento responsável de informações (respeitando LGPD), acompanhamento de desdobramentos e colaboração mútua. Intersetorialidade não significa transferir responsabilidade: significa exercer a própria responsabilidade em diálogo com outros atores.
+A escola reconhece-se como parte integrante da rede, com atribuições específicas e limites claros. Articula-se organicamente com Conselho Tutelar (CT), CRAS, CREAS, UBS, CAPS, Delegacia, Defensoria Pública, Ministério Público e outros equipamentos conforme cada caso. A articulação pressupõe comunicação formal, compartilhamento responsável de informações (respeitando LGPD), acompanhamento de desdobramentos e colaboração mútua. Intersetorialidade não significa transferir responsabilidade: significa exercer a própria responsabilidade em diálogo com outros atores.
 
-📌 **NA ROTINA DA ESCOLA:** A escola não resolve tudo sozinha. Quando identifica situação que exige intervenção de saúde, aciona saúde. Quando exige proteção social, aciona assistência social. Quando exige medida protetiva, aciona Conselho Tutelar. Mas continua acompanhando o estudante pedagogicamente, porque essa é sua atribuição.
+📌 **NA ROTINA DA ESCOLA:** A escola não resolve tudo sozinha. Quando identifica situação que exige intervenção de saúde, aciona saúde. Quando exige proteção social, aciona assistência social. Quando exige medida protetiva, aciona Conselho Tutelar (CT). Mas continua acompanhando o estudante pedagogicamente, porque essa é sua atribuição.
 
 ### **2.1.5 Princípio da Prioridade Absoluta**
 
@@ -518,7 +518,7 @@ A escola reconhece-se como parte integrante da rede, com atribuições específi
 
 Na escola, prioridade absoluta materializa-se em: atendimento imediato de situações que coloquem estudante em risco; disponibilização de equipe e tempo para acolhimento adequado; acionamento prioritário da rede quando necessário; acompanhamento sistemático de casos em andamento; destinação de recursos (humanos, materiais, financeiros) para ações de proteção. Prioridade absoluta significa que, diante de conflito entre demandas administrativas e situação de risco a estudante, esta última prevalece.
 
-📌 **EM TERMOS PRÁTICOS:** Se um estudante chega dizendo que precisa falar sobre algo grave, isso não pode esperar o final da aula, da reunião ou do expediente. Se uma situação exige acionamento do Conselho Tutelar, isso não pode ser adiado porque a equipe está sobrecarregada. Proteção de criança e adolescente é prioridade: ponto.
+📌 **EM TERMOS PRÁTICOS:** Se um estudante chega dizendo que precisa falar sobre algo grave, isso não pode esperar o final da aula, da reunião ou do expediente. Se uma situação exige acionamento do Conselho Tutelar (CT), isso não pode ser adiado porque a equipe está sobrecarregada. Proteção de criança e adolescente é prioridade: ponto.
 
 ---
 
@@ -538,7 +538,7 @@ Autonomia progressiva reconhece que, à medida que crianças e adolescentes dese
 
 🔴 **OBRIGATÓRIO POR LEI / 🟡 OBRIGATÓRIO INSTITUCIONALMENTE:** Informações sobre situações de vulnerabilidade, violência, saúde ou vida privada de estudantes são protegidas por sigilo. A LGPD classifica dados de saúde, vida sexual e outros aspectos sensíveis como dados pessoais sensíveis, exigindo tratamento especialmente cuidadoso. O ECA protege a intimidade e imagem de crianças e adolescentes. A ética profissional exige discrição e responsabilidade no manejo de informações.
 
-Confidencialidade não é absoluta: há situações em que a lei obriga a comunicação (suspeita de maus-tratos ao Conselho Tutelar, por exemplo). Mas mesmo nesses casos, a comunicação é feita aos órgãos competentes, não à comunidade escolar em geral. Sigilo implica: não comentar casos em espaços públicos (corredores, sala dos professores, redes sociais); compartilhar informações apenas com quem precisa saber para atuar no caso; registrar dados de forma segura; orientar estudantes e famílias sobre limites do sigilo.
+Confidencialidade não é absoluta: há situações em que a lei obriga a comunicação (suspeita de maus-tratos ao Conselho Tutelar (CT), por exemplo). Mas mesmo nesses casos, a comunicação é feita aos órgãos competentes, não à comunidade escolar em geral. Sigilo implica: não comentar casos em espaços públicos (corredores, sala dos professores, redes sociais); compartilhar informações apenas com quem precisa saber para atuar no caso; registrar dados de forma segura; orientar estudantes e famílias sobre limites do sigilo.
 
 📌 **NA ROTINA DA ESCOLA:** Não comente detalhes de casos fora do círculo estrito de profissionais envolvidos. Não exponha estudantes identificando-os em conversas informais. Não publique informações sensíveis em grupos de WhatsApp. Sigilo protege o estudante e protege você juridicamente.
 
@@ -574,7 +574,7 @@ A clareza sobre limites da atuação escolar é essencial para proteção de est
 
 A escola **registra sinais observáveis** (marcas físicas, comportamentos atípicos, relatos espontâneos) e **comunica órgãos competentes**.
 
-**Investigação \= Polícia Civil, Ministério Público, Conselho Tutelar.**
+**Investigação \= Polícia Civil, Ministério Público, Conselho Tutelar (CT).**
 
 - A escola NÃO interroga estudante sobre detalhes da violência  
 - A escola NÃO confronta familiares suspeitos para "confirmar" informações  
@@ -604,7 +604,7 @@ A escola **identifica sinais de alerta** (mudanças comportamentais, queixas rec
 
 A escola **articula, encaminha e acompanha pedagogicamente**.
 
-**Atendimento especializado \= CAPS, CRAS, CREAS, UBS, Conselho Tutelar, Defensoria Pública.**
+**Atendimento especializado \= CAPS, CRAS, CREAS, UBS, Conselho Tutelar (CT), Defensoria Pública.**
 
 - A escola NÃO realiza atendimento psicoterapêutico (mesmo tendo estagiários de psicologia)  
 - A escola NÃO executa medidas de proteção (abrigo, afastamento do agressor, guarda)  
@@ -624,7 +624,7 @@ A escola **acolhe, registra objetivamente e protege**.
 - A escola NÃO julga se o relato do estudante é verdadeiro ou falso  
 - A escola NÃO confronta estudante exigindo "provas" do que relatou  
 - A escola NÃO investiga se família está mentindo ou omitindo informações  
-- A escola NÃO retém notificação ao Conselho Tutelar aguardando "certeza absoluta"
+- A escola NÃO retém notificação ao Conselho Tutelar (CT) aguardando "certeza absoluta"
 
 📌 **EM TERMOS PRÁTICOS:** Quando há indícios objetivos (sinais físicos, relato espontâneo consistente, mudança comportamental significativa), a escola notifica. Não cabe à escola "ter certeza" antes de agir. A notificação de boa-fé, fundamentada em indícios razoáveis, é obrigação legal e está protegida juridicamente. Se depois a investigação concluir diferente, não há responsabilização de quem notificou de boa-fé.
 
@@ -657,7 +657,7 @@ A escola **acolhe, registra objetivamente e protege**.
 
 **A escola NOTIFICA:**
 
-- Comunicação formal ao Conselho Tutelar (casos de suspeita ou confirmação de maus-tratos, violência, negligência)  
+- Comunicação formal ao Conselho Tutelar (CT) (casos de suspeita ou confirmação de maus-tratos, violência, negligência)  
 - Registro na Plataforma Conviva (conforme Protocolo 179\)  
 - Comunicação à família (quando adequado e não houver risco ao estudante)  
 - Articulação com serviços de saúde, assistência social conforme cada caso
@@ -678,11 +678,11 @@ A escola **acolhe, registra objetivamente e protege**.
 Responsabilidade compartilhada significa que:
 
 - Nenhum órgão é culpado sozinho se situação não é resolvida imediatamente  
-- Cada órgão responde por sua parte: escola por educação e notificação; saúde por atendimento clínico; assistência social por proteção social; Conselho Tutelar por medidas protetivas; justiça por medidas judiciais  
+- Cada órgão responde por sua parte: escola por educação e notificação; saúde por atendimento clínico; assistência social por proteção social; Conselho Tutelar (CT) por medidas protetivas; justiça por medidas judiciais  
 - A articulação entre órgãos é obrigação de todos, não apenas da escola  
 - O acompanhamento do caso exige comunicação permanente, mas respeita atribuições de cada ator
 
-📌 **EM TERMOS PRÁTICOS:** Se a escola notificou o Conselho Tutelar e o caso não foi resolvido rapidamente, isso não significa que a escola falhou. Significa que a situação é complexa e exige tempo. A escola continua acompanhando pedagogicamente, articula-se com a rede, mas não assume sozinha responsabilidade que é de todos.
+📌 **EM TERMOS PRÁTICOS:** Se a escola notificou o Conselho Tutelar (CT) e o caso não foi resolvido rapidamente, isso não significa que a escola falhou. Significa que a situação é complexa e exige tempo. A escola continua acompanhando pedagogicamente, articula-se com a rede, mas não assume sozinha responsabilidade que é de todos.
 
 ---
 
@@ -722,7 +722,7 @@ A dimensão protetiva materializa as obrigações legais da escola na rede de pr
 
 1. **Identificar precocemente sinais de vulnerabilidade, risco ou violação de direitos**, por meio de observação atenta, escuta qualificada e atenção a indicadores objetivos (físicos, comportamentais, relacionais).  
 2. **Acolher estudantes, responsáveis e profissionais em situações de crise**, oferecendo escuta respeitosa, espaço seguro, suporte emocional inicial e orientação sobre procedimentos e rede de apoio.  
-3. **Notificar obrigatoriamente ao Conselho Tutelar casos de suspeita ou confirmação de maus-tratos, violência, negligência ou violação de direitos**, em cumprimento ao ECA (arts. 13 e 56\) e legislação correlata.  
+3. **Notificar obrigatoriamente ao Conselho Tutelar (CT) casos de suspeita ou confirmação de maus-tratos, violência, negligência ou violação de direitos**, em cumprimento ao ECA (arts. 13 e 56\) e legislação correlata.  
 4. **Encaminhar estudantes e famílias aos serviços da rede intersetorial** (CRAS, CREAS, UBS, CAPS, Defensoria Pública) conforme demandas identificadas, com articulação formal, acompanhamento de desdobramentos e suporte à continuidade do atendimento.  
 5. **Proteger estudantes contra revitimização**, assegurando escuta única sempre que possível, sigilo rigoroso, comunicação não invasiva e procedimentos tecnicamente adequados conforme Lei 13.431/2017.
 
@@ -738,7 +738,7 @@ A dimensão institucional assegura organização, governança e sustentabilidade
 
 1. **Estabelecer fluxos, procedimentos e instrumentos padronizados**, assegurando que todos os profissionais tenham clareza sobre o que fazer em cada situação, com quem contar e como registrar adequadamente.  
 2. **Garantir segurança jurídica para profissionais**, demonstrando que agir conforme protocolo é agir institucionalmente, com amparo legal, respaldo da gestão e proteção contra responsabilização indevida.  
-3. **Fortalecer a articulação intersetorial**, estabelecendo canais formais de comunicação com Conselho Tutelar, serviços de saúde, assistência social, segurança pública e justiça, com validação periódica de contatos e fluxos.  
+3. **Fortalecer a articulação intersetorial**, estabelecendo canais formais de comunicação com Conselho Tutelar (CT), serviços de saúde, assistência social, segurança pública e justiça, com validação periódica de contatos e fluxos.  
 4. **Assegurar cumprimento da Lei Geral de Proteção de Dados (LGPD)**, com tratamento adequado de dados pessoais sensíveis de estudantes, consentimento informado quando exigido, minimização de dados, segurança de armazenamento e compartilhamento responsável com rede de proteção.  
 5. **Monitorar e avaliar a aplicação do protocolo**, com revisão anual obrigatória, coleta de dados sobre casos acompanhados (respeitando anonimização), escuta da equipe sobre dificuldades e ajustes, atualização conforme mudanças legislativas e institucionais.
 
@@ -819,7 +819,7 @@ Situação de risco exige intervenção preventiva qualificada, articulação en
 
 Situação consumada de ameaça ou violação de direitos fundamentais, caracterizando violência, abuso, exploração, negligência grave ou abandono. Inclui: violência física, psicológica, sexual, negligência intencional ou grave, maus-tratos, exploração de trabalho infantil, privação de liberdade ilegal, exposição a situações de grave perigo.
 
-Violação de direitos exige notificação obrigatória ao Conselho Tutelar, registro na Plataforma Conviva, acionamento de serviços especializados (CREAS, CAPS, Delegacia) e, em situações de urgência, medidas protetivas imediatas.
+Violação de direitos exige notificação obrigatória ao Conselho Tutelar (CT), registro na Plataforma Conviva, acionamento de serviços especializados (CREAS, CAPS, Delegacia) e, em situações de urgência, medidas protetivas imediatas.
 
 ---
 
@@ -835,7 +835,7 @@ Violação de direitos exige notificação obrigatória ao Conselho Tutelar, reg
 
 **VIOLAÇÃO:** Estudante sofre violência física (marcas, lesões), violência psicológica (ameaças, humilhações sistemáticas), violência sexual, negligência grave (privação de alimentação, saúde, educação), maus-tratos.
 
-- **Resposta da escola:** Notifica Conselho Tutelar obrigatoriamente, registra na Plataforma Conviva, aciona rede especializada, adota medidas protetivas imediatas, não confronta família suspeita diretamente.
+- **Resposta da escola:** Notifica Conselho Tutelar (CT) obrigatoriamente, registra na Plataforma Conviva, aciona rede especializada, adota medidas protetivas imediatas, não confronta família suspeita diretamente.
 
 ---
 
@@ -853,7 +853,7 @@ Características da escuta qualificada na escola: ambiente reservado, privacidad
 
 **ESCUTA ESPECIALIZADA:**
 
-Procedimento de entrevista realizado exclusivamente por profissionais especializados (assistentes sociais, psicólogos) em serviços da rede de proteção (CREAS, CAPS, Conselho Tutelar), com metodologia específica para aprofundamento de informações, avaliação de risco e planejamento de intervenção. A escuta especializada exige formação técnica específica, instrumentos padronizados e articulação formal com Sistema de Garantia de Direitos.
+Procedimento de entrevista realizado exclusivamente por profissionais especializados (assistentes sociais, psicólogos) em serviços da rede de proteção (CREAS, CAPS, Conselho Tutelar (CT)), com metodologia específica para aprofundamento de informações, avaliação de risco e planejamento de intervenção. A escuta especializada exige formação técnica específica, instrumentos padronizados e articulação formal com Sistema de Garantia de Direitos.
 
 A escola **não realiza escuta especializada**. A escola realiza escuta qualificada inicial e encaminha para serviços especializados quando necessário aprofundamento, avaliação técnica ou intervenção especializada.
 
@@ -873,7 +873,7 @@ A rede de proteção organiza-se em três níveis:
 
 **Proteção especializada (intervenção qualificada):** CREAS, CAPS, serviços especializados de saúde e assistência social. Atende situações de risco e violação de direitos que exigem acompanhamento especializado.
 
-**Sistema de Garantia de Direitos (responsabilização e justiça):** Conselho Tutelar, Ministério Público, Defensoria Pública, Poder Judiciário, Delegacias. Atende situações que exigem medidas protetivas, investigação, responsabilização de agressores e decisões judiciais.
+**Sistema de Garantia de Direitos (responsabilização e justiça):** Conselho Tutelar (CT), Ministério Público, Defensoria Pública, Poder Judiciário, Delegacias. Atende situações que exigem medidas protetivas, investigação, responsabilização de agressores e decisões judiciais.
 
 A escola é parte integrante da rede de proteção, atuando principalmente em prevenção, identificação precoce, acolhimento inicial, notificação e acompanhamento pedagógico. A efetividade da rede depende de comunicação permanente, compartilhamento responsável de informações, respeito às atribuições de cada ator e compromisso com a integralidade do atendimento.
 
@@ -885,17 +885,17 @@ A escola é parte integrante da rede de proteção, atuando principalmente em pr
 
 **COMUNICAÇÃO OBRIGATÓRIA AO CONSELHO TUTELAR (ECA):**
 
-Obrigação legal de toda escola comunicar ao Conselho Tutelar casos de suspeita ou confirmação de maus-tratos contra criança ou adolescente (ECA, art. 13), bem como casos de reiteração de faltas injustificadas, evasão escolar e elevados níveis de repetência (ECA, art. 56; LDB, art. 12, VIII). A comunicação é feita pela escola, independentemente de a situação ter sido atendida por serviços de saúde.
+Obrigação legal de toda escola comunicar ao Conselho Tutelar (CT) casos de suspeita ou confirmação de maus-tratos contra criança ou adolescente (ECA, art. 13), bem como casos de reiteração de faltas injustificadas, evasão escolar e elevados níveis de repetência (ECA, art. 56; LDB, art. 12, VIII). A comunicação é feita pela escola, independentemente de a situação ter sido atendida por serviços de saúde.
 
-A comunicação ao Conselho Tutelar é obrigação de todos os profissionais que tenham conhecimento da situação no exercício de suas funções. O descumprimento configura infração administrativa sujeita a multa (ECA, art. 245). A comunicação deve ser formal, documentada, registrada na Plataforma Conviva e acompanhada de relatório objetivo.
+A comunicação ao Conselho Tutelar (CT) é obrigação de todos os profissionais que tenham conhecimento da situação no exercício de suas funções. O descumprimento configura infração administrativa sujeita a multa (ECA, art. 245). A comunicação deve ser formal, documentada, registrada na Plataforma Conviva e acompanhada de relatório objetivo.
 
 **NOTIFICAÇÃO COMPULSÓRIA AO SISTEMA DE SAÚDE (Portaria MS 1.271/2014):**
 
 Obrigação de profissionais de saúde e gestores de serviços de saúde notificar ao Sistema de Informação de Agravos de Notificação (SINAN) casos suspeitos ou confirmados de violência doméstica, sexual, autoprovocada, tráfico de pessoas, trabalho infantil, tortura, intervenção legal e violências homofóbicas.
 
-A notificação compulsória é feita por serviços de saúde (UBS, hospitais, pronto-socorros), não pela escola. Se estudante é atendido em serviço de saúde após violência, o serviço de saúde faz a notificação compulsória ao SINAN. A escola faz a comunicação obrigatória ao Conselho Tutelar. São obrigações distintas, complementares, não excludentes.
+A notificação compulsória é feita por serviços de saúde (UBS, hospitais, pronto-socorros), não pela escola. Se estudante é atendido em serviço de saúde após violência, o serviço de saúde faz a notificação compulsória ao SINAN. A escola faz a comunicação obrigatória ao Conselho Tutelar (CT). São obrigações distintas, complementares, não excludentes.
 
-📌 **NA ROTINA DA ESCOLA:** A escola comunica ao Conselho Tutelar. Se a situação envolver atendimento de saúde, o serviço de saúde fará notificação compulsória ao SINAN. São dois caminhos paralelos, cada um com sua função: a comunicação ao CT aciona medidas protetivas; a notificação ao SINAN alimenta dados epidemiológicos e políticas públicas de saúde.
+📌 **NA ROTINA DA ESCOLA:** A escola comunica ao Conselho Tutelar (CT). Se a situação envolver atendimento de saúde, o serviço de saúde fará notificação compulsória ao SINAN. São dois caminhos paralelos, cada um com sua função: a comunicação ao CT aciona medidas protetivas; a notificação ao SINAN alimenta dados epidemiológicos e políticas públicas de saúde.
 
 ---
 
@@ -921,7 +921,7 @@ Situações relacionadas a vulnerabilidade social, ausência de políticas públ
 
 ### **3.2.5 Demandas de Proteção**
 
-Situações relacionadas a suspeita ou confirmação de violação de direitos: violência física, psicológica, sexual, negligência, maus-tratos, exploração, exposição a situações de grave perigo. Resposta principal: acolhimento imediato, escuta qualificada, notificação obrigatória ao Conselho Tutelar, registro na Plataforma Conviva, articulação com rede especializada (CREAS, Delegacia, saúde), medidas protetivas emergenciais quando aplicável.
+Situações relacionadas a suspeita ou confirmação de violação de direitos: violência física, psicológica, sexual, negligência, maus-tratos, exploração, exposição a situações de grave perigo. Resposta principal: acolhimento imediato, escuta qualificada, notificação obrigatória ao Conselho Tutelar (CT), registro na Plataforma Conviva, articulação com rede especializada (CREAS, Delegacia, saúde), medidas protetivas emergenciais quando aplicável.
 
 📌 **EM TERMOS PRÁTICOS:** A mesma situação pode envolver múltiplas demandas. Estudante com baixo desempenho (demanda pedagógica) pode estar vivendo violência doméstica (demanda de proteção) que gera ansiedade (demanda emocional) e manifesta-se em agressividade (demanda comportamental) agravada por pobreza (demanda social). A escola avalia integralmente e responde de forma articulada, priorizando sempre proteção de direitos.
 
@@ -947,7 +947,7 @@ Ação ou omissão que cause dano emocional, diminuição da autoestima, prejuí
 
 Qualquer ação de natureza sexual praticada contra criança ou adolescente, com ou sem contato físico, com ou sem uso de força. Inclui: abuso sexual (contato físico com conotação sexual: toques, carícias, penetração), exploração sexual (prostituição, pornografia), assédio sexual, exposição a conteúdo sexual inadequado à idade, exibicionismo, voyeurismo, aliciamento presencial ou virtual (grooming). Violência sexual é crime previsto no Código Penal, independentemente de consentimento (crianças e adolescentes menores de 14 anos são considerados vulneráveis, incapazes de consentir).
 
-🔴 **ATENÇÃO:** A escola **não pergunta detalhes sobre atos sexuais**, **não investiga circunstâncias**, **não solicita que estudante "prove" o que relatou**. Acolhe, registra objetivamente o relato espontâneo, notifica Conselho Tutelar e Delegacia imediatamente, protege estudante de exposição e revitimização.
+🔴 **ATENÇÃO:** A escola **não pergunta detalhes sobre atos sexuais**, **não investiga circunstâncias**, **não solicita que estudante "prove" o que relatou**. Acolhe, registra objetivamente o relato espontâneo, notifica Conselho Tutelar (CT) e Delegacia imediatamente, protege estudante de exposição e revitimização.
 
 📌 **EM TERMOS PRÁTICOS:** Sinais observáveis incluem: conhecimento sexual inadequado à idade, comportamento sexualizado atípico, medo excessivo de determinadas pessoas ou lugares, lesões ou dor em região genital, relato espontâneo de abordagens ou contatos inadequados, mudança súbita de comportamento, sintomas de ansiedade ou depressão intensos.
 
@@ -997,7 +997,7 @@ A escola compromete-se a não praticar violência institucional: assegura escuta
 
 **Exemplos:** Sinais consistentes de violência física ou psicológica (sem risco iminente), sofrimento psíquico intenso (ideação suicida sem plano definido, autolesão, sintomas depressivos ou ansiosos graves), uso de substâncias psicoativas identificado, conflitos familiares graves com risco de violência, negligência grave.
 
-**Resposta institucional:** Notificação ao Conselho Tutelar (quando aplicável), encaminhamento para CREAS (situações de violação de direitos) ou CAPS IJ (saúde mental), registro na Plataforma Conviva, acolhimento qualificado na escola, articulação permanente com serviços especializados, acompanhamento pedagógico adaptado, comunicação formal com família (quando não houver risco ao estudante).
+**Resposta institucional:** Notificação ao Conselho Tutelar (CT) (quando aplicável), encaminhamento para CREAS (situações de violação de direitos) ou CAPS IJ (saúde mental), registro na Plataforma Conviva, acolhimento qualificado na escola, articulação permanente com serviços especializados, acompanhamento pedagógico adaptado, comunicação formal com família (quando não houver risco ao estudante).
 
 📌 **EM TERMOS PRÁTICOS:** Complexidade alta significa situação grave que exige rede especializada, mas não é emergência imediata. A escola notifica, encaminha e acompanha. Mantém comunicação com serviços especializados para saber como está o caso, continua oferecendo suporte pedagógico ao estudante.
 
@@ -1010,17 +1010,17 @@ A escola compromete-se a não praticar violência institucional: assegura escuta
 **Resposta institucional:**
 
 - **Proteção imediata:** Manter estudante em local seguro, sob supervisão contínua de adulto de confiança  
-- **Acionamento imediato:** SAMU 192 (emergência médica), Bombeiros 193 (situação de grave perigo), Polícia Militar 190 (risco de violência iminente), Conselho Tutelar (plantão)  
+- **Acionamento imediato:** SAMU 192 (emergência médica), Bombeiros 193 (situação de grave perigo), Polícia Militar 190 (risco de violência iminente), Conselho Tutelar (CT) (plantão)  
 - **Comunicação à gestão:** Diretor ou vice-diretor assume coordenação da situação  
-- **Não liberar estudante:** Se risco está no ambiente familiar, estudante não é liberado até que Conselho Tutelar ou autoridade competente assuma responsabilidade  
+- **Não liberar estudante:** Se risco está no ambiente familiar, estudante não é liberado até que Conselho Tutelar (CT) ou autoridade competente assuma responsabilidade  
 - **Registro formal imediato:** Documentação detalhada de todos os procedimentos adotados  
 - **Comunicação aos responsáveis:** Apenas se não colocar estudante em risco maior
 
 📌 **NA ROTINA DA ESCOLA:** Emergência é situação rara, mas quando ocorre exige ação imediata e coordenada. Não há tempo para "pensar melhor" ou "esperar para decidir". Aciona-se imediatamente serviços de emergência, protege-se o estudante, documenta-se tudo.
 
-### **3.4.5 Notificação Obrigatória ao Conselho Tutelar**
+### **3.4.5 Notificação Obrigatória ao Conselho Tutelar (CT)**
 
-🔴 **OBRIGATÓRIO POR LEI:** Independentemente do grau de complexidade, situações específicas exigem comunicação obrigatória ao Conselho Tutelar, conforme ECA (arts. 13 e 56\) e LDB (art. 12, VIII):
+🔴 **OBRIGATÓRIO POR LEI:** Independentemente do grau de complexidade, situações específicas exigem comunicação obrigatória ao Conselho Tutelar (CT), conforme ECA (arts. 13 e 56\) e LDB (art. 12, VIII):
 
 **Situações de notificação obrigatória:**
 
@@ -1029,7 +1029,7 @@ A escola compromete-se a não praticar violência institucional: assegura escuta
 3. **Evasão escolar:** Abandono da escola sem transferência ou justificativa  
 4. **Elevados níveis de repetência:** Quando repetência indica abandono intelectual, negligência educacional ou contexto de vulnerabilidade
 
-**Procedimento:** Notificação formal escrita ao Conselho Tutelar (ofício, relatório ou formulário específico), registro na Plataforma Conviva, cópia arquivada na escola com protocolo de recebimento, acompanhamento de desdobramentos.
+**Procedimento:** Notificação formal escrita ao Conselho Tutelar (CT) (ofício, relatório ou formulário específico), registro na Plataforma Conviva, cópia arquivada na escola com protocolo de recebimento, acompanhamento de desdobramentos.
 
 📌 **EM TERMOS PRÁTICOS:** Notificação obrigatória é isso: obrigatória. Não é decisão discricionária da escola ("vamos esperar mais um pouco para ver o que acontece"). Quando há situação que se enquadra, notifica. A notificação de boa-fé, fundamentada em indícios razoáveis, é protegida legalmente. Não notificar quando deveria é infração administrativa.
 
@@ -1085,7 +1085,7 @@ A escola compromete-se a não praticar violência institucional: assegura escuta
 
 **Órgãos e instituições:**
 
-- **Conselho Tutelar de Ermelino Matarazzo:** Órgão permanente e autônomo, não jurisdicional, encarregado de zelar pelo cumprimento dos direitos da criança e do adolescente. Atribuições: aplicar medidas protetivas, atender crianças e adolescentes em situação de risco, requisitar serviços públicos, representar ao Ministério Público.  
+- **Conselho Tutelar (CT) de Ermelino Matarazzo:** Órgão permanente e autônomo, não jurisdicional, encarregado de zelar pelo cumprimento dos direitos da criança e do adolescente. Atribuições: aplicar medidas protetivas, atender crianças e adolescentes em situação de risco, requisitar serviços públicos, representar ao Ministério Público.  
   - Endereço: Rua Chesira Maltauro, 342 – Parque Boturussú  
   - Telefone fixo: (11) 2214-9050  
   - Celular plantão: (11) 97283-6692  
@@ -1098,7 +1098,7 @@ A escola compromete-se a não praticar violência institucional: assegura escuta
   - Agendamento: [www.defensoria.sp.def.br](http://www.defensoria.sp.def.br)  
 - **Poder Judiciário (Vara da Infância e Juventude):** Decisões judiciais sobre medidas protetivas, destituição de poder familiar, guarda, adoção, atos infracionais.
 
-📌 **NA ROTINA DA ESCOLA:** Sistema de Garantia de Direitos é acionado quando situação exige medida legal ou judicial. Conselho Tutelar é porta de entrada do sistema: escola notifica CT, que avalia e encaminha para MP ou Judiciário quando necessário. Escola não aciona MP ou Judiciário diretamente, salvo orientação específica da Diretoria de Ensino.
+📌 **NA ROTINA DA ESCOLA:** Sistema de Garantia de Direitos é acionado quando situação exige medida legal ou judicial. Conselho Tutelar (CT) é porta de entrada do sistema: escola notifica CT, que avalia e encaminha para MP ou Judiciário quando necessário. Escola não aciona MP ou Judiciário diretamente, salvo orientação específica da Diretoria de Ensino.
 
 ### **3.5.4 Segurança Pública**
 
@@ -1117,7 +1117,7 @@ A escola compromete-se a não praticar violência institucional: assegura escuta
 - **Bombeiros:** Atendimento em situações de grave perigo, resgate.  
   - Telefone: 193
 
-📌 **NA ROTINA DA ESCOLA:** Segurança pública é acionada em situações de emergência (risco iminente, crime em flagrante, necessidade de atendimento médico urgente). Violência sexual ou física grave deve ser comunicada à Delegacia (além de Conselho Tutelar). Escola registra boletim de ocorrência quando necessário proteger juridicamente a instituição e estudante.
+📌 **NA ROTINA DA ESCOLA:** Segurança pública é acionada em situações de emergência (risco iminente, crime em flagrante, necessidade de atendimento médico urgente). Violência sexual ou física grave deve ser comunicada à Delegacia (além de Conselho Tutelar (CT)). Escola registra boletim de ocorrência quando necessário proteger juridicamente a instituição e estudante.
 
 ---
 
@@ -1210,7 +1210,7 @@ A escola compromete-se a não praticar violência institucional: assegura escuta
 
 A apropriação dos conceitos ocorre por formação continuada, estudo do protocolo, aplicação prática supervisionada e revisão coletiva de casos (respeitando sigilo). A equipe gestora responsabiliza-se por assegurar que todos os profissionais, especialmente os recém-chegados, sejam capacitados sobre definições e terminologia estabelecidas neste capítulo.
 
-📌 **EM TERMOS PRÁTICOS:** Conceitos não são teoria abstrata. São ferramentas de trabalho. Quando profissional sabe distinguir vulnerabilidade de violação, sabe se aciona CRAS ou Conselho Tutelar. Quando sabe classificar complexidade, sabe se é urgência ou pode aguardar. Quando domina terminologia, registra adequadamente e protege juridicamente a si mesmo e ao estudante.
+📌 **EM TERMOS PRÁTICOS:** Conceitos não são teoria abstrata. São ferramentas de trabalho. Quando profissional sabe distinguir vulnerabilidade de violação, sabe se aciona CRAS ou Conselho Tutelar (CT). Quando sabe classificar complexidade, sabe se é urgência ou pode aguardar. Quando domina terminologia, registra adequadamente e protege juridicamente a si mesmo e ao estudante.
 
 ---
 
@@ -1238,8 +1238,8 @@ A equipe gestora é responsável pela coordenação institucional das ações de
 
 🔴 **OBRIGATÓRIO POR LEI:**
 
-1. **Comunicar ao Conselho Tutelar, no prazo máximo de 24 horas, casos de suspeita ou confirmação de maus-tratos contra criança ou adolescente** (ECA, art. 13). A comunicação é pessoal e intransferível, podendo ser delegada à vice-direção em situações de ausência justificada, com registro formal da delegação.  
-2. **Comunicar ao Conselho Tutelar casos de reiteração de faltas injustificadas, evasão escolar e elevados níveis de repetência** que indiquem situação de vulnerabilidade ou violação de direitos (ECA, art. 56; LDB, art. 12, VIII).  
+1. **Comunicar ao Conselho Tutelar (CT), no prazo máximo de 24 horas, casos de suspeita ou confirmação de maus-tratos contra criança ou adolescente** (ECA, art. 13). A comunicação é pessoal e intransferível, podendo ser delegada à vice-direção em situações de ausência justificada, com registro formal da delegação.  
+2. **Comunicar ao Conselho Tutelar (CT) casos de reiteração de faltas injustificadas, evasão escolar e elevados níveis de repetência** que indiquem situação de vulnerabilidade ou violação de direitos (ECA, art. 56; LDB, art. 12, VIII).  
 3. **Assegurar que a escola não pratique violência institucional**, garantindo procedimentos respeitosos, não revitimizantes e adequados à condição peculiar de desenvolvimento de crianças e adolescentes (Lei 13.431/2017).
 
 🟡 **OBRIGATÓRIO INSTITUCIONALMENTE:**
@@ -1247,8 +1247,8 @@ A equipe gestora é responsável pela coordenação institucional das ações de
 4. **Coordenar a aplicação do protocolo institucional**, assegurando que todos os profissionais conheçam procedimentos, tenham acesso a instrumentos e recebam formação continuada.  
 5. **Tomar decisões finais sobre acionamento de rede externa** em situações de complexidade alta ou urgência, baseando-se em informações técnicas fornecidas pela equipe.  
 6. **Registrar casos na Plataforma Conviva** conforme orientações do Protocolo 179/CONVIVA, assegurando documentação institucional adequada e acompanhamento sistêmico.  
-7. **Representar a escola perante autoridades** (Conselho Tutelar, Diretoria de Ensino, Ministério Público, Delegacia) quando solicitado, prestando informações, encaminhando documentos e comparecendo a audiências ou reuniões quando convocado.  
-8. **Articular-se formalmente com rede de proteção local**, estabelecendo canais permanentes de comunicação com CRAS, CREAS, UBS, CAPS, Conselho Tutelar e demais serviços.  
+7. **Representar a escola perante autoridades** (Conselho Tutelar (CT), Diretoria de Ensino, Ministério Público, Delegacia) quando solicitado, prestando informações, encaminhando documentos e comparecendo a audiências ou reuniões quando convocado.  
+8. **Articular-se formalmente com rede de proteção local**, estabelecendo canais permanentes de comunicação com CRAS, CREAS, UBS, CAPS, Conselho Tutelar (CT) e demais serviços.  
 9. **Assegurar tratamento adequado de dados pessoais sensíveis** de estudantes, conforme LGPD, zelando por segurança de armazenamento, compartilhamento responsável e respeito aos direitos de titulares.  
 10. **Convocar e coordenar reuniões de equipe** para discussão de casos complexos (respeitando sigilo), revisão de procedimentos e planejamento de ações protetivas.
 
@@ -1262,7 +1262,7 @@ A equipe gestora é responsável pela coordenação institucional das ações de
 
 **📌 NA ROTINA DA ESCOLA:**
 
-O Diretor coordena, decide e responde institucionalmente. Quando situação exige notificação ao Conselho Tutelar, o Diretor assina ofício (ou delega formalmente à vice-direção). Quando há dúvida sobre complexidade do caso, o Diretor é acionado para decisão final. Quando autoridade externa convoca a escola, o Diretor representa ou designa formalmente quem representará. O Diretor não precisa estar em todos os acolhimentos ou escutas, mas precisa estar informado, tomar decisões estratégicas e assegurar que protocolo seja seguido.
+O Diretor coordena, decide e responde institucionalmente. Quando situação exige notificação ao Conselho Tutelar (CT), o Diretor assina ofício (ou delega formalmente à vice-direção). Quando há dúvida sobre complexidade do caso, o Diretor é acionado para decisão final. Quando autoridade externa convoca a escola, o Diretor representa ou designa formalmente quem representará. O Diretor não precisa estar em todos os acolhimentos ou escutas, mas precisa estar informado, tomar decisões estratégicas e assegurar que protocolo seja seguido.
 
 ---
 
@@ -1270,7 +1270,7 @@ O Diretor coordena, decide e responde institucionalmente. Quando situação exig
 
 🔴 **OBRIGATÓRIO POR LEI:**
 
-1. **Substituir o Diretor em suas ausências** com plenitude de atribuições, incluindo comunicação ao Conselho Tutelar quando necessário.
+1. **Substituir o Diretor em suas ausências** com plenitude de atribuições, incluindo comunicação ao Conselho Tutelar (CT) quando necessário.
 
 🟡 **OBRIGATÓRIO INSTITUCIONALMENTE:**
 
@@ -1371,7 +1371,7 @@ Professor está em sala de aula diariamente, observa estudantes, percebe mudanç
 2. **Atuar como referência institucional para mediação de conflitos**, prevenção de violências, promoção de convivência respeitosa e articulação com rede de proteção (Resolução SE 49/2019).  
 3. **Realizar acolhimentos qualificados** de estudantes em situações de conflito, vulnerabilidade emocional, bullying ou outras demandas de convivência, sempre em articulação com coordenação e gestão.  
 4. **Mediar conflitos entre estudantes, ou entre estudantes e profissionais**, utilizando metodologias restaurativas, comunicação não violenta e abordagens que promovam responsabilização educativa (não punitiva).  
-5. **Articular-se diretamente com rede de proteção local** (CRAS, CREAS, UBS, CAPS, Conselho Tutelar), conforme orientação da gestão, para encaminhamento e acompanhamento de casos.  
+5. **Articular-se diretamente com rede de proteção local** (CRAS, CREAS, UBS, CAPS, Conselho Tutelar (CT)), conforme orientação da gestão, para encaminhamento e acompanhamento de casos.  
 6. **Acompanhar sistematicamente estudantes em situação de vulnerabilidade ou violência**, em articulação com coordenação pedagógica, monitorando frequência, convivência, evolução da situação.  
 7. **Realizar visitas domiciliares** quando indicado e autorizado pela gestão, preferencialmente acompanhado por outro profissional, para compreensão de contexto familiar e fortalecimento de vínculo escola-família.  
 8. **Contribuir para formação de professores e demais profissionais** sobre convivência, mediação de conflitos, identificação de sinais de alerta e aplicação do protocolo.  
@@ -1461,7 +1461,7 @@ A E.E. Ermelino Matarazzo conta com estagiários de psicologia que atuam sob sup
 5. **Comunicar imediatamente à coordenação ou gestão situações de risco identificadas** (ideação suicida, relato de violência, sinais de transtorno mental grave, uso de substâncias), não assumindo responsabilidade isolada por avaliação de gravidade.  
 6. **Participar de formações sobre protocolo institucional**, compreendendo limites de atuação, fluxos de encaminhamento e procedimentos de proteção.  
 7. **Não realizar diagnósticos clínicos, psicoterapia ou intervenções terapêuticas prolongadas**, reconhecendo que essas atribuições são de profissionais de saúde mental em serviços especializados (CAPS, clínicas).  
-8. **Não acionar diretamente rede externa** (Conselho Tutelar, CAPS, CRAS) sem orientação e autorização da gestão escolar, assegurando coordenação institucional das ações.  
+8. **Não acionar diretamente rede externa** (Conselho Tutelar (CT), CAPS, CRAS) sem orientação e autorização da gestão escolar, assegurando coordenação institucional das ações.  
 9. **Respeitar rigorosamente sigilo profissional**, não comentando casos fora do contexto de supervisão ou articulação institucional necessária.
 
 🟢 **BOA PRÁTICA RECOMENDADA:**
@@ -1488,8 +1488,8 @@ Funcionários administrativos e de apoio (secretaria, inspeção de estudantes, 
 
 1. **Observar e comunicar à gestão situações identificadas** no contato com estudantes ou responsáveis (relatos espontâneos, observação de sinais físicos, informações relevantes obtidas em atendimento).  
 2. **Manter sigilo rigoroso sobre informações sensíveis** acessadas em documentos escolares, registros de casos ou comunicações formais com rede de proteção.  
-3. **Organizar e arquivar adequadamente documentação relacionada a casos de proteção** (ofícios ao Conselho Tutelar, relatórios, protocolos de notificação), assegurando acesso restrito e segurança conforme LGPD.  
-4. **Protocolar comunicações formais enviadas a órgãos externos** (Conselho Tutelar, Diretoria de Ensino, Ministério Público), mantendo registro de datas, destinatários e comprovantes de recebimento.  
+3. **Organizar e arquivar adequadamente documentação relacionada a casos de proteção** (ofícios ao Conselho Tutelar (CT), relatórios, protocolos de notificação), assegurando acesso restrito e segurança conforme LGPD.  
+4. **Protocolar comunicações formais enviadas a órgãos externos** (Conselho Tutelar (CT), Diretoria de Ensino, Ministério Público), mantendo registro de datas, destinatários e comprovantes de recebimento.  
 5. **Atender respeitosamente estudantes e responsáveis**, evitando exposição de situações sensíveis em ambientes públicos (balcão de secretaria com outras pessoas presentes).
 
 🟢 **BOA PRÁTICA RECOMENDADA:**
@@ -1560,9 +1560,9 @@ Profissionais de limpeza e alimentação têm contato informal com estudantes. E
 | :---- | :---- | :---- | :---- |
 | **Baixa** (demandas pedagógicas, conflitos pontuais, dificuldades emocionais transitórias) | Professor regente ou Coordenação pedagógica | Coordenação pedagógica | Família (comunicação informativa, reunião pedagógica) |
 | **Média** (vulnerabilidade social, dificuldades emocionais persistentes, conflitos familiares, infrequência crescente) | Coordenação pedagógica ou POC | Coordenação \+ Vice-direção | Família \+ UBS e/ou CRAS (encaminhamento articulado) |
-| **Alta** (sinais de violência sem urgência, sofrimento psíquico intenso, uso de substâncias, violação de direitos) | Gestão (Coordenação, Vice-direção ou Direção) | Direção | Conselho Tutelar \+ CAPS IJ e/ou CREAS \+ Plataforma Conviva |
-| **Urgência/Emergência** (risco iminente de morte, lesão grave, violência sexual recente, crise psiquiátrica aguda) | Qualquer profissional que identifique | Direção (assume coordenação imediata) | 190 (PM) e/ou 192 (SAMU) e/ou 193 (Bombeiros) \+ Conselho Tutelar (plantão) \+ Delegacia |
-| **Notificação Obrigatória CT** (suspeita/confirmação maus-tratos, reiteração faltas, evasão, repetência por negligência) | Qualquer profissional que identifique → comunica Direção | Direção | Conselho Tutelar (ofício formal) \+ Plataforma Conviva |
+| **Alta** (sinais de violência sem urgência, sofrimento psíquico intenso, uso de substâncias, violação de direitos) | Gestão (Coordenação, Vice-direção ou Direção) | Direção | Conselho Tutelar (CT) \+ CAPS IJ e/ou CREAS \+ Plataforma Conviva |
+| **Urgência/Emergência** (risco iminente de morte, lesão grave, violência sexual recente, crise psiquiátrica aguda) | Qualquer profissional que identifique | Direção (assume coordenação imediata) | 190 (PM) e/ou 192 (SAMU) e/ou 193 (Bombeiros) \+ Conselho Tutelar (CT) (plantão) \+ Delegacia |
+| **Notificação Obrigatória CT** (suspeita/confirmação maus-tratos, reiteração faltas, evasão, repetência por negligência) | Qualquer profissional que identifique → comunica Direção | Direção | Conselho Tutelar (CT) (ofício formal) \+ Plataforma Conviva |
 
 ---
 
@@ -1583,14 +1583,14 @@ Profissionais de limpeza e alimentação têm contato informal com estudantes. E
 **COMPLEXIDADE ALTA:**
 
 - **Primeiro contato:** Professor observa marcas físicas consistentes com violência, comunica direção. Ou coordenação identifica sinais de ideação suicida em acolhimento.  
-- **Decisão:** Direção avalia informações, decide sobre notificação ao Conselho Tutelar e encaminhamento para serviços especializados.  
+- **Decisão:** Direção avalia informações, decide sobre notificação ao Conselho Tutelar (CT) e encaminhamento para serviços especializados.  
 - **Acionamento:** Direção notifica CT formalmente (ofício), registra na Plataforma Conviva, encaminha para CREAS (violência) ou CAPS IJ (saúde mental), comunica família quando adequado.
 
 **URGÊNCIA/EMERGÊNCIA:**
 
 - **Primeiro contato:** Qualquer profissional (professor, inspetor, POC, estagiário) identifica situação de risco iminente: estudante com lesões graves, crise psiquiátrica aguda, relato de abuso sexual recente.  
 - **Decisão:** Profissional aciona gestão imediatamente. Direção assume coordenação, toma decisões rápidas.  
-- **Acionamento:** Serviços de emergência (190/192/193) conforme situação, Conselho Tutelar (plantão), Delegacia (crimes). Estudante não é liberado até que autoridade competente assuma responsabilidade.
+- **Acionamento:** Serviços de emergência (190/192/193) conforme situação, Conselho Tutelar (CT) (plantão), Delegacia (crimes). Estudante não é liberado até que autoridade competente assuma responsabilidade.
 
 **NOTIFICAÇÃO OBRIGATÓRIA CT:**
 
@@ -1605,7 +1605,7 @@ Profissionais de limpeza e alimentação têm contato informal com estudantes. E
 🟡 **OBRIGATÓRIO INSTITUCIONALMENTE:**
 
 1. **Comunicação sempre ascendente em situações graves:** Profissional que identifica situação grave comunica superiores hierárquicos (professor → coordenação → gestão), não decide sozinho sobre acionamento de rede externa.  
-2. **Gestão decide acionamento externo:** Decisões sobre notificação ao Conselho Tutelar, encaminhamento para serviços especializados, comunicação a autoridades são atribuições da gestão (direção ou vice-direção).  
+2. **Gestão decide acionamento externo:** Decisões sobre notificação ao Conselho Tutelar (CT), encaminhamento para serviços especializados, comunicação a autoridades são atribuições da gestão (direção ou vice-direção).  
 3. **Urgência justifica ação imediata:** Em situações de risco iminente, qualquer profissional pode e deve acionar serviços de emergência (190, 192, 193\) imediatamente, comunicando gestão em paralelo.  
 4. **Registro obrigatório em todas as etapas:** Profissional que identifica registra. Profissional que decide registra. Profissional que aciona registra. Documentação protege todos.  
 5. **Feedback ao identificador:** Profissional que identificou e comunicou situação recebe retorno sobre decisão tomada e encaminhamentos adotados (respeitando sigilo quando aplicável).
@@ -1678,11 +1678,11 @@ A classificação não é estática: situação classificada como complexidade m
 
 ### **5.1.4 Encaminhamento**
 
-🔴 **OBRIGATÓRIO POR LEI:** 🟡 **OBRIGATÓRIO INSTITUCIONALMENTE:** Com base na classificação de complexidade, a escola adota encaminhamentos apropriados: acionamento de rede externa (CRAS, CREAS, UBS, CAPS, Conselho Tutelar, Delegacia), comunicação à família, registro na Plataforma Conviva, adoção de medidas protetivas internas (mudança de turma, acompanhamento pedagógico diferenciado, flexibilização de prazos).
+🔴 **OBRIGATÓRIO POR LEI:** 🟡 **OBRIGATÓRIO INSTITUCIONALMENTE:** Com base na classificação de complexidade, a escola adota encaminhamentos apropriados: acionamento de rede externa (CRAS, CREAS, UBS, CAPS, Conselho Tutelar (CT), Delegacia), comunicação à família, registro na Plataforma Conviva, adoção de medidas protetivas internas (mudança de turma, acompanhamento pedagógico diferenciado, flexibilização de prazos).
 
 Encaminhamentos externos são formalizados por ofício assinado pela direção, com relatório anexo contendo informações objetivas, histórico resumido, ações já realizadas pela escola e solicitação específica ao serviço. A escola solicita protocolo de recebimento ou confirmação de recebimento, arquivando cópia. O registro na Plataforma Conviva é obrigatório para casos que se enquadrem em tipologias do Protocolo 179/CONVIVA, independentemente de notificações paralelas.
 
-📌 **EM TERMOS PRÁTICOS:** Direção elabora ofício ao Conselho Tutelar comunicando suspeita de negligência grave, anexa relatório objetivo (Anexo III), envia por e-mail e protocola pessoalmente, solicita número de protocolo. Registra caso na Plataforma Conviva no mesmo dia. Convoca responsáveis para comunicar acionamento do CT (quando não há risco ao estudante). Informa estudante sobre encaminhamentos de forma adequada à idade.
+📌 **EM TERMOS PRÁTICOS:** Direção elabora ofício ao Conselho Tutelar (CT) comunicando suspeita de negligência grave, anexa relatório objetivo (Anexo III), envia por e-mail e protocola pessoalmente, solicita número de protocolo. Registra caso na Plataforma Conviva no mesmo dia. Convoca responsáveis para comunicar acionamento do CT (quando não há risco ao estudante). Informa estudante sobre encaminhamentos de forma adequada à idade.
 
 **Modelos:** Anexo IX (Modelos de Ofícios e Comunicações), Anexo X (Orientações para Registro na Plataforma Conviva).
 
@@ -1708,7 +1708,7 @@ A reavaliação é registrada em Ficha de Reavaliação (Anexo XII), com decisã
 
 ### **5.1.7 Encerramento ou Continuidade**
 
-🟡 **OBRIGATÓRIO INSTITUCIONALMENTE:** O acompanhamento formal do protocolo é encerrado quando: situação foi resolvida (família acessou serviços, violação cessou, estudante apresenta recuperação consistente); caso foi assumido integralmente por serviço externo (CREAS, CAPS) e escola retorna a acompanhamento pedagógico regular; estudante transferiu-se ou evadiu (com comunicação ao Conselho Tutelar quando aplicável); ou após 180 dias de estabilidade sem novos episódios.
+🟡 **OBRIGATÓRIO INSTITUCIONALMENTE:** O acompanhamento formal do protocolo é encerrado quando: situação foi resolvida (família acessou serviços, violação cessou, estudante apresenta recuperação consistente); caso foi assumido integralmente por serviço externo (CREAS, CAPS) e escola retorna a acompanhamento pedagógico regular; estudante transferiu-se ou evadiu (com comunicação ao Conselho Tutelar (CT) quando aplicável); ou após 180 dias de estabilidade sem novos episódios.
 
 O encerramento é formal, registrado em Ficha de Encerramento (Anexo XIII), com síntese do caso, ações realizadas, resultados alcançados e orientações para acompanhamento regular. Encerramento do protocolo não significa abandono: estudante continua sendo acompanhado pedagogicamente como qualquer outro, mas sem registro sistemático específico. Se situação reaparecer, protocolo é reaberto. Casos que não são encerrados continuam em acompanhamento sistemático até resolução ou transferência.
 
@@ -1748,10 +1748,10 @@ Cada etapa tem instrumentos específicos (Fichas e Anexos) que padronizam regist
 | **G** | **Bullying** | Violência psicológica, intimidação ou humilhação sistemática (intencional e repetitiva) contra estudante | Coordenação \+ Direção | Mediação \+ responsabilização educativa \+ comunicação famílias (vítima e autor) \+ acompanhamento; 🔴 Se crime: Delegacia | 🟡 3 dias úteis; 🔴 Se crime: imediato | VI-G |
 | **H** | **Violência Física entre Estudantes** | Agressão física, lesões corporais entre pares | Direção | Separação imediata \+ acolhimento de ambos \+ UBS (se lesões) \+ comunicação famílias \+ mediação \+ acompanhamento; 🔴 Lesões graves: Delegacia | 🟡 24 horas; 🔴 Lesões graves: imediato | VI-H |
 | **I** | **Violência de Adulto contra Estudante** | Violência física, psicológica ou assédio praticado por profissional da escola ou outro adulto no ambiente escolar | Direção | 🔴 Afastamento imediato do agressor \+ CT \+ Diretoria de Ensino \+ Ministério Público \+ Delegacia (conforme gravidade) | 🔴 IMEDIATO | VI-I |
-| **J** | **Violência Intrafamiliar (não sexual)** | Suspeita ou confirmação de maus-tratos, violência física ou psicológica, negligência grave praticada por responsáveis | Direção | 🔴 Conselho Tutelar (ofício formal) \+ Plataforma Conviva \+ Delegacia (se lesões graves) \+ UBS (avaliação médica) \+ NÃO confrontar família antes de CT | 🔴 24 horas (CT); imediato se risco iminente | VI-J, VII |
-| **K** | **Violência Sexual** | Suspeita ou revelação de abuso sexual, exploração sexual, assédio sexual | Direção | 🔴 Conselho Tutelar (imediato) \+ DEACA (Delegacia Especializada) ou DP \+ UBS (exame corpo delito se recente \<72h) \+ Plataforma Conviva \+ NÃO confrontar família suspeita \+ Escuta ÚNICA | 🔴 IMEDIATO (não aguardar 24h) | VI-K, VII |
-| **L** | **Trabalho Infantil** | Identificação de exploração de trabalho infantil (formal ou informal, prejudicial à saúde/educação) | Direção | 🔴 Conselho Tutelar \+ CRAS \+ Ministério Público do Trabalho (se exploração grave) | 🔴 24 horas | VI-L |
-| **M** | **Ato Infracional** | Crime ou contravenção praticado por estudante (furto, roubo, tráfico, lesão corporal, etc.) | Direção | Comunicação família \+ Delegacia (BO) \+ Conselho Tutelar \+ Acompanhamento (sem estigmatização) | 🔴 24 horas (se crime grave: imediato) | VI-M |
+| **J** | **Violência Intrafamiliar (não sexual)** | Suspeita ou confirmação de maus-tratos, violência física ou psicológica, negligência grave praticada por responsáveis | Direção | 🔴 Conselho Tutelar (CT) (ofício formal) \+ Plataforma Conviva \+ Delegacia (se lesões graves) \+ UBS (avaliação médica) \+ NÃO confrontar família antes de CT | 🔴 24 horas (CT); imediato se risco iminente | VI-J, VII |
+| **K** | **Violência Sexual** | Suspeita ou revelação de abuso sexual, exploração sexual, assédio sexual | Direção | 🔴 Conselho Tutelar (CT) (imediato) \+ DEACA (Delegacia Especializada) ou DP \+ UBS (exame corpo delito se recente \<72h) \+ Plataforma Conviva \+ NÃO confrontar família suspeita \+ Escuta ÚNICA | 🔴 IMEDIATO (não aguardar 24h) | VI-K, VII |
+| **L** | **Trabalho Infantil** | Identificação de exploração de trabalho infantil (formal ou informal, prejudicial à saúde/educação) | Direção | 🔴 Conselho Tutelar (CT) \+ CRAS \+ Ministério Público do Trabalho (se exploração grave) | 🔴 24 horas | VI-L |
+| **M** | **Ato Infracional** | Crime ou contravenção praticado por estudante (furto, roubo, tráfico, lesão corporal, etc.) | Direção | Comunicação família \+ Delegacia (BO) \+ Conselho Tutelar (CT) \+ Acompanhamento (sem estigmatização) | 🔴 24 horas (se crime grave: imediato) | VI-M |
 | **N** | **Discriminação (racismo, LGBTfobia, etc.)** | Atos discriminatórios por raça, etnia, religião, orientação sexual, identidade de gênero, deficiência | Coordenação \+ Direção | Acolhimento vítima \+ responsabilização educativa autor \+ comunicação famílias \+ mediação restaurativa; 🔴 Se crime (racismo, LGBTfobia): Delegacia | 🟡 3 dias úteis; 🔴 Se crime: imediato | VI-N |
 | **O** | **Conflitos Familiares (sem violência)** | Separação conjugal, disputa de guarda, mudança de responsável que impacta estudante | Coordenação | CRAS (orientação social e jurídica) \+ Defensoria Pública (se necessário) \+ Acolhimento estudante \+ Mediação quando possível | Conforme necessidade | VI-O |
 | **P** | **Emergências Coletivas** | Desastres naturais, surtos epidêmicos, eventos traumáticos coletivos (morte de estudante/professor, violência em massa) | Direção | Protocolo de Emergência Institucional \+ Apoio psicossocial coletivo \+ Articulação com SEDUC-SP e Diretoria de Ensino | 🔴 IMEDIATO (acionamento gestão SEDUC-SP) | XX |
@@ -1980,7 +1980,7 @@ A documentação não é burocracia desnecessária: é materialização do cuida
 
 **Por que a escola pode tratar esses dados sem consentimento da família?** A LGPD (art. 7º, II e 11, II, "a") autoriza tratamento de dados pessoais, incluindo sensíveis, quando necessário para cumprimento de obrigação legal (ECA, art. 13 e 56\) ou para proteção da vida ou da incolumidade física da criança ou adolescente. O interesse superior do estudante (ECA, art. 4º) prevalece sobre exigência de consentimento quando há risco à sua segurança.
 
-**Quando a escola NÃO precisa de consentimento da família?** Quando há suspeita ou confirmação de maus-tratos, violência ou violação de direitos praticados pela própria família. Solicitar consentimento nessas situações colocaria estudante em risco maior. A escola notifica Conselho Tutelar (dever legal) e trata dados com base em proteção da vida.
+**Quando a escola NÃO precisa de consentimento da família?** Quando há suspeita ou confirmação de maus-tratos, violência ou violação de direitos praticados pela própria família. Solicitar consentimento nessas situações colocaria estudante em risco maior. A escola notifica Conselho Tutelar (CT) (dever legal) e trata dados com base em proteção da vida.
 
 **Quando a escola DEVE informar família sobre tratamento de dados?** Sempre que possível e adequado, respeitando melhor interesse do estudante. Em situações de vulnerabilidade social, dificuldades emocionais ou demandas pedagógicas (sem risco familiar), escola informa família sobre registros, encaminhamentos e compartilhamento com rede de proteção.
 
@@ -2046,7 +2046,7 @@ O arquivo é organizado por ordem alfabética ou por número de matrícula. Cada
 
 🔴 **OBRIGATÓRIO POR LEI:** A escola trata dados pessoais sensíveis de estudantes com base em:
 
-- **Cumprimento de obrigação legal** (LGPD, art. 7º, II): ECA (arts. 13, 56\) obriga comunicação ao Conselho Tutelar  
+- **Cumprimento de obrigação legal** (LGPD, art. 7º, II): ECA (arts. 13, 56\) obriga comunicação ao Conselho Tutelar (CT)  
 - **Proteção da vida ou incolumidade física** (LGPD, art. 7º, VII e art. 11, II, "a"): situações de risco iminente  
 - **Tutela da saúde** em procedimento realizado por profissionais da área (LGPD, art. 11, II, "f"): articulação com serviços de saúde  
 - **Exercício regular de direitos** (LGPD, art. 7º, VI): defesa em processos judiciais ou administrativos
@@ -2067,7 +2067,7 @@ A designação é formalizada em ato administrativo interno, comunicada à Diret
 
 ### **6.3.3 Compartilhamento de Dados com Rede de Proteção**
 
-🔴 \*\*OBRIGATÓRIO POR LEI / 🟡 **OBRIGATÓRIO INSTITUCIONALMENTE:** O compartilhamento de dados pessoais sensíveis de estudantes com órgãos da rede de proteção (Conselho Tutelar, CRAS, CREAS, UBS, CAPS, Delegacia, Ministério Público) é autorizado pela LGPD quando necessário para cumprimento de obrigação legal ou proteção da vida.
+🔴 \*\*OBRIGATÓRIO POR LEI / 🟡 **OBRIGATÓRIO INSTITUCIONALMENTE:** O compartilhamento de dados pessoais sensíveis de estudantes com órgãos da rede de proteção (Conselho Tutelar (CT), CRAS, CREAS, UBS, CAPS, Delegacia, Ministério Público) é autorizado pela LGPD quando necessário para cumprimento de obrigação legal ou proteção da vida.
 
 **Princípios para compartilhamento:**
 
@@ -2079,7 +2079,7 @@ A designação é formalizada em ato administrativo interno, comunicada à Diret
 
 A escola não compartilha dados de estudantes com terceiros não integrantes da rede de proteção (imprensa, pesquisadores, ONGs) sem autorização expressa da família ou determinação judicial.
 
-📌 **EM TERMOS PRÁTICOS:** Direção envia ofício ao Conselho Tutelar notificando suspeita de negligência, anexa relatório objetivo (Anexo III) com informações necessárias: identificação do estudante, descrição dos sinais observados, ações realizadas pela escola, solicitação de intervenção. Não anexa cópias desnecessárias de documentos pessoais, fotos ou informações não relacionadas ao caso. Envia por e-mail institucional ou protocola presencialmente. Registra envio em planilha de controle.
+📌 **EM TERMOS PRÁTICOS:** Direção envia ofício ao Conselho Tutelar (CT) notificando suspeita de negligência, anexa relatório objetivo (Anexo III) com informações necessárias: identificação do estudante, descrição dos sinais observados, ações realizadas pela escola, solicitação de intervenção. Não anexa cópias desnecessárias de documentos pessoais, fotos ou informações não relacionadas ao caso. Envia por e-mail institucional ou protocola presencialmente. Registra envio em planilha de controle.
 
 ### **6.3.4 Direitos dos Titulares (Estudantes e Responsáveis)**
 
@@ -2091,7 +2091,7 @@ A escola não compartilha dados de estudantes com terceiros não integrantes da 
 - **Informação:** conhecer possibilidade de não consentir e consequências  
 - **Oposição:** opor-se a tratamento quando não há base legal obrigatória
 
-**Limites aos direitos:** A escola não pode excluir dados quando há obrigação legal de manutenção (registros de notificação ao Conselho Tutelar, documentação de acompanhamento). A escola pode negar acesso quando isso colocar em risco a segurança do estudante (exemplo: responsável suspeito de violência solicita acesso a registros que o identificam como agressor).
+**Limites aos direitos:** A escola não pode excluir dados quando há obrigação legal de manutenção (registros de notificação ao Conselho Tutelar (CT), documentação de acompanhamento). A escola pode negar acesso quando isso colocar em risco a segurança do estudante (exemplo: responsável suspeito de violência solicita acesso a registros que o identificam como agressor).
 
 🟡 **OBRIGATÓRIO INSTITUCIONALMENTE:** A escola responde solicitações de titulares em até 15 dias. A resposta é fundamentada, clara e acessível. Quando há recusa (por obrigação legal de manutenção ou risco ao estudante), a escola justifica com base legal.
 
@@ -2141,7 +2141,7 @@ O termo é assinado em duas vias (uma para o profissional, outra arquivada na es
 
 🔴 **OBRIGATÓRIO POR LEI:** O sigilo não é absoluto. Há situações em que a lei obriga comunicação:
 
-- **Comunicação ao Conselho Tutelar** (ECA, arts. 13 e 56): casos de suspeita ou confirmação de maus-tratos, violência, negligência  
+- **Comunicação ao Conselho Tutelar (CT)** (ECA, arts. 13 e 56): casos de suspeita ou confirmação de maus-tratos, violência, negligência  
 - **Comunicação a autoridades policiais ou judiciárias** quando solicitado formalmente (ofício, mandado judicial)  
 - **Compartilhamento com rede de proteção formalizada** (CRAS, CREAS, UBS, CAPS) quando necessário para atendimento integrado do estudante
 
@@ -2254,19 +2254,19 @@ A articulação com rede não é transferência de responsabilidade: é exercíc
 
 ### **7.1.3 Sistema de Garantia de Direitos**
 
-- **Conselho Tutelar de Ermelino Matarazzo:** Medidas protetivas, fiscalização de direitos  
+- **Conselho Tutelar (CT) de Ermelino Matarazzo:** Medidas protetivas, fiscalização de direitos  
   - Rua Chesira Maltauro, 342 – Parque Boturussú  
   - Telefone fixo: (11) 2214-9050  
   - Celular plantão: (11) 97283-6692 / (11) 97283-6705  
   - Horário: Segunda a sexta, 8h às 17h (plantão aos finais de semana pelo celular)  
 - **Ministério Público:** Defesa de direitos coletivos e individuais indisponíveis, ajuizamento de ações  
-  - Contato via Diretoria de Ensino ou Conselho Tutelar  
+  - Contato via Diretoria de Ensino ou Conselho Tutelar (CT)  
 - **Defensoria Pública do Estado de São Paulo – Unidade Itaquera/Leste:** Orientação jurídica, defesa de direitos  
   - Rua Sabbado D'Angelo, 2086 – Itaquera  
   - Telefone: 0800 773 4340  
   - Agendamento: [www.defensoria.sp.def.br](http://www.defensoria.sp.def.br)  
 - **Poder Judiciário (Vara da Infância e Juventude):** Decisões judiciais sobre medidas protetivas  
-  - Acionamento via Conselho Tutelar, Ministério Público ou Defensoria
+  - Acionamento via Conselho Tutelar (CT), Ministério Público ou Defensoria
 
 ### **7.1.4 Segurança Pública**
 
@@ -2310,7 +2310,7 @@ A articulação com rede não é transferência de responsabilidade: é exercíc
 | **CAPS AD** | Uso problemático de álcool ou outras drogas, dependência química | Direção | Ofício \+ Contato telefônico | 🟡 3 dias úteis (se intoxicação aguda: imediato) |
 | **CRAS** | Vulnerabilidade social: pobreza, desemprego familiar, insegurança alimentar, ausência de políticas públicas, conflitos familiares sem violência | Direção ou Coordenação | Ofício de encaminhamento (Anexo XIV) | 🟡 5 dias úteis |
 | **CREAS** | Violação de direitos: violência intrafamiliar, negligência grave, exploração, trabalho infantil, situações que exigem acompanhamento especializado | Direção | Ofício formal (Anexo XIV) | 🔴 24 horas (se violação grave); 🟡 3 dias (se risco moderado) |
-| **Conselho Tutelar** | 🔴 Suspeita ou confirmação de maus-tratos, violência física/psicológica/sexual, negligência grave, exploração, reiteração de faltas, evasão escolar | Direção | 🔴 Ofício formal obrigatório (Anexo XII) | 🔴 24 horas (lei); imediato se risco iminente |
+| **Conselho Tutelar (CT)** | 🔴 Suspeita ou confirmação de maus-tratos, violência física/psicológica/sexual, negligência grave, exploração, reiteração de faltas, evasão escolar | Direção | 🔴 Ofício formal obrigatório (Anexo XII) | 🔴 24 horas (lei); imediato se risco iminente |
 | **Delegacia (62ª DP)** | Crimes: violência física grave, ameaça, lesão corporal, furto/roubo, dano ao patrimônio, tráfico, porte de arma | Direção | Comparecimento presencial para registro de BO \+ Ofício se necessário | 🔴 Imediato (crimes graves); 24h (demais crimes) |
 | **DEACA** | Violência sexual (abuso, exploração), crimes sexuais contra crianças e adolescentes | Direção | Comparecimento presencial urgente \+ Contato telefônico prévio | 🔴 IMEDIATO (não aguardar) |
 | **DDM (62ª DP)** | Violência doméstica contra mulher (mãe do estudante) que impacta estudante, situações previstas na Lei Maria da Penha | Direção | Comparecimento presencial para BO \+ Orientação à vítima | 🔴 Imediato (se violência em curso); 24h (demais) |
@@ -2320,7 +2320,7 @@ A articulação com rede não é transferência de responsabilidade: é exercíc
 
 **Modelos de ofícios e formulários:**
 
-- **Anexo XII:** Modelo de Ofício ao Conselho Tutelar  
+- **Anexo XII:** Modelo de Ofício ao Conselho Tutelar (CT)  
 - **Anexo XIII:** Modelo de Ofício de Encaminhamento para Serviços de Saúde  
 - **Anexo XIV:** Modelo de Ofício para CRAS/CREAS  
 - **Anexo IX:** Modelos Gerais de Comunicações Formais
@@ -2333,7 +2333,7 @@ A articulação com rede não é transferência de responsabilidade: é exercíc
 
 ### **7.3.1 Acionamento Telefônico (Urgências)**
 
-Utilizado em situações de urgência/emergência que exigem resposta imediata: risco iminente de morte, violência em curso, crise psiquiátrica aguda, intoxicação por substâncias. O profissional liga diretamente para serviço (SAMU 192, PM 190, Conselho Tutelar plantão, CAPS para casos urgentes de saúde mental), explica situação, solicita atendimento prioritário, anota nome de quem atendeu, horário, orientações recebidas.
+Utilizado em situações de urgência/emergência que exigem resposta imediata: risco iminente de morte, violência em curso, crise psiquiátrica aguda, intoxicação por substâncias. O profissional liga diretamente para serviço (SAMU 192, PM 190, Conselho Tutelar (CT) plantão, CAPS para casos urgentes de saúde mental), explica situação, solicita atendimento prioritário, anota nome de quem atendeu, horário, orientações recebidas.
 
 O acionamento telefônico é complementado por registro formal posterior (ofício, boletim de ocorrência), documentando situação e acionamento realizado.
 
@@ -2341,15 +2341,15 @@ O acionamento telefônico é complementado por registro formal posterior (ofíci
 
 ### **7.3.2 Acionamento por Ofício (Situações Formais)**
 
-Utilizado na maioria dos casos: notificação ao Conselho Tutelar, encaminhamento para CRAS/CREAS/CAPS, solicitação de avaliação na UBS, comunicação a Ministério Público. O ofício é formal, elaborado pela direção, contém: identificação da escola, identificação do estudante (nome, data de nascimento, endereço), descrição objetiva da situação, ações já realizadas pela escola, solicitação específica ao serviço, assinatura e carimbo da direção.
+Utilizado na maioria dos casos: notificação ao Conselho Tutelar (CT), encaminhamento para CRAS/CREAS/CAPS, solicitação de avaliação na UBS, comunicação a Ministério Público. O ofício é formal, elaborado pela direção, contém: identificação da escola, identificação do estudante (nome, data de nascimento, endereço), descrição objetiva da situação, ações já realizadas pela escola, solicitação específica ao serviço, assinatura e carimbo da direção.
 
 O ofício é acompanhado de relatório quando necessário (Anexo III), enviado por e-mail institucional (com solicitação de confirmação de recebimento) ou protocolado presencialmente (com número de protocolo). Cópia é arquivada na pasta do estudante.
 
-📌 **NA ROTINA DA ESCOLA:** Direção identifica situação de negligência grave, decide notificar Conselho Tutelar. Elabora ofício utilizando modelo (Anexo XII), anexa relatório objetivo (Anexo III), imprime, assina, carimba, protocola pessoalmente no CT, solicita número de protocolo, tira foto do protocolo, arquiva cópia do ofício e protocolo na pasta do estudante. Registra na Plataforma Conviva.
+📌 **NA ROTINA DA ESCOLA:** Direção identifica situação de negligência grave, decide notificar Conselho Tutelar (CT). Elabora ofício utilizando modelo (Anexo XII), anexa relatório objetivo (Anexo III), imprime, assina, carimba, protocola pessoalmente no CT, solicita número de protocolo, tira foto do protocolo, arquiva cópia do ofício e protocolo na pasta do estudante. Registra na Plataforma Conviva.
 
 ### **7.3.3 Acionamento Presencial (Casos Complexos)**
 
-Utilizado em casos que exigem diálogo, articulação conjunta ou quando canais escritos não são suficientes: reuniões com CRAS para planejamento integrado de acompanhamento familiar, articulação com CAPS para discussão de caso complexo, reunião com Conselho Tutelar para acompanhamento de desdobramentos.
+Utilizado em casos que exigem diálogo, articulação conjunta ou quando canais escritos não são suficientes: reuniões com CRAS para planejamento integrado de acompanhamento familiar, articulação com CAPS para discussão de caso complexo, reunião com Conselho Tutelar (CT) para acompanhamento de desdobramentos.
 
 O acionamento presencial é agendado previamente (telefone, e-mail), formalizado posteriormente por ofício ou ata de reunião, registrado em Ficha de Acompanhamento (Anexo XI).
 
@@ -2386,7 +2386,7 @@ Todas as informações recebidas da rede (contrarreferências, orientações, re
 **Instrumentos e roteiros referenciados neste capítulo:**
 
 - **Anexo XI:** Roteiro de Acionamento e Articulação com Rede  
-- **Anexo XII:** Modelo de Ofício ao Conselho Tutelar  
+- **Anexo XII:** Modelo de Ofício ao Conselho Tutelar (CT)  
 - **Anexo XIII:** Modelo de Ofício de Encaminhamento para Serviços de Saúde  
 - **Anexo XIV:** Modelo de Ofício para CRAS/CREAS  
 - **Anexo XVIII:** Mapa Completo da Rede de Proteção Local

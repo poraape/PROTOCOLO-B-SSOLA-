@@ -10,6 +10,17 @@ Padronizar o texto do Decisor Escolar para reduzir ambiguidade, orientar ação 
 - **Serviço principal**: canal prioritário para resolver a situação.
 - **Serviços complementares**: canais adicionais de suporte.
 - **Informe a gestão escolar**: aviso explícito para escalonamento institucional.
+- **Conselho Tutelar (CT)**: usar esta forma em toda primeira menção.
+
+
+## Template único para ação
+Use o mesmo molde em ações principais e follow-up:
+
+- **`Faça X agora | até Y | responsável Z`**
+
+Exemplos:
+- `Faça acionar o serviço principal agora | até 24h | responsável Direção`
+- `Faça revisão de convivência agora | até 14 dias | responsável Coordenação`
 
 ## Diretrizes de redação
 1. Use frases curtas e verbos no imperativo (ex.: “Acione”, “Registre”, “Informe”).

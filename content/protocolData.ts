@@ -76,7 +76,7 @@ const BASE_SERVICES: RawService[] = [
   },
   {
     id: 'conselho-tutelar',
-    name: 'Conselho Tutelar de Ermelino Matarazzo',
+    name: 'Conselho Tutelar (CT) de Ermelino Matarazzo',
     category: 'DIREITOS_SGD',
     address: 'Rua Chesira Maltauro, 342, Parque Boturussu, São Paulo/SP, CEP 03811-100',
     phone: '(11) 2214-9050 / (11) 97283-6692 / (11) 97283-6705',
@@ -347,7 +347,7 @@ const inferServiceNetworkType = (service: RawService): Service['networkType'] =>
 const inferServiceDescription = (service: RawService): string => {
   if (service.id === 'samu') return 'Acione imediatamente em risco à vida e emergência clínica grave.';
   if (service.id === 'policia-militar') return 'Acione imediatamente em violência em curso e risco à integridade física.';
-  if (service.id === 'conselho-tutelar') return 'Notifique o Conselho Tutelar em suspeita ou violação de direitos de crianças e adolescentes.';
+  if (service.id === 'conselho-tutelar') return 'Notifique o Conselho Tutelar (CT) em suspeita ou violação de direitos de crianças e adolescentes.';
   if (service.id === 'cras-ermelino') return 'Oriente busca ao CRAS para proteção social básica e acompanhamento familiar.';
   if (service.id === 'creas-ermelino') return 'Acione o CREAS para violência confirmada e proteção social especial.';
   if (service.id === 'caps-ij') return 'Oriente busca ao CAPS IJ para cuidado especializado em saúde mental infantojuvenil.';
@@ -429,7 +429,7 @@ const SERVICE_ENRICHMENT: Record<string, Partial<RawService>> = {
     whenNotToUse: [
       'Uso experimental/ocasional isolado sem prejuízo — use UBS + educação preventiva',
       'Intoxicação aguda em curso — use SAMU 192 ou UPA',
-      'Tráfico de drogas organizado — acione PM 190 e depois Conselho Tutelar'
+      'Tráfico de drogas organizado — acione PM 190 e depois Conselho Tutelar (CT)'
     ],
     differentiationNote: 'CAPS AD ≠ UBS: CAPS AD trata dependência estabelecida; UBS cuida de prevenção e casos leves. CAPS AD ≠ PM: PM é para segurança/crime; CAPS AD é para saúde.'
   },
@@ -466,21 +466,21 @@ const SERVICE_ENRICHMENT: Record<string, Partial<RawService>> = {
     ],
     whenNotToUse: [
       'Violência doméstica, abuso sexual, negligência grave — use CREAS',
-      'Trabalho infantil já confirmado com exploração — use CREAS + Conselho Tutelar',
+      'Trabalho infantil já confirmado com exploração — use CREAS + Conselho Tutelar (CT)',
       'Situação de rua — use CREAS + Abordagem Social'
     ],
     differentiationNote: 'CRAS ≠ CREAS: CRAS é proteção básica (vulnerabilidade sem violação); CREAS é proteção especial (violação de direitos confirmada). Regra prática: se há violência ou crime, é CREAS. Se é pobreza sem violência, é CRAS.'
   },
   'creas-ermelino': {
     description: 'Centro de Referência Especializado de Assistência Social: proteção social ESPECIAL para famílias e indivíduos com direitos violados. Atende casos de violência doméstica e intrafamiliar, abuso e exploração sexual, trabalho infantil, negligência grave, situação de rua e acolhimento institucional.',
-    strategicDescription: 'Acione o CREAS quando há VIOLAÇÃO DE DIREITOS confirmada ou fortemente suspeita, geralmente em conjunto com o Conselho Tutelar. O CREAS faz o acompanhamento especializado após a notificação.',
-    howToCall: 'Ligue (11) 2541-7882. Em situações graves, faça contato institucional com ofício e depois confirme por telefone. O CREAS não substitui a notificação ao Conselho Tutelar — ambos devem ser acionados simultaneamente.',
+    strategicDescription: 'Acione o CREAS quando há VIOLAÇÃO DE DIREITOS confirmada ou fortemente suspeita, geralmente em conjunto com o Conselho Tutelar (CT). O CREAS faz o acompanhamento especializado após a notificação.',
+    howToCall: 'Ligue (11) 2541-7882. Em situações graves, faça contato institucional com ofício e depois confirme por telefone. O CREAS não substitui a notificação ao Conselho Tutelar (CT) — ambos devem ser acionados simultaneamente.',
     whenToUse: [
       'Violência física, psicológica ou sexual intrafamiliar confirmada ou fortemente suspeita',
       'Negligência grave: criança sem alimentação, cuidados básicos de saúde e higiene',
       'Trabalho infantil ou exploração sexual de criança/adolescente',
       'Adolescente em situação de rua',
-      'Casos já com histórico no Conselho Tutelar que precisam de acompanhamento contínuo',
+      'Casos já com histórico no Conselho Tutelar (CT) que precisam de acompanhamento contínuo',
       'Família com múltiplas violações sobrepostas (pobreza + violência + abandono)'
     ],
     whenNotToUse: [
@@ -488,11 +488,11 @@ const SERVICE_ENRICHMENT: Record<string, Partial<RawService>> = {
       'Conflito familiar leve sem violência — use CRAS',
       'Emergências físicas — use SAMU/UPA primeiro'
     ],
-    differentiationNote: 'CREAS ≠ CRAS: diferença fundamental é a existência de VIOLAÇÃO DE DIREITOS. CREAS ≠ Conselho Tutelar: CT notifica e cobra; CREAS acompanha e oferece serviços. Os dois trabalham juntos.'
+    differentiationNote: 'CREAS ≠ CRAS: diferença fundamental é a existência de VIOLAÇÃO DE DIREITOS. CREAS ≠ Conselho Tutelar (CT): CT notifica e cobra; CREAS acompanha e oferece serviços. Os dois trabalham juntos.'
   },
   'conselho-tutelar': {
     description: 'Órgão autônomo e permanente de defesa dos direitos de crianças e adolescentes (ECA, Art. 131). Tem poder de requisitar serviços, notificar famílias, representar ao MP e acionar o Judiciário. NÃO é órgão investigativo nem punitivo — é protetor.',
-    strategicDescription: 'O Conselho Tutelar é a primeira porta do sistema de garantia de direitos. Acione SEMPRE que houver suspeita ou confirmação de violação de direitos de criança ou adolescente. A escola TEM OBRIGAÇÃO LEGAL de notificar (ECA Art. 245).',
+    strategicDescription: 'O Conselho Tutelar (CT) é a primeira porta do sistema de garantia de direitos. Acione SEMPRE que houver suspeita ou confirmação de violação de direitos de criança ou adolescente. A escola TEM OBRIGAÇÃO LEGAL de notificar (ECA Art. 245).',
     howToCall: 'Ligue (11) 2214-9050 / (11) 2546-0657 / (11) 2546-3257. Em casos graves fora do horário, o plantão municipal atende. Registre a notificação por escrito (Anexo II quando houver relato da criança).',
     whenToUse: [
       'Suspeita ou confirmação de qualquer forma de violência: física, psicológica, sexual, negligência',
@@ -522,7 +522,7 @@ const SERVICE_ENRICHMENT: Record<string, Partial<RawService>> = {
     ],
     whenNotToUse: [
       'Brigas leves ou discussões sem arma — use mediação escolar',
-      'Uso de drogas sem violência — use CAPS AD + Conselho Tutelar',
+      'Uso de drogas sem violência — use CAPS AD + Conselho Tutelar (CT)',
       'Indisciplina, xingamentos, furtos simples — use gestão escolar + BO policial se necessário',
       'Fatos já ocorridos sem risco atual — vá à Delegacia (PC) para BO'
     ],
@@ -543,7 +543,7 @@ const SERVICE_ENRICHMENT: Record<string, Partial<RawService>> = {
     whenNotToUse: [
       'Crime em curso, risco imediato — use PM 190 PRIMEIRO',
       'Conflitos pedagógicos sem crime tipificado — use gestão escolar',
-      'Situações de proteção infantil — Conselho Tutelar é a primeira porta, não a Delegacia'
+      'Situações de proteção infantil — Conselho Tutelar (CT) é a primeira porta, não a Delegacia'
     ],
     differentiationNote: 'PC/DP ≠ PM: PC investiga o depois; PM age no agora. DP ≠ CT: CT protege a criança; DP apura o crime do adulto agressor.'
   },
@@ -601,7 +601,7 @@ const SERVICE_ENRICHMENT: Record<string, Partial<RawService>> = {
       'Monitoramento de frequência e indicadores de evasão'
     ],
     whenNotToUse: [
-      'Não substitui notificação ao Conselho Tutelar',
+      'Não substitui notificação ao Conselho Tutelar (CT)',
       'Não substitui Boletim de Ocorrência policial',
       'Não é canal de emergência'
     ]
@@ -1201,7 +1201,7 @@ export const PROTOCOL_DATA: ProtocolData = {
       doNow: [
         'Proteja o estudante imediatamente — não confronte o suposto traficante.',
         'Acione a gestão e, se houver risco físico em curso, PM 190.',
-        'Notifique o Conselho Tutelar — criança/adolescente sendo cooptado é violação de direitos.'
+        'Notifique o Conselho Tutelar (CT) — criança/adolescente sendo cooptado é violação de direitos.'
       ],
       whyThisService: 'Tráfico é crime: PM age no flagrante. CT age na proteção do adolescente cooptado. CAPS AD age no tratamento se houver dependência associada.',
       forbiddenActions: [
@@ -1224,7 +1224,7 @@ export const PROTOCOL_DATA: ProtocolData = {
       doNow: [
         'Acolha com escuta qualificada mínima — não pressione por detalhes.',
         'Encaminhe à UPA imediatamente se a violência for recente (<72h) para protocolo de emergência.',
-        'Notifique o Conselho Tutelar no mesmo dia — é obrigação legal.',
+        'Notifique o Conselho Tutelar (CT) no mesmo dia — é obrigação legal.',
         'Acione CREAS para acompanhamento especializado da família.'
       ],
       whyThisService: 'UPA tem protocolo específico para violência sexual (<72h: contracepção de emergência, profilaxia IST/HIV). CT protege a criança. CREAS acompanha família. Se <14 anos: qualquer relação sexual é crime — notificação é obrigatória independentemente de consentimento.',
@@ -1274,7 +1274,7 @@ export const PROTOCOL_DATA: ProtocolData = {
       riskLevel: 'ALTO',
       doNow: [
         'Tente contato com TODOS os telefones da ficha do estudante no mesmo dia.',
-        'Se não houver resposta em 24h, acione o Conselho Tutelar formalmente.',
+        'Se não houver resposta em 24h, acione o Conselho Tutelar (CT) formalmente.',
         'Registre todas as tentativas de contato com data, horário e resultado.',
         'Comunique DE Leste 1 se CT não responder em 48h.'
       ],
@@ -1319,7 +1319,7 @@ export const PROTOCOL_DATA: ProtocolData = {
       doNow: [
         'Proteja a vítima imediatamente — remova do ambiente de risco se necessário.',
         'Registre todos os fatos com data, testemunhas e relato da vítima.',
-        'Acione Conselho Tutelar se vítima é menor de 18 anos.',
+        'Acione Conselho Tutelar (CT) se vítima é menor de 18 anos.',
         'Oriente família a registrar BO na 62ª DP se houver crime (injúria racial, ameaça).',
         'Acione Defensoria Pública se houver recusa institucional em resolver.'
       ],
@@ -1384,7 +1384,7 @@ export const PROTOCOL_DATA: ProtocolData = {
       riskLevel: 'ALTO',
       doNow: [
         'Proteja o estudante e registre detalhadamente os fatos.',
-        'Acione Conselho Tutelar se for menor de 18 anos com direito violado.',
+        'Acione Conselho Tutelar (CT) se for menor de 18 anos com direito violado.',
         'Oriente família a contatar a Defensoria Pública (0800 773 4340) para suporte jurídico.',
         'Informe DE Leste 1 se a violação envolver conduta de funcionário da escola.'
       ],
@@ -1506,7 +1506,7 @@ export const PROTOCOL_DATA: ProtocolData = {
       isLeaf: true,
       category: 'VIOLACAO_DIREITOS_VIOLENCIA',
       riskLevel: 'ALTO',
-      mandatoryTodayAction: `${verbByIntent('notificar_obrigatorio')} Conselho Tutelar e ${verbByIntent('avisar_gestao')} a Direção.`,
+      mandatoryTodayAction: `${verbByIntent('notificar_obrigatorio')} Conselho Tutelar (CT) e ${verbByIntent('avisar_gestao')} a Direção.`,
       doNow: [
         'Garanta proteção imediata e não exponha a vítima.',
         'Acione emergência se necessário.',
@@ -1525,10 +1525,10 @@ export const PROTOCOL_DATA: ProtocolData = {
       isLeaf: true,
       category: 'VIOLACAO_DIREITOS_VIOLENCIA',
       riskLevel: 'ALTO',
-      mandatoryTodayAction: `${verbByIntent('notificar_obrigatorio')} Conselho Tutelar e ${verbByIntent('avisar_gestao')} a Direção.`,
+      mandatoryTodayAction: `${verbByIntent('notificar_obrigatorio')} Conselho Tutelar (CT) e ${verbByIntent('avisar_gestao')} a Direção.`,
       doNow: [
         'Escale para gestão e siga o fluxo de proteção.',
-        'Acione Conselho Tutelar conforme protocolo.',
+        'Acione Conselho Tutelar (CT) conforme protocolo.',
         'Registre conforme exigência institucional quando aplicável.'
       ],
       contactTargets: ['GESTAO_ESCOLAR', 'CONSELHO_TUTELAR', 'CREAS'],
@@ -2020,7 +2020,7 @@ const REBUILT_DECISION_TREE: FlowNode[] = [
     category: 'VIOLACAO_DIREITOS_VIOLENCIA',
     actionSummary: 'CT obrigatório hoje. Não contate família antes.',
     doNow: [
-      'Notifique Conselho Tutelar hoje — (11) 2214-9050.',
+      'Notifique Conselho Tutelar (CT) hoje — (11) 2214-9050.',
       'Não chame a família antes de avaliar com o CT se ela é a fonte do risco.',
       'Registre com Anexo II e Anexo I.'
     ],
@@ -2545,7 +2545,7 @@ export const TRANSVERSAL_RULES = [
     id: 'T2',
     title: 'Notificação obrigatória',
     condition: 'suspeita_violacao_direitos_crianca = verdadeiro',
-    action: 'Notificar Conselho Tutelar em até 24h (imediato se grave); suspeita já obriga.'
+    action: 'Notificar Conselho Tutelar (CT) em até 24h (imediato se grave); suspeita já obriga.'
   },
   {
     id: 'T3',
@@ -2626,7 +2626,7 @@ export const QUICK_REFERRAL_TABLE = [
   { service: 'CAPS IJ II', whenToCall: 'Sofrimento psíquico grave em <18 anos', contact: '(11) 3294-3828 · R. Antônio Bonici, 18', avoidFor: 'Sofrimento leve sem comprometimento (UBS)' },
   { service: 'CAPS AD II', whenToCall: 'Uso problemático/dependência de substâncias', contact: '(11) 3294-3828', avoidFor: 'Experimentação ocasional (UBS/PSE)' },
   { service: 'UBS Ermelino', whenToCall: 'Sofrimento leve/moderado, gravidez, IST, doenças crônicas, PSE', contact: '(11) 2545-8235 · R. Antônio de Freitas Toledo, 185', avoidFor: 'Urgências (UPA/SAMU)' },
-  { service: 'Conselho Tutelar', whenToCall: 'Suspeita/confirmação de violação de direitos de criança/adolescente', contact: '156', avoidFor: 'Situações sem criança/adolescente' },
+  { service: 'Conselho Tutelar (CT)', whenToCall: 'Suspeita/confirmação de violação de direitos de criança/adolescente', contact: '156', avoidFor: 'Situações sem criança/adolescente' },
   { service: 'CRAS', whenToCall: 'Vulnerabilidade social sem violação grave', contact: '(11) 2545-3211 · Av. Paranaguá, 1492', avoidFor: 'Violação grave (CREAS + CT)' },
   { service: 'CREAS', whenToCall: 'Violência, negligência grave, exploração e violação severa', contact: 'Validar endereço/contato local', avoidFor: 'Vulnerabilidade sem violação (CRAS)' },
   { service: 'Delegacia 62ª DP', whenToCall: 'Registro de BO pós-crime', contact: 'R. Ruy Pirozzelli, 250', avoidFor: 'Substituir CT em casos com menores' },

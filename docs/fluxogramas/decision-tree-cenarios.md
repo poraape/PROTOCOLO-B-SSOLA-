@@ -45,7 +45,7 @@ flowchart TD
 
 ### 7) leaf_direitos_conselho_rede
 - **Quando acionar:** violação sem risco iminente.
-- **Resumo:** gestão + Conselho Tutelar + CREAS, com registro institucional.
+- **Resumo:** gestão + Conselho Tutelar (CT) + CREAS, com registro institucional.
 
 ### 8) leaf_direitos_orientacao
 - **Quando acionar:** sinais inespecíficos de violação.

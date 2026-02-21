@@ -35,6 +35,21 @@ export const verbByIntentCapitalized = (intent: LanguageIntent): string => {
   return `${verb.charAt(0).toUpperCase()}${verb.slice(1)}`;
 };
 
+type ActionTemplateParams = {
+  action: string;
+  deadline: string;
+  responsible: string;
+};
+
+/**
+ * Template único para instruções operacionais no app.
+ * Exemplo: "Faça X agora | até Y | responsável Z".
+ */
+export const formatActionTemplate = ({ action, deadline, responsible }: ActionTemplateParams): string => {
+  const normalizedDeadline = deadline.replace(/^até\s+/i, '');
+  return `Faça ${action} agora | até ${normalizedDeadline} | responsável ${responsible}`;
+};
+
 export const SCENARIO_PLAYER_COPY = {
   title: 'ScenarioPlayer',
   subtitle: 'Treinamento de travessia com cenários locais (offline), filtros e modo prática.',
