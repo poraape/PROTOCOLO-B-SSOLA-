@@ -245,3 +245,62 @@ export const SCENARIOS_DATA: Scenario[] = [
     lessonsLearned: ['Substância: fluxo de saúde, não punição.', 'Vínculo escolar é fator protetivo.', 'Rede social + pedagógica deve caminhar junta.']
   }
 ];
+
+
+export interface ScenarioDecisionMeta {
+  protocolAlignment: string;
+  probableImpact: string;
+  legalInstitutionalReference: string[];
+  whatToDoDifferently: string;
+}
+
+export const SCENARIO_DECISION_META: Record<string, ScenarioDecisionMeta> = {
+  C01: {
+    protocolAlignment: 'Alinhado ao protocolo quando prioriza escuta qualificada, proteção social e registro formal.',
+    probableImpact: 'Tende a reduzir evasão e estabilizar o vínculo pedagógico com apoio da rede socioassistencial.',
+    legalInstitutionalReference: ['ECA (proteção integral)', 'Fluxo escola-CRAS para vulnerabilidade social', 'Registro institucional de ocorrências'],
+    whatToDoDifferently: 'Retomar escuta em ambiente reservado, acionar coordenação e formalizar encaminhamento ao CRAS com devolutiva ao estudante.'
+  },
+  C02: {
+    protocolAlignment: 'Alinhado quando trata autolesão como risco real, garante supervisão e aciona CAPS IJ com plano de seguimento.',
+    probableImpact: 'Aumenta chance de proteção imediata e continuidade de cuidado em saúde mental.',
+    legalInstitutionalReference: ['Lei 13.819/2019', 'Fluxo de risco em saúde mental da rede', 'Registro restrito conforme LGPD'],
+    whatToDoDifferently: 'Interromper qualquer minimização, garantir que a estudante não fique sozinha e acionar imediatamente a rede especializada.'
+  },
+  C03: {
+    protocolAlignment: 'Alinhado quando responde como urgência clínica, com ação rápida e acionamento de emergência.',
+    probableImpact: 'Reduz risco de desfecho grave e melhora segurança clínica no ambiente escolar.',
+    legalInstitutionalReference: ['Protocolo de urgência e emergência escolar', 'Acionamento SAMU 192', 'Plano individual de saúde do estudante'],
+    whatToDoDifferently: 'Seguir protocolo de crise metabólica sem improvisar medicação e sem atrasar o acionamento da saúde.'
+  },
+  C04: {
+    protocolAlignment: 'Alinhado quando prioriza proteção da vítima, notificação e atuação coordenada com rede de proteção.',
+    probableImpact: 'Diminui revitimização e aumenta responsabilização institucional do caso.',
+    legalInstitutionalReference: ['ECA art. 13', 'Conselho Tutelar', 'Rede intersetorial de proteção'],
+    whatToDoDifferently: 'Evitar confronto precoce e perguntas indutivas; registrar fala literal e escalar imediatamente para proteção.'
+  },
+  C05: {
+    protocolAlignment: 'Alinhado ao manter sigilo, mediação segura e plano coletivo de prevenção sem expor estudantes.',
+    probableImpact: 'Reduz escalada de conflito e fortalece convivência escolar.',
+    legalInstitutionalReference: ['Lei 13.185/2015', 'Regimento de convivência escolar', 'Fluxo interno de mediação e registro'],
+    whatToDoDifferently: 'Separar envolvidos, conter exposição pública e adotar responsabilização educativa com acompanhamento.'
+  },
+  C06: {
+    protocolAlignment: 'Alinhado quando executa contenção coletiva imediata, centraliza comunicação e registra governança.',
+    probableImpact: 'Reduz danos em evento crítico e organiza resposta pós-incidente.',
+    legalInstitutionalReference: ['Protocolo de lockdown escolar', 'Acionamento PM 190 em risco armado', 'Comunicação institucional à DE'],
+    whatToDoDifferently: 'Acionar lockdown sem atraso, reduzir circulação e evitar mensagens paralelas que ampliem pânico.'
+  },
+  C07: {
+    protocolAlignment: 'Alinhado quando trata capacitismo como violência, protege a estudante e revisa o PEI.',
+    probableImpact: 'Diminui recorrência de discriminação e melhora segurança emocional e inclusão.',
+    legalInstitutionalReference: ['LBI - Lei Brasileira de Inclusão', 'ECA (proteção contra violência)', 'Plano educacional individualizado (PEI)'],
+    whatToDoDifferently: 'Interromper a prática discriminatória na hora, registrar o fato e aplicar resposta pedagógica sem expor a vítima.'
+  },
+  C08: {
+    protocolAlignment: 'Alinhado quando conduz abordagem não punitiva, triagem adequada e encaminhamento para CAPS AD.',
+    probableImpact: 'Aumenta adesão ao cuidado e reduz risco de evasão por uso problemático de substâncias.',
+    legalInstitutionalReference: ['Política de redução de danos na rede de saúde', 'Fluxo CAPS AD', 'Registro e acompanhamento escolar'],
+    whatToDoDifferently: 'Evitar resposta moralizante e construir plano integrado entre escola, família e rede de saúde.'
+  }
+};

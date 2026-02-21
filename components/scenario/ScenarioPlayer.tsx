@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { ALERTS_DATA } from '../../data/alerts';
-import { SCENARIOS_DATA, Scenario, ScenarioStep, Category, Complexity, RiskLevel } from '../../data/scenarios';
+import { SCENARIOS_DATA, SCENARIO_DECISION_META, Scenario, ScenarioStep, Category, Complexity, RiskLevel } from '../../data/scenarios';
 
 type ActorTone = 'brand' | 'emerald' | 'violet' | 'amber' | 'slate';
 
@@ -120,6 +120,26 @@ export const ScenarioPlayer: React.FC = () => {
 
   const selectedOption = trainingOptions.find((opt) => opt.id === selectedOptionId);
   const selectedAlert = selectedOption?.alertId ? ALERTS_DATA.find((a) => a.id === selectedOption.alertId) : undefined;
+  const scenarioDecisionMeta = SCENARIO_DECISION_META[scenario?.id || ''];
+  const isRiskDecision = Boolean(selectedOption && (!selectedOption.isCorrect || selectedAlert?.severity === 'critical'));
+
+  const protocolAlignmentText = selectedOption
+    ? selectedOption.isCorrect
+      ? `${scenarioDecisionMeta?.protocolAlignment || 'Decisão alinhada ao fluxo institucional.'} (${currentStep.rationale})`
+      : `Decisão desalinhada ao protocolo. ${selectedAlert?.reason || 'Há risco de conduta inadequada para proteção do estudante.'}`
+    : '';
+
+  const probableImpactText = selectedOption
+    ? selectedOption.isCorrect
+      ? scenarioDecisionMeta?.probableImpact || 'Tende a fortalecer proteção e continuidade do cuidado.'
+      : `Impacto provável negativo: ${selectedAlert?.reason || 'pode aumentar risco e romper vínculo de cuidado.'}`
+    : '';
+
+  const legalReferences = selectedOption
+    ? selectedOption.isCorrect
+      ? scenarioDecisionMeta?.legalInstitutionalReference || []
+      : selectedAlert?.legalInstitutionalReference || scenarioDecisionMeta?.legalInstitutionalReference || []
+    : [];
 
   const goToStep = (next: number) => {
     if (!scenario) return;
@@ -216,9 +236,36 @@ export const ScenarioPlayer: React.FC = () => {
                 ))}
               </div>
               {selectedOption ? (
-                <div className="mt-3 rounded-lg border border-amber-200 bg-amber-50 p-3 text-sm">
-                  <p>{selectedOption.isCorrect ? '✅ Resposta correta.' : '❌ Resposta incorreta.'}</p>
-                  {!!selectedAlert && !selectedOption.isCorrect && <p className="mt-1 text-xs">{selectedAlert.reason}</p>}
+                <div className="mt-3 space-y-2">
+                  <div className="rounded-lg border border-amber-200 bg-amber-50 p-3 text-sm">
+                    <p>{selectedOption.isCorrect ? '✅ Resposta correta.' : '❌ Resposta incorreta.'}</p>
+                  </div>
+                  <div className="rounded-lg border border-slate-200 bg-slate-50 p-3 text-sm">
+                    <p className="font-semibold">1) Alinhamento ao protocolo</p>
+                    <p className="mt-1 text-xs">{protocolAlignmentText}</p>
+                  </div>
+                  <div className="rounded-lg border border-slate-200 bg-slate-50 p-3 text-sm">
+                    <p className="font-semibold">2) Impacto provável da decisão</p>
+                    <p className="mt-1 text-xs">{probableImpactText}</p>
+                  </div>
+                  <div className="rounded-lg border border-slate-200 bg-slate-50 p-3 text-sm">
+                    <p className="font-semibold">3) Referência legal/institucional</p>
+                    {legalReferences.length > 0 ? (
+                      <ul className="mt-1 list-disc pl-5 text-xs">
+                        {legalReferences.map((reference) => (
+                          <li key={`${selectedOption.id}-${reference}`}>{reference}</li>
+                        ))}
+                      </ul>
+                    ) : (
+                      <p className="mt-1 text-xs">Referência institucional não informada para esta alternativa.</p>
+                    )}
+                  </div>
+                  {isRiskDecision ? (
+                    <div className="rounded-lg border border-rose-200 bg-rose-50 p-3 text-sm">
+                      <p className="font-semibold">O que fazer diferente</p>
+                      <p className="mt-1 text-xs">{selectedAlert?.doInstead || scenarioDecisionMeta?.whatToDoDifferently || 'Retome o protocolo e priorize proteção imediata com registro formal.'}</p>
+                    </div>
+                  ) : null}
                 </div>
               ) : null}
               <p className="mt-2 text-sm font-semibold">Score: {score}/{scenario.treeTraversal.length}</p>
