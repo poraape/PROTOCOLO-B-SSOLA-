@@ -5,57 +5,18 @@ import { DecisionScreen } from './DecisionScreen';
 import { ResultScreen } from './ResultScreen';
 import { CategoryGrid } from './CategoryGrid';
 import { ContextualControls } from './ContextualControls';
-import { designTokens } from '../../styles/design-tokens';
 import { ManagementContactModal } from './ManagementContactModal';
 import { SchoolShield } from '../SchoolShield';
-import { verbByIntentCapitalized } from '../../content/microcopyLexicon';
 
 const EmergencyButton: React.FC<{ onClick: () => void; label: string }> = ({ onClick, label }) => (
-  <button
-    type="button"
-    onClick={onClick}
-    style={{
-      position: 'fixed',
-      bottom: 'calc(var(--mobile-nav-height, 0px) + 16px)',
-      right: '24px',
-      backgroundColor: designTokens.colors.emergency,
-      color: '#FFFFFF',
-      padding: '14px 20px',
-      borderRadius: '50px',
-      border: 'none',
-      fontWeight: '700',
-      fontSize: '14px',
-      lineHeight: 1.2,
-      maxWidth: 'calc(100vw - 32px)',
-      cursor: 'pointer',
-      zIndex: 1000,
-      boxShadow: designTokens.shadows.emergency
-    }}
-  >
+  <button type="button" onClick={onClick} className="decision-floating-button decision-floating-button--emergency">
     🚨 {label}
   </button>
 );
 
 
 const ManagementButton: React.FC<{ onClick: () => void }> = ({ onClick }) => (
-  <button
-    type="button"
-    onClick={onClick}
-    style={{
-      position: 'fixed',
-      bottom: 'calc(var(--mobile-nav-height, 0px) + 16px)',
-      left: '24px',
-      backgroundColor: designTokens.colors.info,
-      color: '#FFFFFF',
-      padding: '12px 18px',
-      borderRadius: '999px',
-      border: 'none',
-      fontWeight: '700',
-      cursor: 'pointer',
-      zIndex: 1000,
-      boxShadow: designTokens.shadows.md
-    }}
-  >
+  <button type="button" onClick={onClick} className="decision-floating-button decision-floating-button--management">
     🏫 Comunicar a gestão agora
   </button>
 );
@@ -148,24 +109,14 @@ export const DecisionTreeNavigator: React.FC = () => {
 
   return (
     <>
-      <div style={{ paddingBottom: '88px', background: 'transparent' }}>
-        <div style={{ maxWidth: '1180px', margin: '0 auto', padding: `${designTokens.spacing.md} 16px` }}>
+      <div className="decision-layout-shell">
+        <div className="decision-layout-container decision-layout-header">
           <SchoolShield variant="full" />
         </div>
 
         {canGoBack ? (
-          <div style={{ maxWidth: '1180px', margin: '0 auto', padding: `0 16px ${designTokens.spacing.md}` }}>
-            <button
-              type="button"
-              onClick={goBack}
-              style={{
-                background: 'transparent',
-                border: 'none',
-                color: designTokens.colors.routine,
-                cursor: 'pointer',
-                fontSize: '14px'
-              }}
-            >
+          <div className="decision-layout-container decision-layout-back">
+            <button type="button" onClick={goBack} className="decision-back-button">
               ← Voltar para a pergunta anterior
             </button>
           </div>

@@ -184,50 +184,49 @@ const ResultScreenBase: React.FC<ResultScreenProps> = ({
   };
 
   return (
-    <section style={{ maxWidth: '1180px', margin: '0 auto', padding: '0 16px 24px' }}>
+    <section className="decision-layout-container decision-section">
       <InstitutionalBreadcrumb history={history} nodes={nodes} currentNodeId={currentNodeId} />
 
       {(onBack || onPrint) ? (
-        <div style={{ display: 'flex', gap: 10, marginBottom: 12 }}>
+        <div className="result-actions-row">
           {onBack ? <AppButton onClick={onBack} variant="secondary">↩️ Recomeçar</AppButton> : null}
           {onPrint ? <AppButton onClick={onPrint} variant="ghost">🖨️ Imprimir</AppButton> : null}
         </div>
       ) : null}
 
-      <div style={{ display: 'flex', gap: 16, alignItems: 'flex-start' }}>
-        <div style={{ flex: 1, maxWidth: 820, margin: '0 auto' }}>
+      <div className="decision-screen-grid">
+        <div className="decision-screen-main">
           <AppCard
             strong
-            className=""
             heading="O que fazer agora neste caso"
             subheading={leaf.primaryActions.title}
             rightSlot={<AppChip label={urgency.label} tone={urgencyTone[leaf.primaryActions.urgencyLevel]} />}
           >
-            <div style={{ display: 'grid', gap: 12 }}>
+            <div className="decision-options-grid">
               <AppCard strong heading="PRIORIDADE 1 / PRIORIDADE 2" subheading="Ação e acionamento inicial">
-                <div style={{ display: 'grid', gap: 10 }}>
-                  <div style={{ border: '1px solid var(--border)', borderRadius: 14, padding: 12, background: 'var(--surface-strong)' }}>
-                    <div style={{ marginBottom: 6, fontWeight: 700 }}>🥇 Prioridade 1</div>
+                <div className="decision-stack-grid">
+                  <div className="result-priority-card">
+                    <div className="result-priority-heading">🥇 Prioridade 1</div>
                     {primaryService?.details ? (
-                      <a href={`tel:${toDialNumber(primaryService.details.phone)}`} style={{ color: 'var(--text)', textDecoration: 'none', fontWeight: 600 }}>
+                      <a href={`tel:${toDialNumber(primaryService.details.phone)}`} className="result-primary-link">
                         {primaryService.details.name} — {primaryService.details.phone}
                       </a>
                     ) : (
-                      <div style={{ display: 'grid', gap: 4 }}>
+                      <div className="result-fallback-grid">
                         <span>Serviço principal indisponível. Avise a gestão e use contato de contingência.</span>
-                        <a href="#comunicar-gestao" style={{ color: 'var(--text)', fontWeight: 600 }}>➡️ Ir para Comunicar gestão</a>
+                        <a href="#comunicar-gestao" className="result-muted-link">➡️ Ir para Comunicar gestão</a>
                       </div>
                     )}
                   </div>
 
-                  <div style={{ border: '1px solid var(--border)', borderRadius: 14, padding: 12, background: 'var(--surface-strong)' }}>
-                    <div style={{ marginBottom: 6, fontWeight: 700 }}>🥈 Prioridade 2</div>
+                  <div className="result-priority-card">
+                    <div className="result-priority-heading">🥈 Prioridade 2</div>
                     {secondaryService?.details ? (
                       <span>{secondaryService.details.name} — {secondaryService.details.phone}</span>
                     ) : (
-                      <div style={{ display: 'grid', gap: 4 }}>
+                      <div className="result-fallback-grid">
                         <span>Sem serviço complementar definido para este caso.</span>
-                        <a href="#quem-acionar" style={{ color: 'var(--text)', fontWeight: 600 }}>➡️ Ver bloco Quem acionar</a>
+                        <a href="#quem-acionar" className="result-muted-link">➡️ Ver bloco Quem acionar</a>
                       </div>
                     )}
                   </div>
@@ -235,16 +234,16 @@ const ResultScreenBase: React.FC<ResultScreenProps> = ({
               </AppCard>
 
               <AppCard strong heading={`${verbByIntentCapitalized('avisar_gestao')} gestão`.toUpperCase()} subheading="Timing e papéis recomendados">
-                <div style={{ display: 'grid', gap: 8 }}>
+                <div className="result-management-grid">
                   <AppChip label={managementNotification.timing} tone={timingTone[managementNotification.timing]} />
-                  <div style={{ color: 'var(--text)' }}>
+                  <div className="result-text">
                     <strong>Papéis:</strong>{' '}
                     {managementNotification.roles.length > 0
                       ? managementNotification.roles.map((role) => roleLabel[role]).join(' • ')
                       : 'Não definido'}
                   </div>
-                  <div style={{ color: 'var(--text)' }}><strong>Obrigatório:</strong> {managementNotification.required ? 'Sim' : 'Não'}</div>
-                  {managementNotification.message ? <div style={{ color: 'var(--text-muted)' }}>{managementNotification.message}</div> : null}
+                  <div className="result-text"><strong>Obrigatório:</strong> {managementNotification.required ? 'Sim' : 'Não'}</div>
+                  {managementNotification.message ? <div className="result-muted-text">{managementNotification.message}</div> : null}
                   {managementNotification.required && onContactManagement ? (
                     <AppButton variant="primary" onClick={onContactManagement}>{verbByIntentCapitalized('avisar_gestao')} gestão</AppButton>
                   ) : null}
@@ -252,7 +251,7 @@ const ResultScreenBase: React.FC<ResultScreenProps> = ({
               </AppCard>
 
               <AppCard strong heading="Formulários e anexos para registro" subheading="Como registrar: anexos recomendados para registro e encaminhamento">
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+                <div className="result-chip-wrap">
                   {leaf.instruments.length > 0 ? (
                     leaf.instruments.map((instrumentId, idx) => {
                       const anexo = anexoById.get(instrumentId);
@@ -267,20 +266,20 @@ const ResultScreenBase: React.FC<ResultScreenProps> = ({
                           href={anexo.file}
                           target="_blank"
                           rel="noreferrer"
-                          style={{ textDecoration: 'none' }}
+                          className="result-link-reset"
                         >
                           <AppChip label={anexo.title} tone="info" />
                         </a>
                       );
                     })
                   ) : (
-                    <span style={{ color: 'var(--text-muted)' }}>Sem instrumentos definidos para este fluxo.</span>
+                    <span className="result-muted-text">Sem instrumentos definidos para este fluxo.</span>
                   )}
                 </div>
               </AppCard>
 
               <AppCard strong heading="Quem acionar neste caso" subheading={leaf.contactTargets.title}>
-                <ul style={{ margin: 0, paddingLeft: 20, color: 'var(--text)', lineHeight: 1.6 }}>
+                <ul className="result-inline-list">
                   {resolvedServices.map((serviceRef, idx) => (
                     <li key={`${serviceRef.serviceId}-${idx}`}>
                       {serviceRef.details ? `${serviceRef.details.name} — ${serviceRef.details.phone}` : `Serviço não encontrado (${serviceRef.serviceId})`}
@@ -290,7 +289,7 @@ const ResultScreenBase: React.FC<ResultScreenProps> = ({
               </AppCard>
 
               <AppCard strong heading="Ações prioritárias" subheading={`${urgency.icon} ${urgency.label}`}>
-                <ol style={{ margin: 0, paddingLeft: 20, color: 'var(--text)', lineHeight: 1.6 }}>
+                <ol className="result-inline-list">
                   {leaf.primaryActions.actions.slice(0, 3).map((action, idx) => (
                     <li key={`${action}-${idx}`}>{action}</li>
                   ))}
@@ -298,8 +297,8 @@ const ResultScreenBase: React.FC<ResultScreenProps> = ({
               </AppCard>
 
               <AppCard strong heading="Antes de finalizar" subheading="Confirme os acionamentos essenciais desta consulta">
-                <div style={{ display: 'grid', gap: 10 }}>
-                  <label style={{ display: 'flex', alignItems: 'center', gap: 8, color: 'var(--text)' }}>
+                <div className="decision-stack-grid">
+                  <label className="result-check-label">
                     <input
                       type="checkbox"
                       checked={checklistState.emergencyContacted}
@@ -309,7 +308,7 @@ const ResultScreenBase: React.FC<ResultScreenProps> = ({
                     {requiredItems.includes('emergencyContacted') ? <strong> (obrigatório)</strong> : null}
                   </label>
 
-                  <label style={{ display: 'flex', alignItems: 'center', gap: 8, color: 'var(--text)' }}>
+                  <label className="result-check-label">
                     <input
                       type="checkbox"
                       checked={checklistState.managementInformed}
@@ -319,7 +318,7 @@ const ResultScreenBase: React.FC<ResultScreenProps> = ({
                     {requiredItems.includes('managementInformed') ? <strong> (obrigatório)</strong> : null}
                   </label>
 
-                  <label style={{ display: 'flex', alignItems: 'center', gap: 8, color: 'var(--text)' }}>
+                  <label className="result-check-label">
                     <input
                       type="checkbox"
                       checked={checklistState.recordStarted}
@@ -336,13 +335,7 @@ const ResultScreenBase: React.FC<ResultScreenProps> = ({
                   {checklistState.completed ? (
                     <div
                       role="status"
-                      style={{
-                        border: '1px solid var(--border)',
-                        borderRadius: 12,
-                        padding: 10,
-                        background: 'var(--surface-strong)',
-                        color: 'var(--text)'
-                      }}
+                      className="result-check-complete"
                     >
                       ✅ Consulta concluída. Reavalie em {reassessmentDeadlineByUrgency[leaf.primaryActions.urgencyLevel]} prazo.
                     </div>
@@ -353,10 +346,10 @@ const ResultScreenBase: React.FC<ResultScreenProps> = ({
           </AppCard>
 
           {leaf.secondaryContent ? (
-            <div style={{ marginTop: 12 }}>
+            <div className="result-secondary-content">
               {leaf.secondaryContent.forbiddenActions ? (
                 <AccordionSection title="❌ O que NÃO fazer" defaultOpen={false}>
-                  <ul style={{ margin: 0, paddingLeft: 20 }}>
+                  <ul className="result-inline-list">
                     {leaf.secondaryContent.forbiddenActions.items.map((item, idx) => (
                       <li key={`${item}-${idx}`}>{item}</li>
                     ))}
@@ -374,7 +367,7 @@ const ResultScreenBase: React.FC<ResultScreenProps> = ({
 
               {leaf.secondaryContent.legalBasis ? (
                 <AccordionSection title="🔗 Base legal" defaultOpen={false}>
-                  <ul style={{ margin: 0, paddingLeft: 20 }}>
+                  <ul className="result-inline-list">
                     {leaf.secondaryContent.legalBasis.references.map((reference, idx) => (
                       <li key={`${reference}-${idx}`}>{reference}</li>
                     ))}
@@ -383,16 +376,15 @@ const ResultScreenBase: React.FC<ResultScreenProps> = ({
               ) : null}
 
               <AccordionSection title="💡 Por que essa ação protege" defaultOpen={false}>
-                <div style={{ lineHeight: 1.6 }}>{rationaleText || 'A ação foi priorizada para reduzir risco imediato e garantir proteção contínua.'}</div>
+                <div className="result-rationale">{rationaleText || 'A ação foi priorizada para reduzir risco imediato e garantir proteção contínua.'}</div>
               </AccordionSection>
             </div>
           ) : null}
 
           <button
             type="button"
-            className="xl:hidden"
+            className="decision-guidance-trigger xl:hidden"
             onClick={() => setShowGuidance(true)}
-            style={{ marginTop: 12, border: '1px solid var(--border)', borderRadius: 12, background: 'var(--surface-strong)', padding: '10px 14px', color: 'var(--text)' }}
           >
             Orientações
           </button>
