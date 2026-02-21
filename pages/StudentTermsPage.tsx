@@ -1,4 +1,5 @@
-import { StudentTermsPage as GlossaryPage } from './StudentTermsPage';
+import React, { useEffect, useMemo, useState } from 'react';
+import { GLOSSARY_SEED } from '../data';
 
 interface GlossaryTerm {
   id: string;
@@ -11,14 +12,17 @@ interface GlossaryTerm {
 
 const STORAGE_KEY = 'bussola_glossary_terms_v1';
 
-export const GlossaryPage: React.FC = () => {
+type CategoryFilter = 'Todas' | 'Base Legal' | 'Conceitos' | 'Procedimentos' | 'Fluxo Operacional';
+type Category = Exclude<CategoryFilter, 'Todas'>;
+
+export const StudentTermsPage: React.FC = () => {
   const [terms, setTerms] = useState<GlossaryTerm[]>([]);
   const [search, setSearch] = useState('');
   const [term, setTerm] = useState('');
   const [definition, setDefinition] = useState('');
   const [context, setContext] = useState('');
-  const [categoryFilter, setCategoryFilter] = useState<'Todas' | 'Base Legal' | 'Conceitos' | 'Procedimentos' | 'Fluxo Operacional'>('Todas');
-  const [category, setCategory] = useState<'Base Legal' | 'Conceitos' | 'Procedimentos' | 'Fluxo Operacional'>('Conceitos');
+  const [categoryFilter, setCategoryFilter] = useState<CategoryFilter>('Todas');
+  const [category, setCategory] = useState<Category>('Conceitos');
 
   useEffect(() => {
     const saved = localStorage.getItem(STORAGE_KEY);
@@ -37,7 +41,7 @@ export const GlossaryPage: React.FC = () => {
     const q = search.toLowerCase();
     return terms.filter((item) => {
       const matchesTerm = `${item.term} ${item.definition} ${item.context} ${item.category}`.toLowerCase().includes(q);
-      const matchesCategory = categoryFilter === "Todas" || item.category === categoryFilter;
+      const matchesCategory = categoryFilter === 'Todas' || item.category === categoryFilter;
       return matchesTerm && matchesCategory;
     });
   }, [search, terms, categoryFilter]);
@@ -64,20 +68,23 @@ export const GlossaryPage: React.FC = () => {
 
   return (
     <div className="mx-auto max-w-5xl space-y-6 pb-20">
-      <header className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
-        <p className="text-xs font-black uppercase tracking-widest text-[#007AFF]">Glossário Vivo</p>
-        <h1 className="mt-2 text-3xl font-extrabold text-slate-900">Wiki de termos e gírias da escola</h1>
+      <header className="rounded-3xl border border-purple-200 bg-gradient-to-r from-purple-50 to-pink-50 p-6 shadow-sm">
+        <p className="text-xs font-black uppercase tracking-widest text-purple-600">Wiki Colaborativa</p>
+        <h1 className="mt-2 text-3xl font-extrabold text-slate-900">Gírias e Expressões dos Estudantes</h1>
         <p className="mt-2 text-sm text-slate-600">
-          Espaço colaborativo para registrar expressões dos estudantes e contexto de uso.
+          Espaço colaborativo para registrar expressões da juventude, contexto de uso e apoio pedagógico.
+        </p>
+        <p className="mt-1 text-xs text-slate-500">
+          💡 <strong>Novo!</strong> Procurando termos técnicos da rede (CAPS, CRAS, CT)? Acesse o menu <strong>"Glossário Técnico"</strong>.
         </p>
       </header>
 
       <section className="rounded-3xl border border-amber-300 bg-amber-50 p-4 text-sm text-amber-900">
-        Use este conteúdo como apoio pedagógico. Não rotule estudantes por gírias isoladas; sempre contextualize.
+        ⚠️ Use este conteúdo como apoio pedagógico. Não rotule estudantes por gírias isoladas; sempre contextualize.
       </section>
 
       <section className="grid gap-6 lg:grid-cols-2">
-        <form onSubmit={addTerm} className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm space-y-4">
+        <form onSubmit={addTerm} className="space-y-4 rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
           <h2 className="text-lg font-extrabold text-slate-900">Adicionar novo termo</h2>
           <input
             value={term}
@@ -101,7 +108,7 @@ export const GlossaryPage: React.FC = () => {
           />
           <select
             value={category}
-            onChange={(e) => setCategory(e.target.value as "Base Legal" | "Conceitos" | "Procedimentos" | "Fluxo Operacional")}
+            onChange={(e) => setCategory(e.target.value as Category)}
             className="w-full rounded-xl border border-slate-300 px-3 py-2 text-sm"
           >
             <option value="Base Legal">Base Legal</option>
@@ -110,11 +117,13 @@ export const GlossaryPage: React.FC = () => {
             <option value="Fluxo Operacional">Fluxo Operacional</option>
           </select>
 
-          <button className="rounded-xl bg-[#007AFF] px-4 py-2 text-sm font-bold text-white">Registrar termo</button>
+          <button className="rounded-xl bg-purple-600 px-4 py-2 text-sm font-bold text-white transition-colors hover:bg-purple-700">
+            Salvar termo
+          </button>
         </form>
 
         <section className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
-          <h2 className="text-lg font-extrabold text-slate-900">Buscar no glossário</h2>
+          <h2 className="text-lg font-extrabold text-slate-900">Buscar na wiki</h2>
           <input
             value={search}
             onChange={(e) => setSearch(e.target.value)}
@@ -124,7 +133,7 @@ export const GlossaryPage: React.FC = () => {
           <div className="mt-3">
             <select
               value={categoryFilter}
-              onChange={(e) => setCategoryFilter(e.target.value as "Todas" | "Base Legal" | "Conceitos" | "Procedimentos" | "Fluxo Operacional")}
+              onChange={(e) => setCategoryFilter(e.target.value as CategoryFilter)}
               className="w-full rounded-xl border border-slate-300 px-3 py-2 text-sm"
             >
               <option value="Todas">Todas as categorias</option>

@@ -7,7 +7,8 @@ import { FlowPage } from './pages/FlowPage';
 import { NetworkPage } from './pages/NetworkPage';
 import { FlowsListPage } from './pages/FlowsListPage';
 import { BuscaPage } from './pages/BuscaPage';
-import { GlossaryPage } from './pages/GlossaryPage';
+import { TechnicalGlossaryPage } from './pages/TechnicalGlossaryPage';
+import { StudentTermsPage } from './pages/StudentTermsPage';
 import { SimulatorPage } from './pages/SimulatorPage';
 import { FAQPage } from './pages/FAQPage';
 import { AboutPage } from './pages/AboutPage';
@@ -69,7 +70,9 @@ const App: React.FC = () => {
           <Route path="/rede" element={<NetworkPage />} />
           <Route path="/rede/:id" element={<NetworkPage />} />
           <Route path="/busca" element={<BuscaPage />} />
-          <Route path="/glossario" element={<GlossaryPage />} />
+          <Route path="/glossary" element={<TechnicalGlossaryPage />} />
+          <Route path="/student-terms" element={<StudentTermsPage />} />
+          <Route path="/glossario" element={<Navigate to="/glossary" replace />} />
           <Route path="/simulador" element={<SimulatorPage />} />
           <Route
             path="/simulador/v2"

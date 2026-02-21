@@ -1,4 +1,5 @@
 import { PROTOCOL_DATA, RECURSOS } from '../content/protocolData';
+import { TECHNICAL_GLOSSARY } from '../content/glossaryData';
 import { searchIndex } from './searchIndex';
 
 const normalizeText = (value: string) => value.toLowerCase();
@@ -55,7 +56,6 @@ export function buildStaticIndex(protocolo: string, anexos: Record<string, strin
     });
   });
 
-  // add prioritized annex metadata to index titles/contents
   RECURSOS.forEach((item) => {
     searchIndex.push({
       id: `recurso-${item.id}`,
@@ -63,6 +63,26 @@ export function buildStaticIndex(protocolo: string, anexos: Record<string, strin
       content: normalizeText(`${item.titulo} ${item.descricao || ''} ${item.tipo || ''}`),
       route: '/modelos',
       type: 'anexo'
+    });
+  });
+
+  TECHNICAL_GLOSSARY.forEach((term) => {
+    searchIndex.push({
+      id: `glossario-${term.id}`,
+      title: term.termo,
+      content: normalizeText(
+        [
+          term.termo,
+          term.definicao,
+          term.exemplo || '',
+          term.observacoes || '',
+          term.categoria,
+          ...(term.sinonimos || []),
+          ...(term.relacionados || [])
+        ].join(' ')
+      ),
+      route: `/glossary?q=${encodeURIComponent(term.termo)}`,
+      type: 'glossario'
     });
   });
 }

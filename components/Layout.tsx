@@ -10,7 +10,8 @@ const navItems = [
   { label: 'Início', path: '/' },
   { label: 'Decisor', path: '/decisor' },
   { label: 'Rede', path: '/rede' },
-  { label: 'Glossário', path: '/glossario' },
+  { label: 'Glossário Técnico', path: '/glossary' },
+  { label: 'Gírias Estudantes', path: '/student-terms' },
   { label: 'FAQ', path: '/faq' },
   { label: 'Simulador', path: '/simulador' },
   { label: 'Versão', path: '/versao' }
@@ -24,7 +25,8 @@ const mobilePrimaryItems = [
 ];
 
 const mobileMoreItems = [
-  { label: 'Glossário', path: '/glossario' },
+  { label: 'Glossário Técnico', path: '/glossary' },
+  { label: 'Gírias Estudantes', path: '/student-terms' },
   { label: 'FAQ', path: '/faq' },
   { label: 'Simulador', path: '/simulador' }
 ];
