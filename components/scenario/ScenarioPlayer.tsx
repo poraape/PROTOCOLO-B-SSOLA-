@@ -128,10 +128,15 @@ export const ScenarioPlayer: React.FC = () => {
     setSelectedOptionId(null);
   };
 
-  const resetTraining = () => {
+  const resetScenarioProgress = () => {
     setStepIndex(0);
-    setScore(0);
     setSelectedOptionId(null);
+    setScore(0);
+  };
+
+  const handleExitTrainingMode = () => {
+    resetScenarioProgress();
+    setTrainingMode(false);
   };
 
   const answerTraining = (option: TrainingOption) => {
@@ -145,8 +150,16 @@ export const ScenarioPlayer: React.FC = () => {
   return (
     <div className="space-y-4">
       <section className="card p-4">
-        <h2 className="text-xl font-extrabold">ScenarioPlayer</h2>
-        <p className="text-sm text-muted">Treinamento de travessia com cenários locais (offline), filtros e modo prática.</p>
+        <div className="sticky top-0 z-10 -mx-4 -mt-4 mb-3 flex flex-wrap items-center justify-between gap-2 border-b bg-white/95 px-4 py-3 backdrop-blur">
+          <div>
+            <h2 className="text-xl font-extrabold">ScenarioPlayer</h2>
+            <p className="text-sm text-muted">Treinamento de travessia com cenários locais (offline), filtros e modo prática.</p>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            <button className="btn-secondary text-xs" onClick={resetScenarioProgress}>Reiniciar cenário atual</button>
+            <button className="btn-secondary text-xs" onClick={handleExitTrainingMode} disabled={!trainingMode}>Sair do modo treinamento</button>
+          </div>
+        </div>
 
         <div className="mt-3 grid gap-2 md:grid-cols-5">
           <select className="rounded-lg border px-2 py-1 text-sm" value={filters.complexity} onChange={(e) => setFilters((f) => ({ ...f, complexity: e.target.value as '' | Complexity }))}>
@@ -168,7 +181,14 @@ export const ScenarioPlayer: React.FC = () => {
 
         <div className="mt-3 grid gap-3 md:grid-cols-2">
           {filteredScenarios.map((item) => (
-            <button key={item.id} onClick={() => { setSelectedScenarioId(item.id); setStepIndex(0); setSelectedOptionId(null); }} className={`rounded-xl border p-3 text-left ${item.id === scenario.id ? 'border-brand-400 bg-brand-50' : 'border-slate-200 bg-white'}`}>
+            <button
+              key={item.id}
+              onClick={() => {
+                setSelectedScenarioId(item.id);
+                resetScenarioProgress();
+              }}
+              className={`rounded-xl border p-3 text-left ${item.id === scenario.id ? 'border-brand-400 bg-brand-50' : 'border-slate-200 bg-white'}`}
+            >
               <p className="font-semibold">{item.title}</p>
               <div className="mt-1 flex flex-wrap items-center gap-2 text-xs">
                 <span>{complexityIcon[item.complexity]} {item.complexity}</span>
@@ -243,7 +263,7 @@ export const ScenarioPlayer: React.FC = () => {
             <button className="btn-secondary text-xs" onClick={() => goToStep(stepIndex - 1)} disabled={stepIndex === 0}>← Anterior</button>
             <button className="btn-secondary text-xs" onClick={() => goToStep(stepIndex + 1)} disabled={stepIndex === scenario.treeTraversal.length - 1}>Próximo →</button>
             <button className="btn-secondary text-xs" onClick={() => setTrainingMode((v) => !v)}>{trainingMode ? 'Sair do treinamento' : 'Modo treinamento'}</button>
-            <button className="btn-secondary text-xs" onClick={resetTraining}>Reset treino</button>
+            <button className="btn-secondary text-xs" onClick={resetScenarioProgress}>Reset treino</button>
           </div>
         </article>
       </section>
