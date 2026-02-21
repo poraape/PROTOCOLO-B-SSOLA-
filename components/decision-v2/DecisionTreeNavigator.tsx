@@ -28,7 +28,7 @@ const EmergencyButton: React.FC<{ onClick: () => void }> = ({ onClick }) => (
       boxShadow: designTokens.shadows.emergency
     }}
   >
-    🚨 EMERGÊNCIA
+    🚨 Chamar ajuda imediata (192/190/193)
   </button>
 );
 
