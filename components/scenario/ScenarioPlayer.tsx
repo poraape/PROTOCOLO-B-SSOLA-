@@ -1,4 +1,5 @@
 import React from 'react';
+import { SCENARIO_PLAYER_COPY } from '../../content/microcopyLexicon';
 import { Category, Complexity, RiskLevel } from '../../data/scenarios';
 import { SimulatorDecision } from './SimulatorDecision';
 import { SimulatorExploration } from './SimulatorExploration';
@@ -51,11 +52,11 @@ const ScenarioPlayerContent: React.FC = () => {
       <section className="card p-4">
         <div className="sticky top-0 z-10 -mx-4 -mt-4 mb-3 flex flex-wrap items-center justify-between gap-2 border-b bg-white/95 px-4 py-3 backdrop-blur">
           <div>
-            <h2 className="text-xl font-extrabold">ScenarioPlayer</h2>
-            <p className="text-sm text-muted">Treinamento de travessia com cenários locais (offline), filtros e modo prática.</p>
+            <h2 className="text-xl font-extrabold">{SCENARIO_PLAYER_COPY.title}</h2>
+            <p className="text-sm text-muted">{SCENARIO_PLAYER_COPY.subtitle}</p>
           </div>
           <div className="flex flex-wrap gap-2">
-            <button className="btn-secondary text-xs" onClick={resetTraining}>Reiniciar cenário atual</button>
+            <button className="btn-secondary text-xs" onClick={resetTraining}>{SCENARIO_PLAYER_COPY.resetScenario}</button>
           </div>
         </div>
         <SimulatorExploration categoryIcon={categoryIcon} complexityIcon={complexityIcon} riskVisual={riskVisual} />
@@ -63,7 +64,7 @@ const ScenarioPlayerContent: React.FC = () => {
 
       {pendingPrerequisites.length > 0 ? (
         <div className="rounded-lg border border-amber-200 bg-amber-50 p-3 text-xs text-amber-900">
-          ⚠️ Progressão sugerida: este cenário recomenda concluir antes {pendingPrerequisites.join(', ')}.
+          {SCENARIO_PLAYER_COPY.pendingPrerequisites.riskImpact} {SCENARIO_PLAYER_COPY.pendingPrerequisites.nextActionPrefix} {pendingPrerequisites.join(', ')}.
         </div>
       ) : null}
 
@@ -74,10 +75,10 @@ const ScenarioPlayerContent: React.FC = () => {
           <SimulatorFeedback />
           <div className="card p-4">
             <div className="flex flex-wrap gap-2">
-              <button className="btn-secondary text-xs" onClick={goBackInHistory} disabled={visitedStepIds.length <= 1}>← Anterior</button>
-              <button className="btn-secondary text-xs" onClick={() => setTrainingMode((value) => !value)}>{trainingMode ? 'Sair do treinamento' : 'Modo treinamento'}</button>
-              <button className="btn-secondary text-xs" onClick={resetTraining}>Reset treino</button>
-              <button className="btn-secondary text-xs" onClick={markScenarioCompleted}>Marcar cenário como concluído</button>
+              <button className="btn-secondary text-xs" onClick={goBackInHistory} disabled={visitedStepIds.length <= 1}>{SCENARIO_PLAYER_COPY.previousStep}</button>
+              <button className="btn-secondary text-xs" onClick={() => setTrainingMode((value) => !value)}>{trainingMode ? SCENARIO_PLAYER_COPY.trainingModeOn : SCENARIO_PLAYER_COPY.trainingModeOff}</button>
+              <button className="btn-secondary text-xs" onClick={resetTraining}>{SCENARIO_PLAYER_COPY.resetTraining}</button>
+              <button className="btn-secondary text-xs" onClick={markScenarioCompleted}>{SCENARIO_PLAYER_COPY.markCompleted}</button>
             </div>
           </div>
         </div>
