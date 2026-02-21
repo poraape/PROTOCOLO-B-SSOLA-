@@ -1,6 +1,7 @@
 import React from 'react';
 import { designTokens } from '../../styles/design-tokens';
 import { DecisionLevel } from '../../types/decision-tree-v2';
+import { getManagementNotificationLabel } from './managementNotificationLabel';
 
 interface ContextualControlsProps {
   currentLevel: DecisionLevel;

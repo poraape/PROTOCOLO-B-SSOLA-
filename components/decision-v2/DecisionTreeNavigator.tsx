@@ -8,6 +8,7 @@ import { ContextualControls } from './ContextualControls';
 import { designTokens } from '../../styles/design-tokens';
 import { ManagementContactModal } from './ManagementContactModal';
 import { SchoolShield } from '../SchoolShield';
+import { verbByIntentCapitalized } from '../../content/microcopyLexicon';
 
 const EmergencyButton: React.FC<{ onClick: () => void }> = ({ onClick }) => (
   <button
