@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { ALERTS_DATA } from '../../data/alerts';
-import { SCENARIOS_DATA, Scenario, ScenarioStep, Category, Complexity, RiskLevel } from '../../data/scenarios';
+import { SCENARIOS_DATA, Scenario, Category, Complexity, RiskLevel } from '../../data/scenarios';
 
 type ActorTone = 'brand' | 'emerald' | 'violet' | 'amber' | 'slate';
 
@@ -34,7 +34,7 @@ const actorClass: Record<ActorTone, string> = {
   slate: 'bg-slate-100 text-slate-800'
 };
 
-const STORAGE_KEY = 'scenario-player-training-v1';
+const STORAGE_KEY = 'scenario-player-training-v2';
 
 interface TrainingOption {
   id: string;
@@ -49,7 +49,9 @@ export const ScenarioPlayer: React.FC = () => {
   const [trainingMode, setTrainingMode] = useState(false);
   const [selectedOptionId, setSelectedOptionId] = useState<string | null>(null);
   const [score, setScore] = useState(0);
-  const [showRationale, setShowRationale] = useState(false);
+  const [showRationale, setShowRationale] = useState(true);
+  const [guidedOrder, setGuidedOrder] = useState(true);
+  const [completedScenarioIds, setCompletedScenarioIds] = useState<string[]>([]);
 
   const [filters, setFilters] = useState<{
     complexity: '' | Complexity;
@@ -63,19 +65,30 @@ export const ScenarioPlayer: React.FC = () => {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (!raw) return;
     try {
-      const parsed = JSON.parse(raw) as { selectedScenarioId: string | null; stepIndex: number; score: number; trainingMode: boolean };
+      const parsed = JSON.parse(raw) as {
+        selectedScenarioId: string | null;
+        stepIndex: number;
+        score: number;
+        trainingMode: boolean;
+        guidedOrder?: boolean;
+        completedScenarioIds?: string[];
+      };
       setSelectedScenarioId(parsed.selectedScenarioId);
       setStepIndex(parsed.stepIndex || 0);
       setScore(parsed.score || 0);
       setTrainingMode(Boolean(parsed.trainingMode));
+      setGuidedOrder(parsed.guidedOrder ?? true);
+      setCompletedScenarioIds(parsed.completedScenarioIds || []);
     } catch {
       // noop
     }
   }, []);
 
   useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify({ selectedScenarioId, stepIndex, score, trainingMode }));
-  }, [selectedScenarioId, stepIndex, score, trainingMode]);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({ selectedScenarioId, stepIndex, score, trainingMode, guidedOrder, completedScenarioIds }));
+  }, [selectedScenarioId, stepIndex, score, trainingMode, guidedOrder, completedScenarioIds]);
+
+  const getPendingPrerequisites = (item: Scenario) => item.prerequisites.filter((id) => !completedScenarioIds.includes(id));
 
   const filteredScenarios = useMemo(() => {
     return SCENARIOS_DATA
@@ -84,8 +97,13 @@ export const ScenarioPlayer: React.FC = () => {
       .filter((s) => (filters.category ? s.category.includes(filters.category) : true))
       .filter((s) => (filters.episodic ? (filters.episodic === 'episodico' ? s.isEpisodic : !s.isEpisodic) : true))
       .filter((s) => (filters.collective ? (filters.collective === 'coletivo' ? s.isCollective : !s.isCollective) : true))
-      .sort((a, b) => riskWeight[b.riskLevel] - riskWeight[a.riskLevel]);
-  }, [filters]);
+      .sort((a, b) => {
+        if (guidedOrder) {
+          return a.recommendedOrder - b.recommendedOrder || riskWeight[b.riskLevel] - riskWeight[a.riskLevel];
+        }
+        return riskWeight[b.riskLevel] - riskWeight[a.riskLevel];
+      });
+  }, [filters, guidedOrder]);
 
   const scenario: Scenario | undefined = useMemo(
     () => SCENARIOS_DATA.find((item) => item.id === selectedScenarioId) || filteredScenarios[0],
@@ -95,6 +113,13 @@ export const ScenarioPlayer: React.FC = () => {
   useEffect(() => {
     if (!selectedScenarioId && filteredScenarios[0]) setSelectedScenarioId(filteredScenarios[0].id);
   }, [selectedScenarioId, filteredScenarios]);
+
+  const pendingPrerequisites = scenario ? getPendingPrerequisites(scenario) : [];
+
+  const suggestedNext = useMemo(
+    () => filteredScenarios.find((item) => !completedScenarioIds.includes(item.id) && getPendingPrerequisites(item).length === 0),
+    [completedScenarioIds, filteredScenarios]
+  );
 
   const currentStep = scenario?.treeTraversal[stepIndex];
 
@@ -150,6 +175,11 @@ export const ScenarioPlayer: React.FC = () => {
     if (option.isCorrect) setScore((prev) => prev + 1);
   };
 
+  const markScenarioCompleted = () => {
+    if (!scenario) return;
+    setCompletedScenarioIds((prev) => (prev.includes(scenario.id) ? prev : [...prev, scenario.id]));
+  };
+
   if (!scenario || !currentStep) return null;
 
   return (
@@ -165,6 +195,16 @@ export const ScenarioPlayer: React.FC = () => {
             <button className="btn-secondary text-xs" onClick={handleExitTrainingMode} disabled={!trainingMode}>Sair do modo treinamento</button>
           </div>
         </div>
+
+        <label className="mt-3 flex items-center gap-2 text-xs text-muted">
+          <input type="checkbox" checked={guidedOrder} onChange={(e) => setGuidedOrder(e.target.checked)} />
+          Ordenação guiada por trilha (simples → complexo)
+        </label>
+        {guidedOrder && suggestedNext ? (
+          <p className="mt-2 rounded-lg border border-emerald-200 bg-emerald-50 px-3 py-2 text-xs text-emerald-800">
+            Próxima sugestão: <strong>{suggestedNext.id}</strong> ({suggestedNext.title})
+          </p>
+        ) : null}
 
         <div className="mt-3 grid gap-2 md:grid-cols-5">
           <select className="rounded-lg border px-2 py-1 text-sm" value={filters.complexity} onChange={(e) => setFilters((f) => ({ ...f, complexity: e.target.value as '' | Complexity }))}>
@@ -196,10 +236,14 @@ export const ScenarioPlayer: React.FC = () => {
             >
               <p className="font-semibold">{item.title}</p>
               <div className="mt-1 flex flex-wrap items-center gap-2 text-xs">
+                <span className="badge">trilha: nível {item.level}</span>
+                <span className="badge">ordem: {item.recommendedOrder}</span>
                 <span>{complexityIcon[item.complexity]} {item.complexity}</span>
                 <span className="badge">risco: {item.riskLevel}</span>
                 <span className="badge">{item.isEpisodic ? 'episódico' : 'crônico'}</span>
                 <span className="badge">{item.isCollective ? 'coletivo' : 'individual'}</span>
+                {getPendingPrerequisites(item).length > 0 ? <span className="badge">pré-req pendente</span> : null}
+                {completedScenarioIds.includes(item.id) ? <span className="badge">concluído</span> : null}
               </div>
               <div className="mt-1 text-sm">{item.category.map((cat) => `${categoryIcon[cat]} ${cat}`).join(' · ')}</div>
               <div className="mt-2 flex flex-wrap gap-1">{item.markers.map((marker) => <span key={`${item.id}-${marker}`} className="rounded-full border border-slate-200 px-2 py-0.5 text-[11px] text-slate-700">{marker}</span>)}</div>
@@ -222,6 +266,11 @@ export const ScenarioPlayer: React.FC = () => {
         </article>
 
         <article className="card p-4">
+          {pendingPrerequisites.length > 0 ? (
+            <div className="mb-3 rounded-lg border border-amber-200 bg-amber-50 p-3 text-xs text-amber-900">
+              ⚠️ Progressão sugerida: este cenário recomenda concluir antes {pendingPrerequisites.join(', ')}. Você pode continuar mesmo assim.
+            </div>
+          ) : null}
           <div className="flex flex-wrap items-center gap-2">
             <h3 className="text-sm font-bold uppercase tracking-wide text-muted">Passo atual</h3>
             <span className={`rounded-full px-2 py-0.5 text-xs font-semibold ${actorClass[actorTone(currentStep.actor)]}`}>{currentStep.actor}</span>
@@ -284,7 +333,8 @@ export const ScenarioPlayer: React.FC = () => {
             <button className="btn-secondary text-xs" onClick={() => goToStep(stepIndex - 1)} disabled={stepIndex === 0}>← Anterior</button>
             <button className="btn-secondary text-xs" onClick={() => goToStep(stepIndex + 1)} disabled={stepIndex === scenario.treeTraversal.length - 1}>Próximo →</button>
             <button className="btn-secondary text-xs" onClick={() => setTrainingMode((v) => !v)}>{trainingMode ? 'Sair do treinamento' : 'Modo treinamento'}</button>
-            <button className="btn-secondary text-xs" onClick={resetScenarioProgress}>Reset treino</button>
+            <button className="btn-secondary text-xs" onClick={resetTraining}>Reset treino</button>
+            <button className="btn-secondary text-xs" onClick={markScenarioCompleted}>Marcar cenário como concluído</button>
           </div>
         </article>
       </section>

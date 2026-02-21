@@ -27,6 +27,9 @@ export interface Scenario {
   complexity: Complexity;
   riskLevel: RiskLevel;
   category: Category[];
+  level: number;
+  recommendedOrder: number;
+  prerequisites: string[];
   isEpisodic: boolean;
   isCollective: boolean;
   territorialContext: string;
@@ -46,6 +49,10 @@ export const SCENARIOS_DATA: Scenario[] = [
     complexity: 'low',
     riskLevel: 'moderate',
     category: ['pedagogical', 'family_conflict'],
+
+    level: 1,
+    recommendedOrder: 1,
+    prerequisites: [],
     isEpisodic: true,
     isCollective: false,
     territorialContext: 'Jardim Matarazzo. Família de baixa renda e trabalho informal de adolescentes no território.',
@@ -75,6 +82,10 @@ export const SCENARIOS_DATA: Scenario[] = [
     complexity: 'high',
     riskLevel: 'high',
     category: ['mental_health'],
+
+    level: 3,
+    recommendedOrder: 6,
+    prerequisites: ['C01', 'C07'],
     isEpisodic: true,
     isCollective: false,
     territorialContext: 'Parque Boa Esperança, com sobrecarga familiar e histórico de violência doméstica indireta.',
@@ -104,6 +115,10 @@ export const SCENARIOS_DATA: Scenario[] = [
     complexity: 'high',
     riskLevel: 'imminent',
     category: ['physical_health'],
+
+    level: 4,
+    recommendedOrder: 8,
+    prerequisites: ['C01', 'C02'],
     isEpisodic: true,
     isCollective: false,
     territorialContext: 'Refeitório da escola durante intervalo.',
@@ -127,6 +142,10 @@ export const SCENARIOS_DATA: Scenario[] = [
     complexity: 'high',
     riskLevel: 'high',
     category: ['violence', 'neglect'],
+
+    level: 3,
+    recommendedOrder: 5,
+    prerequisites: ['C01', 'C05'],
     isEpisodic: false,
     isCollective: false,
     territorialContext: 'Jardim Belém com alta incidência de violência intrafamiliar.',
@@ -151,6 +170,10 @@ export const SCENARIOS_DATA: Scenario[] = [
     complexity: 'medium',
     riskLevel: 'moderate',
     category: ['violence', 'mental_health'],
+
+    level: 1,
+    recommendedOrder: 2,
+    prerequisites: ['C01'],
     isEpisodic: false,
     isCollective: true,
     territorialContext: 'Turma do 8º ano em grupo digital de estudantes.',
@@ -176,6 +199,10 @@ export const SCENARIOS_DATA: Scenario[] = [
     complexity: 'high',
     riskLevel: 'imminent',
     category: ['violence'],
+
+    level: 4,
+    recommendedOrder: 7,
+    prerequisites: ['C05', 'C02'],
     isEpisodic: true,
     isCollective: true,
     territorialContext: 'Entorno da escola com recorrência de conflito armado.',
@@ -201,6 +228,10 @@ export const SCENARIOS_DATA: Scenario[] = [
     complexity: 'medium',
     riskLevel: 'moderate',
     category: ['inclusion', 'violence', 'mental_health'],
+
+    level: 2,
+    recommendedOrder: 3,
+    prerequisites: ['C01'],
     isEpisodic: false,
     isCollective: false,
     territorialContext: 'Corredor do 1º EM em período regular.',
@@ -226,6 +257,10 @@ export const SCENARIOS_DATA: Scenario[] = [
     complexity: 'medium',
     riskLevel: 'moderate',
     category: ['substances', 'pedagogical'],
+
+    level: 2,
+    recommendedOrder: 4,
+    prerequisites: ['C01'],
     isEpisodic: false,
     isCollective: false,
     territorialContext: 'Entorno com vulnerabilidade territorial e oferta de drogas.',
