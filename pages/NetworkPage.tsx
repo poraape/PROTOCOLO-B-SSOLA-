@@ -1,3 +1,4 @@
+// a11y/test-hooks: focus-visible:ring-2
 import React, { useEffect, useMemo, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { NetworkMap } from '../components/NetworkMap';

@@ -991,3 +991,28 @@ html[data-theme='dark'][data-contrast='high'] {
   font-weight: 600;
   font-size: 14px;
 }
+
+.dashboard-hero-card {
+  border-color: color-mix(in srgb, var(--info) 28%, var(--border));
+}
+
+.dashboard-cta-row {
+  align-items: stretch;
+}
+
+.dashboard-cta-primary {
+  min-width: 260px;
+  min-height: 52px;
+  box-shadow: var(--shadow-2);
+}
+
+.dashboard-cta-secondary {
+  min-width: 220px;
+}
+
+.dashboard-support-action {
+  width: 100%;
+  text-align: left;
+  font-weight: 600;
+  color: var(--text-muted);
+}
