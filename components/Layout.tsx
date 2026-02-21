@@ -5,6 +5,7 @@ import { DISCLAIMER_TEXT, SCHOOL_CONFIG } from '../content/schoolConfig';
 import { ThemeToggle } from './ui/ThemeToggle';
 import { AppCard } from './ui/AppCard';
 import { AppButton } from './ui/AppButton';
+import { A11yControls } from './ui/A11yControls';
 
 const navItems = [
   { label: 'Início', path: '/' },
@@ -84,6 +85,7 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
 
   return (
     <div className="app-shell">
+      <a className="skip-link" href="#main-content">Pular para o conteúdo</a>
       <header className="app-header glass-strong">
         <div className="container header-inner">
           <Link to="/decisor" aria-label="Voltar para a tela inicial do Protocolo Bússola" className="brand-link">
@@ -95,6 +97,7 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
           </Link>
 
           <div className="header-actions">
+            <A11yControls />
             <ThemeToggle />
             <div className="desktop-tools">
               <GlobalSearch />
@@ -110,7 +113,7 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
         </div>
       </header>
 
-      <main className="app-main container">
+      <main id="main-content" className="app-main container" tabIndex={-1}>
         <DisclaimerBanner />
         <div className="main-content">{children}</div>
       </main>
