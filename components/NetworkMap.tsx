@@ -31,7 +31,7 @@ export const NetworkMap: React.FC<NetworkMapProps> = ({ services, highlightId, z
     [services]
   );
 
-  const positionedServices = useMemo(() => {
+  const groupedServices = useMemo(() => {
     const grouped = new Map<string, ServiceWithCoordinates[]>();
     mappableServices.forEach((service) => {
       const key = `${service.coordinates.lat.toFixed(6)}:${service.coordinates.lng.toFixed(6)}`;
@@ -40,47 +40,58 @@ export const NetworkMap: React.FC<NetworkMapProps> = ({ services, highlightId, z
       grouped.set(key, current);
     });
 
-    return Array.from(grouped.values()).flatMap((group) => {
-      if (group.length === 1) {
-        return [{ service: group[0], position: [group[0].coordinates.lat, group[0].coordinates.lng] as [number, number] }];
-      }
-
-      return group.map((service, index) => {
-        const radius = 0.00018;
-        const angle = (2 * Math.PI * index) / group.length;
-        return {
-          service,
-          position: [service.coordinates.lat + radius * Math.sin(angle), service.coordinates.lng + radius * Math.cos(angle)] as [number, number]
-        };
-      });
-    });
+    return Array.from(grouped.values()).map((servicesAtPoint) => ({
+      position: [servicesAtPoint[0].coordinates.lat, servicesAtPoint[0].coordinates.lng] as [number, number],
+      services: servicesAtPoint
+    }));
   }, [mappableServices]);
+
+  const highlightedGroup = useMemo(() => {
+    if (!highlightId) return undefined;
+    return groupedServices.find((group) => group.services.some((service) => service.id === highlightId));
+  }, [groupedServices, highlightId]);
+
+  const highlightedService = useMemo(() => {
+    if (!highlightId) return undefined;
+    return mappableServices.find((service) => service.id === highlightId);
+  }, [highlightId, mappableServices]);
 
   if (!mappableServices.length) return null;
 
-  const highlightedService = highlightId ? mappableServices.find((service) => service.id === highlightId) : undefined;
-  const centerService = highlightedService || mappableServices[0];
-  const center: [number, number] = [centerService.coordinates.lat, centerService.coordinates.lng];
+  const center: [number, number] = highlightedGroup?.position || groupedServices[0].position;
   const mapZoom = zoom ?? (highlightedService ? 15 : 13);
 
   return (
     <MapContainer center={center} zoom={mapZoom} style={{ height: '100%', width: '100%' }}>
       <TileLayer attribution="&copy; OpenStreetMap contributors" url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-      {positionedServices.map(({ service, position }) => (
-        <Marker key={service.id} position={position}>
-          <Popup>
-            <strong>{service.name}</strong>
-            <br />
-            {service.phone}
-            {service.geoStatus === 'PENDENTE' ? (
-              <>
-                <br />
-                <em>(geolocalização pendente)</em>
-              </>
-            ) : null}
-          </Popup>
-        </Marker>
-      ))}
+      {groupedServices.map((group) => {
+        const sortedServices = [...group.services].sort((a, b) => {
+          if (a.id === highlightId) return -1;
+          if (b.id === highlightId) return 1;
+          return a.name.localeCompare(b.name, 'pt-BR');
+        });
+
+        return (
+          <Marker key={`${group.position[0]}:${group.position[1]}`} position={group.position}>
+            <Popup>
+              {sortedServices.map((service, index) => (
+                <div key={service.id} style={{ marginBottom: index < sortedServices.length - 1 ? 8 : 0 }}>
+                  <strong>{service.name}</strong>
+                  {service.id === highlightId ? ' (destacado)' : ''}
+                  <br />
+                  {service.phone}
+                  {service.geoStatus === 'PENDENTE' ? (
+                    <>
+                      <br />
+                      <em>(geolocalização pendente)</em>
+                    </>
+                  ) : null}
+                </div>
+              ))}
+            </Popup>
+          </Marker>
+        );
+      })}
     </MapContainer>
   );
 };
