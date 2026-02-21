@@ -1,0 +1,149 @@
+.app-shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  color: var(--text);
+}
+
+.app-header,
+.app-footer {
+  background: var(--surface-strong);
+  border: 1px solid var(--border);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+}
+
+.app-main {
+  flex: 1;
+}
+
+.container {
+  width: 100%;
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+.glass,
+.glass-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-1);
+}
+
+.glass-strong {
+  background: var(--surface-strong);
+  border: 1px solid var(--border);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-2);
+}
+
+.glass-card {
+  padding: 16px 20px;
+}
+
+.btn {
+  min-height: 44px;
+  padding: 10px 14px;
+  border-radius: 14px;
+  font-weight: 600;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: background-color .2s ease, border-color .2s ease, color .2s ease, box-shadow .2s ease;
+}
+
+.btn-primary {
+  background: var(--info);
+  border-color: var(--info);
+  color: #fff;
+}
+
+.btn-secondary {
+  background: var(--surface-strong);
+  border-color: var(--border);
+  color: var(--text);
+}
+
+.btn-ghost {
+  background: transparent;
+  border-color: color-mix(in srgb, var(--text) 20%, transparent);
+  color: var(--text);
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--surface-strong);
+  color: var(--text);
+  padding: 4px 10px;
+  font-size: .78rem;
+  font-weight: 700;
+}
+
+.chip-domain-protecao { color: var(--domain-protecao); }
+.chip-domain-saude-mental { color: var(--domain-saude-mental); }
+.chip-domain-discriminacao { color: var(--domain-discriminacao); }
+.chip-domain-vulnerabilidade { color: var(--domain-vulnerabilidade); }
+.chip-domain-pedagogico { color: var(--domain-pedagogico); }
+.chip-domain-substancias { color: var(--domain-substancias); }
+.chip-domain-gravidez { color: var(--domain-gravidez); }
+.chip-domain-saude-fisica { color: var(--domain-saude-fisica); }
+.chip-domain-evasao { color: var(--domain-evasao); }
+.chip-domain-inclusao { color: var(--domain-inclusao); }
+.chip-domain-violacao-direitos { color: var(--domain-violacao-direitos); }
+.chip-domain-comportamento-grave { color: var(--domain-comportamento-grave); }
+.chip-domain-conflitos { color: var(--domain-conflitos); }
+
+.row { display: flex; gap: 12px; align-items: center; }
+.col { display: flex; flex-direction: column; gap: 12px; }
+.stack { display: flex; flex-direction: column; }
+.grid-2 { display: grid; gap: 12px; grid-template-columns: 1fr; }
+.grid-3 { display: grid; gap: 12px; grid-template-columns: 1fr; }
+.space-1 > * + * { margin-top: 4px; }
+.space-2 > * + * { margin-top: 8px; }
+.space-3 > * + * { margin-top: 12px; }
+
+@media (min-width: 768px) {
+  .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+.side-panel {
+  border: 1px solid var(--border);
+  background: var(--surface);
+  border-radius: var(--radius-xl);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  box-shadow: var(--shadow-1);
+  padding: 14px;
+}
+
+.panel-title {
+  margin: 0 0 8px;
+  color: var(--text);
+  font-size: .95rem;
+  font-weight: 700;
+}
+
+.panel-item {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: .88rem;
+  line-height: 1.55;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn,
+  .glass,
+  .glass-strong,
+  .glass-card {
+    transition: none !important;
+  }
+}

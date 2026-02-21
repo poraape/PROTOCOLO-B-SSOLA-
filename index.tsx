@@ -4,8 +4,9 @@ import ReactDOM from 'react-dom/client';
 import App from './App';
 import { PROTOCOL_DATA } from './content/protocolData';
 import { validateTreeDepth } from './services/validateTreeDepth';
-import './index.css';
 import './styles/designTokens.css';
+import './styles/ui.css';
+import './index.css';
 import 'leaflet/dist/leaflet.css';
 
 
