@@ -49,7 +49,7 @@ export const ScenarioPlayer: React.FC = () => {
   const [trainingMode, setTrainingMode] = useState(false);
   const [selectedOptionId, setSelectedOptionId] = useState<string | null>(null);
   const [score, setScore] = useState(0);
-  const [showRationale, setShowRationale] = useState(true);
+  const [showRationale, setShowRationale] = useState(false);
 
   const [filters, setFilters] = useState<{
     complexity: '' | Complexity;
@@ -124,8 +124,12 @@ export const ScenarioPlayer: React.FC = () => {
   const goToStep = (next: number) => {
     if (!scenario) return;
     const bounded = Math.max(0, Math.min(next, scenario.treeTraversal.length - 1));
+    const hasStepChanged = bounded !== stepIndex;
     setStepIndex(bounded);
     setSelectedOptionId(null);
+    if (hasStepChanged) {
+      setShowRationale(!trainingMode && next > stepIndex);
+    }
   };
 
   const resetScenarioProgress = () => {
@@ -142,6 +146,7 @@ export const ScenarioPlayer: React.FC = () => {
   const answerTraining = (option: TrainingOption) => {
     if (selectedOptionId) return;
     setSelectedOptionId(option.id);
+    setShowRationale(true);
     if (option.isCorrect) setScore((prev) => prev + 1);
   };
 
@@ -209,7 +214,7 @@ export const ScenarioPlayer: React.FC = () => {
           <div className="mt-2 space-y-2">
             {scenario.treeTraversal.map((step, idx) => (
               <div key={`${scenario.id}-${step.step}`} className={`rounded-lg border p-2 text-sm ${idx === stepIndex ? 'border-brand-400 bg-brand-50' : 'border-slate-200'}`}>
-                <p className="font-semibold">#{step.step} · {step.nodeId}</p>
+                <p className="font-semibold">#{step.step} · {step.label}</p>
                 <p className="text-xs text-muted">{step.actor}</p>
               </div>
             ))}
@@ -226,6 +231,7 @@ export const ScenarioPlayer: React.FC = () => {
 
           {trainingMode ? (
             <>
+              <p className="mt-2 text-xs font-bold uppercase tracking-wide text-muted">1. Decidir</p>
               <p className="mt-2 text-sm"><strong>Trigger:</strong> {scenario.trigger}</p>
               <p className="text-sm"><strong>Perfil:</strong> {scenario.studentProfile}</p>
               <div className="mt-3 space-y-2">
@@ -241,15 +247,30 @@ export const ScenarioPlayer: React.FC = () => {
                   {!!selectedAlert && !selectedOption.isCorrect && <p className="mt-1 text-xs">{selectedAlert.reason}</p>}
                 </div>
               ) : null}
+
+              <p className="mt-3 text-xs font-bold uppercase tracking-wide text-muted">2. Aprender</p>
+              {showRationale ? (
+                <div className="mt-2 rounded-lg border border-slate-200 bg-slate-50 p-3 text-xs text-muted">
+                  {currentStep.rationale}
+                </div>
+              ) : (
+                <p className="mt-2 text-xs text-muted">Confirme sua decisão para liberar o rationale.</p>
+              )}
+
               <p className="mt-2 text-sm font-semibold">Score: {score}/{scenario.treeTraversal.length}</p>
             </>
           ) : (
             <>
+              <p className="mt-2 text-xs font-bold uppercase tracking-wide text-muted">1. Decidir</p>
               <p className="mt-2 text-sm">{currentStep.action}</p>
-              <details className="mt-2" open={showRationale} onToggle={(e) => setShowRationale((e.target as HTMLDetailsElement).open)}>
-                <summary className="cursor-pointer text-xs font-semibold text-muted">Rationale</summary>
-                <p className="mt-1 text-xs text-muted">{currentStep.rationale}</p>
-              </details>
+              <p className="mt-3 text-xs font-bold uppercase tracking-wide text-muted">2. Aprender</p>
+              {showRationale ? (
+                <div className="mt-2 rounded-lg border border-slate-200 bg-slate-50 p-3 text-xs text-muted">
+                  {currentStep.rationale}
+                </div>
+              ) : (
+                <p className="mt-2 text-xs text-muted">Avance para a próxima etapa para liberar o rationale.</p>
+              )}
               {currentStep.alertTriggered ? (
                 <div className="mt-3 rounded-lg border border-amber-200 bg-amber-50 p-3 text-sm">
                   <p className="font-semibold">⚠️ Alerta {currentStep.alertTriggered}</p>
