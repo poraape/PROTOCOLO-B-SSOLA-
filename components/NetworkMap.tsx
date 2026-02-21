@@ -31,6 +31,31 @@ export const NetworkMap: React.FC<NetworkMapProps> = ({ services, highlightId, z
     [services]
   );
 
+  const positionedServices = useMemo(() => {
+    const grouped = new Map<string, ServiceWithCoordinates[]>();
+    mappableServices.forEach((service) => {
+      const key = `${service.coordinates.lat.toFixed(6)}:${service.coordinates.lng.toFixed(6)}`;
+      const current = grouped.get(key) || [];
+      current.push(service);
+      grouped.set(key, current);
+    });
+
+    return Array.from(grouped.values()).flatMap((group) => {
+      if (group.length === 1) {
+        return [{ service: group[0], position: [group[0].coordinates.lat, group[0].coordinates.lng] as [number, number] }];
+      }
+
+      return group.map((service, index) => {
+        const radius = 0.00018;
+        const angle = (2 * Math.PI * index) / group.length;
+        return {
+          service,
+          position: [service.coordinates.lat + radius * Math.sin(angle), service.coordinates.lng + radius * Math.cos(angle)] as [number, number]
+        };
+      });
+    });
+  }, [mappableServices]);
+
   if (!mappableServices.length) return null;
 
   const highlightedService = highlightId ? mappableServices.find((service) => service.id === highlightId) : undefined;
@@ -41,8 +66,8 @@ export const NetworkMap: React.FC<NetworkMapProps> = ({ services, highlightId, z
   return (
     <MapContainer center={center} zoom={mapZoom} style={{ height: '100%', width: '100%' }}>
       <TileLayer attribution="&copy; OpenStreetMap contributors" url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-      {mappableServices.map((service) => (
-        <Marker key={service.id} position={[service.coordinates.lat, service.coordinates.lng]}>
+      {positionedServices.map(({ service, position }) => (
+        <Marker key={service.id} position={position}>
           <Popup>
             <strong>{service.name}</strong>
             <br />

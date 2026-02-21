@@ -15,13 +15,15 @@ const hasCoordinates = (service: (typeof PROTOCOL_DATA.services)[number]) =>
 const normalizePhoneToTel = (phone: string) => `tel:${phone.replace(/\D/g, '')}`;
 const shouldUseListFallback = (total: number, mappable: number) => total === 0 || mappable === 0;
 
-const mapServiceToFilter = (service: (typeof PROTOCOL_DATA.services)[number]) => {
-  const text = `${service.type || ''} ${service.name}`.toLowerCase();
-  if (text.includes('saúde') || text.includes('hospital') || text.includes('upa')) return ['SAUDE'];
-  if (text.includes('social') || text.includes('cras') || text.includes('creas')) return ['SOCIAL'];
-  if (text.includes('tutelar')) return ['TUTELAR'];
-  if (text.includes('polícia') || text.includes('segurança') || text.includes('delegacia')) return ['SEGURANCA'];
-  return ['TODOS'];
+type ServiceFilter = 'TODOS' | 'SAUDE' | 'SOCIAL' | 'DIREITOS' | 'EDUCACAO' | 'EMERGENCIA';
+
+const mapServiceToFilter = (service: (typeof PROTOCOL_DATA.services)[number]): ServiceFilter => {
+  if (service.networkType === 'saude') return 'SAUDE';
+  if (service.networkType === 'social') return 'SOCIAL';
+  if (service.networkType === 'direitos') return 'DIREITOS';
+  if (service.networkType === 'educacao') return 'EDUCACAO';
+  if (service.networkType === 'emergencia') return 'EMERGENCIA';
+  return 'TODOS';
 };
 
 export const NetworkPage: React.FC = () => {
@@ -34,23 +36,24 @@ export const NetworkPage: React.FC = () => {
   const shouldAutoOpenMap = viewParam === 'map' || Boolean(highlightId);
 
   const [search, setSearch] = useState('');
-  const [filter, setFilter] = useState<'TODOS' | 'SAUDE' | 'SOCIAL' | 'TUTELAR' | 'SEGURANCA'>('TODOS');
+  const [filter, setFilter] = useState<ServiceFilter>('TODOS');
   const [showMap, setShowMap] = useState(shouldAutoOpenMap);
 
   const filters = [
     { id: 'TODOS', label: 'Todos' },
     { id: 'SAUDE', label: 'Saúde' },
     { id: 'SOCIAL', label: 'Social' },
-    { id: 'TUTELAR', label: 'Tutelar' },
-    { id: 'SEGURANCA', label: 'Segurança' }
+    { id: 'DIREITOS', label: 'Proteção e Direitos' },
+    { id: 'EDUCACAO', label: 'Gestão e Educação' },
+    { id: 'EMERGENCIA', label: 'Emergência' }
   ] as const;
 
   const services = useMemo(
     () =>
       PROTOCOL_DATA.services.filter((service) => {
-        const text = `${service.name} ${service.address} ${service.phone}`.toLowerCase();
+        const text = `${service.name} ${service.address} ${service.phone} ${service.notes || ''} ${service.category || ''}`.toLowerCase();
         const matchesSearch = search.trim().length === 0 || text.includes(search.toLowerCase());
-        const matchesFilter = filter === 'TODOS' || mapServiceToFilter(service).includes(filter);
+        const matchesFilter = filter === 'TODOS' || mapServiceToFilter(service) === filter;
         const matchesReferral = !normalizedReferralFilter || text.includes(normalizedReferralFilter);
         return matchesSearch && matchesFilter && matchesReferral;
       }),
