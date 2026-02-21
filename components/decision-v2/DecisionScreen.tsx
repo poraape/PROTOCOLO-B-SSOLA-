@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import { ProgressBar } from './ProgressBar';
 import { HelpTooltip } from './HelpTooltip';
-import { DecisionBreadcrumb } from './DecisionBreadcrumb';
+import { InstitutionalBreadcrumb } from './InstitutionalBreadcrumb';
 import { DecisionNode } from '../../types/decision-tree-v2';
 import { AppCard } from '../ui/AppCard';
 import { AppButton } from '../ui/AppButton';
@@ -35,7 +35,7 @@ const DecisionScreenBase: React.FC<DecisionScreenProps> = ({
 
   return (
     <section style={{ maxWidth: '1180px', margin: '0 auto', padding: '0 16px 24px' }}>
-      {history && nodes && currentNodeId ? <DecisionBreadcrumb history={history} nodes={nodes} currentNodeId={currentNodeId} /> : null}
+      <InstitutionalBreadcrumb history={history} nodes={nodes} currentNodeId={currentNodeId} />
 
       <div style={{ display: 'flex', gap: 16, alignItems: 'flex-start' }}>
         <div style={{ flex: 1, maxWidth: 820, margin: '0 auto' }}>

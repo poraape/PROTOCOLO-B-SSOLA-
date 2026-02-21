@@ -2,7 +2,7 @@ import React from 'react';
 import { urgencyConfig } from '../../styles/design-tokens';
 import { LeafNode, DecisionNode, ManagementRole } from '../../types/decision-tree-v2';
 import { AccordionSection } from './AccordionSection';
-import { DecisionBreadcrumb } from './DecisionBreadcrumb';
+import { InstitutionalBreadcrumb } from './InstitutionalBreadcrumb';
 import { PROTOCOL_DATA } from '../../content/protocolData';
 import { anexosMeta } from '../../data/anexosMeta';
 import { AppCard } from '../ui/AppCard';
@@ -96,7 +96,7 @@ const ResultScreenBase: React.FC<ResultScreenProps> = ({
 
   return (
     <section style={{ maxWidth: '1180px', margin: '0 auto', padding: '0 16px 24px' }}>
-      {history && nodes && currentNodeId ? <DecisionBreadcrumb history={history} nodes={nodes} currentNodeId={currentNodeId} /> : null}
+      <InstitutionalBreadcrumb history={history} nodes={nodes} currentNodeId={currentNodeId} />
 
       {(onBack || onPrint) ? (
         <div style={{ display: 'flex', gap: 10, marginBottom: 12 }}>
