@@ -6,6 +6,7 @@ import { ResultScreen } from './ResultScreen';
 import { CategoryGrid } from './CategoryGrid';
 import { ContextualControls } from './ContextualControls';
 import { designTokens } from '../../styles/design-tokens';
+import { ManagementContactModal } from './ManagementContactModal';
 
 const EmergencyButton: React.FC<{ onClick: () => void }> = ({ onClick }) => (
   <button
@@ -27,6 +28,30 @@ const EmergencyButton: React.FC<{ onClick: () => void }> = ({ onClick }) => (
     }}
   >
     🚨 EMERGÊNCIA
+  </button>
+);
+
+
+const ManagementButton: React.FC<{ onClick: () => void }> = ({ onClick }) => (
+  <button
+    type="button"
+    onClick={onClick}
+    style={{
+      position: 'fixed',
+      bottom: '24px',
+      left: '24px',
+      backgroundColor: designTokens.colors.info,
+      color: '#FFFFFF',
+      padding: '12px 18px',
+      borderRadius: '999px',
+      border: 'none',
+      fontWeight: '700',
+      cursor: 'pointer',
+      zIndex: 1000,
+      boxShadow: designTokens.shadows.md
+    }}
+  >
+    🏫 Falar com gestão
   </button>
 );
 
@@ -101,6 +126,7 @@ export const DecisionTreeNavigator: React.FC = () => {
             history={state.history}
             nodes={decisionTreeV2.nodes}
             currentNodeId={state.currentNodeId}
+            onContactManagement={handleContactManagement}
           />
         );
 
@@ -136,7 +162,6 @@ export const DecisionTreeNavigator: React.FC = () => {
       </div>
 
       {currentLevel !== 'CRITICAL_TRIAGE' ? <EmergencyButton onClick={() => navigate('EMERGENCY_LEAF')} /> : null}
-
       <ContextualControls
         currentLevel={currentLevel}
         canGoBackToCategories={state.history.includes('CATEGORY_SELECT')}
@@ -146,49 +171,9 @@ export const DecisionTreeNavigator: React.FC = () => {
         onReclassify={reset}
       />
 
-      {showManagementModal ? (
-        <div
-          style={{
-            position: 'fixed',
-            inset: 0,
-            backgroundColor: 'rgba(0, 0, 0, 0.35)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            zIndex: 200
-          }}
-          onClick={() => setShowManagementModal(false)}
-        >
-          <div
-            style={{
-              backgroundColor: '#FFFFFF',
-              borderRadius: designTokens.borderRadius.lg,
-              padding: designTokens.spacing.lg,
-              width: 'min(90vw, 420px)'
-            }}
-            onClick={(event) => event.stopPropagation()}
-          >
-            <h3 style={{ marginTop: 0 }}>Contato da gestão</h3>
-            <p style={{ marginBottom: designTokens.spacing.md }}>
-              Acione Direção/Coordenação imediatamente para validação conjunta e registro oficial.
-            </p>
-            <button
-              type="button"
-              onClick={() => setShowManagementModal(false)}
-              style={{
-                border: 'none',
-                backgroundColor: designTokens.colors.routine,
-                color: '#FFFFFF',
-                padding: `${designTokens.spacing.sm} ${designTokens.spacing.md}`,
-                borderRadius: designTokens.borderRadius.md,
-                cursor: 'pointer'
-              }}
-            >
-              Fechar
-            </button>
-          </div>
-        </div>
-      ) : null}
+      <ManagementButton onClick={handleContactManagement} />
+      <ManagementContactModal isOpen={showManagementModal} onClose={() => setShowManagementModal(false)} />
+
     </>
   );
 };

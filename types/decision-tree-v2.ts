@@ -30,6 +30,21 @@ export type RiskClassification = 'BAIXO' | 'MODERADO' | 'ALTO' | 'EMERGENCIAL';
 export type UrgencyLevel = 'IMMEDIATE' | 'URGENT' | 'SCHEDULED';
 
 /**
+ * Perfis de gestão escolar acionáveis no desfecho final.
+ */
+export type ManagementRole = 'DIRECAO' | 'VICE_DIRECAO' | 'COORDENACAO';
+
+/**
+ * Momento recomendado para comunicação à gestão escolar.
+ */
+export type ManagementNotificationTiming = 'IMEDIATO' | 'MESMO_DIA' | 'CIENCIA';
+
+/**
+ * Instrumentos oficiais de registro disponíveis no protocolo.
+ */
+export type LeafInstrumentId = 'anexo-i' | 'anexo-ii' | 'anexo-iii';
+
+/**
  * Contrato base obrigatório para todos os nós da árvore V2.
  */
 export interface BaseNode {
@@ -171,15 +186,11 @@ export interface LeafPrimaryActions {
 /**
  * Serviço de contato acionável no resultado final.
  */
-export interface LeafContactService {
-  /** Nome do serviço/rede de destino. */
-  name: string;
-  /** Telefone principal de acionamento. */
-  phone: string;
-  /** Endereço do serviço, quando aplicável. */
-  address?: string;
-  /** Horário de funcionamento, quando aplicável. */
-  hours?: string;
+export interface LeafContactServiceRef {
+  /** ID do serviço no catálogo oficial (ex.: content/protocolData.ts). */
+  serviceId: string;
+  /** Nota opcional para contexto específico do leaf. */
+  note?: string;
   /** Urgência esperada para acionar este serviço. */
   urgency: UrgencyLevel;
 }
@@ -191,7 +202,22 @@ export interface LeafContactTargets {
   /** Título do bloco de contatos. */
   title: string;
   /** Serviços acionáveis relacionados ao caso. */
-  services: LeafContactService[];
+  services: LeafContactServiceRef[];
+}
+
+
+/**
+ * Comunicação de gestão obrigatória em todos os leafs V2.
+ */
+export interface LeafManagementNotification {
+  /** Se a gestão deve ser comunicada para o desfecho. */
+  required: boolean;
+  /** Momento esperado da comunicação. */
+  timing: ManagementNotificationTiming;
+  /** Papéis de gestão a serem acionados. */
+  roles: ManagementRole[];
+  /** Mensagem curta pronta para disparo interno. */
+  message?: string;
 }
 
 /**
@@ -272,6 +298,10 @@ export interface LeafNode extends BaseNode {
   primaryActions: LeafPrimaryActions;
   /** Bloco obrigatório de contatos e encaminhamentos. */
   contactTargets: LeafContactTargets;
+  /** Política obrigatória de comunicação com gestão escolar. */
+  managementNotification: LeafManagementNotification;
+  /** Instrumentos obrigatórios que devem ser utilizados no desfecho. */
+  instruments: LeafInstrumentId[];
   /** Bloco obrigatório de registro institucional. */
   recordingRequirement: LeafRecordingRequirement;
   /** Bloco obrigatório de acompanhamento. */

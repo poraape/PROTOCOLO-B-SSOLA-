@@ -1,4 +1,4 @@
-import React, { Suspense, lazy, useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { HashRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { Layout } from './components/Layout';
 import { Dashboard } from './pages/Dashboard';
@@ -17,11 +17,7 @@ import { buildStaticIndex } from './search/buildIndex';
 import { OfflineStatusBanner } from './components/OfflineStatusBanner';
 import { SCHOOL_CONFIG } from './content/schoolConfig';
 
-const DecisionTreeNavigator = lazy(() => import('./components/decision-v2/DecisionTreeNavigator'));
-
 const App: React.FC = () => {
-  const [useV2, setUseV2] = useState(false);
-
   useEffect(() => {
     document.documentElement.style.setProperty('--brand-primary', SCHOOL_CONFIG.primaryColor);
   }, []);
@@ -47,45 +43,13 @@ const App: React.FC = () => {
     load();
   }, []);
 
-  const decisorElement = (
-    <>
-      <div
-        style={{
-          padding: '16px',
-          backgroundColor: '#F3F4F6',
-          borderBottom: '1px solid #E5E7EB',
-          textAlign: 'center'
-        }}
-      >
-        <label style={{ fontSize: '16px', fontWeight: '600' }}>
-          <input
-            type="checkbox"
-            checked={useV2}
-            onChange={(e) => setUseV2(e.target.checked)}
-            style={{ marginRight: '8px' }}
-          />
-          Usar Nova Versão V2 (Experimental)
-        </label>
-      </div>
-
-      {/* TODO: Remover feature flag e ComponenteAntigo após validação da V2 */}
-      {useV2 ? (
-        <Suspense fallback={<div style={{ padding: '16px', textAlign: 'center' }}>Carregando...</div>}>
-          <DecisionTreeNavigator />
-        </Suspense>
-      ) : (
-        <DecisorPage />
-      )}
-    </>
-  );
-
   return (
     <Router>
       <Layout>
         <OfflineStatusBanner />
         <Routes>
           <Route path="/" element={<Dashboard />} />
-          <Route path="/decisor" element={decisorElement} />
+          <Route path="/decisor" element={<DecisorPage />} />
           <Route path="/fluxos" element={<FlowsListPage />} />
           <Route path="/fluxos/:id" element={<FlowPage />} />
           <Route path="/rede" element={<NetworkPage />} />

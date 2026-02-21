@@ -118,6 +118,33 @@ const BASE_SERVICES: RawService[] = [
     notes: 'Registro obrigatório de ocorrências quando previsto em protocolo.'
   },
   {
+    id: 'gestao-direcao',
+    name: 'Direção Escolar',
+    category: 'EDUCAÇÃO',
+    address: 'Sala da Direção - E.E. Ermelino Matarazzo',
+    phone: '(11) 0000-0001',
+    hours: 'Seg a Sex, 7h às 19h',
+    notes: 'TODO: substituir telefone institucional oficial da direção.'
+  },
+  {
+    id: 'gestao-vice',
+    name: 'Vice-direção Escolar',
+    category: 'EDUCAÇÃO',
+    address: 'Sala da Vice-direção - E.E. Ermelino Matarazzo',
+    phone: '(11) 0000-0002',
+    hours: 'Seg a Sex, 7h às 19h',
+    notes: 'TODO: substituir telefone institucional oficial da vice-direção.'
+  },
+  {
+    id: 'gestao-coordenacao',
+    name: 'Coordenação Pedagógica',
+    category: 'EDUCAÇÃO',
+    address: 'Sala da Coordenação - E.E. Ermelino Matarazzo',
+    phone: '(11) 0000-0003',
+    hours: 'Seg a Sex, 7h às 19h',
+    notes: 'TODO: substituir telefone institucional oficial da coordenação.'
+  },
+  {
     id: 'policia-militar',
     name: 'Polícia Militar',
     category: 'EMERGÊNCIA',
@@ -237,6 +264,9 @@ const SERVICE_TARGET_BY_ID: Record<string, Service['targetType']> = {
   'delegacia-civil-197': 'OUTROS',
   defensoria: 'OUTROS',
   'de-leste1': 'GESTAO_ESCOLAR',
+  'gestao-direcao': 'GESTAO_ESCOLAR',
+  'gestao-vice': 'GESTAO_ESCOLAR',
+  'gestao-coordenacao': 'GESTAO_ESCOLAR',
   conviva: 'OUTROS',
   'policia-militar': 'OUTROS',
   samu: 'EMERGENCIA_192_193',
