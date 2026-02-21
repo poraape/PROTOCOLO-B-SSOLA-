@@ -12,6 +12,13 @@ import { SidePanelOrientacoes } from '../ui/SidePanelOrientacoes';
 import { BottomSheetOrientacoes } from '../ui/BottomSheetOrientacoes';
 import { verbByIntentCapitalized } from '../../content/microcopyLexicon';
 
+type FinalizationChecklistState = {
+  emergencyContacted: boolean;
+  managementInformed: boolean;
+  recordStarted: boolean;
+  completed: boolean;
+};
+
 interface ResultScreenProps {
   leaf: LeafNode;
   rationaleText?: string;
@@ -54,6 +61,20 @@ const urgencyTone: Record<LeafNode['primaryActions']['urgencyLevel'], 'danger' |
   SCHEDULED: 'success'
 };
 
+const FINALIZATION_STORAGE_KEY = 'decision-v2-finalization-checklist';
+
+const requiredChecklistByUrgency: Record<LeafNode['primaryActions']['urgencyLevel'], Array<keyof Omit<FinalizationChecklistState, 'completed'>>> = {
+  IMMEDIATE: ['emergencyContacted', 'managementInformed', 'recordStarted'],
+  URGENT: ['emergencyContacted', 'managementInformed'],
+  SCHEDULED: ['recordStarted']
+};
+
+const reassessmentDeadlineByUrgency: Record<LeafNode['primaryActions']['urgencyLevel'], string> = {
+  IMMEDIATE: 'imediatamente após o atendimento inicial',
+  URGENT: 'ainda hoje',
+  SCHEDULED: 'em até 7 dias'
+};
+
 const ResultScreenBase: React.FC<ResultScreenProps> = ({
   leaf,
   rationaleText,
@@ -65,6 +86,12 @@ const ResultScreenBase: React.FC<ResultScreenProps> = ({
   onContactManagement
 }) => {
   const [showGuidance, setShowGuidance] = React.useState(false);
+  const [checklistState, setChecklistState] = React.useState<FinalizationChecklistState>({
+    emergencyContacted: false,
+    managementInformed: false,
+    recordStarted: false,
+    completed: false
+  });
   const urgency = urgencyByLeaf(leaf);
 
   const rawServices = leaf.contactTargets?.services ?? [];
@@ -92,6 +119,68 @@ const ResultScreenBase: React.FC<ResultScreenProps> = ({
     required: false,
     timing: 'CIENCIA' as const,
     roles: [] as ManagementRole[]
+  };
+
+  React.useEffect(() => {
+    if (typeof window === 'undefined') {
+      return;
+    }
+
+    const persistedValue = window.localStorage.getItem(FINALIZATION_STORAGE_KEY);
+    if (!persistedValue) {
+      return;
+    }
+
+    try {
+      const parsed = JSON.parse(persistedValue) as Record<string, FinalizationChecklistState>;
+      if (parsed[leaf.id]) {
+        setChecklistState(parsed[leaf.id]);
+      }
+    } catch {
+      window.localStorage.removeItem(FINALIZATION_STORAGE_KEY);
+    }
+  }, [leaf.id]);
+
+  React.useEffect(() => {
+    if (typeof window === 'undefined') {
+      return;
+    }
+
+    const persistedValue = window.localStorage.getItem(FINALIZATION_STORAGE_KEY);
+    let storedChecklistByLeaf: Record<string, FinalizationChecklistState> = {};
+
+    if (persistedValue) {
+      try {
+        storedChecklistByLeaf = JSON.parse(persistedValue) as Record<string, FinalizationChecklistState>;
+      } catch {
+        storedChecklistByLeaf = {};
+      }
+    }
+
+    storedChecklistByLeaf[leaf.id] = checklistState;
+    window.localStorage.setItem(FINALIZATION_STORAGE_KEY, JSON.stringify(storedChecklistByLeaf));
+  }, [checklistState, leaf.id]);
+
+  const requiredItems = requiredChecklistByUrgency[leaf.primaryActions.urgencyLevel];
+  const canFinalize = requiredItems.every((requiredItem) => checklistState[requiredItem]);
+
+  const handleChecklistToggle = (field: keyof Omit<FinalizationChecklistState, 'completed'>) => {
+    setChecklistState((previousState) => ({
+      ...previousState,
+      [field]: !previousState[field],
+      completed: false
+    }));
+  };
+
+  const handleFinalize = () => {
+    if (!canFinalize) {
+      return;
+    }
+
+    setChecklistState((previousState) => ({
+      ...previousState,
+      completed: true
+    }));
   };
 
   return (
@@ -206,6 +295,59 @@ const ResultScreenBase: React.FC<ResultScreenProps> = ({
                     <li key={`${action}-${idx}`}>{action}</li>
                   ))}
                 </ol>
+              </AppCard>
+
+              <AppCard strong heading="Antes de finalizar" subheading="Confirme os acionamentos essenciais desta consulta">
+                <div style={{ display: 'grid', gap: 10 }}>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: 8, color: 'var(--text)' }}>
+                    <input
+                      type="checkbox"
+                      checked={checklistState.emergencyContacted}
+                      onChange={() => handleChecklistToggle('emergencyContacted')}
+                    />
+                    Contato emergencial/rede acionado
+                    {requiredItems.includes('emergencyContacted') ? <strong> (obrigatório)</strong> : null}
+                  </label>
+
+                  <label style={{ display: 'flex', alignItems: 'center', gap: 8, color: 'var(--text)' }}>
+                    <input
+                      type="checkbox"
+                      checked={checklistState.managementInformed}
+                      onChange={() => handleChecklistToggle('managementInformed')}
+                    />
+                    Gestão comunicada
+                    {requiredItems.includes('managementInformed') ? <strong> (obrigatório)</strong> : null}
+                  </label>
+
+                  <label style={{ display: 'flex', alignItems: 'center', gap: 8, color: 'var(--text)' }}>
+                    <input
+                      type="checkbox"
+                      checked={checklistState.recordStarted}
+                      onChange={() => handleChecklistToggle('recordStarted')}
+                    />
+                    Registro iniciado
+                    {requiredItems.includes('recordStarted') ? <strong> (obrigatório)</strong> : null}
+                  </label>
+
+                  <AppButton variant="primary" onClick={handleFinalize} disabled={!canFinalize}>
+                    Concluir consulta
+                  </AppButton>
+
+                  {checklistState.completed ? (
+                    <div
+                      role="status"
+                      style={{
+                        border: '1px solid var(--border)',
+                        borderRadius: 12,
+                        padding: 10,
+                        background: 'var(--surface-strong)',
+                        color: 'var(--text)'
+                      }}
+                    >
+                      ✅ Consulta concluída. Reavalie em {reassessmentDeadlineByUrgency[leaf.primaryActions.urgencyLevel]} prazo.
+                    </div>
+                  ) : null}
+                </div>
               </AppCard>
             </div>
           </AppCard>
