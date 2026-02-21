@@ -50,23 +50,30 @@ export const TechnicalGlossaryPage: React.FC = () => {
 
   const sortedCategories = useMemo(() => [...GLOSSARY_CATEGORIES].sort(), []);
 
+  const urlQuery = searchParams.get('q') ?? '';
+
+  useEffect(() => {
+    if (urlQuery !== searchQuery) {
+      setSearchQuery(urlQuery);
+    }
+  }, [urlQuery]);
+
   useEffect(() => {
     setVisibleCount(INITIAL_VISIBLE);
   }, [searchQuery, categoryFilter]);
 
   useEffect(() => {
     const normalized = searchQuery.trim();
-    const currentQuery = searchParams.get('q') ?? '';
 
-    if (normalized && normalized !== currentQuery) {
+    if (normalized && normalized !== urlQuery) {
       setSearchParams({ q: normalized }, { replace: true });
       return;
     }
 
-    if (!normalized && currentQuery) {
+    if (!normalized && urlQuery) {
       setSearchParams({}, { replace: true });
     }
-  }, [searchQuery, setSearchParams]);
+  }, [searchQuery, setSearchParams, urlQuery]);
 
   const toggleExpand = (id: string) => {
     setExpandedTermId(expandedTermId === id ? null : id);
