@@ -7,142 +7,149 @@ const BASE_SERVICES: RawService[] = [
     id: 'ubs-ermelino',
     name: 'UBS Ermelino Matarazzo',
     category: 'SAÚDE',
-    address: 'Rua Antônio de Freitas Toledo, 185 - Ermelino Matarazzo - São Paulo/SP - CEP 03812-050',
-    phone: '(11) 2545-8235 / (11) 2542-0945',
-    coordinates: { lat: -23.4869, lng: -46.4793 },
+    address: 'Rua Antônio de Freitas Toledo, 185, Ermelino Matarazzo, São Paulo/SP, CEP 03809-060',
+    phone: '(11) 2545-8235 / (11) 2544-0051',
+    coordinates: { lat: -23.50043, lng: -46.48740 },
     hours: 'Seg a Sex, 7h às 19h',
-    notes: 'Porta de entrada SUS para saúde geral e cuidado longitudinal.'
+    notes: 'Unidade Básica de Saúde responsável pela atenção primária, consultas, vacinação e acompanhamento de condições crônicas no território.'
   },
   {
     id: 'caps-ij',
     name: 'CAPS Infantojuvenil II Ermelino Matarazzo',
     category: 'SAÚDE',
-    address: 'Rua Antônio Bonici, 18 - Ermelino Matarazzo - São Paulo/SP - CEP 03811-060',
-    phone: '(11) 3294-3828 / (11) 2544-1490',
-    coordinates: { lat: -23.4877, lng: -46.4807 },
+    address: 'Rua Antônio Bonici, 18, Jardim Matarazzo, São Paulo/SP, CEP 03811-060',
+    phone: '(11) 3294-3828',
+    coordinates: { lat: -23.50240, lng: -46.47080 },
     hours: 'Seg a Sex, 7h às 19h',
-    notes: 'Sofrimento psíquico infantojuvenil com necessidade de cuidado especializado.'
+    notes: 'Centro de Atenção Psicossocial voltado à saúde mental de crianças e adolescentes, atendimento intensivo e interdisciplinar em regime aberto.'
   },
   {
     id: 'caps-adulto',
     name: 'CAPS Adulto II Ermelino Matarazzo',
     category: 'SAÚDE',
-    address: 'Avenida Boturussu, 168 - Parque Boturussu - São Paulo/SP - CEP 03804-000',
-    phone: '(11) 2546-6787 / (11) 2544-0406',
-    coordinates: { lat: -23.4938, lng: -46.4749 },
-    hours: 'Seg a Sex, 7h às 19h'
+    address: 'Avenida Boturussu, 168, Ermelino Matarazzo/Parque Boturussu, São Paulo/SP, CEP 03802-000',
+    phone: '(11) 2546-6787 / (11) 2542-0693',
+    coordinates: { lat: -23.50450, lng: -46.48420 },
+    hours: 'Seg a Sex, 7h às 19h',
+    notes: 'CAPS para adultos com transtornos mentais graves e persistentes, cuidado territorial em regime aberto.'
   },
   {
     id: 'caps-ad',
-    name: 'CAPS AD II Ermelino Matarazzo',
+    name: 'CAPS AD II Ermelino Matarazzo (Álcool e Drogas)',
     category: 'SAÚDE',
-    address: 'Rua João Antônio de Andrade, 804 - Parque Boturussu - São Paulo/SP - CEP 03804-000',
-    phone: '(11) 2943-9276 / (11) 2546-2597',
-    coordinates: { lat: -23.4942, lng: -46.4743 },
-    hours: 'Seg a Sex, 7h às 19h'
+    address: 'Rua João Antônio de Andrade, 804, Parque Boturussu, São Paulo/SP, CEP 03805-070',
+    phone: '(11) 2943-9276',
+    coordinates: { lat: -23.50120, lng: -46.47770 },
+    hours: 'Seg a Sex, 7h às 19h',
+    notes: 'CAPS especializado em necessidades decorrentes do uso de álcool e outras drogas (regime aberto).'
   },
   {
     id: 'upa-ermelino',
-    name: 'UPA Ermelino Matarazzo',
+    name: 'UPA III 24h Ermelino Matarazzo',
     category: 'SAÚDE',
-    address: 'Rua Miguel Novais, 113 - Vila Paranaguá - São Paulo/SP - CEP 03807-370',
-    phone: '(11) 2574-3258',
-    coordinates: { lat: -23.4912, lng: -46.4686 },
-    hours: '24 horas'
+    address: 'Rua Miguel Novais, 113, Vila Paranaguá, São Paulo/SP, CEP 03807-370',
+    phone: '(11) 2574-3343 / (11) 2574-4132 / (11) 2574-3258',
+    coordinates: { lat: -23.50295, lng: -46.47155 },
+    hours: '24 horas',
+    notes: 'Unidade de Pronto Atendimento 24h para urgências e emergências clínicas na região.'
   },
   {
     id: 'cras-ermelino',
-    name: 'CRAS Ermelino',
+    name: 'CRAS Ermelino Matarazzo',
     category: 'SOCIAL',
-    address: 'Avenida Paranaguá, 2045 - Ermelino Matarazzo - São Paulo/SP - CEP 03806-010',
-    phone: '(11) 2545-3211 / (11) 2545-3222',
-    coordinates: { lat: -23.486, lng: -46.4718 },
-    hours: 'Seg a Sex, 8h às 18h'
+    address: 'Avenida Paranaguá, 1492, Ermelino Matarazzo, São Paulo/SP, CEP 03806-000',
+    phone: '(11) 2545-3211 / (11) 2545-2866 / (11) 2363-9735 / (11) 2545-3506',
+    coordinates: { lat: -23.50110, lng: -46.47640 },
+    hours: 'Seg a Sex, 8h às 18h',
+    notes: 'Proteção social básica: benefícios e acompanhamento de famílias em vulnerabilidade.'
   },
   {
     id: 'creas-ermelino',
-    name: 'CREAS Ermelino',
+    name: 'CREAS Ermelino Matarazzo',
     category: 'SOCIAL',
-    address: 'Avenida Boturussu, 131 - Ermelino Matarazzo - São Paulo/SP - CEP 03804-000',
-    phone: '(11) 2541-7882',
-    coordinates: { lat: -23.4929, lng: -46.4747 },
-    hours: 'Seg a Sex, 8h às 18h'
+    address: 'Avenida Boturussu, 1626, Ermelino Matarazzo, São Paulo/SP, CEP 03802-010',
+    phone: '(11) 2545-3211',
+    coordinates: { lat: -23.50560, lng: -46.48240 },
+    hours: 'Seg a Sex, 8h às 18h',
+    notes: 'Proteção social especial: atendimento a pessoas/famílias com direitos violados; articula rede de proteção.'
   },
   {
     id: 'conselho-tutelar',
-    name: 'Conselho Tutelar Ermelino Matarazzo',
+    name: 'Conselho Tutelar de Ermelino Matarazzo',
     category: 'DIREITOS_SGD',
-    address: 'Rua Chesira Maltauro, 342 - Ermelino Matarazzo - São Paulo/SP - CEP 03811-100',
-    phone: '(11) 2214-9050 / (11) 2546-0657 / (11) 2546-3257',
-    coordinates: { lat: -23.4885, lng: -46.4801 },
-    notes: 'Acionamento obrigatório em ameaça/violação de direitos de criança e adolescente.'
+    address: 'Rua Chesira Maltauro, 342, Parque Boturussu, São Paulo/SP, CEP 03811-100',
+    phone: '(11) 2214-9050 / (11) 97283-6692 / (11) 97283-6705',
+    coordinates: { lat: -23.49780, lng: -46.47290 },
+    notes: 'Órgão autônomo de garantia de direitos de crianças e adolescentes; atende denúncias de violação de direitos no território.'
   },
   {
     id: 'ddm-sao-miguel',
-    name: 'DDM São Miguel Paulista',
+    name: 'DDM São Miguel Paulista – Delegacia de Defesa da Mulher',
     category: 'DIREITOS_SGD',
-    address: 'Rua Dríades, 50 - 2º andar - São Miguel Paulista - São Paulo/SP - CEP 08010-190',
+    address: 'Rua Dríades, 50, 2º andar, São Miguel Paulista, São Paulo/SP, CEP 08010-190',
     phone: '(11) 6154-1362 / (11) 6153-7666',
-    coordinates: { lat: -23.4996, lng: -46.4449 }
+    coordinates: { lat: -23.49510, lng: -46.43860 },
+    notes: 'Delegacia especializada em violência doméstica e de gênero.'
   },
   {
     id: 'delegacia-civil-197',
-    name: 'Polícia Civil (orientação e acionamento)',
+    name: 'Polícia Civil – Disque 197 (Canal Remoto SSP-SP)',
     category: 'DIREITOS_SGD',
-    address: 'Canal remoto SSP-SP',
+    address: 'Atendimento remoto telefônico estadual (sem endereço único)',
     phone: '197',
-    notes: 'Para orientação e acionamento da Polícia Civil. Em violência em curso, usar 190.'
+    notes: 'Orientação e acionamento da Polícia Civil. Em risco/violência em curso, usar 190.'
   },
   {
     id: 'defensoria',
-    name: 'Defensoria Pública',
+    name: 'Defensoria Pública do Estado de São Paulo – Central de Atendimento',
     category: 'DIREITOS_SGD',
-    address: 'Canal estadual / foro regional',
-    phone: '0800 773 4340'
+    address: 'Canal telefônico estadual (sedes variam; sem endereço único)',
+    phone: '0800 773 4340',
+    notes: 'Orientação jurídica e agendamento gratuito para pessoas em vulnerabilidade.'
   },
   {
     id: 'de-leste1',
-    name: 'Diretoria de Ensino Região Leste 1',
+    name: 'Diretoria de Ensino – Região Leste 1 (SEE-SP)',
     category: 'EDUCAÇÃO',
-    address: 'Rua Caetano de Campos, 220 - Tatuapé - São Paulo/SP - CEP 03088-010',
-    phone: '0800 770 0012',
-    coordinates: { lat: -23.5409, lng: -46.5797 },
-    notes: 'Apoio institucional, supervisão e orientação técnica.'
+    address: 'Rua Caetano de Campos, 220, Tatuapé, São Paulo/SP, CEP 03088-010',
+    phone: '0800 770 0012 / (11) 2296-0122',
+    coordinates: { lat: -23.54060, lng: -46.57470 },
+    notes: 'Órgão regional da SEE-SP para gestão/supervisão e apoio às escolas estaduais da Leste 1.'
   },
   {
     id: 'conviva',
-    name: 'Plataforma Conviva / SED',
+    name: 'Plataforma Conviva / Secretaria Escolar Digital (SED – SEE-SP)',
     category: 'EDUCAÇÃO',
-    address: 'Secretaria Escolar Digital',
+    address: 'Plataforma digital (serviço virtual)',
     phone: 'Acesso institucional',
-    notes: 'Registro obrigatório de ocorrências quando previsto em protocolo.'
+    notes: 'Plataforma on-line para gestão/registros e comunicação institucional (uso conforme protocolo).'
   },
   {
     id: 'gestao-direcao',
-    name: 'Direção Escolar',
+    name: 'Gestão Escolar (Direção / Vice / Coordenação)',
     category: 'EDUCAÇÃO',
     address: 'Sala da Direção - E.E. Ermelino Matarazzo',
-    phone: '(11) 0000-0001',
+    phone: 'Telefone institucional (cadastro SEE-SP)',
     hours: 'Seg a Sex, 7h às 19h',
-    notes: 'TODO: substituir telefone institucional oficial da direção.'
+    notes: 'Gestão pedagógica/administrativa; seguir cadastro oficial SEE-SP para contato.'
   },
   {
     id: 'gestao-vice',
-    name: 'Vice-direção Escolar',
+    name: 'Gestão Escolar (Direção / Vice / Coordenação)',
     category: 'EDUCAÇÃO',
     address: 'Sala da Vice-direção - E.E. Ermelino Matarazzo',
-    phone: '(11) 0000-0002',
+    phone: 'Telefone institucional (cadastro SEE-SP)',
     hours: 'Seg a Sex, 7h às 19h',
-    notes: 'TODO: substituir telefone institucional oficial da vice-direção.'
+    notes: 'Gestão pedagógica/administrativa; seguir cadastro oficial SEE-SP para contato.'
   },
   {
     id: 'gestao-coordenacao',
-    name: 'Coordenação Pedagógica',
+    name: 'Gestão Escolar (Direção / Vice / Coordenação)',
     category: 'EDUCAÇÃO',
     address: 'Sala da Coordenação - E.E. Ermelino Matarazzo',
-    phone: '(11) 0000-0003',
+    phone: 'Telefone institucional (cadastro SEE-SP)',
     hours: 'Seg a Sex, 7h às 19h',
-    notes: 'TODO: substituir telefone institucional oficial da coordenação.'
+    notes: 'Gestão pedagógica/administrativa; seguir cadastro oficial SEE-SP para contato.'
   },
   {
     id: 'policia-militar',
@@ -196,31 +203,31 @@ const BASE_SERVICES: RawService[] = [
     id: 'ubs-vila-paranagua',
     name: 'UBS Vila Paranaguá',
     category: 'SAÚDE',
-    address: 'Rua Miguel Novais, 375 - Vila Paranaguá - São Paulo/SP - CEP 03807-060',
-    phone: '(11) 2574-4120',
-    coordinates: { lat: -23.4918, lng: -46.4692 },
+    address: 'Rua José Góes Nogueira, 70, Vila Paranaguá, São Paulo/SP, CEP 03807-380',
+    phone: '(11) 2574-3258',
+    coordinates: { lat: -23.50355, lng: -46.46940 },
     hours: 'Seg a Sex, 7h às 19h',
-    notes: 'Segunda referência de atenção básica no território; foco em saúde da família.'
+    notes: 'Atenção primária, vacinação e acompanhamento de saúde da população da Vila Paranaguá.'
   },
   {
     id: 'hospital-alipio',
-    name: 'Hospital Municipal Alípio Corrêa Netto',
+    name: 'Hospital Municipal Professor Doutor Alípio Corrêa Netto',
     category: 'SAÚDE',
-    address: 'Rua Inácio Monteiro, 5178 - Guaianases - São Paulo/SP - CEP 08420-000',
-    phone: '(11) 2518-9400',
-    coordinates: { lat: -23.5309, lng: -46.3980 },
+    address: 'Alameda Rodrigo de Brum, 1989, Ermelino Matarazzo / Vila Paranaguá, São Paulo/SP, CEP 03807-230',
+    phone: '(11) 5178-2000 / (11) 3394-8030',
+    coordinates: { lat: -23.50470, lng: -46.46290 },
     hours: '24 horas',
-    notes: 'Hospital de média/alta complexidade de referência para a zona leste. Geralmente acionado via UPA/SAMU.'
+    notes: 'Hospital municipal de média/alta complexidade (PS, internação, especialidades) referência Zona Leste.'
   },
   {
     id: 'dp-62',
-    name: '62ª DP - Delegacia de Polícia Civil',
+    name: '62° DP – Distrito Policial de Ermelino Matarazzo (Polícia Civil)',
     category: 'DIREITOS_SGD',
-    address: 'Rua Luís Gama, 460 - Jardim Belém - São Paulo/SP',
-    phone: '(11) 2545-2450',
-    coordinates: { lat: -23.4933, lng: -46.4778 },
+    address: 'Rua Ruy Pirozzelli, 250, Ermelino Matarazzo / Jardim Belém, São Paulo/SP, CEP 03811-020',
+    phone: '(11) 2546-4961',
+    coordinates: { lat: -23.50135, lng: -46.47070 },
     hours: '24 horas',
-    notes: 'Registro de BO, investigação de crimes após o fato. Não é para ocorrência em curso (usar 190).'
+    notes: 'Registro de BO, investigação e medidas de polícia judiciária no distrito.'
   },
   {
     id: 'disque-180',
@@ -233,21 +240,23 @@ const BASE_SERVICES: RawService[] = [
   },
   {
     id: 'mp-infancia',
-    name: 'Ministério Público - Promotoria da Infância e Juventude',
+    name: 'Ministério Público – Promotoria da Infância e Juventude (Foro Central)',
     category: 'DIREITOS_SGD',
-    address: 'Rua da Consolação, 1921 - Consolação - São Paulo/SP (foro central; acesso remoto disponível)',
+    address: 'Rua da Consolação, 1921, Consolação, São Paulo/SP, CEP 01301-100',
     phone: '(11) 3150-3600',
+    coordinates: { lat: -23.55320, lng: -46.65840 },
     hours: 'Seg a Sex, 9h às 17h',
-    notes: 'Acionado quando Conselho Tutelar ou CREAS não resolvem; violação sistêmica de direitos; recusa de matrícula.'
+    notes: 'Defesa dos direitos de crianças e adolescentes em situações de risco/violação.'
   },
   {
     id: 'scfv-ermelino',
-    name: 'SCFV - Serviço de Convivência Ermelino Matarazzo',
+    name: 'SCFV – Serviço de Convivência e Fortalecimento de Vínculos Ermelino Matarazzo',
     category: 'SOCIAL',
-    address: 'Vinculado ao CRAS Ermelino - Avenida Paranaguá, 2045',
-    phone: '(11) 2545-3211',
+    address: 'Vinculado ao CRAS Ermelino Matarazzo – Avenida Paranaguá, 1492, Ermelino Matarazzo, São Paulo/SP, CEP 03806-000',
+    phone: '(11) 2545-3211 / (11) 2545-2866 / (11) 2363-9735 / (11) 2545-3506',
+    coordinates: { lat: -23.50110, lng: -46.47640 },
     hours: 'Seg a Sex, 8h às 17h',
-    notes: 'Atividades socioeducativas para crianças e adolescentes em vulnerabilidade. Contrarreferência do CRAS.'
+    notes: 'Serviço socioassistencial em grupo para convivência e fortalecimento de vínculos familiares/comunitários.'
   }
 ];
 
