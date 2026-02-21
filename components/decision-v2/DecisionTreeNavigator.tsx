@@ -7,6 +7,7 @@ import { CategoryGrid } from './CategoryGrid';
 import { ContextualControls } from './ContextualControls';
 import { ManagementContactModal } from './ManagementContactModal';
 import { SchoolShield } from '../SchoolShield';
+import { trackDecisionEvent } from '../../services/analytics';
 
 const EmergencyButton: React.FC<{ onClick: () => void; label: string }> = ({ onClick, label }) => (
   <button type="button" onClick={onClick} className="decision-floating-button decision-floating-button--emergency">
@@ -22,7 +23,7 @@ const ManagementButton: React.FC<{ onClick: () => void }> = ({ onClick }) => (
 );
 
 export const DecisionTreeNavigator: React.FC = () => {
-  const { currentNode, navigate, goBack, reset, canGoBack, state } = useDecisionTreeV2(decisionTreeV2);
+  const { currentNode, navigate, goBack, reset, canGoBack, state, riskClassification } = useDecisionTreeV2(decisionTreeV2);
   const [showManagementModal, setShowManagementModal] = React.useState(false);
 
   const handleBackToCategories = React.useCallback(() => {
@@ -30,8 +31,12 @@ export const DecisionTreeNavigator: React.FC = () => {
   }, [navigate]);
 
   const handleContactManagement = React.useCallback(() => {
+    trackDecisionEvent('contato_gestao_acionado', {
+      nodeId: state.currentNodeId,
+      riskClassification
+    });
     setShowManagementModal(true);
-  }, []);
+  }, [riskClassification, state.currentNodeId]);
 
   const renderContent = () => {
     if (!('level' in currentNode)) return <div>Não foi possível carregar esta etapa do decisor. Reinicie a triagem.</div>;
@@ -92,6 +97,7 @@ export const DecisionTreeNavigator: React.FC = () => {
             history={state.history}
             nodes={decisionTreeV2.nodes}
             currentNodeId={state.currentNodeId}
+            riskClassification={riskClassification}
             onContactManagement={handleContactManagement}
           />
         );
@@ -125,7 +131,16 @@ export const DecisionTreeNavigator: React.FC = () => {
         {renderContent()}
       </div>
 
-      <EmergencyButton onClick={() => navigate('EMERGENCY_LEAF')} label={emergencyButtonLabel} />
+      <EmergencyButton
+        onClick={() => {
+          trackDecisionEvent('emergencia_acionada', {
+            nodeId: state.currentNodeId,
+            riskClassification
+          });
+          navigate('EMERGENCY_LEAF');
+        }}
+        label={emergencyButtonLabel}
+      />
       <ContextualControls
         currentLevel={currentLevel}
         canGoBackToCategories={state.history.includes('CATEGORY_SELECT')}
