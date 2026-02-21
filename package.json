@@ -9,12 +9,13 @@
     "preview": "vite preview",
     "test:unit": "node --test tests/unit/*.test.mjs",
     "test:e2e": "node --test tests/e2e/*.test.mjs",
-    "test": "npm run validate:tree && npm run test:tree",
+    "test": "npm run validate:tree && npm run validate:microcopy && npm run test:tree",
     "analyze-tree": "node --experimental-strip-types scripts/analyze-tree-quality.ts",
     "test:legacy": "npm run test:unit && npm run test:e2e",
     "test:watch": "jest --watch",
     "validate:tree": "node --experimental-strip-types scripts/validate-decision-tree-v3.ts",
-    "test:tree": "node --test --experimental-strip-types tests/decision-tree-navigation.test.ts"
+    "test:tree": "node --test --experimental-strip-types tests/decision-tree-navigation.test.ts",
+    "validate:microcopy": "node --experimental-strip-types scripts/validate-microcopy-terms.ts"
   },
   "dependencies": {
     "react-dom": "^19.2.4",

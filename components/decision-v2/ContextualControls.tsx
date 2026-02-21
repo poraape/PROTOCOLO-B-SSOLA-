@@ -67,7 +67,7 @@ export const ContextualControls: React.FC<ContextualControlsProps> = ({
           marginLeft: 'auto'
         }}
       >
-        💬 {getManagementNotificationLabel()}
+        💬 Comunicar a gestão agora
       </button>
 
       {showReclassify && currentLevel === 'LEAF' ? (

@@ -36,7 +36,7 @@ export const DecisionWizard: React.FC = () => {
   const goBack = () => history.length > 1 && setHistory((prev) => prev.slice(0, -1));
   const resetWizard = () => setHistory([{ nodeId: 'root_risk_check' }]);
   const goToCategoryHome = () => setHistory([{ nodeId: 'root_risk_check' }, { nodeId: 'category_home', selectedOptionLabel: 'Voltar para categorias' }]);
-  const goToSupport = () => setHistory([{ nodeId: 'root_risk_check' }, { nodeId: 'cat_nao_sei_apoio', selectedOptionLabel: 'Falar com gestão' }, { nodeId: 'leaf_nao_sei', selectedOptionLabel: 'Apoio da gestão' }]);
+  const goToSupport = () => setHistory([{ nodeId: 'root_risk_check' }, { nodeId: 'cat_nao_sei_apoio', selectedOptionLabel: 'Comunicar a gestão agora' }, { nodeId: 'leaf_nao_sei', selectedOptionLabel: 'Apoio da gestão' }]);
 
   if (!currentNode) return <StateOverlay type="error" text="Falha na rota. Reinicie e chame Gestão." inline />;
 
@@ -62,7 +62,7 @@ export const DecisionWizard: React.FC = () => {
           Reclassificar
         </button>
         <button type="button" className="btn-secondary text-sm focus-visible:ring-2 focus-visible:ring-brand-500" onClick={goToSupport}>
-          Falar com gestão
+          Comunicar a gestão agora
         </button>
       </div>
 
