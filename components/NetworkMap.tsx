@@ -21,24 +21,38 @@ type ServiceWithCoordinates = Service & {
 interface NetworkMapProps {
   services: Service[];
   height?: number;
+  highlightId?: string;
+  zoom?: number;
 }
 
-export const NetworkMap: React.FC<NetworkMapProps> = ({ services }) => {
-  const verifiedServices = services.filter((service) => service.geoStatus !== "PENDENTE");
+export const NetworkMap: React.FC<NetworkMapProps> = ({ services, highlightId, zoom }) => {
+  const mappableServices = useMemo(
+    () => services.filter((service): service is ServiceWithCoordinates => Boolean(service.coordinates)),
+    [services]
+  );
 
-  if (!verifiedServices.length) return null;
+  if (!mappableServices.length) return null;
 
-  const center: [number, number] = [verifiedServices[0].coordinates.lat, verifiedServices[0].coordinates.lng];
+  const highlightedService = highlightId ? mappableServices.find((service) => service.id === highlightId) : undefined;
+  const centerService = highlightedService || mappableServices[0];
+  const center: [number, number] = [centerService.coordinates.lat, centerService.coordinates.lng];
+  const mapZoom = zoom ?? (highlightedService ? 15 : 13);
 
   return (
-    <MapContainer center={center} zoom={13} style={{ height: '100%', width: '100%' }}>
+    <MapContainer center={center} zoom={mapZoom} style={{ height: '100%', width: '100%' }}>
       <TileLayer attribution="&copy; OpenStreetMap contributors" url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-      {verifiedServices.map((service) => (
+      {mappableServices.map((service) => (
         <Marker key={service.id} position={[service.coordinates.lat, service.coordinates.lng]}>
           <Popup>
             <strong>{service.name}</strong>
             <br />
             {service.phone}
+            {service.geoStatus === 'PENDENTE' ? (
+              <>
+                <br />
+                <em>(geolocalização pendente)</em>
+              </>
+            ) : null}
           </Popup>
         </Marker>
       ))}
