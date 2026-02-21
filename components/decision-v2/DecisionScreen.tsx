@@ -1,10 +1,12 @@
 import React, { useMemo } from 'react';
-import { designTokens } from '../../styles/design-tokens';
 import { ProgressBar } from './ProgressBar';
 import { HelpTooltip } from './HelpTooltip';
-import { DecisionButton } from './DecisionButton';
 import { DecisionBreadcrumb } from './DecisionBreadcrumb';
 import { DecisionNode } from '../../types/decision-tree-v2';
+import { GlassCard } from '../ui/GlassCard';
+import { ActionButton } from '../ui/ActionButton';
+import { SidePanelOrientacoes } from '../ui/SidePanelOrientacoes';
+import { BottomSheetOrientacoes } from '../ui/BottomSheetOrientacoes';
 
 interface DecisionScreenProps {
   question: string;
@@ -24,69 +26,65 @@ const DecisionScreenBase: React.FC<DecisionScreenProps> = ({
   onSelect,
   helpText,
   progress,
-  emergencyMode = false,
   history,
   nodes,
   currentNodeId
 }) => {
+  const [showGuidance, setShowGuidance] = React.useState(false);
   const memoizedOptions = useMemo(() => options, [options]);
 
   return (
-    <section
-      style={{
-        maxWidth: '800px',
-        margin: '0 auto',
-        padding: designTokens.spacing.xl,
-        backgroundColor: emergencyMode ? '#FEF2F2' : '#FFFFFF',
-        borderRadius: designTokens.borderRadius.lg,
-        boxShadow: emergencyMode ? designTokens.shadows.emergency : designTokens.shadows.md
-      }}
-    >
-      {history && nodes && currentNodeId ? (
-        <DecisionBreadcrumb history={history} nodes={nodes} currentNodeId={currentNodeId} />
-      ) : null}
+    <section style={{ maxWidth: '1180px', margin: '0 auto', padding: '0 16px 24px' }}>
+      {history && nodes && currentNodeId ? <DecisionBreadcrumb history={history} nodes={nodes} currentNodeId={currentNodeId} /> : null}
 
-      {progress ? (
-        <div style={{ marginBottom: designTokens.spacing.lg }}>
-          <ProgressBar current={progress.current} total={progress.total} label="Triagem" />
+      <div style={{ display: 'flex', gap: 16, alignItems: 'flex-start' }}>
+        <div style={{ flex: 1, maxWidth: 820, margin: '0 auto' }}>
+          <GlassCard strong title="Decisão principal" subtitle="Selecione apenas a melhor opção para o caso atual.">
+            {progress ? (
+              <div style={{ marginBottom: 16 }}>
+                <ProgressBar current={progress.current} total={progress.total} label="Triagem" />
+              </div>
+            ) : null}
+
+            <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 12, marginBottom: 16 }}>
+              <h2 style={{ margin: 0, fontSize: "clamp(1.25rem, 2.2vw, 1.6rem)", lineHeight: 1.3, color: "var(--text)" }}>{question}</h2>
+              {helpText ? <HelpTooltip text={helpText} /> : null}
+            </div>
+
+            <div style={{ display: 'grid', gap: 12 }}>
+              {memoizedOptions.map((option) => {
+                const normalizedLabel = option.label.toUpperCase();
+                const variant = normalizedLabel === 'SIM' ? 'danger' : normalizedLabel === 'NÃO' ? 'neutral' : 'info';
+                const ariaLabel =
+                  normalizedLabel === 'SIM'
+                    ? 'Sim, há risco'
+                    : normalizedLabel === 'NÃO'
+                      ? 'Não, não há risco'
+                      : option.label;
+
+                return (
+                  <ActionButton key={option.value} onClick={() => onSelect(option.value)} variant={variant} ariaLabel={ariaLabel}>
+                    {option.label}
+                  </ActionButton>
+                );
+              })}
+            </div>
+          </GlassCard>
+
+          <button
+            type="button"
+            className="xl:hidden"
+            onClick={() => setShowGuidance(true)}
+            style={{ marginTop: 12, border: '1px solid var(--border)', borderRadius: 12, background: 'var(--surface-strong)', padding: '10px 14px', color: 'var(--text)' }}
+          >
+            Orientações
+          </button>
         </div>
-      ) : null}
 
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'flex-start',
-          justifyContent: 'space-between',
-          gap: designTokens.spacing.md,
-          marginBottom: designTokens.spacing.md
-        }}
-      >
-        <h1
-          style={{
-            fontSize: designTokens.typography.question.size,
-            fontWeight: designTokens.typography.question.weight,
-            lineHeight: designTokens.typography.question.lineHeight,
-            color: emergencyMode ? designTokens.colors.emergency : '#111827',
-            margin: 0,
-            flex: 1
-          }}
-        >
-          {question}
-        </h1>
-
-        {helpText ? <HelpTooltip text={helpText} /> : null}
+        <SidePanelOrientacoes />
       </div>
 
-      <div style={{ display: 'flex', flexDirection: 'column', gap: designTokens.spacing.md }}>
-        {memoizedOptions.map((option) => (
-          <DecisionButton
-            key={option.value}
-            label={option.label}
-            onClick={() => onSelect(option.value)}
-            variant={emergencyMode ? 'emergency' : 'default'}
-          />
-        ))}
-      </div>
+      <BottomSheetOrientacoes open={showGuidance} onClose={() => setShowGuidance(false)} />
     </section>
   );
 };

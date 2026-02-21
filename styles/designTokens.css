@@ -1,0 +1,48 @@
+:root {
+  color-scheme: light;
+  --bg: #F4F6FA;
+  --bg-end: #EAF0FF;
+  --surface: rgba(255, 255, 255, 0.55);
+  --surface-strong: rgba(255, 255, 255, 0.72);
+  --border: rgba(255, 255, 255, 0.35);
+  --text: #142033;
+  --text-muted: rgba(20, 32, 51, 0.65);
+
+  --danger: #E5484D;
+  --warning: #F5A524;
+  --success: #2FBF71;
+  --info: #3B82F6;
+
+  --domain-protecao: #EF4444;
+  --domain-saude-mental: #6366F1;
+  --domain-discriminacao: #A855F7;
+  --domain-vulnerabilidade: #22C55E;
+  --domain-pedagogico: #3B82F6;
+  --domain-substancias: #F59E0B;
+  --domain-gravidez: #F472B6;
+  --domain-saude-fisica: #06B6D4;
+  --domain-evasao: #0EA5E9;
+  --domain-inclusao: #10B981;
+  --domain-violacao-direitos: #DC2626;
+  --domain-comportamento-grave: #111827;
+  --domain-conflitos: #8B5CF6;
+
+  --radius-lg: 18px;
+  --radius-xl: 22px;
+  --shadow-1: 0 10px 30px rgba(16, 24, 40, 0.12);
+  --shadow-2: 0 18px 60px rgba(16, 24, 40, 0.18);
+  --glass-blur: 18px;
+}
+
+[data-theme='dark'] {
+  color-scheme: dark;
+  --bg: #0B1220;
+  --bg-end: #121C31;
+  --surface: rgba(17, 24, 39, 0.55);
+  --surface-strong: rgba(17, 24, 39, 0.72);
+  --border: rgba(255, 255, 255, 0.12);
+  --text: #E6EEF8;
+  --text-muted: rgba(230, 238, 248, 0.70);
+  --shadow-1: 0 8px 22px rgba(0, 0, 0, 0.28);
+  --shadow-2: 0 14px 34px rgba(0, 0, 0, 0.34);
+}

@@ -1,5 +1,11 @@
 export const SCHOOL_CONFIG = {
-  schoolName: 'E.E. Ermelino Matarazzo',
+  appTitle: 'PROTOCOLO BÚSSOLA 🧭',
+  schoolName: 'E.E. ERMELINO MATARAZZO',
+  diretoria: 'Diretoria Leste 1',
+  shortSubtitle: 'E.E. ERMELINO MATARAZZO – Diretoria Leste 1',
+  region: 'São Paulo, Zona Leste',
+
+  // Compatibilidade com componentes legados
   appName: 'Protocolo Bússola',
   institutionalUseLabel: 'Uso institucional restrito à equipe escolar.',
   primaryColor: '#1E3A8A',

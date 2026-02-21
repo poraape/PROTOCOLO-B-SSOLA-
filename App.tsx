@@ -16,8 +16,14 @@ import ModelosPage from './pages/ModelosPage';
 import { buildStaticIndex } from './search/buildIndex';
 import { OfflineStatusBanner } from './components/OfflineStatusBanner';
 import { SCHOOL_CONFIG } from './content/schoolConfig';
+import { getInitialTheme, setTheme } from './services/theme';
 
 const App: React.FC = () => {
+
+  useEffect(() => {
+    setTheme(getInitialTheme());
+  }, []);
+
   useEffect(() => {
     document.documentElement.style.setProperty('--brand-primary', SCHOOL_CONFIG.primaryColor);
   }, []);

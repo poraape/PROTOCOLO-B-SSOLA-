@@ -7,6 +7,7 @@ import { CategoryGrid } from './CategoryGrid';
 import { ContextualControls } from './ContextualControls';
 import { designTokens } from '../../styles/design-tokens';
 import { ManagementContactModal } from './ManagementContactModal';
+import { SchoolShield } from '../SchoolShield';
 
 const EmergencyButton: React.FC<{ onClick: () => void }> = ({ onClick }) => (
   <button
@@ -139,9 +140,13 @@ export const DecisionTreeNavigator: React.FC = () => {
 
   return (
     <>
-      <div style={{ paddingBottom: '88px' }}>
+      <div style={{ paddingBottom: '88px', background: 'transparent' }}>
+        <div style={{ maxWidth: '1180px', margin: '0 auto', padding: `${designTokens.spacing.md} 16px` }}>
+          <SchoolShield variant="full" />
+        </div>
+
         {canGoBack ? (
-          <div style={{ maxWidth: '1000px', margin: '0 auto', padding: `${designTokens.spacing.md} ${designTokens.spacing.xl}` }}>
+          <div style={{ maxWidth: '1180px', margin: '0 auto', padding: `0 16px ${designTokens.spacing.md}` }}>
             <button
               type="button"
               onClick={goBack}

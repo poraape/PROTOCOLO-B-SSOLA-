@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import GlobalSearch from './GlobalSearch';
 import { DISCLAIMER_TEXT, SCHOOL_CONFIG } from '../content/schoolConfig';
+import { ThemeToggle } from './ui/ThemeToggle';
 
 const navItems = [
   { label: 'Início', path: '/' },
@@ -36,7 +37,7 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
 
   return (
     <div className="min-h-screen bg-bg text-text">
-      <header className="bg-white border-b border-slate-200">
+      <header className="border-b border-slate-200" style={{ background: "var(--surface-strong)", backdropFilter: "blur(var(--glass-blur))" }}>
         <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
           <Link
             to="/decisor"
@@ -50,32 +51,35 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
             />
 
             <div className="flex flex-col leading-tight">
-              <span className="text-sm font-semibold text-slate-900 sm:text-base">{SCHOOL_CONFIG.appName}</span>
-              <span className="text-xs text-slate-500 sm:text-sm">{SCHOOL_CONFIG.schoolName}</span>
+              <span className="text-sm font-semibold sm:text-base" style={{ color: "var(--text)" }}>{SCHOOL_CONFIG.appName}</span>
+              <span className="text-xs sm:text-sm" style={{ color: "var(--text-muted)" }}>{SCHOOL_CONFIG.schoolName}</span>
             </div>
           </Link>
 
-          <div className="hidden md:flex items-center gap-3">
-            <GlobalSearch />
-            <nav className="flex gap-2">
-            {navItems.map((item) => (
-              <NavLink key={item.path} to={item.path} className={navPillClass}>
-                {item.label}
-              </NavLink>
-            ))}
-            </nav>
+          <div className="flex items-center gap-3">
+            <ThemeToggle />
+            <div className="hidden md:flex items-center gap-3">
+              <GlobalSearch />
+              <nav className="flex gap-2">
+              {navItems.map((item) => (
+                <NavLink key={item.path} to={item.path} className={navPillClass}>
+                  {item.label}
+                </NavLink>
+              ))}
+              </nav>
+            </div>
           </div>
         </div>
       </header>
 
       <main className="container-page space-y-4 pb-24 md:pb-8">
-        <div className="rounded-xl border border-accent-200 bg-accent-50 px-4 py-3 text-sm text-accent-900" role="note">
+        <div className="rounded-xl px-4 py-3 text-sm" style={{ border: "1px solid var(--border)", background: "var(--surface)", color: "var(--text)" }} role="note">
           {DISCLAIMER_TEXT}
         </div>
         {children}
       </main>
 
-      <nav className="fixed inset-x-0 bottom-0 z-50 border-t border-border bg-white px-2 py-2 md:hidden">
+      <nav className="fixed inset-x-0 bottom-0 z-50 border-t border-border px-2 py-2 md:hidden" style={{ background: "var(--surface-strong)", backdropFilter: "blur(var(--glass-blur))" }}>
         <div className="mb-2 px-1">
           <GlobalSearch />
         </div>
@@ -115,8 +119,8 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
         </div>
       ) : null}
 
-      <footer className="mt-12 border-t border-slate-200 bg-white">
-        <div className="max-w-6xl mx-auto px-6 py-6 text-xs text-slate-500 text-center">
+      <footer className="mt-12 border-t border-slate-200" style={{ background: "var(--surface-strong)" }}>
+        <div className="max-w-6xl mx-auto px-6 py-6 text-xs text-center" style={{ color: "var(--text-muted)" }}>
           Sistema institucional de apoio à decisão da E.E. Ermelino Matarazzo — Versão piloto validada para uso interno.
         </div>
       </footer>
