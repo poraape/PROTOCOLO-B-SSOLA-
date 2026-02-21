@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { NetworkMap } from '../components/NetworkMap';
 import { PROTOCOL_DATA } from '../content/protocolData';
@@ -10,45 +10,50 @@ import { PageHeader } from '../components/ui/PageHeader';
 import { Section } from '../components/ui/Section';
 
 const hasCoordinates = (service: (typeof PROTOCOL_DATA.services)[number]) =>
-  typeof service.latitude === 'number' && typeof service.longitude === 'number';
+  typeof service.coordinates?.lat === 'number' && typeof service.coordinates?.lng === 'number';
 
 const normalizePhoneToTel = (phone: string) => `tel:${phone.replace(/\D/g, '')}`;
 const shouldUseListFallback = (total: number, mappable: number) => total === 0 || mappable === 0;
 
-const mapServiceToFilter = (service: (typeof PROTOCOL_DATA.services)[number]) => {
-  const text = `${service.type || ''} ${service.name}`.toLowerCase();
-  if (text.includes('saúde') || text.includes('hospital') || text.includes('upa')) return ['SAUDE'];
-  if (text.includes('social') || text.includes('cras') || text.includes('creas')) return ['SOCIAL'];
-  if (text.includes('tutelar')) return ['TUTELAR'];
-  if (text.includes('polícia') || text.includes('segurança') || text.includes('delegacia')) return ['SEGURANCA'];
-  return ['TODOS'];
+type ServiceFilter = 'TODOS' | 'SAUDE' | 'SOCIAL' | 'DIREITOS' | 'EDUCACAO' | 'EMERGENCIA';
+
+const mapServiceToFilter = (service: (typeof PROTOCOL_DATA.services)[number]): ServiceFilter => {
+  if (service.networkType === 'saude') return 'SAUDE';
+  if (service.networkType === 'social') return 'SOCIAL';
+  if (service.networkType === 'direitos') return 'DIREITOS';
+  if (service.networkType === 'educacao') return 'EDUCACAO';
+  if (service.networkType === 'emergencia') return 'EMERGENCIA';
+  return 'TODOS';
 };
 
 export const NetworkPage: React.FC = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const highlightId = searchParams.get('highlight') || '';
+  const viewParam = searchParams.get('view') || '';
   const referralFilter = searchParams.get('referral') || '';
   const normalizedReferralFilter = referralFilter.toLowerCase();
+  const shouldAutoOpenMap = viewParam === 'map' || Boolean(highlightId);
 
   const [search, setSearch] = useState('');
-  const [filter, setFilter] = useState<'TODOS' | 'SAUDE' | 'SOCIAL' | 'TUTELAR' | 'SEGURANCA'>('TODOS');
-  const [showMap, setShowMap] = useState(false);
+  const [filter, setFilter] = useState<ServiceFilter>('TODOS');
+  const [showMap, setShowMap] = useState(shouldAutoOpenMap);
 
   const filters = [
     { id: 'TODOS', label: 'Todos' },
     { id: 'SAUDE', label: 'Saúde' },
     { id: 'SOCIAL', label: 'Social' },
-    { id: 'TUTELAR', label: 'Tutelar' },
-    { id: 'SEGURANCA', label: 'Segurança' }
+    { id: 'DIREITOS', label: 'Proteção e Direitos' },
+    { id: 'EDUCACAO', label: 'Gestão e Educação' },
+    { id: 'EMERGENCIA', label: 'Emergência' }
   ] as const;
 
   const services = useMemo(
     () =>
       PROTOCOL_DATA.services.filter((service) => {
-        const text = `${service.name} ${service.address} ${service.phone}`.toLowerCase();
+        const text = `${service.name} ${service.address} ${service.phone} ${service.notes || ''} ${service.category || ''}`.toLowerCase();
         const matchesSearch = search.trim().length === 0 || text.includes(search.toLowerCase());
-        const matchesFilter = filter === 'TODOS' || mapServiceToFilter(service).includes(filter);
+        const matchesFilter = filter === 'TODOS' || mapServiceToFilter(service) === filter;
         const matchesReferral = !normalizedReferralFilter || text.includes(normalizedReferralFilter);
         return matchesSearch && matchesFilter && matchesReferral;
       }),
@@ -57,6 +62,20 @@ export const NetworkPage: React.FC = () => {
 
   const mappableServices = useMemo(() => services.filter(hasCoordinates), [services]);
   const listOnlyMode = shouldUseListFallback(services.length, mappableServices.length);
+
+
+  useEffect(() => {
+    if (shouldAutoOpenMap) {
+      setShowMap(true);
+    }
+  }, [shouldAutoOpenMap]);
+
+  useEffect(() => {
+    if (!highlightId) return;
+    const serviceCard = document.getElementById(`service-${highlightId}`);
+    if (!serviceCard) return;
+    serviceCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }, [highlightId, services.length]);
 
   return (
     <div className="stack space-3" style={{ paddingBottom: 20 }}>
@@ -94,9 +113,9 @@ export const NetworkPage: React.FC = () => {
           <AppCard>
             <AppButton onClick={() => setShowMap((v) => !v)} variant="ghost">{showMap ? 'Ocultar mapa' : 'Ver mapa'}</AppButton>
             {showMap ? (
-              <div style={{ marginTop: 10, height: 320, overflow: 'hidden', borderRadius: 12, border: '1px solid var(--border)' }}>
+              <div style={{ marginTop: 10, height: 360, minHeight: 320, width: '100%', overflow: 'hidden', borderRadius: 12, border: '1px solid var(--border)' }}>
                 {mappableServices.length ? (
-                  <NetworkMap services={mappableServices} />
+                  <NetworkMap services={mappableServices} highlightId={highlightId} />
                 ) : (
                   <div className="row" style={{ height: '100%', justifyContent: 'center', color: 'var(--text-muted)' }}>
                     Sem coordenadas para os filtros atuais.
@@ -111,9 +130,9 @@ export const NetworkPage: React.FC = () => {
       <Section>
         <div className="stack space-2">
           {services.map((service) => (
-            <AppCard key={service.id} as="article" className={service.id === highlightId ? 'ui-card--strong' : ''}>
+            <AppCard id={`service-${service.id}`} key={service.id} as="article" className={service.id === highlightId ? 'ui-card--strong' : ''}>
               <div className="row" style={{ justifyContent: 'space-between', alignItems: 'center' }}>
-                <h2 id={`service-${service.id}`} style={{ margin: 0, fontSize: '1rem', color: 'var(--text)' }}>{service.name}</h2>
+                <h2 style={{ margin: 0, fontSize: '1rem', color: 'var(--text)' }}>{service.name}</h2>
                 <AppChip label={service.type || 'Serviço'} tone="info" />
               </div>
 
