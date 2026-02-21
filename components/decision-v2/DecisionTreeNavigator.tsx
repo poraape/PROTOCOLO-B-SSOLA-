@@ -16,14 +16,17 @@ const EmergencyButton: React.FC<{ onClick: () => void; label: string }> = ({ onC
     onClick={onClick}
     style={{
       position: 'fixed',
-      bottom: 'calc(24px + 72px + env(safe-area-inset-bottom, 0px))',
-      right: '24px',
+      bottom: 'calc(16px + 88px + env(safe-area-inset-bottom, 0px))',
+      right: '16px',
       backgroundColor: designTokens.colors.emergency,
       color: '#FFFFFF',
-      padding: '16px 24px',
+      padding: '14px 20px',
       borderRadius: '50px',
       border: 'none',
       fontWeight: '700',
+      fontSize: '14px',
+      lineHeight: 1.2,
+      maxWidth: 'calc(100vw - 32px)',
       cursor: 'pointer',
       zIndex: 1000,
       boxShadow: designTokens.shadows.emergency
@@ -40,8 +43,8 @@ const ManagementButton: React.FC<{ onClick: () => void }> = ({ onClick }) => (
     onClick={onClick}
     style={{
       position: 'fixed',
-      bottom: '24px',
-      left: '24px',
+      bottom: 'calc(16px + 88px + env(safe-area-inset-bottom, 0px))',
+      left: '16px',
       backgroundColor: designTokens.colors.info,
       color: '#FFFFFF',
       padding: '12px 18px',
