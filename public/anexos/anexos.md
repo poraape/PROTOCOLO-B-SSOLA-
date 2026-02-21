@@ -106,7 +106,7 @@
 
 **📌 TRATAMENTO DE DADOS PESSOAIS – LGPD**
 
-🔴 **OBRIGATÓRIO POR LEI:** Os dados pessoais coletados neste formulário são tratados em conformidade com a Lei Geral de Proteção de Dados (Lei 13.709/2018) e o Estatuto da Criança e do Adolescente (Lei 8.069/1990). A finalidade do tratamento é exclusivamente a proteção integral do estudante, cumprimento de obrigação legal e articulação com rede de proteção. O acesso a este documento é restrito à equipe gestora e profissionais diretamente envolvidos no acompanhamento do caso. O compartilhamento com órgãos externos (Conselho Tutelar, CRAS, CREAS, serviços de saúde) ocorre apenas quando necessário para proteção de direitos do estudante e em cumprimento de obrigação legal.
+🔴 **OBRIGATÓRIO POR LEI:** Os dados pessoais coletados neste formulário são tratados em conformidade com a Lei Geral de Proteção de Dados (Lei 13.709/2018) e o Estatuto da Criança e do Adolescente (Lei 8.069/1990). A finalidade do tratamento é exclusivamente a proteção integral do estudante, cumprimento de obrigação legal e articulação com rede de proteção. O acesso a este documento é restrito à equipe gestora e profissionais diretamente envolvidos no acompanhamento do caso. O compartilhamento com órgãos externos (Conselho Tutelar (CT), CRAS, CREAS, serviços de saúde) ocorre apenas quando necessário para proteção de direitos do estudante e em cumprimento de obrigação legal.
 
 ---
 
@@ -211,7 +211,7 @@
 
 **Há risco iminente à vida ou integridade física do estudante?** ☐ **SIM** – Situação crítica que exige acionamento imediato (violência grave em curso, ideação suicida com plano, situação de abandono sem condições de retorno seguro para casa) ☐ **NÃO** – Situação que exige acompanhamento mas não apresenta risco iminente
 
-*$$ Se marcou SIM: acionar IMEDIATAMENTE gestão escolar, Conselho Tutelar (190 se não atender), serviço de emergência (SAMU 192, Polícia Militar 190 conforme caso). Não aguardar conclusão deste formulário. $$*
+*$$ Se marcou SIM: acionar IMEDIATAMENTE gestão escolar, Conselho Tutelar (CT) (190 se não atender), serviço de emergência (SAMU 192, Polícia Militar 190 conforme caso). Não aguardar conclusão deste formulário. $$*
 
 ---
 
@@ -241,7 +241,7 @@
 
 🔴 **OBRIGATÓRIO POR LEI (conforme situação):**
 
-☐ **Conselho Tutelar** – Motivo: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ Data/horário do contato: \_\_\_\_/\_\_\_\_/\_\_\_\_\_\_ às \_\_\_\_:\_\_\_\_ Forma de contato: ☐ Presencial  ☐ Telefone  ☐ E-mail  ☐ Ofício  ☐ Plataforma Conviva
+☐ **Conselho Tutelar (CT)** – Motivo: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ Data/horário do contato: \_\_\_\_/\_\_\_\_/\_\_\_\_\_\_ às \_\_\_\_:\_\_\_\_ Forma de contato: ☐ Presencial  ☐ Telefone  ☐ E-mail  ☐ Ofício  ☐ Plataforma Conviva
 
 ☐ **CRAS** (Centro de Referência de Assistência Social) – Território: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ Demanda: ☐ Vulnerabilidade social  ☐ Orientação familiar  ☐ Acesso a benefícios Data do encaminhamento: \_\_\_\_/\_\_\_\_/\_\_\_\_\_\_
 
@@ -294,7 +294,7 @@
 
 **📌 SIGILO PROFISSIONAL**
 
-🔴 **OBRIGATÓRIO POR LEI:** As informações contidas nesta ficha estão protegidas por sigilo profissional. O acesso é restrito à equipe gestora e profissionais diretamente envolvidos no acompanhamento do caso. O compartilhamento de informações com órgãos externos (Conselho Tutelar, rede de proteção, serviços de saúde) ocorre exclusivamente para proteção de direitos do estudante e em cumprimento de obrigação legal. É vedada a divulgação não autorizada, exposição do estudante ou utilização das informações para fins diversos da proteção integral.
+🔴 **OBRIGATÓRIO POR LEI:** As informações contidas nesta ficha estão protegidas por sigilo profissional. O acesso é restrito à equipe gestora e profissionais diretamente envolvidos no acompanhamento do caso. O compartilhamento de informações com órgãos externos (Conselho Tutelar (CT), rede de proteção, serviços de saúde) ocorre exclusivamente para proteção de direitos do estudante e em cumprimento de obrigação legal. É vedada a divulgação não autorizada, exposição do estudante ou utilização das informações para fins diversos da proteção integral.
 
 ---
 
@@ -402,7 +402,7 @@
 
 ---
 
-**Encaminhamento externo (se aplicável):** ☐ Não há necessidade de encaminhamento externo ☐ **Conselho Tutelar** (situações de suspeita de violação de direitos) ☐ **CRAS/CREAS** (vulnerabilidade social, violência familiar) ☐ **Serviço de saúde** (avaliação médica, psicológica) ☐ **Autoridade policial** (situação criminal, porte de substâncias ilícitas, violência grave) ☐ **Outro:** \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+**Encaminhamento externo (se aplicável):** ☐ Não há necessidade de encaminhamento externo ☐ **Conselho Tutelar (CT)** (situações de suspeita de violação de direitos) ☐ **CRAS/CREAS** (vulnerabilidade social, violência familiar) ☐ **Serviço de saúde** (avaliação médica, psicológica) ☐ **Autoridade policial** (situação criminal, porte de substâncias ilícitas, violência grave) ☐ **Outro:** \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
 
 ---
 
@@ -448,7 +448,7 @@
 - Suspeita ou confirmação de violência (física, psicológica, sexual, negligência)  
 - Situações de vulnerabilidade grave (abandono, risco à integridade)  
 - Demandas de saúde mental críticas (ideação suicida, autolesão, sofrimento intenso)  
-- Qualquer situação que exija notificação ao Conselho Tutelar ou rede de proteção
+- Qualquer situação que exija notificação ao Conselho Tutelar (CT) ou rede de proteção
 
 **IMPORTANTE:** Se durante o registro de uma ocorrência interna você identificar indícios de violação de direitos, interrompa o preenchimento desta ficha e passe imediatamente para os instrumentos de acolhimento e proteção (Anexos I e II). Informe a coordenação ou gestão escolar.
 
@@ -645,13 +645,13 @@ Este checklist organiza situações por níveis de complexidade e urgência, da 
 1. **Acolher o estudante:** Use Anexo II (Ficha de Escuta Qualificada). Não faça perguntas investigativas. Registre relato espontâneo objetivamente.  
 2. **Informar direção IMEDIATAMENTE:** Situações de notificação obrigatória exigem decisão da gestão sobre forma e momento de notificação  
 3. **Notificar órgãos competentes (até 24 horas):**  
-   - **Conselho Tutelar** (todas as situações acima)  
+   - **Conselho Tutelar (CT)** (todas as situações acima)  
    - **Delegacia** (DEACA – Delegacia de Atendimento à Criança e Adolescente, DDM – Delegacia da Mulher se violência doméstica envolver mãe, ou Delegacia local): violência sexual, maus-tratos graves, exploração  
    - **Ministério Público** (situações de extrema gravidade ou omissão de órgãos)  
 4. **Registrar na Plataforma Conviva** (obrigatório SEDUC-SP)  
 5. **Preservar provas** (não lavar ferimentos se violência sexual recente, não descartar roupas, fotografar lesões com consentimento se maior de idade ou com responsável se menor)  
 6. **Encaminhar para atendimento médico** (UBS, Pronto-Socorro): violência sexual, lesões físicas, suspeita de intoxicação  
-7. **Articular proteção imediata** (se agressor convive com estudante): Conselho Tutelar avalia medida de acolhimento, afastamento do agressor, rede de proteção
+7. **Articular proteção imediata** (se agressor convive com estudante): Conselho Tutelar (CT) avalia medida de acolhimento, afastamento do agressor, rede de proteção
 
 **NÃO:**
 
@@ -700,7 +700,7 @@ Este checklist organiza situações por níveis de complexidade e urgência, da 
    - **CAPS IJ** (Centro de Atenção Psicossocial Infantojuvenil): autolesão, ideação suicida, transtornos mentais graves  
    - **CAPS AD** (Álcool e Drogas): uso/dependência de substâncias  
    - **CREAS** (Centro de Referência Especializado de Assistência Social): violência intrafamiliar, violência psicológica sistemática, situação de rua  
-   - **Conselho Tutelar**: evasão com vulnerabilidade, situações que configuram ameaça ou violação de direitos  
+   - **Conselho Tutelar (CT)**: evasão com vulnerabilidade, situações que configuram ameaça ou violação de direitos  
    - **UBS** (Unidade Básica de Saúde): encaminhamento para avaliação médica/psicológica quando CAPS não for acessível imediatamente  
 4. **Contatar responsáveis:** Informar situação, orientar sobre rede, articular corresponsabilização familiar (exceto se família é parte do problema)  
 5. **Registrar na Plataforma Conviva** (obrigatório)  
@@ -845,25 +845,25 @@ Esta matriz é ferramenta de apoio à decisão rápida. Localize na coluna "SITU
 | **Ideação suicida com plano concreto** (estudante descreve método, momento, local) | Direção (informada imediatamente por qualquer profissional) | Direção \+ Responsáveis \+ CAPS IJ \+ Possível acionamento 192/190 | **IMEDIATO** (minutos a horas) | Fluxo VI-D, Cap. 7, Anexo VIII |
 | **Ideação suicida sem plano concreto** (pensamentos de morte, desesperança persistente) | Direção (após acolhimento por POC/coordenação) | Responsáveis \+ CAPS IJ \+ UBS | **24 horas** | Fluxo VI-D, Anexo VIII |
 | **Autolesão** (cortes, queimaduras autoprovocadas) | Direção (após acolhimento inicial) | Responsáveis \+ CAPS IJ \+ UBS (avaliação física se necessário) | **24 horas** (ou imediato se lesão grave) | Fluxo VI-C, Anexo VIII |
-| **Violência sexual** (revelação espontânea, sinais físicos compatíveis) | Direção | Conselho Tutelar \+ DEACA (Delegacia) \+ UBS/Pronto-Socorro \+ Responsáveis (se não envolvidos) | **IMEDIATO** (até 24h, preservar provas) | Fluxo VI-K, Cap. 7, Anexo IX |
-| **Maus-tratos/negligência grave** (marcas físicas, negligência com risco à saúde/vida) | Direção | Conselho Tutelar \+ Delegacia (se crime evidente) \+ UBS (avaliação física) | **24 horas** | Fluxo VI-J, Cap. 7 |
-| **Violência intrafamiliar** (agressão por responsável, violência doméstica presenciada) | Direção | Conselho Tutelar \+ CREAS \+ DDM (se violência contra mãe) \+ UBS | **24 horas** | Fluxo VI-J, Anexo IX |
-| **Violência física grave entre estudantes** (lesão corporal, agressão com objeto) | Direção (após intervenção imediata por profissional presente) | Responsáveis de todos envolvidos \+ UBS (avaliação) \+ Conselho Tutelar (se reiterado/grave) \+ Possível Polícia (crime) | **Imediato** (separar, proteger) \+ **24h** (notificações) | Fluxo VI-H, Cap. 6 |
-| **Uso/porte de substâncias psicoativas na escola** | Direção (após abordagem por profissional presente) | Responsáveis \+ CAPS AD \+ Conselho Tutelar (se reiterado/dependência) \+ Polícia (se tráfico) | **Imediato** (abordagem) \+ **48h** (rede especializada) | Fluxo VI-E, Cap. 6 |
-| **Sinais de dependência química** (uso recorrente, impacto na vida escolar) | Direção (após observação/acolhimento por equipe) | Responsáveis \+ CAPS AD \+ Conselho Tutelar | **3 dias úteis** | Fluxo VI-E, Anexo VIII |
+| **Violência sexual** (revelação espontânea, sinais físicos compatíveis) | Direção | Conselho Tutelar (CT) \+ DEACA (Delegacia) \+ UBS/Pronto-Socorro \+ Responsáveis (se não envolvidos) | **IMEDIATO** (até 24h, preservar provas) | Fluxo VI-K, Cap. 7, Anexo IX |
+| **Maus-tratos/negligência grave** (marcas físicas, negligência com risco à saúde/vida) | Direção | Conselho Tutelar (CT) \+ Delegacia (se crime evidente) \+ UBS (avaliação física) | **24 horas** | Fluxo VI-J, Cap. 7 |
+| **Violência intrafamiliar** (agressão por responsável, violência doméstica presenciada) | Direção | Conselho Tutelar (CT) \+ CREAS \+ DDM (se violência contra mãe) \+ UBS | **24 horas** | Fluxo VI-J, Anexo IX |
+| **Violência física grave entre estudantes** (lesão corporal, agressão com objeto) | Direção (após intervenção imediata por profissional presente) | Responsáveis de todos envolvidos \+ UBS (avaliação) \+ Conselho Tutelar (CT) (se reiterado/grave) \+ Possível Polícia (crime) | **Imediato** (separar, proteger) \+ **24h** (notificações) | Fluxo VI-H, Cap. 6 |
+| **Uso/porte de substâncias psicoativas na escola** | Direção (após abordagem por profissional presente) | Responsáveis \+ CAPS AD \+ Conselho Tutelar (CT) (se reiterado/dependência) \+ Polícia (se tráfico) | **Imediato** (abordagem) \+ **48h** (rede especializada) | Fluxo VI-E, Cap. 6 |
+| **Sinais de dependência química** (uso recorrente, impacto na vida escolar) | Direção (após observação/acolhimento por equipe) | Responsáveis \+ CAPS AD \+ Conselho Tutelar (CT) | **3 dias úteis** | Fluxo VI-E, Anexo VIII |
 | **Bullying/Cyberbullying** (sem configuração de crime) | Coordenação Pedagógica \+ POC (casos graves: Direção) | Responsáveis dos envolvidos (vítima e agressor) \+ Mediação escolar \+ UBS (apoio emocional se necessário) | **3 dias úteis** (intervenção imediata para cessar) | Fluxo VI-G, Cap. 6 |
-| **Bullying com configuração de crime** (lesão corporal, ameaça, injúria racial, difamação) | Direção | Responsáveis \+ Delegacia (Boletim de Ocorrência) \+ Conselho Tutelar \+ Mediação escolar | **24 horas** (notificação) \+ **3 dias** (mediação) | Fluxo VI-G, Cap. 6, Cap. 7 |
+| **Bullying com configuração de crime** (lesão corporal, ameaça, injúria racial, difamação) | Direção | Responsáveis \+ Delegacia (Boletim de Ocorrência) \+ Conselho Tutelar (CT) \+ Mediação escolar | **24 horas** (notificação) \+ **3 dias** (mediação) | Fluxo VI-G, Cap. 6, Cap. 7 |
 | **Sinais de ansiedade, tristeza, isolamento persistente** (\>2 semanas, impacto escolar) | Coordenação Pedagógica \+ POC | Responsáveis \+ UBS (avaliação inicial) \+ Estagiário psicologia (se disponível) | **7 dias úteis** | Fluxo VI-B, Anexo VIII |
 | **Conflitos repetidos** (estudante-estudante, estudante-professor) | Coordenação Pedagógica \+ POC | Mediação interna \+ Responsáveis (se persistir) \+ CRAS (se vulnerabilidade social associada) | **5 dias úteis** (mediação) | Fluxo VI-F, Cap. 6 |
 | **Conflitos pontuais leves** (discussão isolada, desentendimento sem gravidade) | Professor ou Coordenação Pedagógica | Mediação interna (conversação) \+ Responsáveis (se necessário) | **Conforme necessidade** (intervenção imediata para cessar) | Fluxo VI-F |
 | **Vulnerabilidade social** (insegurança alimentar, moradia precária, sem violação iminente) | Coordenação Pedagógica (casos leves) ou Direção (casos graves) | CRAS (orientação, benefícios) \+ Responsáveis | **7 dias úteis** | Cap. 8, Anexo X |
-| **Evasão escolar** (\>5 dias consecutivos sem justificativa) | Coordenação Pedagógica \+ Direção | Responsáveis (busca ativa) \+ Conselho Tutelar (notificação obrigatória ECA art. 56\) \+ CRAS (se vulnerabilidade) | **Imediato** (busca ativa) \+ **7 dias** (CT se não retorno) | Fluxo VI-I, Cap. 6 |
+| **Evasão escolar** (\>5 dias consecutivos sem justificativa) | Coordenação Pedagógica \+ Direção | Responsáveis (busca ativa) \+ Conselho Tutelar (CT) (notificação obrigatória ECA art. 56\) \+ CRAS (se vulnerabilidade) | **Imediato** (busca ativa) \+ **7 dias** (CT se não retorno) | Fluxo VI-I, Cap. 6 |
 | **Dificuldades de aprendizagem** (defasagem, baixo desempenho) | Coordenação Pedagógica \+ Professor | Recuperação contínua/paralela \+ Responsáveis (orientação) \+ AEE (se deficiência) | **Conforme planejamento pedagógico** | Fluxo VI-A, Cap. 6 |
 | **Indisciplina/Descumprimento de normas** (sem violência, sem crime) | Professor (intervenção inicial) \+ Coordenação (reiteração) \+ Direção (casos graves) | Conversação \+ Responsáveis (se reiterado) \+ Mediação \+ Possível medida pedagógica (advertência, suspensão conforme ROE) | **Conforme gravidade** (intervenção imediata para cessar, encaminhamento até 48h) | Fluxo VI-F, Cap. 6 |
 | **Infrequência entre 20-40%** (sem outros fatores de risco) | Coordenação Pedagógica | Responsáveis (orientação) \+ Busca ativa | **7 dias úteis** | Cap. 6 |
-| **Infrequência \>50%** (risco de evasão) | Coordenação \+ Direção | Responsáveis \+ Conselho Tutelar (notificação obrigatória) | **3 dias úteis** (busca) \+ **7 dias** (CT) | Fluxo VI-I, Cap. 6 |
+| **Infrequência \>50%** (risco de evasão) | Coordenação \+ Direção | Responsáveis \+ Conselho Tutelar (CT) (notificação obrigatória) | **3 dias úteis** (busca) \+ **7 dias** (CT) | Fluxo VI-I, Cap. 6 |
 | **Estudante com necessidades especiais** (adaptação, acessibilidade, AEE) | Coordenação Pedagógica \+ Professor AEE | AEE \+ Responsáveis \+ Possível rede de saúde (avaliações especializadas) | **Conforme planejamento pedagógico** | Cap. 6 |
-| **Questões de convivência/diversidade** (LGBTfobia, racismo, intolerância religiosa) | Coordenação \+ POC \+ Direção (casos graves) | Mediação \+ Responsáveis \+ Ações formativas \+ Conselho Tutelar (se violência/discriminação grave) \+ Delegacia (crimes de ódio) | **Imediato** (cessar violência) \+ **3 dias** (intervenções) | Cap. 6, Cap. 4 |
+| **Questões de convivência/diversidade** (LGBTfobia, racismo, intolerância religiosa) | Coordenação \+ POC \+ Direção (casos graves) | Mediação \+ Responsáveis \+ Ações formativas \+ Conselho Tutelar (CT) (se violência/discriminação grave) \+ Delegacia (crimes de ódio) | **Imediato** (cessar violência) \+ **3 dias** (intervenções) | Cap. 6, Cap. 4 |
 
 ---
 
@@ -902,7 +902,7 @@ Esta matriz é ferramenta de apoio à decisão rápida. Localize na coluna "SITU
 
 **Rede de Proteção:**
 
-- **Conselho Tutelar:** Violação ou ameaça de direitos (obrigatório por lei – ECA art. 13 e 56\)  
+- **Conselho Tutelar (CT):** Violação ou ameaça de direitos (obrigatório por lei – ECA art. 13 e 56\)  
 - **CRAS:** Vulnerabilidade social, orientação familiar, acesso a benefícios  
 - **CREAS:** Violência familiar, violação de direitos, situações de alta complexidade social  
 - **Delegacia (DEACA, DDM, DP local):** Crimes contra crianças/adolescentes
@@ -1259,7 +1259,7 @@ Os fluxogramas apresentados neste anexo organizam o passo a passo operacional pa
 
 - **CAPS IJ:** Encaminhamento urgente (até 24h), contato telefônico \+ encaminhamento formal (Anexo XIII)  
 - **UBS:** Se CAPS não acessível imediatamente ou se necessário atendimento médico (avaliação física das lesões)  
-- **Conselho Tutelar:** **SE** autolesão associada a negligência familiar, violência doméstica, ou família não buscar atendimento após orientação
+- **Conselho Tutelar (CT):** **SE** autolesão associada a negligência familiar, violência doméstica, ou família não buscar atendimento após orientação
 
 **FAMÍLIA:**
 
@@ -1267,7 +1267,7 @@ Os fluxogramas apresentados neste anexo organizam o passo a passo operacional pa
 - Informar situação com seriedade mas sem alarmismo excessivo  
 - Orientar sobre urgência de acompanhamento especializado (CAPS IJ)  
 - **AVALIAR:** Família é fator de proteção ou risco? (Violência, negligência emocional)  
-- **SE** família é parte do problema → Conselho Tutelar \+ CREAS
+- **SE** família é parte do problema → Conselho Tutelar (CT) \+ CREAS
 
 **↓**
 
@@ -1368,7 +1368,7 @@ Os fluxogramas apresentados neste anexo organizam o passo a passo operacional pa
 
 - Contatar **CAPS IJ** imediatamente (telefone) para orientação  
 - Responsáveis contactados para buscar estudante e levá-lo ao CAPS/PS Psiquiatria  
-- **SE** responsáveis não disponíveis ou resistirem → Conselho Tutelar \+ SAMU  
+- **SE** responsáveis não disponíveis ou resistirem → Conselho Tutelar (CT) \+ SAMU  
 - Estudante **NÃO** volta para casa sozinho
 
 **RISCO MODERADO:**
@@ -1398,7 +1398,7 @@ Os fluxogramas apresentados neste anexo organizam o passo a passo operacional pa
 **EXTERNO:**
 
 - **CAPS IJ:** Contato telefônico imediato \+ encaminhamento formal urgente  
-- **Conselho Tutelar:** Notificação (situação de risco à vida)  
+- **Conselho Tutelar (CT):** Notificação (situação de risco à vida)  
 - **UBS/Pronto-Socorro Psiquiatria:** Conforme gravidade  
 - **SE** tentativa em curso ou recente com lesões → **SAMU 192** (já acionado no passo 1\)
 
@@ -1409,7 +1409,7 @@ Os fluxogramas apresentados neste anexo organizam o passo a passo operacional pa
 - Orientar sobre urgência de atendimento especializado  
 - Orientar sobre remoção de meios (medicamentos, armas, cordas, objetos cortantes) em casa  
 - **AVALIAR:** Família é fator de proteção? Há violência/negligência familiar?  
-- **SE** família negligencia ou agrava situação → Conselho Tutelar
+- **SE** família negligencia ou agrava situação → Conselho Tutelar (CT)
 
 **↓**
 
@@ -1443,7 +1443,7 @@ Os fluxogramas apresentados neste anexo organizam o passo a passo operacional pa
 
 ### **ATENÇÃO:**
 
-⚠️ **TODA ideação suicida deve ser levada a sério. Não há "ameaça falsa".** ⚠️ **Perguntar sobre suicídio NÃO aumenta risco. Pelo contrário, pode salvar vidas.** ⚠️ **Estudante pode pedir sigilo. Explique com empatia que precisará acionar ajuda para protegê-lo(a).** ⚠️ **Risco de suicídio pode aumentar APÓS início de tratamento (primeiras semanas). Acompanhar próximo.** ⚠️ **Se família não colabora ou negligencia → Conselho Tutelar obrigatoriamente.** ⚠️ **Ideação suicida pode estar associada a abuso, violência, bullying grave. Investigar contexto.**
+⚠️ **TODA ideação suicida deve ser levada a sério. Não há "ameaça falsa".** ⚠️ **Perguntar sobre suicídio NÃO aumenta risco. Pelo contrário, pode salvar vidas.** ⚠️ **Estudante pode pedir sigilo. Explique com empatia que precisará acionar ajuda para protegê-lo(a).** ⚠️ **Risco de suicídio pode aumentar APÓS início de tratamento (primeiras semanas). Acompanhar próximo.** ⚠️ **Se família não colabora ou negligencia → Conselho Tutelar (CT) obrigatoriamente.** ⚠️ **Ideação suicida pode estar associada a abuso, violência, bullying grave. Investigar contexto.**
 
 ---
 
@@ -1466,7 +1466,7 @@ Os fluxogramas apresentados neste anexo organizam o passo a passo operacional pa
 - Profissional que presencia: abordagem calma, não violenta, não expositiva  
 - Conduzir estudante a local privado (direção, coordenação)  
 - **NÃO** revistar estudante (não é atribuição da escola)  
-- **SE** porte de quantidade significativa (indício de tráfico) → Acionar **Polícia Militar 190** \+ Conselho Tutelar  
+- **SE** porte de quantidade significativa (indício de tráfico) → Acionar **Polícia Militar 190** \+ Conselho Tutelar (CT)  
 - **SE** estudante em estado de intoxicação aguda (consciência alterada, risco à saúde) → **SAMU 192**  
 - **SE** uso/porte pessoal (pequena quantidade) → Seguir fluxo  
 - Informar **Direção IMEDIATAMENTE**
@@ -1519,7 +1519,7 @@ Os fluxogramas apresentados neste anexo organizam o passo a passo operacional pa
 **EXTERNO:**
 
 - **CAPS AD** (Centro de Atenção Psicossocial Álcool e Drogas): Uso frequente/dependência, encaminhamento urgente (até 48h)  
-- **Conselho Tutelar:** Uso frequente, dependência, família não busca ajuda, ou situação de exploração/violência associada  
+- **Conselho Tutelar (CT):** Uso frequente, dependência, família não busca ajuda, ou situação de exploração/violência associada  
 - **Polícia (Delegacia):** **Apenas** se porte de grande quantidade (indício de tráfico) ou se uso envolve exploração/violência de terceiros  
 - **UBS:** Avaliação de saúde geral, se CAPS AD não acessível imediatamente
 
@@ -1530,7 +1530,7 @@ Os fluxogramas apresentados neste anexo organizam o passo a passo operacional pa
 - Orientar sobre riscos, importância de acompanhamento especializado  
 - Parceria escola-família para acompanhamento  
 - **AVALIAR:** Família tem conhecimento? Família usa substâncias? Família negligencia?  
-- **SE** família negligencia ou é parte do problema → Conselho Tutelar obrigatoriamente
+- **SE** família negligencia ou é parte do problema → Conselho Tutelar (CT) obrigatoriamente
 
 **↓**
 
@@ -1632,7 +1632,7 @@ Os fluxogramas apresentados neste anexo organizam o passo a passo operacional pa
 
 - **Geralmente não necessário** (conflitos/indisciplina sem crime)  
 - **CRAS:** Se conflito associado a vulnerabilidade social, orientação familiar  
-- **Conselho Tutelar:** Se reincidência grave, família não colabora, ou situação configura ameaça a direitos
+- **Conselho Tutelar (CT):** Se reincidência grave, família não colabora, ou situação configura ameaça a direitos
 
 **FAMÍLIA:**
 
@@ -1715,7 +1715,7 @@ Os fluxogramas apresentados neste anexo organizam o passo a passo operacional pa
 - **Leve/Moderado:** Bullying verbal, social, sem crime, sem lesão física ou psíquica grave  
   - **Ação:** Mediação, responsabilização, acompanhamento interno  
 - **Grave:** Bullying com lesão física, psicológica intensa, cyberbullying com exposição grave, configuração de crime (injúria racial, ameaça, difamação, lesão corporal)  
-  - **Ação:** Direção \+ possível Delegacia/Conselho Tutelar  
+  - **Ação:** Direção \+ possível Delegacia/Conselho Tutelar (CT)  
 - **Cyberbullying:** Avaliar gravidade da exposição, preservar provas (prints, capturas de tela)
 
 **↓**
@@ -1742,7 +1742,7 @@ Os fluxogramas apresentados neste anexo organizam o passo a passo operacional pa
 
 - **Responsáveis de TODOS os envolvidos:** Reunião conjunta (ou separada, conforme caso) – informar, orientar, parceria  
 - **UBS/CAPS IJ:** Encaminhamento da vítima se impacto emocional grave (ansiedade, depressão, ideação suicida)  
-- **Conselho Tutelar:** Se bullying sistemático, família não colabora, ou situação de risco à vítima  
+- **Conselho Tutelar (CT):** Se bullying sistemático, família não colabora, ou situação de risco à vítima  
 - **Delegacia (Boletim de Ocorrência):** **SE** configurar crime:  
   - Injúria racial (Lei 7.716/89)  
   - Ameaça (Código Penal, art. 147\)  
@@ -1853,12 +1853,12 @@ Os fluxogramas apresentados neste anexo organizam o passo a passo operacional pa
 
 - **UBS/Pronto-Socorro:** Atendimento médico da vítima (avaliação, tratamento, registro de lesões)  
 - **Responsáveis de TODOS os envolvidos:** Contato imediato (buscar na escola), reunião presencial  
-- **Conselho Tutelar:** Violência grave, reincidência, família não colabora, ou lesão significativa  
+- **Conselho Tutelar (CT):** Violência grave, reincidência, família não colabora, ou lesão significativa  
 - **Delegacia (Boletim de Ocorrência):** **SE** configurar crime:  
   - Lesão corporal (Código Penal, art. 129): hematomas, ferimentos que exijam mais de 30 dias para cura, fraturas  
   - Uso de arma (agrava crime)  
   - Tentativa de homicídio (se gravidade extrema, intencionalidade de matar)  
-- **Decisão sobre BO:** Direção orienta responsáveis da vítima sobre direito de registrar BO; escola pode registrar comunicação formal ao Conselho Tutelar
+- **Decisão sobre BO:** Direção orienta responsáveis da vítima sobre direito de registrar BO; escola pode registrar comunicação formal ao Conselho Tutelar (CT)
 
 **FAMÍLIA:**
 
@@ -2307,7 +2307,7 @@ flowchart TD
 
 - **192 SAMU**: Emergências médicas  
 - **190 PM**: Violência em curso, emergências  
-- **CT**: Conselho Tutelar (violação direitos)  
+- **CT**: Conselho Tutelar (CT) (violação direitos)  
 - **CAPS IJ**: Saúde mental infantojuvenil  
 - **CAPS AD**: Álcool e drogas  
 - **CREAS**: Violência familiar, alta complexidade social  
@@ -2352,7 +2352,7 @@ flowchart TD
 
 🔴 A Lei 13.431/2017 estabelece o Sistema de Garantia de Direitos da Criança e do Adolescente Vítima ou Testemunha de Violência. A lei diferencia:
 
-- **Escuta especializada:** Procedimento de entrevista realizado por profissional capacitado (assistente social, psicólogo) em órgão da rede de proteção (Conselho Tutelar, CRAS, CREAS, saúde).  
+- **Escuta especializada:** Procedimento de entrevista realizado por profissional capacitado (assistente social, psicólogo) em órgão da rede de proteção (Conselho Tutelar (CT), CRAS, CREAS, saúde).  
 - **Depoimento especial:** Procedimento de oitiva de criança/adolescente perante autoridade policial ou judiciária, em ambiente adequado, com profissional capacitado (psicólogo, assistente social).
 
 🟡 **A ESCOLA NÃO REALIZA ESCUTA ESPECIALIZADA NEM DEPOIMENTO ESPECIAL.** A escola realiza **escuta qualificada**: acolhimento respeitoso, não revitimizante, com registro objetivo de relatos espontâneos para fins de notificação e proteção. A escola não investiga crimes, não apura materialidade ou autoria, não busca "provas". A escola acolhe, registra objetivamente e notifica órgãos competentes.
@@ -2447,7 +2447,7 @@ O profissional inicia a escuta construindo vínculo de confiança e segurança. 
 **Frases sugeridas:**
 
 - "O que conversarmos aqui não será comentado com outras pessoas sem necessidade. Vou proteger sua privacidade."  
-- "Mas preciso te explicar uma coisa importante: se você me contar algo que mostre que você ou outra criança está em perigo, eu vou precisar buscar ajuda de outras pessoas que podem te proteger, como o Conselho Tutelar ou profissionais de saúde. Isso não é te trair, é te cuidar."  
+- "Mas preciso te explicar uma coisa importante: se você me contar algo que mostre que você ou outra criança está em perigo, eu vou precisar buscar ajuda de outras pessoas que podem te proteger, como o Conselho Tutelar (CT) ou profissionais de saúde. Isso não é te trair, é te cuidar."  
 - "Meu trabalho é garantir que você esteja seguro(a). Por isso, se for necessário, vamos acionar quem pode te ajudar de verdade."
 
 🟢 **BOA PRÁTICA:** Adaptar linguagem conforme idade. Para crianças menores (11-12 anos), usar termos mais simples. Para adolescentes, pode-se usar linguagem mais direta sobre obrigações legais.
@@ -2639,7 +2639,7 @@ Explicar ao estudante, de forma adequada à idade, quais serão os próximos pas
 
 **Frases sugeridas:**
 
-- "Agora vamos tomar as providências para te proteger. Isso significa que vou precisar conversar com pessoas que podem te ajudar de verdade, como profissionais do Conselho Tutelar, da saúde, ou da assistência social."  
+- "Agora vamos tomar as providências para te proteger. Isso significa que vou precisar conversar com pessoas que podem te ajudar de verdade, como profissionais do Conselho Tutelar (CT), da saúde, ou da assistência social."  
 - "Vou registrar o que você me contou para que essas pessoas saibam como te ajudar da melhor forma."  
 - "Sua família \[se não for parte do problema\] também vai precisar saber, para que possa te apoiar."  
 - "Você não vai precisar contar essa história várias vezes para várias pessoas. Vou passar as informações necessárias."  
@@ -2946,7 +2946,7 @@ Com base nas respostas, classificar nível de risco (usar Anexo IV – Checklist
    - "Não deixe sozinho(a) até avaliação profissional."  
 5. **SE família não disponível ou resistente:**  
    - **Acionar SAMU 192** (emergência psiquiátrica)  
-   - **Acionar Conselho Tutelar** (proteção imediata)  
+   - **Acionar Conselho Tutelar (CT)** (proteção imediata)  
    - **Considerar 188 (CVV – Centro de Valorização da Vida)** para orientação telefônica imediata
 
 **Seguir Fluxo VI-D (Ideação Suicida/Tentativa de Suicídio) integralmente.**
@@ -3128,7 +3128,7 @@ Realizar escuta qualificada de estudantes em sofrimento emocional é trabalho co
 
 #### **1.2 Quando NÃO Comunicar a Família Antes de Autoridades**
 
-🔴 **OBRIGATÓRIO POR LEI:** Em situações de **violência intrafamiliar** (quando família ou responsável é suspeito agressor), a escola **NÃO comunica a família antes de acionar órgãos de proteção** (Conselho Tutelar, Delegacia).
+🔴 **OBRIGATÓRIO POR LEI:** Em situações de **violência intrafamiliar** (quando família ou responsável é suspeito agressor), a escola **NÃO comunica a família antes de acionar órgãos de proteção** (Conselho Tutelar (CT), Delegacia).
 
 **Situações em que família NÃO é comunicada ANTES das autoridades:**
 
@@ -3147,7 +3147,7 @@ Realizar escuta qualificada de estudantes em sofrimento emocional é trabalho co
 
 **PROCEDIMENTO CORRETO:**
 
-1. Acionar **Conselho Tutelar \+ Delegacia** imediatamente  
+1. Acionar **Conselho Tutelar (CT) \+ Delegacia** imediatamente  
 2. Autoridades orientam sobre momento e forma de comunicação à família  
 3. Escola pode comunicar família **não agressora** (ex: mãe, se agressor é padrasto) com orientação das autoridades
 
@@ -3206,7 +3206,7 @@ Realizar escuta qualificada de estudantes em sofrimento emocional é trabalho co
 
 **Medidas já adotadas:**
 
-- "A escola já tomou algumas providências: \[acolhemos o estudante, acionamos Conselho Tutelar, registramos ocorrência\]."  
+- "A escola já tomou algumas providências: \[acolhemos o estudante, acionamos Conselho Tutelar (CT), registramos ocorrência\]."  
 - "Já comunicamos as autoridades competentes, conforme nossa obrigação legal."
 
 **Encaminhamentos e papel da família:**
@@ -3643,7 +3643,7 @@ Inspetores, funcionários de limpeza, alimentação, segurança têm contato dir
 
 🔴 **OBRIGATÓRIO POR LEI** | 🟡 **OBRIGATÓRIO INSTITUCIONALMENTE**
 
-**Instrumento prático para orientar acionamento de órgãos da rede de proteção externa (Conselho Tutelar, CRAS, CREAS, UBS, CAPS, Delegacia, Ministério Público). O acionamento adequado assegura que estudante receba proteção e atendimento especializado de forma ágil e efetiva.**
+**Instrumento prático para orientar acionamento de órgãos da rede de proteção externa (Conselho Tutelar (CT), CRAS, CREAS, UBS, CAPS, Delegacia, Ministério Público). O acionamento adequado assegura que estudante receba proteção e atendimento especializado de forma ágil e efetiva.**
 
 ---
 
@@ -3725,7 +3725,7 @@ Inspetores, funcionários de limpeza, alimentação, segurança têm contato dir
 
 #### **3.2 Exemplo de Contato Telefônico**
 
-**Situação:** Acionar Conselho Tutelar por suspeita de maus-tratos.
+**Situação:** Acionar Conselho Tutelar (CT) por suspeita de maus-tratos.
 
 ---
 
@@ -3769,7 +3769,7 @@ Inspetores, funcionários de limpeza, alimentação, segurança têm contato dir
 - Maus-tratos graves  
 - Negligência grave  
 - Evasão escolar (notificação ao CT conforme ECA art. 56\)  
-- Qualquer situação de notificação obrigatória ao Conselho Tutelar
+- Qualquer situação de notificação obrigatória ao Conselho Tutelar (CT)
 
 **Estrutura do ofício:**
 
@@ -3989,7 +3989,7 @@ CONSELHO TUTELAR DE \[REGIÃO – Ex: SÃO MIGUEL PAULISTA\]
 
 A/C: \[Nome do Conselheiro, se conhecido\]
 
-\[Endereço completo do Conselho Tutelar\]
+\[Endereço completo do Conselho Tutelar (CT)\]
 
 \[Cidade/Estado – CEP\]
 
@@ -3999,7 +3999,7 @@ Ref.: Comunicação Obrigatória – ECA, arts. 13 e 56 / Lei 13.431/2017
 
 Prezados(as) Senhores(as) Conselheiros(as) Tutelares,
 
-Por meio do presente, cumprindo o disposto no Estatuto da Criança e do Adolescente (Lei Federal nº 8.069/90, artigos 13 e 56\) e na Lei nº 13.431/2017 (Sistema de Garantia de Direitos da Criança e do Adolescente Vítima ou Testemunha de Violência), comunicamos a esse Conselho Tutelar a situação envolvendo o(a) estudante abaixo identificado(a), que configura \[suspeita/confirmação\] de violação de direitos.
+Por meio do presente, cumprindo o disposto no Estatuto da Criança e do Adolescente (Lei Federal nº 8.069/90, artigos 13 e 56\) e na Lei nº 13.431/2017 (Sistema de Garantia de Direitos da Criança e do Adolescente Vítima ou Testemunha de Violência), comunicamos a esse Conselho Tutelar (CT) a situação envolvendo o(a) estudante abaixo identificado(a), que configura \[suspeita/confirmação\] de violação de direitos.
 
 \*\*1. IDENTIFICAÇÃO DO(A) ESTUDANTE\*\*
 
@@ -4081,11 +4081,11 @@ EXEMPLO:
 
 \- 10/02/2026: Estudante orientado(a) sobre procedimentos de proteção.
 
-\- 10/02/2026: Comunicação ao Conselho Tutelar (presente ofício) e à Delegacia \[se aplicável\]."
+\- 10/02/2026: Comunicação ao Conselho Tutelar (CT) (presente ofício) e à Delegacia \[se aplicável\]."
 
 \*\*4. SOLICITAÇÃO\*\*
 
-Diante do exposto, e considerando a gravidade da situação e a necessidade de proteção imediata dos direitos da criança/adolescente, solicitamos a esse Conselho Tutelar:
+Diante do exposto, e considerando a gravidade da situação e a necessidade de proteção imediata dos direitos da criança/adolescente, solicitamos a esse Conselho Tutelar (CT):
 
 \- Avaliação do caso e aplicação das medidas protetivas cabíveis, conforme ECA, art. 101;
 
@@ -4441,7 +4441,7 @@ EXEMPLO:
 
 \- \[Data\]: Registro em Plataforma Conviva (SEDUC-SP)
 
-\- \[Se aplicável\]: Comunicação ao Conselho Tutelar \[em casos mais graves\]
+\- \[Se aplicável\]: Comunicação ao Conselho Tutelar (CT) \[em casos mais graves\]
 
 \*\*5. SOLICITAÇÃO\*\*
 
@@ -4469,7 +4469,7 @@ Diante do exposto, solicitamos a esse Centro de Referência:
 
 \- Acompanhamento de situação de \[especificar: violência intrafamiliar, trabalho infantil, negligência\];
 
-\- Articulação com Conselho Tutelar e demais órgãos de proteção;
+\- Articulação com Conselho Tutelar (CT) e demais órgãos de proteção;
 
 \- Fortalecimento de vínculos familiares e comunitários;
 
@@ -4503,7 +4503,7 @@ RG: \[número\] | Matrícula SEDUC-SP: \[número\]
 
 Cópia:
 
-\- \[Se aplicável\]: Conselho Tutelar (em casos de evasão, conforme ECA art. 56\)
+\- \[Se aplicável\]: Conselho Tutelar (CT) (em casos de evasão, conforme ECA art. 56\)
 
 \- Dossiê do(a) estudante (sigilo)
 
@@ -4611,7 +4611,7 @@ O sigilo abrange, mas não se limita a:
 
 \- Registros de escutas qualificadas, acolhimentos, encaminhamentos;
 
-\- Informações compartilhadas por órgãos da rede de proteção (Conselho Tutelar, CRAS, CREAS, CAPS, UBS, Delegacia).
+\- Informações compartilhadas por órgãos da rede de proteção (Conselho Tutelar (CT), CRAS, CREAS, CAPS, UBS, Delegacia).
 
 \*\*3. COMPARTILHAMENTO RESTRITO E NECESSÁRIO\*\*
 
@@ -4623,7 +4623,7 @@ b) Nos limites \*\*estritamente necessários\*\* à proteção do estudante e ao
 
 c) Em contextos formais e apropriados (reuniões de equipe, conselhos de classe, articulação com rede), respeitando os círculos de compartilhamento definidos no Protocolo;
 
-d) Com órgãos da rede de proteção (Conselho Tutelar, CRAS, CREAS, CAPS, UBS, Delegacia, Ministério Público), quando houver obrigação legal de notificação ou necessidade de articulação para proteção do estudante;
+d) Com órgãos da rede de proteção (Conselho Tutelar (CT), CRAS, CREAS, CAPS, UBS, Delegacia, Ministério Público), quando houver obrigação legal de notificação ou necessidade de articulação para proteção do estudante;
 
 e) Com responsáveis legais do estudante, quando pertinente e seguro (exceto em casos de violência intrafamiliar, conforme orientação do Protocolo).
 
@@ -4685,7 +4685,7 @@ Reconheço os limites da minha atuação profissional no contexto do Protocolo I
 
 \- Realizar diagnósticos médicos, psicológicos ou psiquiátricos (atribuição de profissionais de saúde especializados);
 
-\- Substituir a rede de proteção (Conselho Tutelar, CRAS, CREAS, CAPS, Delegacia) em suas atribuições específicas;
+\- Substituir a rede de proteção (Conselho Tutelar (CT), CRAS, CREAS, CAPS, Delegacia) em suas atribuições específicas;
 
 \- Avaliar "veracidade" de relatos de violência (não cabe à escola julgar; cabe acolher e notificar);
 
@@ -4785,9 +4785,9 @@ A E.E. Ermelino Matarazzo trata dados pessoais de estudantes para as seguintes f
 
 a) \*\*Gestão educacional:\*\* Matrícula, acompanhamento pedagógico, registro de frequência, avaliação de desempenho, emissão de documentos escolares;
 
-b) \*\*Proteção e acompanhamento socioemocional:\*\* Identificação de situações de vulnerabilidade, risco ou violação de direitos; acolhimento, escuta qualificada, encaminhamento a órgãos da rede de proteção (Conselho Tutelar, CRAS, CREAS, CAPS, UBS, Delegacia);
+b) \*\*Proteção e acompanhamento socioemocional:\*\* Identificação de situações de vulnerabilidade, risco ou violação de direitos; acolhimento, escuta qualificada, encaminhamento a órgãos da rede de proteção (Conselho Tutelar (CT), CRAS, CREAS, CAPS, UBS, Delegacia);
 
-c) \*\*Articulação com rede de proteção:\*\* Compartilhamento de informações necessárias com órgãos públicos competentes (Conselho Tutelar, Ministério Público, Poder Judiciário, serviços de saúde, assistência social) para garantia de direitos;
+c) \*\*Articulação com rede de proteção:\*\* Compartilhamento de informações necessárias com órgãos públicos competentes (Conselho Tutelar (CT), Ministério Público, Poder Judiciário, serviços de saúde, assistência social) para garantia de direitos;
 
 d) \*\*Comunicação institucional:\*\* Contato com responsáveis para comunicação sobre vida escolar, convocações, orientações, emergências;
 
@@ -4865,7 +4865,7 @@ O tratamento de dados pessoais pela escola fundamenta-se nas seguintes bases leg
 
 \*\*Exemplos:\*\*
 
-\- Notificação ao Conselho Tutelar em caso de suspeita de violência intrafamiliar;
+\- Notificação ao Conselho Tutelar (CT) em caso de suspeita de violência intrafamiliar;
 
 \- Acionamento de SAMU em caso de tentativa de suicídio;
 
@@ -4881,7 +4881,7 @@ Os dados pessoais de estudantes poderão ser compartilhados com:
 
 a) \*\*Órgãos públicos da rede de proteção à criança e ao adolescente:\*\*
 
-   \- Conselho Tutelar
+   \- Conselho Tutelar (CT)
 
    \- CRAS (Centro de Referência de Assistência Social)
 
@@ -4915,7 +4915,7 @@ c) \*\*Prestadores de serviços (se aplicável):\*\*
 
 🔴 \*\*O compartilhamento de dados com terceiros ocorrerá APENAS quando:\*\*
 
-\- Obrigatório por lei (notificações ao Conselho Tutelar, Delegacia, etc.);
+\- Obrigatório por lei (notificações ao Conselho Tutelar (CT), Delegacia, etc.);
 
 \- Necessário para proteção da vida ou integridade do estudante;
 
@@ -5173,7 +5173,7 @@ Os dados pessoais são tratados exclusivamente para as seguintes finalidades:
 
 \- Acolhimento, escuta qualificada, acompanhamento socioemocional;
 
-\- Encaminhamento a órgãos da rede de proteção (Conselho Tutelar, CRAS, CREAS, CAPS, UBS, Delegacia);
+\- Encaminhamento a órgãos da rede de proteção (Conselho Tutelar (CT), CRAS, CREAS, CAPS, UBS, Delegacia);
 
 \- Notificações obrigatórias (ECA, arts. 13, 56, 245);
 
@@ -5185,7 +5185,7 @@ Os dados pessoais são tratados exclusivamente para as seguintes finalidades:
 
 \- Registro em sistemas oficiais (Plataforma Conviva/SEDUC-SP, Censo Escolar/INEP);
 
-\- Atendimento a requisições de autoridades competentes (Ministério Público, Poder Judiciário, Conselho Tutelar);
+\- Atendimento a requisições de autoridades competentes (Ministério Público, Poder Judiciário, Conselho Tutelar (CT));
 
 \- Defesa de direitos da escola em processos administrativos ou judiciais;
 
@@ -5325,7 +5325,7 @@ Dados pessoais podem ser compartilhados com:
 
 \*\*a) Órgãos da rede de proteção:\*\*
 
-\- Conselho Tutelar, CRAS, CREAS, CAPS, UBS, Delegacia, Ministério Público, Poder Judiciário
+\- Conselho Tutelar (CT), CRAS, CREAS, CAPS, UBS, Delegacia, Ministério Público, Poder Judiciário
 
 \- \*\*Finalidade:\*\* Proteção integral, notificação obrigatória, articulação intersetorial
 
@@ -5521,8 +5521,8 @@ São Paulo, \_\_\_\_\_ de \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ de 2026\.
 
 | SERVIÇO | ENDEREÇO | TELEFONE | COMO ACIONAR |
 | :---- | :---- | :---- | :---- |
-| **Conselho Tutelar** Ermelino Matarazzo | Rua Chesira Maltauro, 342 – Parque Boturussu | **(11) 2214-9050** \*\*Plantão:\*\* (11) 97283-6692 | **Obrigatório:** Ofício Anexo XII. \*\*Urgência:\*\* Telefonar antes do envio do ofício. |
-| **Vara da Infância e Juventude** (Fórum Regional) | Av. Paranaguá, 1333 – Ermelino Matarazzo (Fórum) | (11) 2546-9500 | **Via:** Conselho Tutelar ou Ministério Público na maioria dos casos escolares. |
+| **Conselho Tutelar (CT)** Ermelino Matarazzo | Rua Chesira Maltauro, 342 – Parque Boturussu | **(11) 2214-9050** \*\*Plantão:\*\* (11) 97283-6692 | **Obrigatório:** Ofício Anexo XII. \*\*Urgência:\*\* Telefonar antes do envio do ofício. |
+| **Vara da Infância e Juventude** (Fórum Regional) | Av. Paranaguá, 1333 – Ermelino Matarazzo (Fórum) | (11) 2546-9500 | **Via:** Conselho Tutelar (CT) ou Ministério Público na maioria dos casos escolares. |
 | **Defensoria Pública** | Av. Paranaguá, 1333 (Fórum Regional) | 0800 773 4340 | **Orientar Família:** Para questões de guarda, pensão, regularização civil. |
 | **Ministério Público** (Promotoria) | Av. Paranaguá, 1333 (Fórum Regional) | (11) 2546-9500 | **Denúncia:** Quando CT ou rede falham na proteção; Ações civis públicas. |
 
@@ -5797,7 +5797,7 @@ São Paulo, \_\_\_\_\_ de \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ de 2026\.
 - **Mãos calejadas, aparência envelhecida:** Trabalho precoce pode deixar marcas físicas.  
 - **Relato de contribuição financeira para família:** "Preciso trabalhar para ajudar em casa", "Se eu não trabalhar, não tem comida".
 
-🔴 **IMPORTANTE:** Trabalho infantil (abaixo de 16 anos, salvo aprendiz a partir de 14 anos) é **vedado por lei** (ECA, art. 60 e seguintes; Constituição Federal, art. 7º, XXXIII). Escola deve notificar Conselho Tutelar \+ encaminhar família para CRAS (acesso a programas de transferência de renda, superação da vulnerabilidade que gera necessidade de trabalho infantil).
+🔴 **IMPORTANTE:** Trabalho infantil (abaixo de 16 anos, salvo aprendiz a partir de 14 anos) é **vedado por lei** (ECA, art. 60 e seguintes; Constituição Federal, art. 7º, XXXIII). Escola deve notificar Conselho Tutelar (CT) \+ encaminhar família para CRAS (acesso a programas de transferência de renda, superação da vulnerabilidade que gera necessidade de trabalho infantil).
 
 ---
 
@@ -5952,7 +5952,7 @@ Estudante está:
 **3\. ACIONAMENTO DE REDE**
 
 - **CAPS IJ:** Contato no mesmo dia, informar sobre tentativa, solicitar acompanhamento urgente quando estudante receber alta hospitalar  
-- **Conselho Tutelar:** Notificação obrigatória em até 24h (Ofício Anexo XII)  
+- **Conselho Tutelar (CT):** Notificação obrigatória em até 24h (Ofício Anexo XII)  
 - Avaliar necessidade de comunicação à Delegacia (se tentativa ocorreu em contexto de crime – ex: após abuso sexual)
 
 **4\. REGISTRO DETALHADO**
@@ -6507,7 +6507,7 @@ Emergências testam nossa capacidade de resposta rápida, calma e efetiva. Conhe
 
 **INTERNOS:** ☐ Escuta qualificada (Anexo II preenchido) ☐ Contato com família ☐ Acompanhamento pedagógico (recuperação, flexibilização) ☐ Acompanhamento por POC/Estagiários ☐ Mediação de conflitos ☐ Outros: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
 
-**EXTERNOS:** ☐ UBS (Ofício nº \_\_\_\_\_ em **/**/***) ☐ CAPS IJ (Ofício nº \_\_\_\_\_ em //***) ☐ CAPS AD (Ofício nº \_\_\_\_\_ em **/**/***) ☐ CRAS (Ofício nº \_\_\_\_\_ em //***) ☐ CREAS (Ofício nº \_\_\_\_\_ em **/**/***) ☐ Conselho Tutelar (Ofício nº \_\_\_\_\_ em //***) ☐ Delegacia (BO nº \_\_\_\_\_ em **/**/\_\_\_\_\_) ☐ Outros: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+**EXTERNOS:** ☐ UBS (Ofício nº \_\_\_\_\_ em **/**/***) ☐ CAPS IJ (Ofício nº \_\_\_\_\_ em //***) ☐ CAPS AD (Ofício nº \_\_\_\_\_ em **/**/***) ☐ CRAS (Ofício nº \_\_\_\_\_ em //***) ☐ CREAS (Ofício nº \_\_\_\_\_ em **/**/***) ☐ Conselho Tutelar (CT) (Ofício nº \_\_\_\_\_ em //***) ☐ Delegacia (BO nº \_\_\_\_\_ em **/**/\_\_\_\_\_) ☐ Outros: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
 
 **REGISTRO EM SISTEMAS OFICIAIS:** ☐ Plataforma Conviva (data: **/**/\_\_\_\_\_, protocolo: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_) ☐ Sistema Secretaria Escolar Digital ☐ Livro de Ocorrências
 
@@ -6734,7 +6734,7 @@ MÊS/ANO: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ / \_\_\_\_\_\_\_\_\_\_
 | CAPS AD (Álcool e Drogas) | \_\_\_\_\_\_ |  |
 | CRAS (Assistência Social Básica) | \_\_\_\_\_\_ |  |
 | CREAS (Assistência Social Especializada) | \_\_\_\_\_\_ |  |
-| Conselho Tutelar | \_\_\_\_\_\_ |  |
+| Conselho Tutelar (CT) | \_\_\_\_\_\_ |  |
 | Delegacia de Polícia (BO, DEACA, DDM) | \_\_\_\_\_\_ |  |
 | Ministério Público | \_\_\_\_\_\_ |  |
 | Outros (especificar): | \_\_\_\_\_\_ |  |
@@ -7326,7 +7326,7 @@ Ao final do módulo, participantes serão capazes de:
 | Observa sinais de alerta | Investiga crimes (papel da Polícia/Justiça) |
 | Acolhe estudante com escuta qualificada | Interroga, busca "provas", apura "veracidade" |
 | Registra objetivamente relatos | Diagnostica transtornos mentais (papel da Saúde) |
-| Notifica órgãos competentes (CT, Delegacia) | Substitui Conselho Tutelar, CRAS, CAPS |
+| Notifica órgãos competentes (CT, Delegacia) | Substitui Conselho Tutelar (CT), CRAS, CAPS |
 | Encaminha para rede de proteção | Realiza terapia, tratamento psicológico |
 | Acompanha pedagogicamente estudante | Resolve problemas familiares complexos |
 
@@ -7929,7 +7929,7 @@ Implementar protocolo de proteção não é burocracia, é compromisso ético co
 
 **ENCARREGADO DE DADOS (DPO – Data Protection Officer)** Pessoa designada pela instituição para atuar como canal de comunicação entre controlador de dados, titulares e Autoridade Nacional de Proteção de Dados (LGPD, art. 41).
 
-**ESCUTA ESPECIALIZADA** Procedimento de entrevista sobre situação de violência, realizado por profissional capacitado (assistente social, psicólogo) em órgão da rede de proteção (Conselho Tutelar, CRAS, CREAS, Delegacia), conforme Lei 13.431/2017, art. 7º.
+**ESCUTA ESPECIALIZADA** Procedimento de entrevista sobre situação de violência, realizado por profissional capacitado (assistente social, psicólogo) em órgão da rede de proteção (Conselho Tutelar (CT), CRAS, CREAS, Delegacia), conforme Lei 13.431/2017, art. 7º.
 
 **ESCUTA QUALIFICADA** Técnica de escuta ativa, empática e não investigativa, que acolhe o relato do estudante sem julgamento, perguntas intrusivas ou indução de respostas. Objetivo: acolher, não investigar.
 
@@ -7983,7 +7983,7 @@ Implementar protocolo de proteção não é burocracia, é compromisso ético co
 
 **MAUS-TRATOS** Ação ou omissão que cause dano físico, sexual, psicológico ou negligência a criança ou adolescente, por pais, responsáveis ou terceiros. Categoria ampla que engloba violências e negligência.
 
-**MEDIDA DE PROTEÇÃO** Ação ordenada pelo Conselho Tutelar ou pela autoridade judiciária para garantir direitos de criança ou adolescente em situação de risco (ECA, art. 101). Exemplos: encaminhamento para serviços, orientação aos pais, acolhimento institucional.
+**MEDIDA DE PROTEÇÃO** Ação ordenada pelo Conselho Tutelar (CT) ou pela autoridade judiciária para garantir direitos de criança ou adolescente em situação de risco (ECA, art. 101). Exemplos: encaminhamento para serviços, orientação aos pais, acolhimento institucional.
 
 **MEDIAÇÃO DE CONFLITOS** Técnica de resolução de conflitos por meio de diálogo facilitado por terceiro imparcial (mediador), que auxilia partes a encontrarem solução consensual.
 
@@ -7993,7 +7993,7 @@ Implementar protocolo de proteção não é burocracia, é compromisso ético co
 
 **NEGLIGÊNCIA** Omissão de cuidados básicos necessários ao desenvolvimento físico, emocional e social de criança ou adolescente (alimentação, higiene, saúde, educação, supervisão, afeto). Forma de maus-tratos por omissão.
 
-**NOTIFICAÇÃO COMPULSÓRIA** Comunicação obrigatória de casos de violência contra criança e adolescente ao sistema de saúde (Portaria MS 1.271/2014) e ao Conselho Tutelar (ECA, art. 13 e 245).
+**NOTIFICAÇÃO COMPULSÓRIA** Comunicação obrigatória de casos de violência contra criança e adolescente ao sistema de saúde (Portaria MS 1.271/2014) e ao Conselho Tutelar (CT) (ECA, art. 13 e 245).
 
 ---
 
@@ -8019,7 +8019,7 @@ Implementar protocolo de proteção não é burocracia, é compromisso ético co
 
 ## **R**
 
-**REDE DE PROTEÇÃO** Conjunto articulado de serviços públicos das áreas de saúde (UBS, CAPS), assistência social (CRAS, CREAS), justiça (Conselho Tutelar, Ministério Público, Defensoria), segurança (Polícia, Delegacias especializadas) e educação, que garantem direitos de crianças e adolescentes.
+**REDE DE PROTEÇÃO** Conjunto articulado de serviços públicos das áreas de saúde (UBS, CAPS), assistência social (CRAS, CREAS), justiça (Conselho Tutelar (CT), Ministério Público, Defensoria), segurança (Polícia, Delegacias especializadas) e educação, que garantem direitos de crianças e adolescentes.
 
 **REGRESSÃO COMPORTAMENTAL** Retorno a comportamentos de fase anterior do desenvolvimento (ex: adolescente volta a fazer xixi na cama, falar como bebê, chupar dedo). Pode indicar trauma, estresse intenso, mecanismo de defesa psíquico.
 

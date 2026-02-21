@@ -10,7 +10,7 @@ import { AppChip } from '../ui/AppChip';
 import { AppButton } from '../ui/AppButton';
 import { SidePanelOrientacoes } from '../ui/SidePanelOrientacoes';
 import { BottomSheetOrientacoes } from '../ui/BottomSheetOrientacoes';
-import { verbByIntentCapitalized } from '../../content/microcopyLexicon';
+import { formatActionTemplate, verbByIntentCapitalized } from '../../content/microcopyLexicon';
 
 type FinalizationChecklistState = {
   emergencyContacted: boolean;
@@ -115,6 +115,28 @@ const ResultScreenBase: React.FC<ResultScreenProps> = ({
 
   const primaryService = resolvedServices.at(0);
   const secondaryService = resolvedServices.at(1);
+
+  const primaryActionTemplate = React.useMemo(() => {
+    const firstAction = leaf.primaryActions.actions[0] ?? 'o acionamento principal';
+    const cleanedAction = firstAction.replace(/[.!]+$/g, '').toLowerCase();
+
+    return formatActionTemplate({
+      action: cleanedAction,
+      deadline: leaf.followUp.deadline,
+      responsible: leaf.followUp.responsible ?? 'gestão escolar'
+    });
+  }, [leaf.primaryActions.actions, leaf.followUp.deadline, leaf.followUp.responsible]);
+
+  const followUpTemplate = React.useMemo(
+    () =>
+      formatActionTemplate({
+        action: leaf.followUp.title,
+        deadline: leaf.followUp.deadline,
+        responsible: leaf.followUp.responsible ?? 'gestão escolar'
+      }),
+    [leaf.followUp.deadline, leaf.followUp.responsible, leaf.followUp.title]
+  );
+
   const managementNotification = leaf.managementNotification ?? {
     required: false,
     timing: 'CIENCIA' as const,
@@ -289,11 +311,16 @@ const ResultScreenBase: React.FC<ResultScreenProps> = ({
               </AppCard>
 
               <AppCard strong heading="Ações prioritárias" subheading={`${urgency.icon} ${urgency.label}`}>
+                <div className="result-muted-text">{primaryActionTemplate}</div>
                 <ol className="result-inline-list">
                   {leaf.primaryActions.actions.slice(0, 3).map((action, idx) => (
                     <li key={`${action}-${idx}`}>{action}</li>
                   ))}
                 </ol>
+              </AppCard>
+
+              <AppCard strong heading="Acompanhamento" subheading={leaf.followUp.frequency}>
+                <div className="result-text">{followUpTemplate}</div>
               </AppCard>
 
               <AppCard strong heading="Antes de finalizar" subheading="Confirme os acionamentos essenciais desta consulta">

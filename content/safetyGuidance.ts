@@ -93,7 +93,7 @@ const violenciaProtecao: SafetyGuidanceGroup[] = [
     tone: 'success',
     items: [
       { id: 'vf1', type: 'do', text: 'Garantir que a vítima esteja acompanhada por um adulto de confiança da escola.' },
-      { id: 'vf2', type: 'do', text: 'Notificar Conselho Tutelar no mesmo dia em qualquer suspeita de violência grave.' },
+      { id: 'vf2', type: 'do', text: 'Notificar Conselho Tutelar (CT) no mesmo dia em qualquer suspeita de violência grave.' },
       { id: 'vf3', type: 'do', text: 'Encaminhar para UBS/UPA quando houver lesões visíveis, registrando avaliação médica.' },
       { id: 'vf4', type: 'do', text: 'Acionar a gestão escolar e registrar os fatos objetivos com data e hora.' }
     ]

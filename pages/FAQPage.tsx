@@ -39,7 +39,7 @@ const faqCategories: FAQCategory[] = [
           'Você deve comunicar imediatamente o POC (Professor Orientador de Convivência) ou a Coordenação/Direção. Não tente investigar sozinho nem interrogue o estudante sobre a origem do sinal.',
       },
       {
-        question: 'Sou eu quem deve ligar para o Conselho Tutelar ou para os pais?',
+        question: 'Sou eu quem deve ligar para o Conselho Tutelar (CT) ou para os pais?',
         answer:
           'Não. Segundo o protocolo, qualquer profissional identifica os sinais, mas a Gestão (Direção) é quem decide o acionamento de rede externa e as notificações obrigatórias, visando a proteção institucional.',
       },
@@ -68,7 +68,7 @@ const faqCategories: FAQCategory[] = [
       {
         question: 'Devo comunicar a família imediatamente em casos de suspeita de abuso sexual?',
         answer:
-          'CUIDADO. Se houver suspeita de que o agressor é um familiar ou alguém próximo, a família NÃO deve ser comunicada pela escola para não colocar o estudante em risco. A gestão acionará diretamente o Conselho Tutelar/Delegacia.',
+          'CUIDADO. Se houver suspeita de que o agressor é um familiar ou alguém próximo, a família NÃO deve ser comunicada pela escola para não colocar o estudante em risco. A gestão acionará diretamente o Conselho Tutelar (CT)/Delegacia.',
       },
     ],
   },
@@ -88,9 +88,9 @@ const faqCategories: FAQCategory[] = [
           'Não deixe o aluno sozinho. Comunique a gestão imediatamente. O encaminhamento prioritário é o CAPS IJ. Se houver ferimento grave ou tentativa em curso, acione o SAMU (192).',
       },
       {
-        question: 'O que é a "Busca Ativa" e quando acionar o Conselho Tutelar por faltas?',
+        question: 'O que é a "Busca Ativa" e quando acionar o Conselho Tutelar (CT) por faltas?',
         answer:
-          'A Busca Ativa começa após 3 dias de faltas consecutivas ou 5 alternadas. O Conselho Tutelar só deve ser acionado após a escola esgotar todos os recursos de contato com a família (Anexo II).',
+          'A Busca Ativa começa após 3 dias de faltas consecutivas ou 5 alternadas. O Conselho Tutelar (CT) só deve ser acionado após a escola esgotar todos os recursos de contato com a família (Anexo II).',
       },
     ],
   },
@@ -124,7 +124,7 @@ const faqCategories: FAQCategory[] = [
       {
         question: 'Presenciei uma situação de Bullying. Isso entra no protocolo de proteção?',
         answer:
-          'Sim. O Bullying é uma forma de violência que gera sofrimento mental. Deve ser registrado e mediado pelo POC. Se houver agressão física ou perseguição sistemática (Cyberbullying), a gestão deve avaliar o acionamento dos responsáveis e, se grave, do Conselho Tutelar.',
+          'Sim. O Bullying é uma forma de violência que gera sofrimento mental. Deve ser registrado e mediado pelo POC. Se houver agressão física ou perseguição sistemática (Cyberbullying), a gestão deve avaliar o acionamento dos responsáveis e, se grave, do Conselho Tutelar (CT).',
       },
       {
         question: 'O que fazer em casos de Cyberbullying que acontecem fora da escola?',

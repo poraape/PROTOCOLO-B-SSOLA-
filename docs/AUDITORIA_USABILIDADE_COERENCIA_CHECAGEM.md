@@ -59,7 +59,7 @@ Inconsistência relevante: no CTA contextual de risco iminente, o texto informa 
 
 ### 2.5 Clareza dos acionamentos
 Há boa estrutura de “quem/como/quando” no resultado: serviço principal, complemento, SLA e checklist numerado.  
-Por outro lado, expressões como “conforme protocolo” aparecem em itens críticos sem detalhar imediatamente o gatilho obrigatório (ex.: Conselho Tutelar “hoje” em todos os cenários de proteção), exigindo conhecimento prévio ou leitura adicional de referência normativa.
+Por outro lado, expressões como “conforme protocolo” aparecem em itens críticos sem detalhar imediatamente o gatilho obrigatório (ex.: Conselho Tutelar (CT) “hoje” em todos os cenários de proteção), exigindo conhecimento prévio ou leitura adicional de referência normativa.
 
 ### 2.6 Redução de ambiguidade
 A melhoria da pré-triagem reduziu ambiguidade estrutural do primeiro desvio de rota.  
@@ -120,8 +120,8 @@ Problema crítico: na confirmação do CTA contextual, o “Confirmar” liga pa
 **Caminho:** `root (Não)` → `recheck (Não)` → `violencia (Sim)` → `n_direitos_triagem (Sim)` → `n_direitos_urgencia (Não)` → `leaf_direitos_conselho_rede`.  
 **Tempo mental:** 2–4 min.
 
-**Diagnóstico:** fluxo chega ao bloco de proteção correto e inclui Conselho Tutelar/CREAS e registro no dia. O modelo é institucionalmente seguro.  
-Ponto de fricção: linguagem “conforme protocolo” pode ser abstrata para usuários não pedagógicos; falta CTA direto “notificar Conselho Tutelar hoje” como frase imperativa única.  
+**Diagnóstico:** fluxo chega ao bloco de proteção correto e inclui Conselho Tutelar (CT)/CREAS e registro no dia. O modelo é institucionalmente seguro.  
+Ponto de fricção: linguagem “conforme protocolo” pode ser abstrata para usuários não pedagógicos; falta CTA direto “notificar Conselho Tutelar (CT) hoje” como frase imperativa única.  
 **Risco identificado:** **Alto** (atraso de notificação).  
 **Melhoria:** destacar obrigação legal em chip/linha fixa no topo da folha de proteção.
 

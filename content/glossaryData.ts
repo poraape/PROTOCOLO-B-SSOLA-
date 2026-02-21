@@ -47,7 +47,7 @@ export const TECHNICAL_GLOSSARY: GlossaryTerm[] = [
     definicao: 'Centro de Atenção Psicossocial Álcool e Drogas para adolescentes (geralmente 16+ anos) com uso problemático de substâncias.',
     exemplo: 'Acione se estudante apresenta faltas frequentes, alterações de comportamento e relato de uso intenso de álcool ou outras drogas.',
     sinonimos: ['CAPS AD', 'CAPS Álcool e Drogas'],
-    relacionados: ['Uso Problemático de Substâncias', 'CRAS', 'Conselho Tutelar'],
+    relacionados: ['Uso Problemático de Substâncias', 'CRAS', 'Conselho Tutelar (CT)'],
     observacoes: 'R. João Antônio Andrade, 804. Atendimento multiprofissional.',
     categoria: 'Rede Externa - Saúde Mental'
   },
@@ -143,7 +143,7 @@ export const TECHNICAL_GLOSSARY: GlossaryTerm[] = [
     definicao: 'Atende famílias com violação grave de direitos (violência doméstica, trabalho infantil, exploração sexual, negligência severa).',
     exemplo: 'Encaminhe se identificar trabalho infantil, violência física recorrente ou criança sozinha por longos períodos.',
     sinonimos: ['CREAS', 'Proteção Especial'],
-    relacionados: ['Conselho Tutelar', 'Violência Doméstica', 'Negligência Grave', 'CRAS'],
+    relacionados: ['Conselho Tutelar (CT)', 'Violência Doméstica', 'Negligência Grave', 'CRAS'],
     categoria: 'Rede Externa - Assistência Social'
   },
   {
@@ -176,9 +176,9 @@ export const TECHNICAL_GLOSSARY: GlossaryTerm[] = [
     id: 'trabalho-infantil',
     termo: 'Trabalho Infantil',
     definicao: 'Exploração de trabalho de crianças/adolescentes abaixo da idade legal ou em condições prejudiciais à escolarização.',
-    exemplo: 'Se estudante relata trabalhar em feira, lava-jato ou vendas (e falta aulas), notifique Conselho Tutelar e CREAS.',
+    exemplo: 'Se estudante relata trabalhar em feira, lava-jato ou vendas (e falta aulas), notifique Conselho Tutelar (CT) e CREAS.',
     sinonimos: ['Exploração infantil'],
-    relacionados: ['Conselho Tutelar', 'CREAS', 'Evasão'],
+    relacionados: ['Conselho Tutelar (CT)', 'CREAS', 'Evasão'],
     observacoes: 'Proibido <16 anos; 16-18 anos apenas como aprendiz legal.',
     categoria: 'Situações Críticas'
   },
@@ -188,7 +188,7 @@ export const TECHNICAL_GLOSSARY: GlossaryTerm[] = [
     definicao: 'Ausência prolongada de cuidados básicos (higiene, alimentação, supervisão, saúde, escola) que põe criança em risco.',
     exemplo: 'Criança falta >50% das aulas sem justificativa, chega suja/com piolhos por meses, relata ficar sozinha em casa sempre.',
     sinonimos: ['Abandono parcial', 'Falta de cuidado'],
-    relacionados: ['Conselho Tutelar', 'CREAS', 'Violência Doméstica'],
+    relacionados: ['Conselho Tutelar (CT)', 'CREAS', 'Violência Doméstica'],
     observacoes: 'Notificação obrigatória ao CT. Não confundir pobreza com negligência.',
     categoria: 'Situações Críticas'
   },
@@ -198,16 +198,16 @@ export const TECHNICAL_GLOSSARY: GlossaryTerm[] = [
     definicao: 'Uso de criança/adolescente em atividade sexual em troca de dinheiro, favores, presentes ou coerção.',
     exemplo: 'Se estudante relata "namorado" mais velho que dá presentes caros, ou fala de "programas", acione CT, CREAS e Disque 100 urgente.',
     sinonimos: ['Prostituição infantil', 'Turismo sexual'],
-    relacionados: ['Conselho Tutelar', 'Disque 100', 'Ministério Público', 'Delegacia'],
+    relacionados: ['Conselho Tutelar (CT)', 'Disque 100', 'Ministério Público', 'Delegacia'],
     observacoes: 'CRIME GRAVÍSSIMO. Proteja estudante, notifique múltiplos órgãos.',
     categoria: 'Situações Críticas'
   },
   {
     id: 'conselho-tutelar',
-    termo: 'Conselho Tutelar Ermelino Matarazzo',
+    termo: 'Conselho Tutelar (CT) Ermelino Matarazzo',
     definicao: 'Órgão municipal que zela pelo cumprimento de direitos de crianças e adolescentes. Atua mediante ameaça ou violação de direitos.',
     exemplo: 'Notifique em casos de violência física/sexual, negligência grave, evasão reiterada, trabalho infantil, uso de drogas pelos pais.',
-    sinonimos: ['CT', 'Conselho Tutelar'],
+    sinonimos: ['CT', 'Conselho Tutelar (CT)'],
     observacoes: 'Av. Milene Elias, 417. Fone: (11) xxxx-xxxx. Horário comercial.',
     relacionados: ['CREAS', 'Ministério Público', 'Delegacia', 'Notificação Obrigatória'],
     categoria: 'Rede Externa - Proteção/Justiça'
@@ -218,7 +218,7 @@ export const TECHNICAL_GLOSSARY: GlossaryTerm[] = [
     definicao: 'Instituição que fiscaliza direitos e pode acionar Justiça quando violações persistem mesmo após atuação do CT.',
     exemplo: 'Se CT foi acionado mas família continua em situação de risco grave (ex: abuso sexual sem intervenção), escola pode oficiar MP.',
     sinonimos: ['MP', 'Promotoria'],
-    relacionados: ['Conselho Tutelar', 'Defensoria Pública', 'Vara da Infância'],
+    relacionados: ['Conselho Tutelar (CT)', 'Defensoria Pública', 'Vara da Infância'],
     categoria: 'Rede Externa - Proteção/Justiça'
   },
   {
@@ -236,7 +236,7 @@ export const TECHNICAL_GLOSSARY: GlossaryTerm[] = [
     definicao: 'Canal federal de denúncia de violações de direitos humanos (violência, abuso, exploração), 24h, anônimo.',
     exemplo: 'Se não conseguir contato com CT ou em caso gravíssimo fora do horário, disque 100 para registro de denúncia.',
     sinonimos: ['Disque Direitos Humanos'],
-    relacionados: ['Conselho Tutelar', 'Disque 180 (Mulher)'],
+    relacionados: ['Conselho Tutelar (CT)', 'Disque 180 (Mulher)'],
     categoria: 'Rede Externa - Proteção/Justiça'
   },
   {
@@ -245,7 +245,7 @@ export const TECHNICAL_GLOSSARY: GlossaryTerm[] = [
     definicao: 'Instância judicial que julga casos de destituição de poder familiar, adoção, medidas socioeducativas para adolescentes infratores.',
     exemplo: 'Casos complexos com múltiplas violações e inação dos órgãos administrativos chegam à Vara via MP ou CT.',
     sinonimos: ['Juizado da Infância'],
-    relacionados: ['Ministério Público', 'Conselho Tutelar', 'Acolhimento Institucional'],
+    relacionados: ['Ministério Público', 'Conselho Tutelar (CT)', 'Acolhimento Institucional'],
     categoria: 'Rede Externa - Proteção/Justiça'
   },
   {
@@ -265,7 +265,7 @@ export const TECHNICAL_GLOSSARY: GlossaryTerm[] = [
     exemplo: 'Após acionar PM ou em crimes descobertos após o fato, vá à DP para registrar BO formal.',
     sinonimos: ['DP', 'Delegacia'],
     observacoes: 'R. Ruy Pirozzelli, 250.',
-    relacionados: ['BO', 'Polícia Militar', 'Conselho Tutelar'],
+    relacionados: ['BO', 'Polícia Militar', 'Conselho Tutelar (CT)'],
     categoria: 'Rede Externa - Proteção/Justiça'
   },
   {
@@ -283,7 +283,7 @@ export const TECHNICAL_GLOSSARY: GlossaryTerm[] = [
     definicao: 'Venda organizada de substâncias ilícitas dentro ou no entorno escolar.',
     exemplo: 'Se identificar venda repetida, porte de grande quantidade ou envolvimento de facção: acione PM, Delegacia e CT. Proteja denunciante.',
     sinonimos: ['Venda de drogas', 'Boca de fumo'],
-    relacionados: ['Uso Problemático de Substâncias', 'Polícia Militar', 'Conselho Tutelar'],
+    relacionados: ['Uso Problemático de Substâncias', 'Polícia Militar', 'Conselho Tutelar (CT)'],
     observacoes: 'CRIME GRAVE. Diferenciar de uso pessoal (saúde) vs tráfico (segurança).',
     categoria: 'Situações Críticas'
   },
@@ -293,7 +293,7 @@ export const TECHNICAL_GLOSSARY: GlossaryTerm[] = [
     definicao: 'Qualquer ato sexual (com ou sem penetração) contra criança/adolescente, com ou sem violência física, inclusive dentro de relações familiares.',
     exemplo: 'Se estudante relata ser "tocado" por familiar, mostra desenhos sexuais explícitos ou tem comportamento sexual inadequado para idade: notifique CT, CREAS, UBS (laudo) e Delegacia imediatamente.',
     sinonimos: ['Estupro de vulnerável', 'Abuso intrafamiliar'],
-    relacionados: ['Conselho Tutelar', 'CREAS', 'Disque 100', 'UPA (perícia)', 'Delegacia'],
+    relacionados: ['Conselho Tutelar (CT)', 'CREAS', 'Disque 100', 'UPA (perícia)', 'Delegacia'],
     observacoes: 'NOTIFICAÇÃO OBRIGATÓRIA. Nunca confronte suspeito. Proteja criança.',
     categoria: 'Situações Críticas'
   },
@@ -327,17 +327,17 @@ export const TECHNICAL_GLOSSARY: GlossaryTerm[] = [
     id: 'encaminhamento-externo',
     termo: 'Encaminhamento Externo',
     definicao: 'Articulação formal da escola com serviços da rede (saúde, assistência, proteção) via ofício, telefone ou sistema.',
-    exemplo: 'Use formulário do app para gerar ofício de encaminhamento para CAPS IJ, CRAS ou Conselho Tutelar com resumo do caso.',
-    relacionados: ['Registro Formal', 'Ofício de Encaminhamento', 'CAPS IJ', 'CRAS', 'Conselho Tutelar'],
+    exemplo: 'Use formulário do app para gerar ofício de encaminhamento para CAPS IJ, CRAS ou Conselho Tutelar (CT) com resumo do caso.',
+    relacionados: ['Registro Formal', 'Ofício de Encaminhamento', 'CAPS IJ', 'CRAS', 'Conselho Tutelar (CT)'],
     categoria: 'Fluxos e Protocolos'
   },
   {
     id: 'notificacao-obrigatoria',
     termo: 'Notificação Obrigatória',
-    definicao: 'Dever legal de comunicar ao Conselho Tutelar situações de violação de direitos de crianças e adolescentes (violência, negligência, exploração).',
+    definicao: 'Dever legal de comunicar ao Conselho Tutelar (CT) situações de violação de direitos de crianças e adolescentes (violência, negligência, exploração).',
     exemplo: 'Violência física, sexual, psicológica, negligência grave, trabalho infantil: notifique CT por escrito em até 24h.',
     sinonimos: ['Comunicação obrigatória'],
-    relacionados: ['Conselho Tutelar', 'Violência Doméstica', 'Abuso Sexual', 'Negligência'],
+    relacionados: ['Conselho Tutelar (CT)', 'Violência Doméstica', 'Abuso Sexual', 'Negligência'],
     observacoes: 'ECA Art. 13 e 245. Omissão pode configurar crime.',
     categoria: 'Fluxos e Protocolos'
   },
@@ -524,7 +524,7 @@ export const TECHNICAL_GLOSSARY: GlossaryTerm[] = [
     definicao: 'Agressões físicas, psicológicas, sexuais ou negligência praticadas por familiares ou pessoas do convívio doméstico.',
     exemplo: 'Estudante relata apanhar com cinto do pai, mostra hematomas, tem medo de ir para casa. Notifique CT, CREAS, oriente UBS para laudo.',
     sinonimos: ['Violência familiar'],
-    relacionados: ['Conselho Tutelar', 'CREAS', 'Disque 100', 'Violência Sexual'],
+    relacionados: ['Conselho Tutelar (CT)', 'CREAS', 'Disque 100', 'Violência Sexual'],
     categoria: 'Situações Críticas'
   },
   {
@@ -567,7 +567,7 @@ export const TECHNICAL_GLOSSARY: GlossaryTerm[] = [
     termo: 'Busca Ativa',
     definicao: 'Estratégia de localizar e reengajar estudantes que pararam de frequentar, através de contato telefônico, visita domiciliar, parceria com ACS/CRAS.',
     exemplo: 'Após 10 faltas consecutivas, secretaria liga, coordenação agenda visita, envolve CT se não localizar ou houver resistência familiar.',
-    relacionados: ['Evasão Escolar', 'Secretaria', 'Conselho Tutelar'],
+    relacionados: ['Evasão Escolar', 'Secretaria', 'Conselho Tutelar (CT)'],
     categoria: 'Pedagógico'
   },
   {
@@ -688,7 +688,7 @@ export const TECHNICAL_GLOSSARY: GlossaryTerm[] = [
     termo: 'Acolhimento Institucional',
     definicao: 'Medida protetiva temporária de retirada de criança/adolescente da família e abrigamento em instituição, decidida judicialmente.',
     exemplo: 'Em situações extremas (risco de morte, família desaparecida), CT + Vara da Infância determinam acolhimento até resolução.',
-    relacionados: ['Conselho Tutelar', 'Vara da Infância', 'Negligência Grave'],
+    relacionados: ['Conselho Tutelar (CT)', 'Vara da Infância', 'Negligência Grave'],
     categoria: 'Rede Externa - Proteção/Justiça'
   },
   {
@@ -696,7 +696,7 @@ export const TECHNICAL_GLOSSARY: GlossaryTerm[] = [
     termo: 'Medida Protetiva',
     definicao: 'Ações determinadas por CT ou Justiça para proteger criança/adolescente (afastamento do agressor, tratamento obrigatório, matrícula compulsória).',
     exemplo: 'Se pai agride mãe e filho presencia, CT pode determinar afastamento do agressor e acompanhamento familiar obrigatório.',
-    relacionados: ['Conselho Tutelar', 'Violência Doméstica', 'Defensoria'],
+    relacionados: ['Conselho Tutelar (CT)', 'Violência Doméstica', 'Defensoria'],
     categoria: 'Rede Externa - Proteção/Justiça'
   },
   {

@@ -347,7 +347,7 @@ export const SCENARIO_DECISION_META: Record<string, ScenarioDecisionMeta> = {
   C04: {
     protocolAlignment: 'Alinhado quando prioriza proteção da vítima, notificação e atuação coordenada com rede de proteção.',
     probableImpact: 'Diminui revitimização e aumenta responsabilização institucional do caso.',
-    legalInstitutionalReference: ['ECA art. 13', 'Conselho Tutelar', 'Rede intersetorial de proteção'],
+    legalInstitutionalReference: ['ECA art. 13', 'Conselho Tutelar (CT)', 'Rede intersetorial de proteção'],
     whatToDoDifferently: 'Evitar confronto precoce e perguntas indutivas; registrar fala literal e escalar imediatamente para proteção.'
   },
   C05: {
