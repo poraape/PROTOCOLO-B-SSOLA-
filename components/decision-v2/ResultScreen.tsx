@@ -123,7 +123,10 @@ const ResultScreenBase: React.FC<ResultScreenProps> = ({
                         {primaryService.details.name} — {primaryService.details.phone}
                       </a>
                     ) : (
-                      <span>Serviço principal não definido.</span>
+                      <div style={{ display: 'grid', gap: 4 }}>
+                        <span>Serviço principal indisponível. Avise a gestão e use contato de contingência.</span>
+                        <a href="#comunicar-gestao" style={{ color: 'var(--text)', fontWeight: 600 }}>➡️ Ir para Comunicar gestão</a>
+                      </div>
                     )}
                   </div>
 
@@ -132,13 +135,17 @@ const ResultScreenBase: React.FC<ResultScreenProps> = ({
                     {secondaryService?.details ? (
                       <span>{secondaryService.details.name} — {secondaryService.details.phone}</span>
                     ) : (
-                      <span>Sem serviço complementar principal.</span>
+                      <div style={{ display: 'grid', gap: 4 }}>
+                        <span>Sem serviço complementar definido para este caso.</span>
+                        <a href="#quem-acionar" style={{ color: 'var(--text)', fontWeight: 600 }}>➡️ Ver bloco Quem acionar</a>
+                      </div>
                     )}
                   </div>
                 </div>
               </AppCard>
 
               <AppCard strong heading="COMUNICAR GESTÃO" subheading="Timing e papéis recomendados">
+                <div id="comunicar-gestao" />
                 <div style={{ display: 'grid', gap: 8 }}>
                   <AppChip label={managementNotification.timing} tone={timingTone[managementNotification.timing]} />
                   <div style={{ color: 'var(--text)' }}>
@@ -184,6 +191,7 @@ const ResultScreenBase: React.FC<ResultScreenProps> = ({
               </AppCard>
 
               <AppCard strong heading="Contatos úteis" subheading={leaf.contactTargets.title}>
+                <div id="quem-acionar" />
                 <ul style={{ margin: 0, paddingLeft: 20, color: 'var(--text)', lineHeight: 1.6 }}>
                   {resolvedServices.map((serviceRef, idx) => (
                     <li key={`${serviceRef.serviceId}-${idx}`}>
