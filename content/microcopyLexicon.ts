@@ -34,3 +34,18 @@ export const verbByIntentCapitalized = (intent: LanguageIntent): string => {
   const verb = verbByIntent(intent);
   return `${verb.charAt(0).toUpperCase()}${verb.slice(1)}`;
 };
+
+export const SCENARIO_PLAYER_COPY = {
+  title: 'ScenarioPlayer',
+  subtitle: 'Treinamento de travessia com cenários locais (offline), filtros e modo prática.',
+  resetScenario: 'Reiniciar cenário atual',
+  previousStep: '← Anterior',
+  trainingModeOff: 'Modo treinamento',
+  trainingModeOn: 'Sair do treinamento',
+  resetTraining: 'Reset treino',
+  markCompleted: 'Marcar cenário como concluído',
+  pendingPrerequisites: {
+    riskImpact: '⚠️ Risco de decisões com lacunas de contexto e maior impacto operacional neste cenário.',
+    nextActionPrefix: 'Próxima ação recomendada: conclua antes'
+  }
+} as const;
