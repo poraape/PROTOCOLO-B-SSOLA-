@@ -20,6 +20,8 @@ import { SCHOOL_CONFIG } from './content/schoolConfig';
 import { getInitialTheme, setTheme } from './services/theme';
 import { applyA11yPrefs, getInitialA11yPrefs } from './services/a11yPrefs';
 
+const ENABLE_SIMULADOR_V2 = import.meta.env.VITE_ENABLE_SIMULADOR_V2 === 'true';
+
 const App: React.FC = () => {
 
 
@@ -72,6 +74,10 @@ const App: React.FC = () => {
           <Route path="/student-terms" element={<StudentTermsPage />} />
           <Route path="/glossario" element={<Navigate to="/glossary" replace />} />
           <Route path="/simulador" element={<SimulatorPage />} />
+          <Route
+            path="/simulador/v2"
+            element={ENABLE_SIMULADOR_V2 ? <SimulatorPage /> : <Navigate to="/simulador" replace />}
+          />
           <Route path="/faq" element={<FAQPage />} />
           <Route path="/sobre" element={<AboutPage />} />
           <Route path="/versao" element={<AboutPage />} />

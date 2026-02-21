@@ -29,7 +29,7 @@ const EmergencyButton: React.FC<{ onClick: () => void }> = ({ onClick }) => (
       boxShadow: designTokens.shadows.emergency
     }}
   >
-    🚨 Chamar ajuda imediata (192/190/193)
+    🚨 Acionar emergência agora (192/190/193)
   </button>
 );
 
@@ -70,7 +70,7 @@ export const DecisionTreeNavigator: React.FC = () => {
   }, []);
 
   const renderContent = () => {
-    if (!('level' in currentNode)) return <div>Nó desconhecido</div>;
+    if (!('level' in currentNode)) return <div>Não foi possível carregar esta etapa do decisor. Reinicie a triagem.</div>;
 
     switch (currentNode.level) {
       case 'CRITICAL_TRIAGE':
@@ -133,7 +133,7 @@ export const DecisionTreeNavigator: React.FC = () => {
         );
 
       default:
-        return <div>Nó desconhecido</div>;
+        return <div>Não foi possível carregar esta etapa do decisor. Reinicie a triagem.</div>;
     }
   };
 
@@ -159,7 +159,7 @@ export const DecisionTreeNavigator: React.FC = () => {
                 fontSize: '14px'
               }}
             >
-              ← Voltar
+              ← Voltar para a pergunta anterior
             </button>
           </div>
         ) : null}

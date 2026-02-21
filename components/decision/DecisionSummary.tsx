@@ -23,9 +23,9 @@ export const DecisionSummary: React.FC<DecisionSummaryProps> = ({
       </div>
       <div className="flex gap-2">
         {canGoBack && (
-          <button onClick={onGoBack} className="btn-secondary text-sm focus-visible:ring-2 focus-visible:ring-brand-500">← Voltar</button>
+          <button onClick={onGoBack} className="btn-secondary text-sm focus-visible:ring-2 focus-visible:ring-brand-500">← Voltar para pergunta anterior</button>
         )}
-        <button onClick={onReset} className="btn-secondary text-sm focus-visible:ring-2 focus-visible:ring-brand-500">Reiniciar</button>
+        <button onClick={onReset} className="btn-secondary text-sm focus-visible:ring-2 focus-visible:ring-brand-500">Iniciar nova triagem</button>
       </div>
     </div>
   );

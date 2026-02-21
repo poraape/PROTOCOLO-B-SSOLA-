@@ -49,7 +49,7 @@ export const ManagementContactModal: React.FC<ManagementContactModalProps> = ({ 
       <div
         role="dialog"
         aria-modal="true"
-        aria-label="Contatos da gestão"
+        aria-label="Canais de contato da gestão"
         onClick={(event) => event.stopPropagation()}
         style={{
           backgroundColor: '#FFFFFF',
@@ -64,7 +64,7 @@ export const ManagementContactModal: React.FC<ManagementContactModalProps> = ({ 
           <button
             type="button"
             onClick={onClose}
-            aria-label="Fechar contatos da gestão"
+            aria-label="Fechar modal de contatos da gestão"
             style={{ border: 'none', background: 'transparent', cursor: 'pointer', fontSize: '20px' }}
           >
             ✕
@@ -87,7 +87,7 @@ export const ManagementContactModal: React.FC<ManagementContactModalProps> = ({ 
                   }}
                 >
                   <div style={{ fontWeight: 700 }}>{target.label}</div>
-                  <div style={{ marginTop: '6px', color: '#B91C1C', fontSize: '14px' }}>Serviço não encontrado ({target.id})</div>
+                  <div style={{ marginTop: '6px', color: '#B91C1C', fontSize: '14px' }}>Contato não localizado ({target.id})</div>
                 </div>
               );
             }
@@ -123,7 +123,7 @@ export const ManagementContactModal: React.FC<ManagementContactModalProps> = ({ 
                       fontSize: '14px'
                     }}
                   >
-                    Ligar
+                    Ligar agora
                   </a>
                 ) : null}
               </div>
