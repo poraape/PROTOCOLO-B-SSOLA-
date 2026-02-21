@@ -25,4 +25,4 @@ export const SCHOOL_CONFIG = {
 } as const;
 
 export const DISCLAIMER_TEXT =
-  'Este sistema foi desenvolvido para apoiar a aplicação do Protocolo Institucional de Acolhimento e Encaminhamento de Demandas Estudantis da E.E. Ermelino Matarazzo. Ferramenta de apoio à decisão — não substitui avaliação profissional, protocolos legais e acionamento imediato da gestão em situações críticas.';
+  'Sistema de apoio à decisão vinculado ao Protocolo Institucional de Acolhimento e Encaminhamento de Demandas Estudantis da E.E. Ermelino Matarazzo. Não substitui avaliação profissional, cumprimento de protocolos legais nem acionamento imediato da gestão em situações críticas.';

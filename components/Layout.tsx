@@ -3,7 +3,6 @@ import { Link, NavLink } from 'react-router-dom';
 import GlobalSearch from './GlobalSearch';
 import { DISCLAIMER_TEXT, SCHOOL_CONFIG } from '../content/schoolConfig';
 import { ThemeToggle } from './ui/ThemeToggle';
-import { AppCard } from './ui/AppCard';
 import { AppButton } from './ui/AppButton';
 import { A11yControls } from './ui/A11yControls';
 
@@ -32,13 +31,6 @@ const mobileMoreItems = [
 
 const navLinkClass = ({ isActive }: { isActive: boolean }) =>
   `nav-link ${isActive ? 'nav-link-active' : ''}`.trim();
-
-const DisclaimerBanner: React.FC = () => (
-  <AppCard as="aside" className="disclaimer-banner" role="note" aria-label="Aviso institucional">
-    <div className="disclaimer-icon" aria-hidden="true">⚠️</div>
-    <p className="disclaimer-text">{DISCLAIMER_TEXT}</p>
-  </AppCard>
-);
 
 export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [showMore, setShowMore] = useState(false);
@@ -114,7 +106,6 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
       </header>
 
       <main id="main-content" className="app-main container" tabIndex={-1}>
-        <DisclaimerBanner />
         <div className="main-content">{children}</div>
       </main>
 
@@ -168,7 +159,8 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
 
       <footer className="app-footer glass-strong">
         <div className="container footer-copy">
-          Sistema institucional de apoio à decisão da E.E. Ermelino Matarazzo — Versão piloto validada para uso interno.
+          <p className="footer-disclaimer">{DISCLAIMER_TEXT}</p>
+          <p className="footer-meta">Sistema institucional de apoio à decisão da E.E. Ermelino Matarazzo — Versão piloto validada para uso interno.</p>
         </div>
       </footer>
     </div>
