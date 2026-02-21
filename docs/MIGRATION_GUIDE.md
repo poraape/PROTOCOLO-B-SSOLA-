@@ -184,6 +184,33 @@ npm run deploy
 
 ---
 
+
+
+## 🚀 Rollout controlado do Simulador V2
+
+Para reduzir risco durante validação piloto, o roteamento do simulador agora é controlado por flag de ambiente.
+
+### Flag de ambiente
+
+```bash
+VITE_ENABLE_SIMULADOR_V2=true
+```
+
+- `true`: habilita acesso à rota `/simulador/v2`.
+- `false` (ou ausente): mantém `/simulador/v2` redirecionando para `/simulador`.
+
+### Comportamento das rotas
+
+- `/simulador` **sempre permanece em V1** durante o piloto.
+- `/simulador/v2` só fica acessível quando a flag `VITE_ENABLE_SIMULADOR_V2` estiver ativa.
+
+### Estratégia recomendada de rollout
+
+1. Subir ambiente de homologação com `VITE_ENABLE_SIMULADOR_V2=true`.
+2. Validar fluxo completo com equipe piloto usando `/simulador/v2`.
+3. Manter usuários gerais em `/simulador` (V1) até aceite formal.
+4. Após validação, planejar troca do path principal (`/simulador`) para V2 em release dedicada.
+
 ## 🐞 Troubleshooting
 
 ### Problema: "Nós folha V1 não encontrados em V2"
