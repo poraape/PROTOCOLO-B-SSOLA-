@@ -49,7 +49,7 @@ export const ContextualControls: React.FC<ContextualControlsProps> = ({
             cursor: 'pointer'
           }}
         >
-          ← Voltar para categorias
+          ← Voltar à seleção de domínio
         </button>
       ) : (
         <div />
@@ -84,7 +84,7 @@ export const ContextualControls: React.FC<ContextualControlsProps> = ({
           }}
           disabled={!onReclassify}
         >
-          🔄 Reclassificar caso
+          🔄 Iniciar nova classificação
         </button>
       ) : null}
     </div>

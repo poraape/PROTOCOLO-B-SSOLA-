@@ -29,7 +29,7 @@ export const EmergencyChannelModal: React.FC<EmergencyChannelModalProps> = ({ op
           ))}
         </div>
 
-        <button type="button" onClick={onClose} className="btn-secondary mt-3 w-full focus-visible:ring-2 focus-visible:ring-brand-500">Cancelar</button>
+        <button type="button" onClick={onClose} className="btn-secondary mt-3 w-full focus-visible:ring-2 focus-visible:ring-brand-500">Fechar sem ligar</button>
       </div>
     </div>
   );

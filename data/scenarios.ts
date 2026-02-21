@@ -135,14 +135,14 @@ export const SCENARIOS_DATA: Scenario[] = [
     treeTraversal: [
       { step: 1, nodeId: 'V_DOMESTIC', actor: 'professora', action: 'Comunica coordenação no mesmo turno.', rationale: 'Padrão recorrente exige ação imediata.', alertTriggered: 'A17' },
       { step: 2, nodeId: 'D5_ESCUTA_PROTEGIDA', actor: 'coordenação', action: 'Escuta protegida sem pergunta sugestiva.', rationale: 'Evita revitimização.', alertTriggered: 'A04' },
-      { step: 3, nodeId: 'CT_NOTIFICACAO', actor: 'direção', action: 'Notifica CT no mesmo dia.', rationale: 'Suspeita já obriga notificação.', alertTriggered: 'A07' },
+      { step: 3, nodeId: 'CT_NOTIFICACAO', actor: 'direção', action: 'Notifica o Conselho Tutelar (CT) no mesmo dia.', rationale: 'Suspeita já obriga notificação.', alertTriggered: 'A07' },
       { step: 4, nodeId: 'UBS_REFERRAL', actor: 'coordenação', action: 'Encaminha UBS para registro médico formal.', rationale: 'Formaliza evidência clínica.', alertTriggered: 'A13' },
-      { step: 5, nodeId: 'FAMILIA_PROTOCOL', actor: 'direção + CT', action: 'Aguarda orientação do CT para contato familiar.', rationale: 'Proteção da vítima vem antes.' , alertTriggered: 'A08'},
-      { step: 6, nodeId: 'REGISTRO_RESTRITO', actor: 'coordenação', action: 'Registra histórico e protocolo CT.', rationale: 'Base para rede de proteção.', alertTriggered: 'A11' }
+      { step: 5, nodeId: 'FAMILIA_PROTOCOL', actor: 'direção + Conselho Tutelar (CT)', action: 'Aguarda orientação do Conselho Tutelar (CT) para contato familiar.', rationale: 'Proteção da vítima vem antes.' , alertTriggered: 'A08'},
+      { step: 6, nodeId: 'REGISTRO_RESTRITO', actor: 'coordenação', action: 'Registra histórico e protocolo do Conselho Tutelar (CT).', rationale: 'Base para rede de proteção.', alertTriggered: 'A11' }
     ],
-    outcome: 'CT e CREAS acionados, com acompanhamento semanal escolar.',
+    outcome: 'Conselho Tutelar (CT) e CREAS acionados, com acompanhamento semanal escolar.',
     followUpDays: 30,
-    lessonsLearned: ['Escola notifica, não investiga.', 'Suspeita basta para acionar CT.', 'Não confrontar suspeito agressor.']
+    lessonsLearned: ['Escola notifica, não investiga.', 'Suspeita basta para acionar o Conselho Tutelar (CT).', 'Não confrontar suspeito agressor.']
   },
   {
     id: 'C05',
@@ -162,7 +162,7 @@ export const SCENARIOS_DATA: Scenario[] = [
       { step: 3, nodeId: 'RISK_ASSESS', actor: 'coordenação', action: 'Avalia sofrimento psíquico associado.', rationale: 'Risco mental pode coexistir.' },
       { step: 4, nodeId: 'AUTORES_INDIVIDUAL', actor: 'coordenação', action: 'Responsabiliza autores separadamente.', rationale: 'Evita revitimização coletiva.', alertTriggered: 'A09' },
       { step: 5, nodeId: 'FAMILIAS', actor: 'direção', action: 'Convoca famílias individualmente.', rationale: 'Corresponsabilização familiar.' },
-      { step: 6, nodeId: 'CT_BO', actor: 'direção', action: 'Orienta registro de BO e avalia CT.', rationale: 'Injúria racial é crime.' },
+      { step: 6, nodeId: 'CT_BO', actor: 'direção', action: 'Orienta registro de BO e avalia acionamento do Conselho Tutelar (CT).', rationale: 'Injúria racial é crime.' },
       { step: 7, nodeId: 'ACAO_COLETIVA', actor: 'professores + coordenação', action: 'Roda formativa sem expor vítima.', rationale: 'Prevenção na turma.', alertTriggered: 'A12' }
     ],
     outcome: 'Plano de acompanhamento da vítima e medidas pedagógicas com autores/famílias.',
@@ -213,7 +213,7 @@ export const SCENARIOS_DATA: Scenario[] = [
       { step: 4, nodeId: 'RESPONSABILIZACAO', actor: 'coordenação', action: 'Chama autores separadamente e comunica famílias.', rationale: 'Responsabilização proporcional.', alertTriggered: 'A09' },
       { step: 5, nodeId: 'ACAO_FORMATIVA', actor: 'professores', action: 'Trabalha diversidade sem expor vítima.', rationale: 'Prevenção coletiva.', alertTriggered: 'A12' },
       { step: 6, nodeId: 'PEI_REVISION', actor: 'coordenação + AEE', action: 'Revisa PEI com medidas de proteção social.', rationale: 'Inclusão integral.' },
-      { step: 7, nodeId: 'CT_IF_PATTERN', actor: 'direção', action: 'Escala ao CT se padrão persistir.', rationale: 'Violação crônica de direitos.' }
+      { step: 7, nodeId: 'CT_IF_PATTERN', actor: 'direção', action: 'Escala ao Conselho Tutelar (CT) se o padrão persistir.', rationale: 'Violação crônica de direitos.' }
     ],
     outcome: 'Aluna estabilizada, PEI revisado e turma com intervenção formativa.',
     followUpDays: 15,

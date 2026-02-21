@@ -42,11 +42,11 @@ const DecisionScreenBase: React.FC<DecisionScreenProps> = ({
           <AppCard strong>
             <div className="ui-section">
               <h2 className="ui-section-title">Decisão principal</h2>
-              <p className="ui-section-subtitle">Selecione apenas a melhor opção para o caso atual.</p>
+              <p className="ui-section-subtitle">Selecione a opção que melhor descreve o caso neste momento.</p>
             </div>
             {progress ? (
               <div style={{ marginBottom: 16 }}>
-                <ProgressBar current={progress.current} total={progress.total} label="Triagem" />
+                <ProgressBar current={progress.current} total={progress.total} label="Etapa da triagem" />
               </div>
             ) : null}
 
@@ -61,9 +61,9 @@ const DecisionScreenBase: React.FC<DecisionScreenProps> = ({
                 const variant = normalizedLabel === 'SIM' ? 'danger' : normalizedLabel === 'NÃO' ? 'secondary' : 'primary';
                 const ariaLabel =
                   normalizedLabel === 'SIM'
-                    ? 'Sim, há risco'
+                    ? 'Sim, há risco neste momento'
                     : normalizedLabel === 'NÃO'
-                      ? 'Não, não há risco'
+                      ? 'Não há risco neste momento'
                       : option.label;
 
                 return (
@@ -81,7 +81,7 @@ const DecisionScreenBase: React.FC<DecisionScreenProps> = ({
             onClick={() => setShowGuidance(true)}
             style={{ marginTop: 12, border: '1px solid var(--border)', borderRadius: 12, background: 'var(--surface-strong)', padding: '10px 14px', color: 'var(--text)' }}
           >
-            Orientações
+            Abrir orientações
           </button>
         </div>
 

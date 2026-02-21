@@ -66,9 +66,9 @@ const faqCategories: FAQCategory[] = [
           'A escola faz a Qualificada (acolhimento e escuta sem julgamento). A Especializada é feita por órgãos de proteção (Polícia, Judiciário) para fins de prova. A escola NÃO deve tentar realizar escuta especializada.',
       },
       {
-        question: 'Devo avisar a família imediatamente em casos de suspeita de abuso sexual?',
+        question: 'Devo comunicar a família imediatamente em casos de suspeita de abuso sexual?',
         answer:
-          'CUIDADO. Se houver suspeita de que o agressor é um familiar ou alguém próximo, a família NÃO deve ser avisada pela escola para não colocar o estudante em risco. A gestão acionará diretamente o Conselho Tutelar/Delegacia.',
+          'CUIDADO. Se houver suspeita de que o agressor é um familiar ou alguém próximo, a família NÃO deve ser comunicada pela escola para não colocar o estudante em risco. A gestão acionará diretamente o Conselho Tutelar/Delegacia.',
       },
     ],
   },
@@ -331,9 +331,9 @@ export const FAQPage: React.FC = () => {
         <div className="rounded-2xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900 dark:border-amber-500/30 dark:bg-amber-950/30 dark:text-amber-200">
           <div className="flex items-center gap-2 font-bold">
             <AlertTriangle className="h-4 w-4" />
-            Nenhum resultado encontrado
+            Nenhuma resposta encontrada
           </div>
-          <p className="mt-1">Tente ajustar os termos da busca ou selecione outra categoria.</p>
+          <p className="mt-1">Nenhuma pergunta corresponde aos filtros atuais. Ajuste a busca ou selecione outra categoria.</p>
         </div>
       ) : (
         <div className="space-y-4">
