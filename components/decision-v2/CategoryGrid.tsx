@@ -48,11 +48,11 @@ const CategoryGridBase: React.FC<CategoryGridProps> = ({ categories, onSelect })
       <div style={{ display: 'flex', gap: 16, alignItems: 'flex-start' }}>
         <div style={{ flex: 1, maxWidth: 820, margin: '0 auto' }}>
           <GlassCard
-            title="Seleção de domínio"
-            subtitle="Escolha o domínio predominante para seguir com uma decisão por vez."
+            title="Classificação por domínio"
+            subtitle="Escolha o domínio predominante para classificar uma demanda por vez."
             strong
           >
-            <h1 style={{ margin: '0 0 14px', color: 'var(--text)', fontSize: '1.4rem' }}>Qual é o tipo de demanda?</h1>
+            <h1 style={{ margin: '0 0 14px', color: 'var(--text)', fontSize: '1.4rem' }}>Qual demanda predomina neste momento?</h1>
 
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: 12 }}>
               {categories.map((category) => {
@@ -87,13 +87,13 @@ const CategoryGridBase: React.FC<CategoryGridProps> = ({ categories, onSelect })
             onClick={() => setShowGuidance(true)}
             style={{ marginTop: 12, border: '1px solid var(--border)', borderRadius: 12, background: 'var(--surface-strong)', padding: '10px 14px', color: 'var(--text)' }}
           >
-            Orientações
+            Abrir orientações
           </button>
         </div>
 
         <div style={{ width: 300, display: 'none' }} className="xl:block">
           {hoveredCopy ? (
-            <GlassCard title="Como escolher este domínio" subtitle={hoveredCopy.summary}>
+            <GlassCard title="Como classificar este domínio" subtitle={hoveredCopy.summary}>
               <ul style={{ margin: 0, paddingLeft: 18, color: 'var(--text-muted)' }}>
                 {hoveredCopy.examples.slice(0, 3).map((item) => (
                   <li key={item}>{item}</li>

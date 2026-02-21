@@ -178,7 +178,7 @@ export const ActionCard: React.FC<ActionCardProps> = ({ leafNode, services, onRe
                 checked={managementConfirmed}
                 onChange={(event) => setManagementConfirmed(event.target.checked)}
               />
-              <span>Sim, já comuniquei. / Ainda não, vou comunicar agora.</span>
+              <span>Sim, já comuniquei. / Ainda não, vou comunicar a gestão agora.</span>
             </label>
           </div>
         ) : null}
@@ -190,21 +190,21 @@ export const ActionCard: React.FC<ActionCardProps> = ({ leafNode, services, onRe
 
 
       <div className="lg:col-span-2 card p-4">
-        <StateOverlay type="success" text="Decisão concluída. Siga os passos." inline />
+        <StateOverlay type="success" text="Decisão registrada. Finalize os encaminhamentos." inline />
         <p className="mt-2 text-sm text-muted">Confira se você já executou os passos abaixo:</p>
         <ul className="mt-2 list-disc pl-5 text-sm text-text">
-          <li>Acionar o passo imediato foi executado</li>
-          <li>Comunicar a gestão (Direção/Coordenação) foi feito</li>
-          <li>Registrar no canal oficial foi iniciado</li>
+          <li>Você acionou o passo imediato.</li>
+          <li>Você comunicou a gestão (Direção/Coordenação).</li>
+          <li>Você iniciou o registro no canal oficial.</li>
         </ul>
-        <button type="button" className="btn-secondary mt-3 focus-visible:ring-2 focus-visible:ring-brand-500" onClick={onRestart}>Entendi / Concluir</button>
+        <button type="button" className="btn-secondary mt-3 focus-visible:ring-2 focus-visible:ring-brand-500" onClick={onRestart}>Concluir e reiniciar triagem</button>
       </div>
 
       {confirmFormal ? (
         <div className="fixed inset-0 z-[70] bg-black/40 p-4" onClick={() => setConfirmFormal(false)}>
           <div className="glass-overlay mx-auto mt-24 max-w-md p-5 shadow-lg" onClick={(event) => event.stopPropagation()}>
-            <h3 className="text-lg font-extrabold text-text">Você confirma que vai executar esta ação agora?</h3>
-            <p className="mt-2 text-sm text-muted">Esta confirmação não substitui o registro no sistema oficial da escola.</p>
+            <h3 className="text-lg font-extrabold text-text">Confirmar abertura do protocolo oficial agora?</h3>
+            <p className="mt-2 text-sm text-muted">Ao continuar, você seguirá para o protocolo. Esta etapa não substitui o registro oficial da escola.</p>
             <div className="mt-4 flex gap-2">
               <button
                 type="button"
@@ -214,9 +214,9 @@ export const ActionCard: React.FC<ActionCardProps> = ({ leafNode, services, onRe
                   navigate('/protocolo');
                 }}
               >
-                Confirmar
+                Abrir protocolo oficial
               </button>
-              <button type="button" className="btn-secondary focus-visible:ring-2 focus-visible:ring-brand-500" onClick={() => setConfirmFormal(false)}>Cancelar</button>
+              <button type="button" className="btn-secondary focus-visible:ring-2 focus-visible:ring-brand-500" onClick={() => setConfirmFormal(false)}>Voltar ao resultado</button>
             </div>
           </div>
         </div>

@@ -111,7 +111,7 @@ export const GlossaryPage: React.FC = () => {
             <option value="Fluxo Operacional">Fluxo Operacional</option>
           </select>
 
-          <button className="rounded-xl bg-[#007AFF] px-4 py-2 text-sm font-bold text-white">Salvar termo</button>
+          <button className="rounded-xl bg-[#007AFF] px-4 py-2 text-sm font-bold text-white">Registrar termo</button>
         </form>
 
         <section className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">

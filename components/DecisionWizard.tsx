@@ -56,10 +56,10 @@ export const DecisionWizard: React.FC = () => {
 
       <div className="mt-3 flex flex-wrap gap-2">
         <button type="button" className="btn-secondary text-sm focus-visible:ring-2 focus-visible:ring-brand-500" onClick={goToCategoryHome}>
-          ← Voltar para categorias
+          ← Voltar à seleção de categorias
         </button>
         <button type="button" className="btn-secondary text-sm focus-visible:ring-2 focus-visible:ring-brand-500" onClick={resetWizard}>
-          Reclassificar
+          Iniciar nova classificação
         </button>
         <button type="button" className="btn-secondary text-sm focus-visible:ring-2 focus-visible:ring-brand-500" onClick={goToSupport}>
           Comunicar a gestão agora
@@ -96,7 +96,7 @@ export const DecisionWizard: React.FC = () => {
 
       {isMobile && currentNode.riskLevel === "EMERGENCIAL" && <EmergencyCTA node={currentNode} isMobile />}
       {currentNode.riskLevel !== "EMERGENCIAL" && <GlobalEmergencyButton />}
-      {isTransitioning && <StateOverlay type="loading" text="Carregando orientação..." />}
+      {isTransitioning && <StateOverlay type="loading" text="Atualizando recomendação..." />}
     </section>
   );
 };
