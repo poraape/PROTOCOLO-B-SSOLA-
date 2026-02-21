@@ -49,6 +49,37 @@ interface TrainingOption {
   alertId?: string;
 }
 
+interface RealPathEntry {
+  step: number;
+  actor: string;
+  action: string;
+  nodeId: string;
+  isRecommended: boolean;
+  institutionalImpact: string;
+  institutionalRisk: string;
+}
+
+const buildRiskAssessment = (isRecommended: boolean, alertId?: string): Pick<RealPathEntry, 'institutionalImpact' | 'institutionalRisk'> => {
+  if (isRecommended) {
+    return {
+      institutionalImpact: 'Mantém alinhamento com o protocolo e fortalece a rastreabilidade da decisão.',
+      institutionalRisk: 'Baixo risco institucional por conformidade com o fluxo recomendado.'
+    };
+  }
+
+  if (alertId) {
+    return {
+      institutionalImpact: 'Desalinhamento com o protocolo pode atrasar proteção e comprometer o cuidado.',
+      institutionalRisk: `Risco institucional elevado por acionamento do alerta ${alertId}.`
+    };
+  }
+
+  return {
+    institutionalImpact: 'Fluxo divergente pode reduzir previsibilidade da resposta e da documentação.',
+    institutionalRisk: 'Risco institucional moderado por quebra de padronização do protocolo.'
+  };
+};
+
 export const ScenarioPlayer: React.FC = () => {
   const [selectedScenarioId, setSelectedScenarioId] = useState<string | null>(null);
   const [currentStepId, setCurrentStepId] = useState<string | null>(null);
@@ -131,6 +162,16 @@ export const ScenarioPlayer: React.FC = () => {
 
   const currentStep = scenario?.treeTraversal[stepIndex];
 
+  const recommendedPath = useMemo(() => {
+    if (!scenario) return [] as ScenarioStep[];
+    const explicitRecommended = scenario.treeTraversal.filter((step) => step.isRecommended);
+    return explicitRecommended.length > 0 ? explicitRecommended : scenario.treeTraversal;
+  }, [scenario]);
+
+  const divergences = useMemo(() => {
+    return realPath.filter((entry) => !entry.isRecommended);
+  }, [realPath]);
+
   const trainingOptions = useMemo<TrainingOption[]>(() => {
     if (!trainingMode || !currentStep) return [];
     const recommendedOption = currentStep.options.find((option) => option.isRecommended);
@@ -204,10 +245,42 @@ export const ScenarioPlayer: React.FC = () => {
   };
 
   const answerTraining = (option: TrainingOption) => {
-    if (selectedOptionId) return;
+    if (selectedOptionId || !currentStep) return;
     setSelectedOptionId(option.id);
     setShowRationale(true);
     if (option.isCorrect) setScore((prev) => prev + 1);
+
+    const assessment = buildRiskAssessment(option.isCorrect, option.alertId);
+    const newEntry: RealPathEntry = {
+      step: currentStep.step,
+      actor: option.isCorrect ? currentStep.actor : 'Ação divergente',
+      action: option.label,
+      nodeId: currentStep.nodeId,
+      isRecommended: option.isCorrect,
+      institutionalImpact: assessment.institutionalImpact,
+      institutionalRisk: assessment.institutionalRisk
+    };
+
+    setRealPath((prev) => {
+      const withoutCurrent = prev.filter((entry) => entry.step !== currentStep.step);
+      return [...withoutCurrent, newEntry].sort((a, b) => a.step - b.step);
+    });
+  };
+
+  const concludeScenario = () => {
+    if (!scenario) return;
+    if (!trainingMode) {
+      const defaultRealPath: RealPathEntry[] = scenario.treeTraversal.map((step) => ({
+        step: step.step,
+        actor: step.actor,
+        action: step.action,
+        nodeId: step.nodeId,
+        isRecommended: true,
+        ...buildRiskAssessment(true)
+      }));
+      setRealPath(defaultRealPath);
+    }
+    setShowSummary(true);
   };
 
   const markScenarioCompleted = () => {
@@ -304,7 +377,6 @@ export const ScenarioPlayer: React.FC = () => {
               </div>
             ))}
           </div>
-        </article>
 
         <article className="card p-4">
           {pendingPrerequisites.length > 0 ? (
