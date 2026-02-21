@@ -52,7 +52,9 @@ export const ManagementContactModal: React.FC<ManagementContactModalProps> = ({ 
         aria-label="Canais de contato da gestão"
         onClick={(event) => event.stopPropagation()}
         style={{
-          backgroundColor: '#FFFFFF',
+          backgroundColor: 'var(--surface-strong)',
+          border: '1px solid var(--border)',
+          color: 'var(--text)',
           borderRadius: designTokens.borderRadius.lg,
           padding: designTokens.spacing.lg,
           width: 'min(92vw, 680px)',
@@ -96,10 +98,10 @@ export const ManagementContactModal: React.FC<ManagementContactModalProps> = ({ 
               <div
                 key={service.id}
                 style={{
-                  border: `1px solid ${designTokens.colors.background.muted}`,
+                  border: '1px solid var(--border)',
                   borderRadius: designTokens.borderRadius.md,
                   padding: designTokens.spacing.md,
-                  backgroundColor: designTokens.colors.background.secondary
+                  backgroundColor: 'var(--surface)'
                 }}
               >
                 <div style={{ fontWeight: 700 }}>{target.label}</div>
