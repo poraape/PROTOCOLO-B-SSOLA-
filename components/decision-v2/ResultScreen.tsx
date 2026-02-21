@@ -1,6 +1,6 @@
 import React from 'react';
 import { urgencyConfig } from '../../styles/design-tokens';
-import { LeafNode, DecisionNode, ManagementRole } from '../../types/decision-tree-v2';
+import { LeafNode, DecisionNode, ManagementRole, RiskClassification } from '../../types/decision-tree-v2';
 import { AccordionSection } from './AccordionSection';
 import { InstitutionalBreadcrumb } from './InstitutionalBreadcrumb';
 import { PROTOCOL_DATA } from '../../content/protocolData';
@@ -10,7 +10,8 @@ import { AppChip } from '../ui/AppChip';
 import { AppButton } from '../ui/AppButton';
 import { SidePanelOrientacoes } from '../ui/SidePanelOrientacoes';
 import { BottomSheetOrientacoes } from '../ui/BottomSheetOrientacoes';
-import { formatActionTemplate, verbByIntentCapitalized } from '../../content/microcopyLexicon';
+import { verbByIntentCapitalized } from '../../content/microcopyLexicon';
+import { trackDecisionEvent } from '../../services/analytics';
 
 type FinalizationChecklistState = {
   emergencyContacted: boolean;
@@ -25,6 +26,7 @@ interface ResultScreenProps {
   history?: string[];
   nodes?: Record<string, DecisionNode>;
   currentNodeId?: string;
+  riskClassification?: RiskClassification;
   onBack?: () => void;
   onPrint?: () => void;
   onContactManagement?: () => void;
@@ -81,6 +83,7 @@ const ResultScreenBase: React.FC<ResultScreenProps> = ({
   history,
   nodes,
   currentNodeId,
+  riskClassification,
   onBack,
   onPrint,
   onContactManagement
@@ -142,6 +145,13 @@ const ResultScreenBase: React.FC<ResultScreenProps> = ({
     timing: 'CIENCIA' as const,
     roles: [] as ManagementRole[]
   };
+
+  React.useEffect(() => {
+    trackDecisionEvent('resultado_gerado', {
+      nodeId: leaf.id,
+      riskClassification
+    });
+  }, [leaf.id, riskClassification]);
 
   React.useEffect(() => {
     if (typeof window === 'undefined') {

@@ -1,5 +1,6 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { DecisionNode, DecisionTreeV2, RiskClassification } from '../types/decision-tree-v2';
+import { clearTriageTracking, startTriageTracking, trackDecisionEvent } from '../services/analytics';
 
 interface NavigationState {
   currentNodeId: string;
@@ -128,23 +129,49 @@ export const useDecisionTreeV2 = (tree: DecisionTreeV2): UseDecisionTreeV2Result
     });
   }, [tree.rootNodeId]);
 
-  const reset = useCallback(() => {
-    setState(createInitialState(tree.rootNodeId));
-    if (typeof window !== 'undefined') {
-      window.localStorage.removeItem(STORAGE_KEY);
-    }
-  }, [tree.rootNodeId]);
-
   const getRiskClassification = useCallback((): RiskClassification => {
     if (state.riskScore >= 8) return 'ALTO';
     if (state.riskScore >= 4) return 'MODERADO';
     return 'BAIXO';
   }, [state.riskScore]);
 
+  const riskClassification = getRiskClassification();
+  const stateRef = useRef(state);
+  const riskRef = useRef(riskClassification);
+
+  useEffect(() => {
+    stateRef.current = state;
+    riskRef.current = riskClassification;
+  }, [state, riskClassification]);
+
+  useEffect(() => {
+    startTriageTracking({ nodeId: tree.rootNodeId, riskClassification: riskRef.current });
+
+    return () => {
+      const latestState = stateRef.current;
+      const activeNode = resolveNode(latestState.currentNodeId);
+      if ('level' in activeNode && activeNode.level !== 'LEAF') {
+        trackDecisionEvent('triagem_abandonada', {
+          nodeId: latestState.currentNodeId,
+          riskClassification: riskRef.current
+        });
+      }
+    };
+  }, [resolveNode, tree.rootNodeId]);
+
   useEffect(() => {
     if (typeof window === 'undefined') return;
     window.localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
   }, [state]);
+
+  const reset = useCallback(() => {
+    clearTriageTracking();
+    startTriageTracking({ nodeId: tree.rootNodeId, riskClassification: 'BAIXO' });
+    setState(createInitialState(tree.rootNodeId));
+    if (typeof window !== 'undefined') {
+      window.localStorage.removeItem(STORAGE_KEY);
+    }
+  }, [tree.rootNodeId]);
 
   return {
     currentNode,
@@ -152,7 +179,7 @@ export const useDecisionTreeV2 = (tree: DecisionTreeV2): UseDecisionTreeV2Result
     goBack,
     reset,
     canGoBack: state.history.length > 1,
-    riskClassification: getRiskClassification(),
+    riskClassification,
     progress: {
       current: state.history.length,
       total: 10
