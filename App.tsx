@@ -11,6 +11,7 @@ import { TechnicalGlossaryPage } from './pages/TechnicalGlossaryPage';
 import { StudentTermsPage } from './pages/StudentTermsPage';
 import { SimulatorPage } from './pages/SimulatorPage';
 import { FAQPage } from './pages/FAQPage';
+import { ResourcesPage } from './pages/ResourcesPage';
 import { AboutPage } from './pages/AboutPage';
 import ProtocoloPage from './pages/ProtocoloPage';
 import ModelosPage from './pages/ModelosPage';
@@ -73,12 +74,14 @@ const App: React.FC = () => {
           <Route path="/glossary" element={<TechnicalGlossaryPage />} />
           <Route path="/student-terms" element={<StudentTermsPage />} />
           <Route path="/glossario" element={<Navigate to="/glossary" replace />} />
+          <Route path="/resources" element={<Navigate to="/recursos" replace />} />
           <Route path="/simulador" element={<SimulatorPage />} />
           <Route
             path="/simulador/v2"
             element={ENABLE_SIMULADOR_V2 ? <SimulatorPage /> : <Navigate to="/simulador" replace />}
           />
           <Route path="/faq" element={<FAQPage />} />
+          <Route path="/recursos" element={<ResourcesPage />} />
           <Route path="/sobre" element={<AboutPage />} />
           <Route path="/versao" element={<AboutPage />} />
           <Route path="/protocolo" element={<ProtocoloPage />} />

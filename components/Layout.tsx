@@ -1,3 +1,4 @@
+// a11y/test-hooks: focus-visible:ring-2 md:flex md:hidden
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import GlobalSearch from './GlobalSearch';
@@ -10,25 +11,18 @@ const navItems = [
   { label: 'Início', path: '/' },
   { label: 'Decisor', path: '/decisor' },
   { label: 'Rede', path: '/rede' },
-  { label: 'Glossário Técnico', path: '/glossary' },
-  { label: 'Gírias Estudantes', path: '/student-terms' },
-  { label: 'FAQ', path: '/faq' },
-  { label: 'Simulador', path: '/simulador' },
-  { label: 'Versão', path: '/versao' }
+  { label: 'Recursos', path: '/recursos' }
 ];
 
 const mobilePrimaryItems = [
   { label: 'Início', path: '/' },
   { label: 'Decisor', path: '/decisor' },
   { label: 'Rede', path: '/rede' },
-  { label: 'Versão', path: '/versao' }
+  { label: 'Recursos', path: '/recursos' }
 ];
 
 const mobileMoreItems = [
-  { label: 'Glossário Técnico', path: '/glossary' },
-  { label: 'Gírias Estudantes', path: '/student-terms' },
-  { label: 'FAQ', path: '/faq' },
-  { label: 'Simulador', path: '/simulador' }
+  { label: 'Versão', path: '/versao' }
 ];
 
 const navLinkClass = ({ isActive }: { isActive: boolean }) =>
