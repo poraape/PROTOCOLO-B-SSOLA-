@@ -153,7 +153,7 @@ Fluxo geral de uso do decisor:
 ### Diferenciação dos serviços
 - Emergência (190/192/193);
 - Saúde (UBS/CAPS/UPA);
-- Rede protetiva e direitos (Conselho Tutelar, CREAS, Delegacia, Defensoria);
+- Rede protetiva e direitos (Conselho Tutelar (CT), CREAS, Delegacia, Defensoria);
 - Assistência social (CRAS/CREAS);
 - Instâncias educacionais e governança da escola.
 

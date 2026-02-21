@@ -38,7 +38,7 @@ Exemplo:
 ## 6) Terminologia oficial padronizada
 | Conceito | Usar | Evitar |
 |---|---|---|
-| Órgão de proteção | Conselho Tutelar (primeira ocorrência) / CT (depois) | conselho, conselheiro |
+| Órgão de proteção | Conselho Tutelar (CT) (primeira ocorrência) / CT (depois) | conselho, conselheiro |
 | Saúde mental infantojuvenil | CAPS Infantojuvenil (CAPS IJ) | CAPS criança |
 | Registro formal | ocorrência / registro | caso, ticket |
 | Acionamento urgente | notificar / acionar | chamar, avisar |

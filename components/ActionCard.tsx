@@ -148,7 +148,7 @@ export const ActionCard: React.FC<ActionCardProps> = ({ leafNode, services, onRe
           <SafetyAlert
             forbiddenAction={leafNode.forbiddenActions?.[0] || 'Confrontar agressor sem suporte'}
             recommendedAction={leafNode.doNow?.[0] || 'Proteger o estudante e acionar rede de apoio'}
-            escalateTo={categoryKeyFromLeaf(leafNode) === 'violence' ? 'Direção e Conselho Tutelar (quando aplicável)' : 'Direção/Coordenação'}
+            escalateTo={categoryKeyFromLeaf(leafNode) === 'violence' ? 'Direção e Conselho Tutelar (CT) (quando aplicável)' : 'Direção/Coordenação'}
           />
         </div>
       </article>
