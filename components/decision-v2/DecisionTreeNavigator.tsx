@@ -16,7 +16,7 @@ const EmergencyButton: React.FC<{ onClick: () => void; label: string }> = ({ onC
     onClick={onClick}
     style={{
       position: 'fixed',
-      bottom: 'calc(24px + 72px + env(safe-area-inset-bottom, 0px))',
+      bottom: 'calc(var(--mobile-nav-height, 0px) + 16px)',
       right: '24px',
       backgroundColor: designTokens.colors.emergency,
       color: '#FFFFFF',
@@ -40,7 +40,7 @@ const ManagementButton: React.FC<{ onClick: () => void }> = ({ onClick }) => (
     onClick={onClick}
     style={{
       position: 'fixed',
-      bottom: '24px',
+      bottom: 'calc(var(--mobile-nav-height, 0px) + 16px)',
       left: '24px',
       backgroundColor: designTokens.colors.info,
       color: '#FFFFFF',
