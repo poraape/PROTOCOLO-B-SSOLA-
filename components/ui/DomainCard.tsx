@@ -6,38 +6,48 @@ type DomainCardProps = {
   domainColorVar: string;
   onClick: () => void;
   description?: string;
+  summary?: string;
+  examples?: string[];
+  whenToUse?: string;
 };
 
-export const DomainCard: React.FC<DomainCardProps> = ({ label, icon, domainColorVar, onClick, description }) => {
+export const DomainCard: React.FC<DomainCardProps> = ({
+  label,
+  icon,
+  domainColorVar,
+  onClick,
+  description,
+  summary,
+  examples = [],
+  whenToUse
+}) => {
   return (
     <button
       type="button"
       onClick={onClick}
       aria-label={`Abrir domínio ${label}`}
-      style={{
-        width: '100%',
-        textAlign: 'left',
-        display: 'flex',
-        alignItems: 'flex-start',
-        gap: '10px',
-        minHeight: 44,
-        border: '1px solid var(--border)',
-        background: 'var(--surface)',
-        backdropFilter: 'blur(var(--glass-blur))',
-        WebkitBackdropFilter: 'blur(var(--glass-blur))',
-        borderRadius: 'var(--radius-lg)',
-        boxShadow: 'var(--shadow-1)',
-        padding: '14px 14px 14px 12px',
-        cursor: 'pointer'
-      }}
+      className="domain-card"
+      style={{ ['--domain-card-color' as string]: `var(${domainColorVar})` }}
     >
-      <span style={{ width: 4, minWidth: 4, alignSelf: 'stretch', borderRadius: 99, background: `var(${domainColorVar})` }} aria-hidden="true" />
-      <div style={{ flex: 1, minWidth: 0 }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-          {icon ? <span style={{ color: `var(${domainColorVar})` }}>{icon}</span> : null}
-          <strong style={{ color: 'var(--text)' }}>{label}</strong>
+      <span className="domain-card-strip" aria-hidden="true" />
+
+      <div className="domain-card-content">
+        <div className="domain-card-head">
+          {icon ? <span className="domain-card-icon">{icon}</span> : null}
+          <strong className="domain-card-title">{label}</strong>
         </div>
-        {description ? <p style={{ margin: '6px 0 0', fontSize: '0.86rem', color: 'var(--text-muted)' }}>{description}</p> : null}
+
+        {summary || description ? <p className="domain-card-summary">{summary || description}</p> : null}
+
+        {examples.length > 0 ? (
+          <ul className="domain-card-examples" aria-label="Exemplos">
+            {examples.slice(0, 2).map((example) => (
+              <li key={example}>{example}</li>
+            ))}
+          </ul>
+        ) : null}
+
+        {whenToUse ? <p className="domain-card-when">{whenToUse}</p> : null}
       </div>
     </button>
   );

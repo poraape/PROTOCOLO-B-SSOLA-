@@ -493,3 +493,62 @@
   align-items: center;
   gap: 8px;
 }
+
+
+.domain-card {
+  width: 100%;
+  min-height: 44px;
+  text-align: left;
+  display: flex;
+  gap: 10px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-1);
+  padding: 14px 14px 14px 12px;
+  cursor: pointer;
+}
+
+.domain-card-strip {
+  width: 4px;
+  min-width: 4px;
+  align-self: stretch;
+  border-radius: 999px;
+  background: var(--domain-card-color, var(--info));
+}
+
+.domain-card-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.domain-card-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.domain-card-icon {
+  color: var(--domain-card-color, var(--info));
+}
+
+.domain-card-title {
+  color: var(--text);
+}
+
+.domain-card-summary,
+.domain-card-when {
+  margin: 6px 0 0;
+  font-size: 0.86rem;
+  color: var(--text-muted);
+  line-height: 1.45;
+}
+
+.domain-card-examples {
+  margin: 8px 0 0;
+  padding-left: 18px;
+  color: var(--text-muted);
+  font-size: 0.8rem;
+}

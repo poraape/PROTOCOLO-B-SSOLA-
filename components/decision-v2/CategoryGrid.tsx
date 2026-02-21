@@ -3,6 +3,7 @@ import { DomainCard } from '../ui/DomainCard';
 import { GlassCard } from '../ui/GlassCard';
 import { SidePanelOrientacoes } from '../ui/SidePanelOrientacoes';
 import { BottomSheetOrientacoes } from '../ui/BottomSheetOrientacoes';
+import { DOMAIN_UI_COPY } from '../../content/domainUiCopy';
 
 interface CategoryGridProps {
   categories: {
@@ -10,6 +11,7 @@ interface CategoryGridProps {
     label: string;
     icon: string;
     examples?: string[];
+    nextNodeId?: string;
   }[];
   onSelect: (categoryId: string) => void;
 }
@@ -37,6 +39,9 @@ const domainColorById: Record<string, string> = {
 
 const CategoryGridBase: React.FC<CategoryGridProps> = ({ categories, onSelect }) => {
   const [showGuidance, setShowGuidance] = React.useState(false);
+  const [hoveredDomainKey, setHoveredDomainKey] = React.useState<string | null>(null);
+
+  const hoveredCopy = hoveredDomainKey ? DOMAIN_UI_COPY[hoveredDomainKey] : undefined;
 
   return (
     <section style={{ maxWidth: '1180px', margin: '0 auto', padding: '0 16px 24px' }}>
@@ -50,16 +55,29 @@ const CategoryGridBase: React.FC<CategoryGridProps> = ({ categories, onSelect })
             <h1 style={{ margin: '0 0 14px', color: 'var(--text)', fontSize: '1.4rem' }}>Qual é o tipo de demanda?</h1>
 
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: 12 }}>
-              {categories.map((category) => (
-                <DomainCard
-                  key={category.id}
-                  label={category.label}
-                  icon={category.icon}
-                  domainColorVar={domainColorById[category.id] ?? '--info'}
-                  onClick={() => onSelect(category.id)}
-                  description={category.examples?.[0]}
-                />
-              ))}
+              {categories.map((category) => {
+                const nodeKey = category.nextNodeId || category.id;
+                const uiCopy = DOMAIN_UI_COPY[nodeKey];
+
+                return (
+                  <div
+                    key={category.id}
+                    onMouseEnter={() => setHoveredDomainKey(nodeKey)}
+                    onFocus={() => setHoveredDomainKey(nodeKey)}
+                  >
+                    <DomainCard
+                      label={category.label}
+                      icon={uiCopy?.icon || category.icon}
+                      domainColorVar={uiCopy?.colorVar || domainColorById[category.id] || '--info'}
+                      onClick={() => onSelect(category.id)}
+                      description={category.examples?.[0]}
+                      summary={uiCopy?.summary}
+                      examples={uiCopy?.examples}
+                      whenToUse={uiCopy?.whenToUse}
+                    />
+                  </div>
+                );
+              })}
             </div>
           </GlassCard>
 
@@ -73,7 +91,20 @@ const CategoryGridBase: React.FC<CategoryGridProps> = ({ categories, onSelect })
           </button>
         </div>
 
-        <SidePanelOrientacoes />
+        <div style={{ width: 300, display: 'none' }} className="xl:block">
+          {hoveredCopy ? (
+            <GlassCard title="Como escolher este domínio" subtitle={hoveredCopy.summary}>
+              <ul style={{ margin: 0, paddingLeft: 18, color: 'var(--text-muted)' }}>
+                {hoveredCopy.examples.slice(0, 3).map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+              <p style={{ margin: '10px 0 0', color: 'var(--text-muted)', fontSize: '0.84rem' }}>{hoveredCopy.whenToUse}</p>
+            </GlassCard>
+          ) : (
+            <SidePanelOrientacoes />
+          )}
+        </div>
       </div>
 
       <BottomSheetOrientacoes open={showGuidance} onClose={() => setShowGuidance(false)} />
