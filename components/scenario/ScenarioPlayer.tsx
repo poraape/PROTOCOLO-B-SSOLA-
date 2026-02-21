@@ -1,10 +1,11 @@
-import React, { useEffect, useMemo, useState } from 'react';
-import { ALERTS_DATA } from '../../data/alerts';
-import { SCENARIOS_DATA, SCENARIO_DECISION_META, Scenario, ScenarioStep, Category, Complexity, RiskLevel } from '../../data/scenarios';
+import React from 'react';
+import { Category, Complexity, RiskLevel } from '../../data/scenarios';
+import { SimulatorDecision } from './SimulatorDecision';
+import { SimulatorExploration } from './SimulatorExploration';
+import { SimulatorFeedback } from './SimulatorFeedback';
+import { SimulatorHistory } from './SimulatorHistory';
+import { SimulatorProvider, useSimulator } from './SimulatorProvider';
 
-type ActorTone = 'brand' | 'emerald' | 'violet' | 'amber' | 'slate';
-
-const riskWeight: Record<RiskLevel, number> = { imminent: 4, high: 3, moderate: 2, low: 1 };
 const complexityIcon: Record<Complexity, string> = { low: '🟢', medium: '🟡', high: '🔴' };
 const riskVisual: Record<RiskLevel, { label: string; className: string }> = {
   imminent: { label: '🔴 iminente', className: 'bg-rose-100 text-rose-800 border-rose-200' },
@@ -24,7 +25,7 @@ const categoryIcon: Record<Category, string> = {
   sexual_health: '🫶'
 };
 
-const actorTone = (actor: string): ActorTone => {
+const actorTone = (actor: string): 'brand' | 'emerald' | 'violet' | 'amber' | 'slate' => {
   if (actor.includes('direção')) return 'violet';
   if (actor.includes('coordenação')) return 'brand';
   if (actor.includes('professor')) return 'emerald';
@@ -32,7 +33,7 @@ const actorTone = (actor: string): ActorTone => {
   return 'slate';
 };
 
-const actorClass: Record<ActorTone, string> = {
+const actorClass = {
   brand: 'bg-brand-100 text-brand-800',
   emerald: 'bg-emerald-100 text-emerald-800',
   violet: 'bg-violet-100 text-violet-800',
@@ -40,255 +41,10 @@ const actorClass: Record<ActorTone, string> = {
   slate: 'bg-slate-100 text-slate-800'
 };
 
-const STORAGE_KEY = 'scenario-player-training-v2';
+const ScenarioPlayerContent: React.FC = () => {
+  const { scenario, pendingPrerequisites, goBackInHistory, visitedStepIds, trainingMode, setTrainingMode, resetTraining, markScenarioCompleted } = useSimulator();
 
-interface TrainingOption {
-  id: string;
-  label: string;
-  isCorrect: boolean;
-  alertId?: string;
-}
-
-interface RealPathEntry {
-  step: number;
-  actor: string;
-  action: string;
-  nodeId: string;
-  isRecommended: boolean;
-  institutionalImpact: string;
-  institutionalRisk: string;
-}
-
-const buildRiskAssessment = (isRecommended: boolean, alertId?: string): Pick<RealPathEntry, 'institutionalImpact' | 'institutionalRisk'> => {
-  if (isRecommended) {
-    return {
-      institutionalImpact: 'Mantém alinhamento com o protocolo e fortalece a rastreabilidade da decisão.',
-      institutionalRisk: 'Baixo risco institucional por conformidade com o fluxo recomendado.'
-    };
-  }
-
-  if (alertId) {
-    return {
-      institutionalImpact: 'Desalinhamento com o protocolo pode atrasar proteção e comprometer o cuidado.',
-      institutionalRisk: `Risco institucional elevado por acionamento do alerta ${alertId}.`
-    };
-  }
-
-  return {
-    institutionalImpact: 'Fluxo divergente pode reduzir previsibilidade da resposta e da documentação.',
-    institutionalRisk: 'Risco institucional moderado por quebra de padronização do protocolo.'
-  };
-};
-
-export const ScenarioPlayer: React.FC = () => {
-  const [selectedScenarioId, setSelectedScenarioId] = useState<string | null>(null);
-  const [currentStepId, setCurrentStepId] = useState<string | null>(null);
-  const [visitedStepIds, setVisitedStepIds] = useState<string[]>([]);
-  const [trainingMode, setTrainingMode] = useState(false);
-  const [selectedOptionId, setSelectedOptionId] = useState<string | null>(null);
-  const [score, setScore] = useState(0);
-  const [showRationale, setShowRationale] = useState(true);
-  const [guidedOrder, setGuidedOrder] = useState(true);
-  const [completedScenarioIds, setCompletedScenarioIds] = useState<string[]>([]);
-
-  const [filters, setFilters] = useState<{
-    complexity: '' | Complexity;
-    riskLevel: '' | RiskLevel;
-    category: '' | Category;
-    episodic: '' | 'episodico' | 'cronico';
-    collective: '' | 'coletivo' | 'individual';
-  }>({ complexity: '', riskLevel: '', category: '', episodic: '', collective: '' });
-
-  useEffect(() => {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if (!raw) return;
-    try {
-      const parsed = JSON.parse(raw) as {
-        selectedScenarioId: string | null;
-        stepIndex: number;
-        score: number;
-        trainingMode: boolean;
-        guidedOrder?: boolean;
-        completedScenarioIds?: string[];
-      };
-      setSelectedScenarioId(parsed.selectedScenarioId);
-      setCurrentStepId(parsed.currentStepId || null);
-      setVisitedStepIds(Array.isArray(parsed.visitedStepIds) ? parsed.visitedStepIds : []);
-      setScore(parsed.score || 0);
-      setTrainingMode(Boolean(parsed.trainingMode));
-      setGuidedOrder(parsed.guidedOrder ?? true);
-      setCompletedScenarioIds(parsed.completedScenarioIds || []);
-    } catch {
-      // noop
-    }
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify({ selectedScenarioId, stepIndex, score, trainingMode, guidedOrder, completedScenarioIds }));
-  }, [selectedScenarioId, stepIndex, score, trainingMode, guidedOrder, completedScenarioIds]);
-
-  const getPendingPrerequisites = (item: Scenario) => item.prerequisites.filter((id) => !completedScenarioIds.includes(id));
-
-  const filteredScenarios = useMemo(() => {
-    return SCENARIOS_DATA
-      .filter((s) => (filters.complexity ? s.complexity === filters.complexity : true))
-      .filter((s) => (filters.riskLevel ? s.riskLevel === filters.riskLevel : true))
-      .filter((s) => (filters.category ? s.category.includes(filters.category) : true))
-      .filter((s) => (filters.episodic ? (filters.episodic === 'episodico' ? s.isEpisodic : !s.isEpisodic) : true))
-      .filter((s) => (filters.collective ? (filters.collective === 'coletivo' ? s.isCollective : !s.isCollective) : true))
-      .sort((a, b) => {
-        if (guidedOrder) {
-          return a.recommendedOrder - b.recommendedOrder || riskWeight[b.riskLevel] - riskWeight[a.riskLevel];
-        }
-        return riskWeight[b.riskLevel] - riskWeight[a.riskLevel];
-      });
-  }, [filters, guidedOrder]);
-
-  const scenario: Scenario | undefined = useMemo(
-    () => SCENARIOS_DATA.find((item) => item.id === selectedScenarioId) || filteredScenarios[0],
-    [selectedScenarioId, filteredScenarios]
-  );
-
-  useEffect(() => {
-    if (!selectedScenarioId && filteredScenarios[0]) setSelectedScenarioId(filteredScenarios[0].id);
-  }, [selectedScenarioId, filteredScenarios]);
-
-  const pendingPrerequisites = scenario ? getPendingPrerequisites(scenario) : [];
-
-  const suggestedNext = useMemo(
-    () => filteredScenarios.find((item) => !completedScenarioIds.includes(item.id) && getPendingPrerequisites(item).length === 0),
-    [completedScenarioIds, filteredScenarios]
-  );
-
-  const currentStep = scenario?.treeTraversal[stepIndex];
-
-  const recommendedPath = useMemo(() => {
-    if (!scenario) return [] as ScenarioStep[];
-    const explicitRecommended = scenario.treeTraversal.filter((step) => step.isRecommended);
-    return explicitRecommended.length > 0 ? explicitRecommended : scenario.treeTraversal;
-  }, [scenario]);
-
-  const divergences = useMemo(() => {
-    return realPath.filter((entry) => !entry.isRecommended);
-  }, [realPath]);
-
-  const trainingOptions = useMemo<TrainingOption[]>(() => {
-    if (!trainingMode || !currentStep) return [];
-    const recommendedOption = currentStep.options.find((option) => option.isRecommended);
-    const correct: TrainingOption = {
-      id: `correct-${currentStep.nodeId}`,
-      label: `${currentStep.actor}: ${currentStep.action}`,
-      isCorrect: true,
-      alertId: currentStep.alertTriggered
-    };
-
-    const distractorAlerts = ALERTS_DATA.filter((alert) => alert.id !== currentStep.alertTriggered).slice(0, 2);
-    const distractors: TrainingOption[] = distractorAlerts.map((alert, idx) => ({
-      id: `distractor-${alert.id}-${currentStep.nodeId}`,
-      label: currentStep.options[idx]?.impact || alert.doNot,
-      isCorrect: false,
-      alertId: alert.id
-    }));
-
-    return [
-      {
-        ...correct,
-        label: recommendedOption ? `${correct.label} (${recommendedOption.impact})` : correct.label
-      },
-      ...distractors
-    ].sort((a, b) => a.id.localeCompare(b.id));
-  }, [trainingMode, currentStep]);
-
-  const selectedOption = trainingOptions.find((opt) => opt.id === selectedOptionId);
-  const selectedAlert = selectedOption?.alertId ? ALERTS_DATA.find((a) => a.id === selectedOption.alertId) : undefined;
-  const scenarioDecisionMeta = SCENARIO_DECISION_META[scenario?.id || ''];
-  const isRiskDecision = Boolean(selectedOption && (!selectedOption.isCorrect || selectedAlert?.severity === 'critical'));
-
-  const protocolAlignmentText = selectedOption
-    ? selectedOption.isCorrect
-      ? `${scenarioDecisionMeta?.protocolAlignment || 'Decisão alinhada ao fluxo institucional.'} (${currentStep.rationale})`
-      : `Decisão desalinhada ao protocolo. ${selectedAlert?.reason || 'Há risco de conduta inadequada para proteção do estudante.'}`
-    : '';
-
-  const probableImpactText = selectedOption
-    ? selectedOption.isCorrect
-      ? scenarioDecisionMeta?.probableImpact || 'Tende a fortalecer proteção e continuidade do cuidado.'
-      : `Impacto provável negativo: ${selectedAlert?.reason || 'pode aumentar risco e romper vínculo de cuidado.'}`
-    : '';
-
-  const legalReferences = selectedOption
-    ? selectedOption.isCorrect
-      ? scenarioDecisionMeta?.legalInstitutionalReference || []
-      : selectedAlert?.legalInstitutionalReference || scenarioDecisionMeta?.legalInstitutionalReference || []
-    : [];
-
-  const goToStep = (next: number) => {
-    if (!scenario) return;
-    const bounded = Math.max(0, Math.min(next, scenario.treeTraversal.length - 1));
-    const hasStepChanged = bounded !== stepIndex;
-    setStepIndex(bounded);
-    setSelectedOptionId(null);
-    if (hasStepChanged) {
-      setShowRationale(!trainingMode && next > stepIndex);
-    }
-  };
-
-  const resetScenarioProgress = () => {
-    setStepIndex(0);
-    setSelectedOptionId(null);
-    setScore(0);
-  };
-
-  const handleExitTrainingMode = () => {
-    resetScenarioProgress();
-    setTrainingMode(false);
-  };
-
-  const answerTraining = (option: TrainingOption) => {
-    if (selectedOptionId || !currentStep) return;
-    setSelectedOptionId(option.id);
-    setShowRationale(true);
-    if (option.isCorrect) setScore((prev) => prev + 1);
-
-    const assessment = buildRiskAssessment(option.isCorrect, option.alertId);
-    const newEntry: RealPathEntry = {
-      step: currentStep.step,
-      actor: option.isCorrect ? currentStep.actor : 'Ação divergente',
-      action: option.label,
-      nodeId: currentStep.nodeId,
-      isRecommended: option.isCorrect,
-      institutionalImpact: assessment.institutionalImpact,
-      institutionalRisk: assessment.institutionalRisk
-    };
-
-    setRealPath((prev) => {
-      const withoutCurrent = prev.filter((entry) => entry.step !== currentStep.step);
-      return [...withoutCurrent, newEntry].sort((a, b) => a.step - b.step);
-    });
-  };
-
-  const concludeScenario = () => {
-    if (!scenario) return;
-    if (!trainingMode) {
-      const defaultRealPath: RealPathEntry[] = scenario.treeTraversal.map((step) => ({
-        step: step.step,
-        actor: step.actor,
-        action: step.action,
-        nodeId: step.nodeId,
-        isRecommended: true,
-        ...buildRiskAssessment(true)
-      }));
-      setRealPath(defaultRealPath);
-    }
-    setShowSummary(true);
-  };
-
-  const markScenarioCompleted = () => {
-    if (!scenario) return;
-    setCompletedScenarioIds((prev) => (prev.includes(scenario.id) ? prev : [...prev, scenario.id]));
-  };
-
-  if (!scenario || !currentStep) return null;
+  if (!scenario) return null;
 
   return (
     <div className="space-y-4">
@@ -299,195 +55,39 @@ export const ScenarioPlayer: React.FC = () => {
             <p className="text-sm text-muted">Treinamento de travessia com cenários locais (offline), filtros e modo prática.</p>
           </div>
           <div className="flex flex-wrap gap-2">
-            <button className="btn-secondary text-xs" onClick={resetScenarioProgress}>Reiniciar cenário atual</button>
-            <button className="btn-secondary text-xs" onClick={handleExitTrainingMode} disabled={!trainingMode}>Sair do modo treinamento</button>
+            <button className="btn-secondary text-xs" onClick={resetTraining}>Reiniciar cenário atual</button>
           </div>
         </div>
-
-        <label className="mt-3 flex items-center gap-2 text-xs text-muted">
-          <input type="checkbox" checked={guidedOrder} onChange={(e) => setGuidedOrder(e.target.checked)} />
-          Ordenação guiada por trilha (simples → complexo)
-        </label>
-        {guidedOrder && suggestedNext ? (
-          <p className="mt-2 rounded-lg border border-emerald-200 bg-emerald-50 px-3 py-2 text-xs text-emerald-800">
-            Próxima sugestão: <strong>{suggestedNext.id}</strong> ({suggestedNext.title})
-          </p>
-        ) : null}
-
-        <div className="mt-3 grid gap-2 md:grid-cols-5">
-          <select className="rounded-lg border px-2 py-1 text-sm" value={filters.complexity} onChange={(e) => setFilters((f) => ({ ...f, complexity: e.target.value as '' | Complexity }))}>
-            <option value="">Complexidade</option><option value="low">Baixa</option><option value="medium">Média</option><option value="high">Alta</option>
-          </select>
-          <select className="rounded-lg border px-2 py-1 text-sm" value={filters.riskLevel} onChange={(e) => setFilters((f) => ({ ...f, riskLevel: e.target.value as '' | RiskLevel }))}>
-            <option value="">Risco</option><option value="low">Baixo</option><option value="moderate">Moderado</option><option value="high">Alto</option><option value="imminent">Iminente</option>
-          </select>
-          <select className="rounded-lg border px-2 py-1 text-sm" value={filters.category} onChange={(e) => setFilters((f) => ({ ...f, category: e.target.value as '' | Category }))}>
-            <option value="">Categoria</option>{Object.keys(categoryIcon).map((c) => <option key={c} value={c}>{c}</option>)}
-          </select>
-          <select className="rounded-lg border px-2 py-1 text-sm" value={filters.episodic} onChange={(e) => setFilters((f) => ({ ...f, episodic: e.target.value as '' | 'episodico' | 'cronico' }))}>
-            <option value="">Temporalidade</option><option value="episodico">Episódico</option><option value="cronico">Crônico</option>
-          </select>
-          <select className="rounded-lg border px-2 py-1 text-sm" value={filters.collective} onChange={(e) => setFilters((f) => ({ ...f, collective: e.target.value as '' | 'coletivo' | 'individual' }))}>
-            <option value="">Abrangência</option><option value="coletivo">Coletivo</option><option value="individual">Individual</option>
-          </select>
-        </div>
-
-        <div className="mt-3 grid gap-3 md:grid-cols-2">
-          {filteredScenarios.map((item) => (
-            <button
-              key={item.id}
-              onClick={() => {
-                setSelectedScenarioId(item.id);
-                resetScenarioProgress();
-              }}
-              className={`rounded-xl border p-3 text-left ${item.id === scenario.id ? 'border-brand-400 bg-brand-50' : 'border-slate-200 bg-white'}`}
-            >
-              <p className="font-semibold">{item.title}</p>
-              <div className="mt-1 flex flex-wrap items-center gap-2 text-xs">
-                <span className={`rounded-full border px-2 py-0.5 font-semibold ${riskVisual[item.riskLevel].className}`}>
-                  Risco visual: {riskVisual[item.riskLevel].label}
-                </span>
-              </div>
-              <div className="mt-2 text-sm">Categoria principal: {categoryIcon[item.category[0]]} {item.category[0]}</div>
-
-              <details className="mt-3 rounded-lg border border-slate-200 bg-white/70 p-2" onClick={(event) => event.stopPropagation()}>
-                <summary className="cursor-pointer text-xs font-semibold text-muted">Ver contexto completo</summary>
-
-                <div className="mt-2 space-y-2 text-xs text-slate-700">
-                  <p><strong>Detalhe territorial:</strong> {item.territorialContext}</p>
-                  <p><strong>Markers:</strong> {item.markers.join(', ')}</p>
-                  <p>
-                    <strong>Metadados:</strong> {complexityIcon[item.complexity]} {item.complexity} · {item.isEpisodic ? 'episódico' : 'crônico'} · {item.isCollective ? 'coletivo' : 'individual'}
-                  </p>
-                </div>
-              </details>
-            </button>
-          ))}
-        </div>
+        <SimulatorExploration categoryIcon={categoryIcon} complexityIcon={complexityIcon} riskVisual={riskVisual} />
       </section>
 
+      {pendingPrerequisites.length > 0 ? (
+        <div className="rounded-lg border border-amber-200 bg-amber-50 p-3 text-xs text-amber-900">
+          ⚠️ Progressão sugerida: este cenário recomenda concluir antes {pendingPrerequisites.join(', ')}.
+        </div>
+      ) : null}
+
       <section className="grid gap-4 lg:grid-cols-2">
-        <article className="card p-4">
-          <h3 className="text-sm font-bold uppercase tracking-wide text-muted">Árvore percorrida</h3>
-          <div className="mt-2 space-y-2">
-            {scenario.treeTraversal.map((step, idx) => (
-              <div key={`${scenario.id}-${step.step}`} className={`rounded-lg border p-2 text-sm ${idx === stepIndex ? 'border-brand-400 bg-brand-50' : 'border-slate-200'}`}>
-                <p className="font-semibold">#{step.step} · {step.label}</p>
-                <p className="text-xs text-muted">{step.actor}</p>
-              </div>
-            ))}
-          </div>
-
-        <article className="card p-4">
-          {pendingPrerequisites.length > 0 ? (
-            <div className="mb-3 rounded-lg border border-amber-200 bg-amber-50 p-3 text-xs text-amber-900">
-              ⚠️ Progressão sugerida: este cenário recomenda concluir antes {pendingPrerequisites.join(', ')}. Você pode continuar mesmo assim.
+        <SimulatorHistory actorClass={actorClass} actorTone={actorTone} />
+        <div className="space-y-4">
+          <SimulatorDecision actorClass={actorClass} actorTone={actorTone} />
+          <SimulatorFeedback />
+          <div className="card p-4">
+            <div className="flex flex-wrap gap-2">
+              <button className="btn-secondary text-xs" onClick={goBackInHistory} disabled={visitedStepIds.length <= 1}>← Anterior</button>
+              <button className="btn-secondary text-xs" onClick={() => setTrainingMode((value) => !value)}>{trainingMode ? 'Sair do treinamento' : 'Modo treinamento'}</button>
+              <button className="btn-secondary text-xs" onClick={resetTraining}>Reset treino</button>
+              <button className="btn-secondary text-xs" onClick={markScenarioCompleted}>Marcar cenário como concluído</button>
             </div>
-          ) : null}
-          <div className="flex flex-wrap items-center gap-2">
-            <h3 className="text-sm font-bold uppercase tracking-wide text-muted">Passo atual</h3>
-            <span className={`rounded-full px-2 py-0.5 text-xs font-semibold ${actorClass[actorTone(currentStep.actor)]}`}>{currentStep.actor}</span>
           </div>
-
-          <p className="mt-2 text-xs text-muted">Etapa {currentStep.step} de {scenario.treeTraversal.length}</p>
-
-          {trainingMode ? (
-            <>
-              <p className="mt-2 text-xs font-bold uppercase tracking-wide text-muted">1. Decidir</p>
-              <p className="mt-2 text-sm"><strong>Trigger:</strong> {scenario.trigger}</p>
-              <p className="text-sm"><strong>Perfil:</strong> {scenario.studentProfile}</p>
-              <div className="mt-3 space-y-2">
-                {trainingOptions.map((option) => (
-                  <button key={option.id} className="w-full rounded-lg border border-slate-300 px-3 py-2 text-left text-sm" onClick={() => answerTraining(option)}>
-                    {option.label}
-                  </button>
-                ))}
-              </div>
-              {selectedOption ? (
-                <div className="mt-3 space-y-2">
-                  <div className="rounded-lg border border-amber-200 bg-amber-50 p-3 text-sm">
-                    <p>{selectedOption.isCorrect ? '✅ Resposta correta.' : '❌ Resposta incorreta.'}</p>
-                  </div>
-                  <div className="rounded-lg border border-slate-200 bg-slate-50 p-3 text-sm">
-                    <p className="font-semibold">1) Alinhamento ao protocolo</p>
-                    <p className="mt-1 text-xs">{protocolAlignmentText}</p>
-                  </div>
-                  <div className="rounded-lg border border-slate-200 bg-slate-50 p-3 text-sm">
-                    <p className="font-semibold">2) Impacto provável da decisão</p>
-                    <p className="mt-1 text-xs">{probableImpactText}</p>
-                  </div>
-                  <div className="rounded-lg border border-slate-200 bg-slate-50 p-3 text-sm">
-                    <p className="font-semibold">3) Referência legal/institucional</p>
-                    {legalReferences.length > 0 ? (
-                      <ul className="mt-1 list-disc pl-5 text-xs">
-                        {legalReferences.map((reference) => (
-                          <li key={`${selectedOption.id}-${reference}`}>{reference}</li>
-                        ))}
-                      </ul>
-                    ) : (
-                      <p className="mt-1 text-xs">Referência institucional não informada para esta alternativa.</p>
-                    )}
-                  </div>
-                  {isRiskDecision ? (
-                    <div className="rounded-lg border border-rose-200 bg-rose-50 p-3 text-sm">
-                      <p className="font-semibold">O que fazer diferente</p>
-                      <p className="mt-1 text-xs">{selectedAlert?.doInstead || scenarioDecisionMeta?.whatToDoDifferently || 'Retome o protocolo e priorize proteção imediata com registro formal.'}</p>
-                    </div>
-                  ) : null}
-                </div>
-              ) : null}
-
-              <p className="mt-3 text-xs font-bold uppercase tracking-wide text-muted">2. Aprender</p>
-              {showRationale ? (
-                <div className="mt-2 rounded-lg border border-slate-200 bg-slate-50 p-3 text-xs text-muted">
-                  {currentStep.rationale}
-                </div>
-              ) : (
-                <p className="mt-2 text-xs text-muted">Confirme sua decisão para liberar o rationale.</p>
-              )}
-
-              <p className="mt-2 text-sm font-semibold">Score: {score}/{scenario.treeTraversal.length}</p>
-            </>
-          ) : (
-            <>
-              <p className="mt-2 text-xs font-bold uppercase tracking-wide text-muted">1. Decidir</p>
-              <p className="mt-2 text-sm">{currentStep.action}</p>
-              <p className="mt-3 text-xs font-bold uppercase tracking-wide text-muted">2. Aprender</p>
-              {showRationale ? (
-                <div className="mt-2 rounded-lg border border-slate-200 bg-slate-50 p-3 text-xs text-muted">
-                  {currentStep.rationale}
-                </div>
-              ) : (
-                <p className="mt-2 text-xs text-muted">Avance para a próxima etapa para liberar o rationale.</p>
-              )}
-              {currentStep.alertTriggered ? (
-                <div className="mt-3 rounded-lg border border-amber-200 bg-amber-50 p-3 text-sm">
-                  <p className="font-semibold">⚠️ Alerta {currentStep.alertTriggered}</p>
-                  <p className="text-xs">{ALERTS_DATA.find((alert) => alert.id === currentStep.alertTriggered)?.doNot}</p>
-                </div>
-              ) : null}
-
-              <div className="mt-3 space-y-2">
-                {currentStep.options.map((option) => (
-                  <button key={`${currentStep.nodeId}-${option.nextStepId}`} className="w-full rounded-lg border border-slate-300 px-3 py-2 text-left text-sm" onClick={() => goToStepById(option.nextStepId)}>
-                    <p className="font-semibold">Ir para: {option.nextStepId}</p>
-                    <p className="text-xs text-muted">Impacto: {option.impact}</p>
-                    <p className="text-xs text-muted">Base legal: {option.legalBasis}</p>
-                    {option.isRecommended ? <p className="text-xs font-semibold text-emerald-700">Recomendado</p> : null}
-                  </button>
-                ))}
-              </div>
-            </>
-          )}
-
-          <div className="mt-4 flex flex-wrap gap-2">
-            <button className="btn-secondary text-xs" onClick={goBackInHistory} disabled={visitedStepIds.length <= 1}>← Anterior</button>
-            <button className="btn-secondary text-xs" onClick={() => setTrainingMode((v) => !v)}>{trainingMode ? 'Sair do treinamento' : 'Modo treinamento'}</button>
-            <button className="btn-secondary text-xs" onClick={resetTraining}>Reset treino</button>
-            <button className="btn-secondary text-xs" onClick={markScenarioCompleted}>Marcar cenário como concluído</button>
-          </div>
-        </article>
+        </div>
       </section>
     </div>
   );
 };
+
+export const ScenarioPlayer: React.FC = () => (
+  <SimulatorProvider>
+    <ScenarioPlayerContent />
+  </SimulatorProvider>
+);
