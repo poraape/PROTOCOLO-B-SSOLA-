@@ -8,6 +8,7 @@ import { ContextualControls } from './ContextualControls';
 import { designTokens } from '../../styles/design-tokens';
 import { ManagementContactModal } from './ManagementContactModal';
 import { SchoolShield } from '../SchoolShield';
+import { getManagementNotificationLabel } from './managementNotificationLabel';
 
 const EmergencyButton: React.FC<{ onClick: () => void }> = ({ onClick }) => (
   <button
@@ -52,7 +53,7 @@ const ManagementButton: React.FC<{ onClick: () => void }> = ({ onClick }) => (
       boxShadow: designTokens.shadows.md
     }}
   >
-    🏫 Falar com gestão
+    🏫 {getManagementNotificationLabel()}
   </button>
 );
 
