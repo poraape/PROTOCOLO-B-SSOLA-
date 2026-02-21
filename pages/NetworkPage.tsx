@@ -1,140 +1,135 @@
 import React, { useMemo, useState } from 'react';
-import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { NetworkMap } from '../components/NetworkMap';
 import { PROTOCOL_DATA } from '../content/protocolData';
-import { shouldUseListFallback } from '../services/networkFallback';
-import { Service } from '../types';
+import { AppButton } from '../components/ui/AppButton';
+import { AppCard } from '../components/ui/AppCard';
+import { AppInput } from '../components/ui/AppInput';
+import { AppChip } from '../components/ui/AppChip';
+import { PageHeader } from '../components/ui/PageHeader';
+import { Section } from '../components/ui/Section';
 
-type NetworkFilter = 'TODOS' | 'SAUDE' | 'SOCIAL' | 'TUTELAR' | 'SEGURANCA';
-
-type ServiceWithCoordinates = Service & { coordinates: { lat: number; lng: number } };
-
-const expiredServiceIds = ['conselho-tutelar', 'ddm-sao-miguel'];
-
-const mapServiceToFilter = (service: Service): NetworkFilter[] => {
-  const list: NetworkFilter[] = [];
-  if (service.category === 'SAÚDE') list.push('SAUDE');
-  if (service.category === 'SOCIAL') list.push('SOCIAL');
-  if (service.category === 'DIREITOS_SGD' || service.name.toLowerCase().includes('conselho tutelar')) list.push('TUTELAR');
-  if (service.category === 'EMERGÊNCIA' || /pol[ií]cia|delegacia|ddm|190|192|193/i.test(service.name + service.phone)) list.push('SEGURANCA');
-  if (!list.length) list.push('TODOS');
-  return list;
-};
+const hasCoordinates = (service: (typeof PROTOCOL_DATA.services)[number]) =>
+  typeof service.latitude === 'number' && typeof service.longitude === 'number';
 
 const normalizePhoneToTel = (phone: string) => `tel:${phone.replace(/\D/g, '')}`;
-const hasCoordinates = (service: Service): service is ServiceWithCoordinates => !!service.coordinates;
+const shouldUseListFallback = (total: number, mappable: number) => total === 0 || mappable === 0;
+
+const mapServiceToFilter = (service: (typeof PROTOCOL_DATA.services)[number]) => {
+  const text = `${service.type || ''} ${service.name}`.toLowerCase();
+  if (text.includes('saúde') || text.includes('hospital') || text.includes('upa')) return ['SAUDE'];
+  if (text.includes('social') || text.includes('cras') || text.includes('creas')) return ['SOCIAL'];
+  if (text.includes('tutelar')) return ['TUTELAR'];
+  if (text.includes('polícia') || text.includes('segurança') || text.includes('delegacia')) return ['SEGURANCA'];
+  return ['TODOS'];
+};
 
 export const NetworkPage: React.FC = () => {
-  const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const params = useParams<{ id?: string }>();
-  const [search, setSearch] = useState('');
-  const [filter, setFilter] = useState<NetworkFilter>('TODOS');
-  const [showMap, setShowMap] = useState(false);
-  const referralFilter = (searchParams.get('referral') || '').trim();
+  const navigate = useNavigate();
+  const highlightId = searchParams.get('highlight') || '';
+  const referralFilter = searchParams.get('referral') || '';
   const normalizedReferralFilter = referralFilter.toLowerCase();
-  const highlightId = (params.id || searchParams.get('highlight') || '').trim();
 
-  const filters: { id: NetworkFilter; label: string }[] = [
+  const [search, setSearch] = useState('');
+  const [filter, setFilter] = useState<'TODOS' | 'SAUDE' | 'SOCIAL' | 'TUTELAR' | 'SEGURANCA'>('TODOS');
+  const [showMap, setShowMap] = useState(false);
+
+  const filters = [
     { id: 'TODOS', label: 'Todos' },
     { id: 'SAUDE', label: 'Saúde' },
     { id: 'SOCIAL', label: 'Social' },
     { id: 'TUTELAR', label: 'Tutelar' },
     { id: 'SEGURANCA', label: 'Segurança' }
-  ];
+  ] as const;
 
-  const services = useMemo(() => PROTOCOL_DATA.services.filter((service) => {
-    const text = `${service.name} ${service.address} ${service.phone}`.toLowerCase();
-    const matchesSearch = search.trim().length === 0 || text.includes(search.toLowerCase());
-    const matchesFilter = filter === 'TODOS' || mapServiceToFilter(service).includes(filter);
-    const matchesReferral = !normalizedReferralFilter || text.includes(normalizedReferralFilter);
-    return matchesSearch && matchesFilter && matchesReferral;
-  }), [filter, search, normalizedReferralFilter]);
+  const services = useMemo(
+    () =>
+      PROTOCOL_DATA.services.filter((service) => {
+        const text = `${service.name} ${service.address} ${service.phone}`.toLowerCase();
+        const matchesSearch = search.trim().length === 0 || text.includes(search.toLowerCase());
+        const matchesFilter = filter === 'TODOS' || mapServiceToFilter(service).includes(filter);
+        const matchesReferral = !normalizedReferralFilter || text.includes(normalizedReferralFilter);
+        return matchesSearch && matchesFilter && matchesReferral;
+      }),
+    [filter, search, normalizedReferralFilter]
+  );
 
   const mappableServices = useMemo(() => services.filter(hasCoordinates), [services]);
   const listOnlyMode = shouldUseListFallback(services.length, mappableServices.length);
 
   return (
-    <div className="space-y-4 pb-20">
-      <header className="card">
-        <h1 className="text-2xl font-extrabold text-text">Rede de Apoio — Contatos essenciais</h1>
-        <p className="mt-2 text-sm text-muted">Telefones e endereços verificados (quando disponível).</p>
-      </header>
+    <div className="stack space-3" style={{ paddingBottom: 20 }}>
+      <PageHeader title="Rede de Apoio — Contatos essenciais" subtitle="Telefones e endereços verificados (quando disponível)." />
 
-      {referralFilter && (
-        <div className="rounded-md border border-blue-200 bg-blue-50 p-3 text-sm">
+      {referralFilter ? (
+        <AppCard>
           Exibindo serviços recomendados para:
-          <strong className="ml-1">{referralFilter}</strong>
-          <button
-            className="ml-3 text-blue-700 underline focus-visible:ring-2 focus-visible:ring-brand-500"
-            onClick={() => navigate('/rede')}
-          >
-            Limpar filtro
-          </button>
-        </div>
-      )}
+          <strong style={{ marginLeft: 6 }}>{referralFilter}</strong>
+          <AppButton variant="ghost" onClick={() => navigate('/rede')} className="" >Limpar filtro</AppButton>
+        </AppCard>
+      ) : null}
 
-      <section className="card">
-        <input
-          type="text"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          placeholder="Buscar serviço, endereço ou telefone"
-          className="w-full rounded-xl border border-border px-4 py-3 text-sm text-text placeholder:text-muted"
-        />
-        <div className="mt-3 flex flex-wrap gap-2">
-          {filters.map((item) => (
-            <button
-              key={item.id}
-              onClick={() => setFilter(item.id)}
-              className={`rounded-full px-3 py-2 text-xs font-semibold ${filter === item.id ? 'bg-brand-50 text-brand-800' : 'bg-slate-100 text-muted hover:bg-slate-200'}`}
-            >
-              {item.label}
-            </button>
+      <Section>
+        <AppCard>
+          <AppInput
+            id="network-search"
+            label="Buscar serviço"
+            placeholder="Buscar serviço, endereço ou telefone"
+            value={search}
+            onChange={setSearch}
+          />
+          <div className="row" style={{ flexWrap: 'wrap', marginTop: 10 }}>
+            {filters.map((item) => (
+              <AppButton key={item.id} onClick={() => setFilter(item.id)} variant={filter === item.id ? 'primary' : 'secondary'}>
+                {item.label}
+              </AppButton>
+            ))}
+          </div>
+        </AppCard>
+      </Section>
+
+      {!listOnlyMode ? (
+        <Section>
+          <AppCard>
+            <AppButton onClick={() => setShowMap((v) => !v)} variant="ghost">{showMap ? 'Ocultar mapa' : 'Ver mapa'}</AppButton>
+            {showMap ? (
+              <div style={{ marginTop: 10, height: 320, overflow: 'hidden', borderRadius: 12, border: '1px solid var(--border)' }}>
+                {mappableServices.length ? (
+                  <NetworkMap services={mappableServices} />
+                ) : (
+                  <div className="row" style={{ height: '100%', justifyContent: 'center', color: 'var(--text-muted)' }}>
+                    Sem coordenadas para os filtros atuais.
+                  </div>
+                )}
+              </div>
+            ) : null}
+          </AppCard>
+        </Section>
+      ) : null}
+
+      <Section>
+        <div className="stack space-2">
+          {services.map((service) => (
+            <AppCard key={service.id} as="article" className={service.id === highlightId ? 'ui-card--strong' : ''}>
+              <div className="row" style={{ justifyContent: 'space-between', alignItems: 'center' }}>
+                <h2 id={`service-${service.id}`} style={{ margin: 0, fontSize: '1rem', color: 'var(--text)' }}>{service.name}</h2>
+                <AppChip label={service.type || 'Serviço'} tone="info" />
+              </div>
+
+              <p style={{ margin: '8px 0 0', color: 'var(--text-muted)' }}>{service.address}</p>
+              <a style={{ marginTop: 4, display: 'inline-block' }} href={normalizePhoneToTel(service.phone)}>{service.phone}</a>
+
+              <div className="row" style={{ flexWrap: 'wrap', marginTop: 10 }}>
+                <a href={normalizePhoneToTel(service.phone)} className="ui-btn ui-btn--primary">Ligar agora</a>
+                <AppButton onClick={() => navigator.clipboard.writeText(`${service.name}\n${service.address}\n${service.phone}`)} variant="secondary">Copiar</AppButton>
+              </div>
+            </AppCard>
           ))}
+
+          {!services.length ? <AppCard>Nenhum serviço encontrado para os filtros atuais.</AppCard> : null}
         </div>
-      </section>
-
-      {!listOnlyMode && (
-        <section className="card p-4">
-          <button onClick={() => setShowMap((v) => !v)} className="text-sm font-semibold text-brand-800">
-            {showMap ? 'Ocultar mapa' : 'Ver mapa'}
-          </button>
-          {showMap && (
-            <div className="mt-3 h-[320px] overflow-hidden rounded-xl border border-border">
-              {mappableServices.length ? <NetworkMap services={mappableServices} /> : <div className="flex h-full items-center justify-center text-sm text-muted">Sem coordenadas para os filtros atuais.</div>}
-            </div>
-          )}
-        </section>
-      )}
-
-      <section className="grid grid-cols-1 gap-3">
-        {services.map((service) => (
-          <article key={service.id} className={`card p-4 ${service.id === highlightId ? 'border-brand-300 bg-brand-50' : ''}`}>
-            <div className="flex items-center justify-between gap-2">
-              <h2 id={`service-${service.id}`} className="text-base font-bold text-text">{service.name}</h2>
-              <span className="badge">{service.type || 'Serviço'}</span>
-            </div>
-
-            {expiredServiceIds.includes(service.id) && <div className="mt-2 inline-flex badge-accent">Verificação necessária</div>}
-
-            <p className="mt-2 text-sm text-muted">{service.address}</p>
-            <a className="mt-1 inline-block text-sm font-semibold text-brand-800" href={normalizePhoneToTel(service.phone)}>{service.phone}</a>
-
-            <div className="mt-3 flex flex-wrap gap-2">
-              <a href={normalizePhoneToTel(service.phone)} className="btn-primary text-sm focus-visible:ring-2 focus-visible:ring-brand-500">Ligar agora</a>
-              <button onClick={() => navigator.clipboard.writeText(`${service.name}\n${service.address}\n${service.phone}`)} className="btn-secondary text-sm focus-visible:ring-2 focus-visible:ring-brand-500">Copiar</button>
-            </div>
-
-            <details className="mt-3 text-xs text-muted">
-              <summary className="cursor-pointer font-semibold">Verificação e fonte</summary>
-              <p className="mt-1">Fonte: {service.officialSource || 'Não informada'} · Verificado em {service.verifiedAt || 'N/A'} por {service.verifiedBy || 'N/A'}</p>
-            </details>
-          </article>
-        ))}
-
-        {!services.length && <div className="card text-center text-sm font-semibold text-muted">Nenhum serviço encontrado para os filtros atuais.</div>}
-      </section>
+      </Section>
     </div>
   );
 };
