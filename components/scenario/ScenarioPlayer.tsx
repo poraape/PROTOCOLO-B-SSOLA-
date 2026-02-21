@@ -6,6 +6,12 @@ type ActorTone = 'brand' | 'emerald' | 'violet' | 'amber' | 'slate';
 
 const riskWeight: Record<RiskLevel, number> = { imminent: 4, high: 3, moderate: 2, low: 1 };
 const complexityIcon: Record<Complexity, string> = { low: '🟢', medium: '🟡', high: '🔴' };
+const riskVisual: Record<RiskLevel, { label: string; className: string }> = {
+  imminent: { label: '🔴 iminente', className: 'bg-rose-100 text-rose-800 border-rose-200' },
+  high: { label: '🟠 alto', className: 'bg-orange-100 text-orange-800 border-orange-200' },
+  moderate: { label: '🟡 moderado', className: 'bg-amber-100 text-amber-800 border-amber-200' },
+  low: { label: '🟢 baixo', className: 'bg-emerald-100 text-emerald-800 border-emerald-200' }
+};
 const categoryIcon: Record<Category, string> = {
   pedagogical: '🏫',
   mental_health: '🧠',
@@ -171,13 +177,23 @@ export const ScenarioPlayer: React.FC = () => {
             <button key={item.id} onClick={() => { setSelectedScenarioId(item.id); setStepIndex(0); setSelectedOptionId(null); }} className={`rounded-xl border p-3 text-left ${item.id === scenario.id ? 'border-brand-400 bg-brand-50' : 'border-slate-200 bg-white'}`}>
               <p className="font-semibold">{item.title}</p>
               <div className="mt-1 flex flex-wrap items-center gap-2 text-xs">
-                <span>{complexityIcon[item.complexity]} {item.complexity}</span>
-                <span className="badge">risco: {item.riskLevel}</span>
-                <span className="badge">{item.isEpisodic ? 'episódico' : 'crônico'}</span>
-                <span className="badge">{item.isCollective ? 'coletivo' : 'individual'}</span>
+                <span className={`rounded-full border px-2 py-0.5 font-semibold ${riskVisual[item.riskLevel].className}`}>
+                  Risco visual: {riskVisual[item.riskLevel].label}
+                </span>
               </div>
-              <div className="mt-1 text-sm">{item.category.map((cat) => `${categoryIcon[cat]} ${cat}`).join(' · ')}</div>
-              <div className="mt-2 flex flex-wrap gap-1">{item.markers.map((marker) => <span key={`${item.id}-${marker}`} className="rounded-full border border-slate-200 px-2 py-0.5 text-[11px] text-slate-700">{marker}</span>)}</div>
+              <div className="mt-2 text-sm">Categoria principal: {categoryIcon[item.category[0]]} {item.category[0]}</div>
+
+              <details className="mt-3 rounded-lg border border-slate-200 bg-white/70 p-2" onClick={(event) => event.stopPropagation()}>
+                <summary className="cursor-pointer text-xs font-semibold text-muted">Ver contexto completo</summary>
+
+                <div className="mt-2 space-y-2 text-xs text-slate-700">
+                  <p><strong>Detalhe territorial:</strong> {item.territorialContext}</p>
+                  <p><strong>Markers:</strong> {item.markers.join(', ')}</p>
+                  <p>
+                    <strong>Metadados:</strong> {complexityIcon[item.complexity]} {item.complexity} · {item.isEpisodic ? 'episódico' : 'crônico'} · {item.isCollective ? 'coletivo' : 'individual'}
+                  </p>
+                </div>
+              </details>
             </button>
           ))}
         </div>
