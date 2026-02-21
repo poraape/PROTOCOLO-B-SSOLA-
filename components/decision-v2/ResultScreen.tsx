@@ -5,9 +5,9 @@ import { AccordionSection } from './AccordionSection';
 import { DecisionBreadcrumb } from './DecisionBreadcrumb';
 import { PROTOCOL_DATA } from '../../content/protocolData';
 import { anexosMeta } from '../../data/anexosMeta';
-import { GlassCard } from '../ui/GlassCard';
-import { StatusChip } from '../ui/StatusChip';
-import { ActionButton } from '../ui/ActionButton';
+import { AppCard } from '../ui/AppCard';
+import { AppChip } from '../ui/AppChip';
+import { AppButton } from '../ui/AppButton';
 import { SidePanelOrientacoes } from '../ui/SidePanelOrientacoes';
 import { BottomSheetOrientacoes } from '../ui/BottomSheetOrientacoes';
 
@@ -99,22 +99,22 @@ const ResultScreenBase: React.FC<ResultScreenProps> = ({
 
       {(onBack || onPrint) ? (
         <div style={{ display: 'flex', gap: 10, marginBottom: 12 }}>
-          {onBack ? <ActionButton onClick={onBack} variant="neutral">↩️ Recomeçar</ActionButton> : null}
-          {onPrint ? <ActionButton onClick={onPrint} variant="ghost">🖨️ Imprimir</ActionButton> : null}
+          {onBack ? <AppButton onClick={onBack} variant="secondary">↩️ Recomeçar</AppButton> : null}
+          {onPrint ? <AppButton onClick={onPrint} variant="ghost">🖨️ Imprimir</AppButton> : null}
         </div>
       ) : null}
 
       <div style={{ display: 'flex', gap: 16, alignItems: 'flex-start' }}>
         <div style={{ flex: 1, maxWidth: 820, margin: '0 auto' }}>
-          <GlassCard
+          <AppCard
             strong
             className=""
-            title="Resultado do Protocolo"
-            subtitle={leaf.primaryActions.title}
-            rightSlot={<StatusChip label={urgency.label} tone={urgencyTone[leaf.primaryActions.urgencyLevel]} />}
+            heading="Resultado do Protocolo"
+            subheading={leaf.primaryActions.title}
+            rightSlot={<AppChip label={urgency.label} tone={urgencyTone[leaf.primaryActions.urgencyLevel]} />}
           >
             <div style={{ display: 'grid', gap: 12 }}>
-              <GlassCard strong title="PRIORIDADE 1 / PRIORIDADE 2" subtitle="Ação e acionamento inicial">
+              <AppCard strong heading="PRIORIDADE 1 / PRIORIDADE 2" subheading="Ação e acionamento inicial">
                 <div style={{ display: 'grid', gap: 10 }}>
                   <div style={{ border: '1px solid var(--border)', borderRadius: 14, padding: 12, background: 'var(--surface-strong)' }}>
                     <div style={{ marginBottom: 6, fontWeight: 700 }}>🥇 Prioridade 1</div>
@@ -136,11 +136,11 @@ const ResultScreenBase: React.FC<ResultScreenProps> = ({
                     )}
                   </div>
                 </div>
-              </GlassCard>
+              </AppCard>
 
-              <GlassCard strong title="COMUNICAR GESTÃO" subtitle="Timing e papéis recomendados">
+              <AppCard strong heading="COMUNICAR GESTÃO" subheading="Timing e papéis recomendados">
                 <div style={{ display: 'grid', gap: 8 }}>
-                  <StatusChip label={managementNotification.timing} tone={timingTone[managementNotification.timing]} />
+                  <AppChip label={managementNotification.timing} tone={timingTone[managementNotification.timing]} />
                   <div style={{ color: 'var(--text)' }}>
                     <strong>Papéis:</strong>{' '}
                     {managementNotification.roles.length > 0
@@ -150,19 +150,19 @@ const ResultScreenBase: React.FC<ResultScreenProps> = ({
                   <div style={{ color: 'var(--text)' }}><strong>Obrigatório:</strong> {managementNotification.required ? 'Sim' : 'Não'}</div>
                   {managementNotification.message ? <div style={{ color: 'var(--text-muted)' }}>{managementNotification.message}</div> : null}
                   {managementNotification.required && onContactManagement ? (
-                    <ActionButton variant="info" onClick={onContactManagement}>Comunicar gestão</ActionButton>
+                    <AppButton variant="primary" onClick={onContactManagement}>Comunicar gestão</AppButton>
                   ) : null}
                 </div>
-              </GlassCard>
+              </AppCard>
 
-              <GlassCard strong title="INSTRUMENTOS" subtitle="Anexos recomendados para registro e encaminhamento">
+              <AppCard strong heading="INSTRUMENTOS" subheading="Anexos recomendados para registro e encaminhamento">
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
                   {leaf.instruments.length > 0 ? (
                     leaf.instruments.map((instrumentId, idx) => {
                       const anexo = anexoById.get(instrumentId);
                       if (!anexo) {
                         console.warn(`[DecisionTreeV2] Instrumento não encontrado para id: ${instrumentId}`, { leafId: leaf.id });
-                        return <StatusChip key={`${instrumentId}-${idx}`} label={`Não encontrado: ${instrumentId}`} tone="danger" />;
+                        return <AppChip key={`${instrumentId}-${idx}`} label={`Não encontrado: ${instrumentId}`} tone="danger" />;
                       }
 
                       return (
@@ -173,7 +173,7 @@ const ResultScreenBase: React.FC<ResultScreenProps> = ({
                           rel="noreferrer"
                           style={{ textDecoration: 'none' }}
                         >
-                          <StatusChip label={anexo.title} tone="info" />
+                          <AppChip label={anexo.title} tone="info" />
                         </a>
                       );
                     })
@@ -181,9 +181,9 @@ const ResultScreenBase: React.FC<ResultScreenProps> = ({
                     <span style={{ color: 'var(--text-muted)' }}>Sem instrumentos definidos para este fluxo.</span>
                   )}
                 </div>
-              </GlassCard>
+              </AppCard>
 
-              <GlassCard strong title="Contatos úteis" subtitle={leaf.contactTargets.title}>
+              <AppCard strong heading="Contatos úteis" subheading={leaf.contactTargets.title}>
                 <ul style={{ margin: 0, paddingLeft: 20, color: 'var(--text)', lineHeight: 1.6 }}>
                   {resolvedServices.map((serviceRef, idx) => (
                     <li key={`${serviceRef.serviceId}-${idx}`}>
@@ -191,17 +191,17 @@ const ResultScreenBase: React.FC<ResultScreenProps> = ({
                     </li>
                   ))}
                 </ul>
-              </GlassCard>
+              </AppCard>
 
-              <GlassCard strong title="Ações prioritárias" subtitle={`${urgency.icon} ${urgency.label}`}>
+              <AppCard strong heading="Ações prioritárias" subheading={`${urgency.icon} ${urgency.label}`}>
                 <ol style={{ margin: 0, paddingLeft: 20, color: 'var(--text)', lineHeight: 1.6 }}>
                   {leaf.primaryActions.actions.slice(0, 3).map((action, idx) => (
                     <li key={`${action}-${idx}`}>{action}</li>
                   ))}
                 </ol>
-              </GlassCard>
+              </AppCard>
             </div>
-          </GlassCard>
+          </AppCard>
 
           {leaf.secondaryContent ? (
             <div style={{ marginTop: 12 }}>

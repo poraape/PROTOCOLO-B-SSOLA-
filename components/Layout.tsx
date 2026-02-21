@@ -3,6 +3,8 @@ import { Link, NavLink } from 'react-router-dom';
 import GlobalSearch from './GlobalSearch';
 import { DISCLAIMER_TEXT, SCHOOL_CONFIG } from '../content/schoolConfig';
 import { ThemeToggle } from './ui/ThemeToggle';
+import { AppCard } from './ui/AppCard';
+import { AppButton } from './ui/AppButton';
 
 const navItems = [
   { label: 'Início', path: '/' },
@@ -31,10 +33,10 @@ const navLinkClass = ({ isActive }: { isActive: boolean }) =>
   `nav-link ${isActive ? 'nav-link-active' : ''}`.trim();
 
 const DisclaimerBanner: React.FC = () => (
-  <aside className="disclaimer-banner glass" role="note" aria-label="Aviso institucional">
+  <AppCard as="aside" className="disclaimer-banner" role="note" aria-label="Aviso institucional">
     <div className="disclaimer-icon" aria-hidden="true">⚠️</div>
     <p className="disclaimer-text">{DISCLAIMER_TEXT}</p>
-  </aside>
+  </AppCard>
 );
 
 export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -146,9 +148,9 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
           >
             <div className="more-header">
               <h3 className="more-title">Mais opções</h3>
-              <button type="button" className="btn btn-secondary" onClick={() => setShowMore(false)}>
+              <AppButton type="button" variant="secondary" onClick={() => setShowMore(false)}>
                 Fechar
-              </button>
+              </AppButton>
             </div>
             <div className="more-links">
               {mobileMoreItems.map((item) => (

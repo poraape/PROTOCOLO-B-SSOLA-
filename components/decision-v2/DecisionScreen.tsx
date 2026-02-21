@@ -3,8 +3,8 @@ import { ProgressBar } from './ProgressBar';
 import { HelpTooltip } from './HelpTooltip';
 import { DecisionBreadcrumb } from './DecisionBreadcrumb';
 import { DecisionNode } from '../../types/decision-tree-v2';
-import { GlassCard } from '../ui/GlassCard';
-import { ActionButton } from '../ui/ActionButton';
+import { AppCard } from '../ui/AppCard';
+import { AppButton } from '../ui/AppButton';
 import { SidePanelOrientacoes } from '../ui/SidePanelOrientacoes';
 import { BottomSheetOrientacoes } from '../ui/BottomSheetOrientacoes';
 
@@ -39,7 +39,11 @@ const DecisionScreenBase: React.FC<DecisionScreenProps> = ({
 
       <div style={{ display: 'flex', gap: 16, alignItems: 'flex-start' }}>
         <div style={{ flex: 1, maxWidth: 820, margin: '0 auto' }}>
-          <GlassCard strong title="Decisão principal" subtitle="Selecione apenas a melhor opção para o caso atual.">
+          <AppCard strong>
+            <div className="ui-section">
+              <h2 className="ui-section-title">Decisão principal</h2>
+              <p className="ui-section-subtitle">Selecione apenas a melhor opção para o caso atual.</p>
+            </div>
             {progress ? (
               <div style={{ marginBottom: 16 }}>
                 <ProgressBar current={progress.current} total={progress.total} label="Triagem" />
@@ -54,7 +58,7 @@ const DecisionScreenBase: React.FC<DecisionScreenProps> = ({
             <div style={{ display: 'grid', gap: 12 }}>
               {memoizedOptions.map((option) => {
                 const normalizedLabel = option.label.toUpperCase();
-                const variant = normalizedLabel === 'SIM' ? 'danger' : normalizedLabel === 'NÃO' ? 'neutral' : 'info';
+                const variant = normalizedLabel === 'SIM' ? 'danger' : normalizedLabel === 'NÃO' ? 'secondary' : 'primary';
                 const ariaLabel =
                   normalizedLabel === 'SIM'
                     ? 'Sim, há risco'
@@ -63,13 +67,13 @@ const DecisionScreenBase: React.FC<DecisionScreenProps> = ({
                       : option.label;
 
                 return (
-                  <ActionButton key={option.value} onClick={() => onSelect(option.value)} variant={variant} ariaLabel={ariaLabel}>
+                  <AppButton key={option.value} onClick={() => onSelect(option.value)} variant={variant} ariaLabel={ariaLabel}>
                     {option.label}
-                  </ActionButton>
+                  </AppButton>
                 );
               })}
             </div>
-          </GlassCard>
+          </AppCard>
 
           <button
             type="button"
