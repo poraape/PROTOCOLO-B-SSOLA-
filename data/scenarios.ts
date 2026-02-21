@@ -19,6 +19,14 @@ export interface ScenarioStep {
   action: string;
   rationale: string;
   alertTriggered?: string;
+  options: ScenarioStepOption[];
+}
+
+export interface ScenarioStepOption {
+  nextStepId: string;
+  impact: string;
+  isRecommended: boolean;
+  legalBasis: string;
 }
 
 export interface Scenario {
@@ -42,7 +50,10 @@ export interface Scenario {
   lessonsLearned: string[];
 }
 
-export const SCENARIOS_DATA: Scenario[] = [
+type RawScenarioStep = Omit<ScenarioStep, 'options'> & { options?: ScenarioStepOption[] };
+type RawScenario = Omit<Scenario, 'treeTraversal'> & { treeTraversal: RawScenarioStep[] };
+
+const RAW_SCENARIOS_DATA: RawScenario[] = [
   {
     id: 'C01',
     title: 'Aluno dormindo nas aulas — trabalho informal noturno',
