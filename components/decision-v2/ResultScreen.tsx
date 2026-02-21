@@ -10,6 +10,7 @@ import { AppChip } from '../ui/AppChip';
 import { AppButton } from '../ui/AppButton';
 import { SidePanelOrientacoes } from '../ui/SidePanelOrientacoes';
 import { BottomSheetOrientacoes } from '../ui/BottomSheetOrientacoes';
+import { getManagementNotificationLabel } from './managementNotificationLabel';
 
 interface ResultScreenProps {
   leaf: LeafNode;
@@ -150,7 +151,9 @@ const ResultScreenBase: React.FC<ResultScreenProps> = ({
                   <div style={{ color: 'var(--text)' }}><strong>Obrigatório:</strong> {managementNotification.required ? 'Sim' : 'Não'}</div>
                   {managementNotification.message ? <div style={{ color: 'var(--text-muted)' }}>{managementNotification.message}</div> : null}
                   {managementNotification.required && onContactManagement ? (
-                    <AppButton variant="primary" onClick={onContactManagement}>Comunicar gestão</AppButton>
+                    <AppButton variant="primary" onClick={onContactManagement}>
+                      {getManagementNotificationLabel(managementNotification.timing)}
+                    </AppButton>
                   ) : null}
                 </div>
               </AppCard>
