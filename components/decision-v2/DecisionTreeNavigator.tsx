@@ -28,7 +28,7 @@ const EmergencyButton: React.FC<{ onClick: () => void }> = ({ onClick }) => (
       boxShadow: designTokens.shadows.emergency
     }}
   >
-    🚨 EMERGÊNCIA
+    🚨 Acionar emergência agora
   </button>
 );
 
@@ -52,7 +52,7 @@ const ManagementButton: React.FC<{ onClick: () => void }> = ({ onClick }) => (
       boxShadow: designTokens.shadows.md
     }}
   >
-    🏫 Falar com gestão
+    🏫 Comunicar a gestão agora
   </button>
 );
 
