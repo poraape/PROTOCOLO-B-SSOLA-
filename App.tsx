@@ -16,8 +16,20 @@ import ModelosPage from './pages/ModelosPage';
 import { buildStaticIndex } from './search/buildIndex';
 import { OfflineStatusBanner } from './components/OfflineStatusBanner';
 import { SCHOOL_CONFIG } from './content/schoolConfig';
+import { getInitialTheme, setTheme } from './services/theme';
+import { applyA11yPrefs, getInitialA11yPrefs } from './services/a11yPrefs';
 
 const App: React.FC = () => {
+
+
+  useEffect(() => {
+    applyA11yPrefs(getInitialA11yPrefs());
+  }, []);
+
+  useEffect(() => {
+    setTheme(getInitialTheme());
+  }, []);
+
   useEffect(() => {
     document.documentElement.style.setProperty('--brand-primary', SCHOOL_CONFIG.primaryColor);
   }, []);

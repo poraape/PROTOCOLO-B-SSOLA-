@@ -1,66 +1,50 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { SchoolShield } from '../components/SchoolShield';
+import { AppButton } from '../components/ui/AppButton';
+import { AppCard } from '../components/ui/AppCard';
+import { Section } from '../components/ui/Section';
 
 export const Dashboard: React.FC = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="space-y-5">
-      <section className="bg-white rounded-2xl shadow-sm border border-slate-200 p-8 mb-8">
-        <div className="flex items-start gap-4">
-          <img
-            src="/assets/logo-escola.png"
-            alt="EE Ermelino Matarazzo"
-            className="h-14 w-auto object-contain"
-          />
-
-          <div>
-            <h1 className="text-2xl md:text-3xl font-semibold text-slate-900">
-              Guia de Acolhimento — Protocolo Bússola
-            </h1>
-
-            <p className="mt-2 text-slate-600 max-w-2xl">
+    <div className="stack space-3">
+      <Section>
+        <AppCard>
+          <div className="stack space-3">
+            <SchoolShield variant="full" />
+            <p style={{ margin: 0, color: 'var(--text-muted)' }}>
               Ferramenta interna de apoio à decisão para situações escolares,
               com foco em acolhimento responsável e encaminhamento adequado.
             </p>
-
-            <div className="mt-6 flex gap-3">
-              <button
-                onClick={() => navigate('/decisor')}
-                className="px-6 py-3 rounded-xl bg-blue-700 text-white hover:bg-blue-800 transition font-medium focus-visible:ring-2 focus-visible:ring-brand-500"
-              >
-                Iniciar atendimento guiado
-              </button>
-
-              <button
-                onClick={() => navigate('/rede')}
-                className="px-6 py-3 rounded-xl border border-slate-300 text-slate-700 hover:bg-slate-100 transition focus-visible:ring-2 focus-visible:ring-brand-500"
-              >
-                Abrir Rede de Apoio
-              </button>
+            <div className="row" style={{ flexWrap: 'wrap' }}>
+              <AppButton onClick={() => navigate('/decisor')} variant="primary">Iniciar atendimento guiado</AppButton>
+              <AppButton onClick={() => navigate('/rede')} variant="secondary">Abrir Rede de Apoio</AppButton>
             </div>
           </div>
-        </div>
-      </section>
+        </AppCard>
+      </Section>
 
-      <section>
-        <h2 className="mb-2 text-sm font-bold uppercase tracking-wide text-muted">Acesso rápido</h2>
-        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-          <button onClick={() => navigate('/rede')} className="card text-left hover:border-brand-200 focus-visible:ring-2 focus-visible:ring-brand-500">
-            <span className="badge-success">Rede de Apoio</span>
-            <p className="mt-3 font-semibold text-text">Contatos essenciais para encaminhamento.</p>
-          </button>
-          <button onClick={() => navigate('/glossario')} className="card text-left hover:border-brand-200 focus-visible:ring-2 focus-visible:ring-brand-500">
-            <span className="badge">Glossário formativo</span>
-            <p className="mt-3 font-semibold text-text">Termos institucionais e contextos escolares.</p>
-          </button>
-          <button onClick={() => navigate('/versao')} className="card text-left hover:border-brand-200 focus-visible:ring-2 focus-visible:ring-brand-500">
-            <span className="badge-accent">Versão e Governança</span>
-            <p className="mt-3 font-semibold text-text">Vigência, atualização e base institucional.</p>
-          </button>
+      <Section title="Acesso rápido">
+        <div className="grid-3">
+          <AppCard as="article">
+            <button onClick={() => navigate('/rede')} className="ui-btn ui-btn--ghost" style={{ width: '100%', textAlign: 'left' }}>
+              Rede de Apoio
+            </button>
+          </AppCard>
+          <AppCard as="article">
+            <button onClick={() => navigate('/glossario')} className="ui-btn ui-btn--ghost" style={{ width: '100%', textAlign: 'left' }}>
+              Glossário formativo
+            </button>
+          </AppCard>
+          <AppCard as="article">
+            <button onClick={() => navigate('/versao')} className="ui-btn ui-btn--ghost" style={{ width: '100%', textAlign: 'left' }}>
+              Versão e Governança
+            </button>
+          </AppCard>
         </div>
-      </section>
+      </Section>
     </div>
   );
 };
