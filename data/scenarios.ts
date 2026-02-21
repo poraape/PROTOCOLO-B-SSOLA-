@@ -18,6 +18,14 @@ export interface ScenarioStep {
   action: string;
   rationale: string;
   alertTriggered?: string;
+  options: ScenarioStepOption[];
+}
+
+export interface ScenarioStepOption {
+  nextStepId: string;
+  impact: string;
+  isRecommended: boolean;
+  legalBasis: string;
 }
 
 export interface Scenario {
@@ -38,7 +46,10 @@ export interface Scenario {
   lessonsLearned: string[];
 }
 
-export const SCENARIOS_DATA: Scenario[] = [
+type RawScenarioStep = Omit<ScenarioStep, 'options'> & { options?: ScenarioStepOption[] };
+type RawScenario = Omit<Scenario, 'treeTraversal'> & { treeTraversal: RawScenarioStep[] };
+
+const RAW_SCENARIOS_DATA: RawScenario[] = [
   {
     id: 'C01',
     title: 'Aluno dormindo nas aulas — trabalho informal noturno',
@@ -245,3 +256,25 @@ export const SCENARIOS_DATA: Scenario[] = [
     lessonsLearned: ['Substância: fluxo de saúde, não punição.', 'Vínculo escolar é fator protetivo.', 'Rede social + pedagógica deve caminhar junta.']
   }
 ];
+
+const buildStepOptions = (step: RawScenarioStep, nextStep?: RawScenarioStep): ScenarioStepOption[] => {
+  if (step.options?.length) return step.options;
+  if (!nextStep) return [];
+
+  return [
+    {
+      nextStepId: nextStep.nodeId,
+      impact: 'Mantém a continuidade do fluxo de proteção e acompanhamento do caso.',
+      isRecommended: true,
+      legalBasis: 'ECA (Lei nº 8.069/1990), art. 53 e art. 56.'
+    }
+  ];
+};
+
+export const SCENARIOS_DATA: Scenario[] = RAW_SCENARIOS_DATA.map((scenario) => ({
+  ...scenario,
+  treeTraversal: scenario.treeTraversal.map((step, index) => ({
+    ...step,
+    options: buildStepOptions(step, scenario.treeTraversal[index + 1])
+  }))
+}));

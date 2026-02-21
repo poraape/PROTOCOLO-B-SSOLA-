@@ -45,7 +45,8 @@ interface TrainingOption {
 
 export const ScenarioPlayer: React.FC = () => {
   const [selectedScenarioId, setSelectedScenarioId] = useState<string | null>(null);
-  const [stepIndex, setStepIndex] = useState(0);
+  const [currentStepId, setCurrentStepId] = useState<string | null>(null);
+  const [visitedStepIds, setVisitedStepIds] = useState<string[]>([]);
   const [trainingMode, setTrainingMode] = useState(false);
   const [selectedOptionId, setSelectedOptionId] = useState<string | null>(null);
   const [score, setScore] = useState(0);
@@ -63,9 +64,16 @@ export const ScenarioPlayer: React.FC = () => {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (!raw) return;
     try {
-      const parsed = JSON.parse(raw) as { selectedScenarioId: string | null; stepIndex: number; score: number; trainingMode: boolean };
+      const parsed = JSON.parse(raw) as {
+        selectedScenarioId: string | null;
+        currentStepId: string | null;
+        visitedStepIds: string[];
+        score: number;
+        trainingMode: boolean;
+      };
       setSelectedScenarioId(parsed.selectedScenarioId);
-      setStepIndex(parsed.stepIndex || 0);
+      setCurrentStepId(parsed.currentStepId || null);
+      setVisitedStepIds(Array.isArray(parsed.visitedStepIds) ? parsed.visitedStepIds : []);
       setScore(parsed.score || 0);
       setTrainingMode(Boolean(parsed.trainingMode));
     } catch {
@@ -74,8 +82,8 @@ export const ScenarioPlayer: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify({ selectedScenarioId, stepIndex, score, trainingMode }));
-  }, [selectedScenarioId, stepIndex, score, trainingMode]);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({ selectedScenarioId, currentStepId, visitedStepIds, score, trainingMode }));
+  }, [selectedScenarioId, currentStepId, visitedStepIds, score, trainingMode]);
 
   const filteredScenarios = useMemo(() => {
     return SCENARIOS_DATA
@@ -96,40 +104,80 @@ export const ScenarioPlayer: React.FC = () => {
     if (!selectedScenarioId && filteredScenarios[0]) setSelectedScenarioId(filteredScenarios[0].id);
   }, [selectedScenarioId, filteredScenarios]);
 
-  const currentStep = scenario?.treeTraversal[stepIndex];
+  useEffect(() => {
+    if (!scenario) return;
+    const firstStepId = scenario.treeTraversal[0]?.nodeId ?? null;
+    const stepExists = currentStepId ? scenario.treeTraversal.some((step) => step.nodeId === currentStepId) : false;
+
+    if (!stepExists && firstStepId) {
+      setCurrentStepId(firstStepId);
+      setVisitedStepIds([firstStepId]);
+    }
+  }, [scenario, currentStepId]);
+
+  const currentStep: ScenarioStep | undefined = useMemo(() => {
+    if (!scenario || !currentStepId) return undefined;
+    return scenario.treeTraversal.find((step) => step.nodeId === currentStepId);
+  }, [scenario, currentStepId]);
+
+  const currentStepIndex = useMemo(() => {
+    if (!scenario || !currentStep) return -1;
+    return scenario.treeTraversal.findIndex((step) => step.nodeId === currentStep.nodeId);
+  }, [scenario, currentStep]);
+
+  const goToStepById = (nextStepId: string) => {
+    if (!scenario) return;
+    const nextStep = scenario.treeTraversal.find((step) => step.nodeId === nextStepId);
+    if (!nextStep) return;
+
+    setCurrentStepId(nextStep.nodeId);
+    setVisitedStepIds((prev) => (prev.includes(nextStep.nodeId) ? prev : [...prev, nextStep.nodeId]));
+    setSelectedOptionId(null);
+  };
+
+  const goBackInHistory = () => {
+    if (visitedStepIds.length <= 1) return;
+    const previousStepId = visitedStepIds[visitedStepIds.length - 2];
+    setVisitedStepIds((prev) => prev.slice(0, -1));
+    setCurrentStepId(previousStepId);
+    setSelectedOptionId(null);
+  };
 
   const trainingOptions = useMemo<TrainingOption[]>(() => {
     if (!trainingMode || !currentStep) return [];
+    const recommendedOption = currentStep.options.find((option) => option.isRecommended);
     const correct: TrainingOption = {
-      id: `correct-${currentStep.step}`,
+      id: `correct-${currentStep.nodeId}`,
       label: `${currentStep.actor}: ${currentStep.action}`,
       isCorrect: true,
       alertId: currentStep.alertTriggered
     };
 
     const distractorAlerts = ALERTS_DATA.filter((alert) => alert.id !== currentStep.alertTriggered).slice(0, 2);
-    const distractors: TrainingOption[] = distractorAlerts.map((alert) => ({
-      id: `distractor-${alert.id}-${currentStep.step}`,
-      label: alert.doNot,
+    const distractors: TrainingOption[] = distractorAlerts.map((alert, idx) => ({
+      id: `distractor-${alert.id}-${currentStep.nodeId}`,
+      label: currentStep.options[idx]?.impact || alert.doNot,
       isCorrect: false,
       alertId: alert.id
     }));
 
-    return [correct, ...distractors].sort((a, b) => a.id.localeCompare(b.id));
+    return [
+      {
+        ...correct,
+        label: recommendedOption ? `${correct.label} (${recommendedOption.impact})` : correct.label
+      },
+      ...distractors
+    ].sort((a, b) => a.id.localeCompare(b.id));
   }, [trainingMode, currentStep]);
 
   const selectedOption = trainingOptions.find((opt) => opt.id === selectedOptionId);
   const selectedAlert = selectedOption?.alertId ? ALERTS_DATA.find((a) => a.id === selectedOption.alertId) : undefined;
 
-  const goToStep = (next: number) => {
-    if (!scenario) return;
-    const bounded = Math.max(0, Math.min(next, scenario.treeTraversal.length - 1));
-    setStepIndex(bounded);
-    setSelectedOptionId(null);
-  };
-
   const resetTraining = () => {
-    setStepIndex(0);
+    if (!scenario) return;
+    const firstStepId = scenario.treeTraversal[0]?.nodeId ?? null;
+    setCurrentStepId(firstStepId);
+    setVisitedStepIds(firstStepId ? [firstStepId] : []);
     setScore(0);
     setSelectedOptionId(null);
   };
@@ -140,7 +188,7 @@ export const ScenarioPlayer: React.FC = () => {
     if (option.isCorrect) setScore((prev) => prev + 1);
   };
 
-  if (!scenario || !currentStep) return null;
+  if (!scenario || !currentStep || currentStepIndex < 0) return null;
 
   return (
     <div className="space-y-4">
@@ -153,7 +201,7 @@ export const ScenarioPlayer: React.FC = () => {
             <option value="">Complexidade</option><option value="low">Baixa</option><option value="medium">Média</option><option value="high">Alta</option>
           </select>
           <select className="rounded-lg border px-2 py-1 text-sm" value={filters.riskLevel} onChange={(e) => setFilters((f) => ({ ...f, riskLevel: e.target.value as '' | RiskLevel }))}>
-            <option value="">Risco</option><option value="imminent">Iminente</option><option value="high">Alto</option><option value="moderate">Moderado</option><option value="low">Baixo</option>
+            <option value="">Risco</option><option value="low">Baixo</option><option value="moderate">Moderado</option><option value="high">Alto</option><option value="imminent">Iminente</option>
           </select>
           <select className="rounded-lg border px-2 py-1 text-sm" value={filters.category} onChange={(e) => setFilters((f) => ({ ...f, category: e.target.value as '' | Category }))}>
             <option value="">Categoria</option>{Object.keys(categoryIcon).map((c) => <option key={c} value={c}>{c}</option>)}
@@ -168,7 +216,13 @@ export const ScenarioPlayer: React.FC = () => {
 
         <div className="mt-3 grid gap-3 md:grid-cols-2">
           {filteredScenarios.map((item) => (
-            <button key={item.id} onClick={() => { setSelectedScenarioId(item.id); setStepIndex(0); setSelectedOptionId(null); }} className={`rounded-xl border p-3 text-left ${item.id === scenario.id ? 'border-brand-400 bg-brand-50' : 'border-slate-200 bg-white'}`}>
+            <button key={item.id} onClick={() => {
+              const firstStepId = item.treeTraversal[0]?.nodeId ?? null;
+              setSelectedScenarioId(item.id);
+              setCurrentStepId(firstStepId);
+              setVisitedStepIds(firstStepId ? [firstStepId] : []);
+              setSelectedOptionId(null);
+            }} className={`rounded-xl border p-3 text-left ${item.id === scenario.id ? 'border-brand-400 bg-brand-50' : 'border-slate-200 bg-white'}`}>
               <p className="font-semibold">{item.title}</p>
               <div className="mt-1 flex flex-wrap items-center gap-2 text-xs">
                 <span>{complexityIcon[item.complexity]} {item.complexity}</span>
@@ -187,12 +241,16 @@ export const ScenarioPlayer: React.FC = () => {
         <article className="card p-4">
           <h3 className="text-sm font-bold uppercase tracking-wide text-muted">Árvore percorrida</h3>
           <div className="mt-2 space-y-2">
-            {scenario.treeTraversal.map((step, idx) => (
-              <div key={`${scenario.id}-${step.step}`} className={`rounded-lg border p-2 text-sm ${idx === stepIndex ? 'border-brand-400 bg-brand-50' : 'border-slate-200'}`}>
-                <p className="font-semibold">#{step.step} · {step.nodeId}</p>
-                <p className="text-xs text-muted">{step.actor}</p>
-              </div>
-            ))}
+            {scenario.treeTraversal.map((step) => {
+              const isCurrent = step.nodeId === currentStep.nodeId;
+              const isVisited = visitedStepIds.includes(step.nodeId);
+              return (
+                <div key={`${scenario.id}-${step.nodeId}`} className={`rounded-lg border p-2 text-sm ${isCurrent ? 'border-brand-400 bg-brand-50' : isVisited ? 'border-emerald-300 bg-emerald-50/30' : 'border-slate-200'}`}>
+                  <p className="font-semibold">#{step.step} · {step.nodeId}</p>
+                  <p className="text-xs text-muted">{step.actor}</p>
+                </div>
+              );
+            })}
           </div>
         </article>
 
@@ -236,12 +294,22 @@ export const ScenarioPlayer: React.FC = () => {
                   <p className="text-xs">{ALERTS_DATA.find((alert) => alert.id === currentStep.alertTriggered)?.doNot}</p>
                 </div>
               ) : null}
+
+              <div className="mt-3 space-y-2">
+                {currentStep.options.map((option) => (
+                  <button key={`${currentStep.nodeId}-${option.nextStepId}`} className="w-full rounded-lg border border-slate-300 px-3 py-2 text-left text-sm" onClick={() => goToStepById(option.nextStepId)}>
+                    <p className="font-semibold">Ir para: {option.nextStepId}</p>
+                    <p className="text-xs text-muted">Impacto: {option.impact}</p>
+                    <p className="text-xs text-muted">Base legal: {option.legalBasis}</p>
+                    {option.isRecommended ? <p className="text-xs font-semibold text-emerald-700">Recomendado</p> : null}
+                  </button>
+                ))}
+              </div>
             </>
           )}
 
           <div className="mt-4 flex flex-wrap gap-2">
-            <button className="btn-secondary text-xs" onClick={() => goToStep(stepIndex - 1)} disabled={stepIndex === 0}>← Anterior</button>
-            <button className="btn-secondary text-xs" onClick={() => goToStep(stepIndex + 1)} disabled={stepIndex === scenario.treeTraversal.length - 1}>Próximo →</button>
+            <button className="btn-secondary text-xs" onClick={goBackInHistory} disabled={visitedStepIds.length <= 1}>← Anterior</button>
             <button className="btn-secondary text-xs" onClick={() => setTrainingMode((v) => !v)}>{trainingMode ? 'Sair do treinamento' : 'Modo treinamento'}</button>
             <button className="btn-secondary text-xs" onClick={resetTraining}>Reset treino</button>
           </div>
