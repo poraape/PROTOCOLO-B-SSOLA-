@@ -4,10 +4,10 @@ import { GlassCard } from './GlassCard';
 const bullets = [
   'Escuta ativa',
   'Não julgar',
-  'Garantir sigilo',
+  'Preservar privacidade',
   'Registrar fatos objetivos',
   'Não prometer o que não pode',
-  'Se risco: acione gestão'
+  'Se houver risco imediato à vida: acione 192 agora'
 ];
 
 type BottomSheetOrientacoesProps = {

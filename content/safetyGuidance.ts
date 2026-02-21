@@ -15,15 +15,15 @@ const triagemRiscoImediato: SafetyGuidanceGroup[] = [
     icon: '⚠️',
     tone: 'danger',
     items: [
-      { id: 'n1', type: 'dont', text: 'Não prometer sigilo absoluto ao aluno.' },
-      { id: 'n2', type: 'dont', text: 'Não expor o aluno em público, nem comentar o caso em corredor ou grupo de WhatsApp.' },
-      { id: 'n3', type: 'dont', text: 'Não interrogar o aluno com perguntas detalhadas sobre o fato (não investigar).' },
+      { id: 'n1', type: 'dont', text: 'Não prometer segredo absoluto ao estudante.' },
+      { id: 'n2', type: 'dont', text: 'Não expor o estudante em público, nem comentar o caso em corredor ou grupo de WhatsApp.' },
+      { id: 'n3', type: 'dont', text: 'Não interrogar o estudante com perguntas detalhadas sobre o fato (não investigar).' },
       { id: 'n4', type: 'dont', text: 'Não confrontar o suposto agressor sozinho nem na frente do estudante.' },
-      { id: 'n5', type: 'dont', text: 'Não mandar o aluno voltar para sala como se nada tivesse acontecido.' },
+      { id: 'n5', type: 'dont', text: 'Não mandar o estudante voltar para sala como se nada tivesse acontecido.' },
       { id: 'n6', type: 'dont', text: 'Não compartilhar detalhes do caso em grupos de funcionários ou redes sociais.' },
       { id: 'n7', type: 'dont', text: 'Não usar polícia como ameaça pedagógica.' },
       { id: 'n8', type: 'dont', text: 'Não minimizar sinais recorrentes (“isso é fase”, “vai passar”).' },
-      { id: 'n9', type: 'dont', text: 'Não medicar aluno com remédio próprio/terceiros sem prescrição registrada.' }
+      { id: 'n9', type: 'dont', text: 'Não medicar estudante com remédio próprio/terceiros sem prescrição registrada.' }
     ]
   },
   {
@@ -36,9 +36,9 @@ const triagemRiscoImediato: SafetyGuidanceGroup[] = [
       { id: 'f1', type: 'do', text: 'Afastar outros alunos, garantir ambiente calmo e discreto.' },
       { id: 'f2', type: 'do', text: 'Acolher o estudante com escuta calma, sem julgamento.' },
       { id: 'f3', type: 'do', text: 'Acionar gestão (direção/coordenação) assim que identificar risco moderado ou alto.' },
-      { id: 'f4', type: 'do', text: 'Registrar de forma objetiva o que foi observado e o que o aluno relatou, com data e hora.' },
+      { id: 'f4', type: 'do', text: 'Registrar de forma objetiva o que foi observado e o que o estudante relatou, com data e hora.' },
       { id: 'f5', type: 'do', text: 'Acionar rede de emergência (SAMU/PM/Bombeiros) quando houver risco imediato à vida.' },
-      { id: 'f6', type: 'do', text: 'Garantir que o aluno não fique sozinho em situação de crise.' }
+      { id: 'f6', type: 'do', text: 'Garantir que o estudante não fique sozinho em situação de crise.' }
     ]
   },
   {
@@ -65,7 +65,7 @@ const triagemRiscoImediato: SafetyGuidanceGroup[] = [
       { id: 'b1', type: 'do', text: 'Comece pelo afeto: reconheça o estado emocional antes de qualquer pergunta técnica.' },
       { id: 'b2', type: 'do', text: 'Proteja a privacidade: atenda o estudante em local discreto e protegido.' },
       { id: 'b3', type: 'do', text: 'Mantenha postura corporal acolhedora, sem pressa ou confrontos.' },
-      { id: 'b4', type: 'do', text: 'Registre apenas fatos objetivos e falas do aluno entre aspas, sem interpretações.' },
+      { id: 'b4', type: 'do', text: 'Registre apenas fatos objetivos e falas do estudante entre aspas, sem interpretações.' },
       { id: 'b5', type: 'do', text: 'Combine próximos passos com clareza: quem será acionado, o que vai acontecer em seguida.' }
     ]
   }
