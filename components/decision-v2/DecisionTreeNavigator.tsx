@@ -10,13 +10,13 @@ import { ManagementContactModal } from './ManagementContactModal';
 import { SchoolShield } from '../SchoolShield';
 import { verbByIntentCapitalized } from '../../content/microcopyLexicon';
 
-const EmergencyButton: React.FC<{ onClick: () => void }> = ({ onClick }) => (
+const EmergencyButton: React.FC<{ onClick: () => void; label: string }> = ({ onClick, label }) => (
   <button
     type="button"
     onClick={onClick}
     style={{
       position: 'fixed',
-      bottom: '24px',
+      bottom: 'calc(24px + 72px + env(safe-area-inset-bottom, 0px))',
       right: '24px',
       backgroundColor: designTokens.colors.emergency,
       color: '#FFFFFF',
@@ -29,7 +29,7 @@ const EmergencyButton: React.FC<{ onClick: () => void }> = ({ onClick }) => (
       boxShadow: designTokens.shadows.emergency
     }}
   >
-    🚨 Acionar emergência agora (192/190/193)
+    🚨 {label}
   </button>
 );
 
@@ -138,6 +138,10 @@ export const DecisionTreeNavigator: React.FC = () => {
   };
 
   const currentLevel = 'level' in currentNode ? currentNode.level : 'CATEGORY';
+  const emergencyButtonLabel =
+    currentLevel === 'CRITICAL_TRIAGE'
+      ? 'Já é emergência? Acionar 192/190/193'
+      : 'Acionar emergência agora (192/190/193)';
 
   return (
     <>
@@ -167,7 +171,7 @@ export const DecisionTreeNavigator: React.FC = () => {
         {renderContent()}
       </div>
 
-      {currentLevel !== 'CRITICAL_TRIAGE' ? <EmergencyButton onClick={() => navigate('EMERGENCY_LEAF')} /> : null}
+      <EmergencyButton onClick={() => navigate('EMERGENCY_LEAF')} label={emergencyButtonLabel} />
       <ContextualControls
         currentLevel={currentLevel}
         canGoBackToCategories={state.history.includes('CATEGORY_SELECT')}
