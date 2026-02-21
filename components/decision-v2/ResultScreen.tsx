@@ -10,7 +10,7 @@ import { AppChip } from '../ui/AppChip';
 import { AppButton } from '../ui/AppButton';
 import { SidePanelOrientacoes } from '../ui/SidePanelOrientacoes';
 import { BottomSheetOrientacoes } from '../ui/BottomSheetOrientacoes';
-import { getManagementNotificationLabel } from './managementNotificationLabel';
+import { verbByIntentCapitalized } from '../../content/microcopyLexicon';
 
 interface ResultScreenProps {
   leaf: LeafNode;
@@ -145,7 +145,7 @@ const ResultScreenBase: React.FC<ResultScreenProps> = ({
                 </div>
               </AppCard>
 
-              <AppCard strong heading="COMUNICAR GESTÃO" subheading="Quando acionar: timing e papéis recomendados">
+              <AppCard strong heading={`${verbByIntentCapitalized('avisar_gestao')} gestão`.toUpperCase()} subheading="Timing e papéis recomendados">
                 <div style={{ display: 'grid', gap: 8 }}>
                   <AppChip label={managementNotification.timing} tone={timingTone[managementNotification.timing]} />
                   <div style={{ color: 'var(--text)' }}>
@@ -157,9 +157,7 @@ const ResultScreenBase: React.FC<ResultScreenProps> = ({
                   <div style={{ color: 'var(--text)' }}><strong>Obrigatório:</strong> {managementNotification.required ? 'Sim' : 'Não'}</div>
                   {managementNotification.message ? <div style={{ color: 'var(--text-muted)' }}>{managementNotification.message}</div> : null}
                   {managementNotification.required && onContactManagement ? (
-                    <AppButton variant="primary" onClick={onContactManagement}>
-                      {getManagementNotificationLabel(managementNotification.timing)}
-                    </AppButton>
+                    <AppButton variant="primary" onClick={onContactManagement}>{verbByIntentCapitalized('avisar_gestao')} gestão</AppButton>
                   ) : null}
                 </div>
               </AppCard>

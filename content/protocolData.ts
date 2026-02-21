@@ -1,4 +1,5 @@
 import { ActionPriority, ContactTarget, Contato, DecisionResult, DocumentTemplate, FlowNode, Fluxo, ProtocolData, Recurso, Service, ServiceTarget } from '../types';
+import { verbByIntent, verbByIntentCapitalized } from './microcopyLexicon';
 
 type RawService = Omit<Service, 'type' | 'targetType' | 'phones' | 'riskLevel' | 'geoStatus' | 'sourceOfficial' | 'officialSource' | 'verifiedAt' | 'verifiedBy' | 'networkType'>;
 
@@ -1406,7 +1407,7 @@ export const PROTOCOL_DATA: ProtocolData = {
       isLeaf: true,
       category: 'NAO_SEI',
       riskLevel: 'EMERGENCIAL',
-      mandatoryTodayAction: 'comunicar a Direção imediatamente e acionar serviço de emergência adequado.',
+      mandatoryTodayAction: `${verbByIntentCapitalized('avisar_gestao')} a Direção imediatamente e ${verbByIntent('acionar_emergencia')} serviço de emergência adequado.`,
       doNow: [
         'Acione emergência (190/192/193) imediatamente.',
         'Garanta segurança do ambiente e afaste riscos.',
@@ -1444,7 +1445,7 @@ export const PROTOCOL_DATA: ProtocolData = {
       riskLevel: 'ALTO',
       doNow: [
         'Acionar SAMU 192 ou encaminhar para UPA se houver risco imediato.',
-        'Comunicar a Direção imediatamente e manter vigilância contínua do estudante.',
+        `${verbByIntentCapitalized('avisar_gestao')} a Direção imediatamente e manter vigilância contínua do estudante.`,
         'Encaminhar para CAPS IJ após estabilização clínica inicial.'
       ],
       contactTargets: ['GESTAO_ESCOLAR', 'EMERGENCIA_192_193', 'UPA_HOSPITAL', 'CAPS_IJ', 'UBS'],
@@ -1505,7 +1506,7 @@ export const PROTOCOL_DATA: ProtocolData = {
       isLeaf: true,
       category: 'VIOLACAO_DIREITOS_VIOLENCIA',
       riskLevel: 'ALTO',
-      mandatoryTodayAction: 'notificar Conselho Tutelar e comunicar a Direção.',
+      mandatoryTodayAction: `${verbByIntent('notificar_obrigatorio')} Conselho Tutelar e ${verbByIntent('avisar_gestao')} a Direção.`,
       doNow: [
         'Garanta proteção imediata e não exponha a vítima.',
         'Acione emergência se necessário.',
@@ -1524,7 +1525,7 @@ export const PROTOCOL_DATA: ProtocolData = {
       isLeaf: true,
       category: 'VIOLACAO_DIREITOS_VIOLENCIA',
       riskLevel: 'ALTO',
-      mandatoryTodayAction: 'notificar Conselho Tutelar e comunicar a Direção.',
+      mandatoryTodayAction: `${verbByIntent('notificar_obrigatorio')} Conselho Tutelar e ${verbByIntent('avisar_gestao')} a Direção.`,
       doNow: [
         'Escale para gestão e siga o fluxo de proteção.',
         'Acione Conselho Tutelar conforme protocolo.',
@@ -1543,7 +1544,7 @@ export const PROTOCOL_DATA: ProtocolData = {
       isLeaf: true,
       category: 'VIOLACAO_DIREITOS_VIOLENCIA',
       riskLevel: 'MÉDIO',
-      mandatoryTodayAction: 'comunicar a Direção e manter vigilância institucional do caso.',
+      mandatoryTodayAction: `${verbByIntent('avisar_gestao')} a Direção e manter vigilância institucional do caso.`,
       doNow: [
         'Escale para gestão para avaliação do caso.',
         'Registre conforme protocolo.',
@@ -1785,7 +1786,7 @@ const REBUILT_DECISION_TREE: FlowNode[] = [
   { id: 'cat_gravidez', question: 'Gravidez: iniciar triagem.', options: [{ label: 'Continuar', nextNodeId: 'sub_grav_situacao' }], category: 'SAUDE_FISICA', fallbackNextNodeId: 'cat_nao_sei_apoio' },
   { id: 'sub_grav_situacao', question: 'Fase e situação de risco?', options: [{ label: 'Com risco', nextNodeId: 'leaf_grav_risco' }, { label: 'Sem risco agudo', nextNodeId: 'leaf_grav_acompanhamento' }], category: 'SAUDE_FISICA', fallbackNextNodeId: 'cat_nao_sei_apoio' },
 
-  { id: 'cat_nao_sei_apoio', question: 'Sem classificação segura no momento?', options: [{ label: 'Acionar gestão agora', nextNodeId: 'leaf_nao_sei' }], category: 'NAO_SEI', fallbackNextNodeId: 'leaf_nao_sei' },
+  { id: 'cat_nao_sei_apoio', question: 'Sem classificação segura no momento?', options: [{ label: `${verbByIntentCapitalized('avisar_gestao')} gestão agora`, nextNodeId: 'leaf_nao_sei' }], category: 'NAO_SEI', fallbackNextNodeId: 'leaf_nao_sei' },
 
   {
     id: 'leaf_imm_violencia',
@@ -1925,7 +1926,7 @@ const REBUILT_DECISION_TREE: FlowNode[] = [
     isLeaf: true,
     riskLevel: 'EMERGENCIAL',
     category: 'NAO_SEI',
-    actionSummary: 'Cenário de risco não classificável — acionar gestão e DE Leste 1 imediatamente.',
+    actionSummary: `Cenário de risco não classificável — ${verbByIntent('avisar_gestao')} a gestão e DE Leste 1 imediatamente.`,
     doNow: [
       'Proteja o estudante e mantenha supervisão constante.',
       'Acione a direção agora — não tome decisão isolada em risco imediato.',
@@ -2128,7 +2129,7 @@ const REBUILT_DECISION_TREE: FlowNode[] = [
     isLeaf: true,
     riskLevel: 'BAIXO',
     category: 'CONVIVENCIA_CONFLITOS',
-    actionSummary: 'Mediação escolar. Registrar e monitorar reincidência.',
+    actionSummary: `Mediação escolar. ${verbByIntentCapitalized('registrar_formalmente')} e monitorar reincidência.`,
     doNow: [
       'Ouça cada parte separadamente.',
       'Aplique mediação conforme protocolo interno.',
@@ -2312,7 +2313,7 @@ const REBUILT_DECISION_TREE: FlowNode[] = [
   },
   {
     id: 'leaf_nao_sei',
-    question: 'Situação sem classificação clara — acionar gestão para avaliação conjunta',
+    question: `Situação sem classificação clara — ${verbByIntent('avisar_gestao')} gestão para avaliação conjunta`,
     options: [],
     isLeaf: true,
     riskLevel: 'MÉDIO',
