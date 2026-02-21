@@ -34,28 +34,28 @@ const DecisionScreenBase: React.FC<DecisionScreenProps> = ({
   const memoizedOptions = useMemo(() => options, [options]);
 
   return (
-    <section style={{ maxWidth: '1180px', margin: '0 auto', padding: '0 16px 24px' }}>
+    <section className="decision-layout-container decision-section">
       <InstitutionalBreadcrumb history={history} nodes={nodes} currentNodeId={currentNodeId} />
 
-      <div style={{ display: 'flex', gap: 16, alignItems: 'flex-start' }}>
-        <div style={{ flex: 1, maxWidth: 820, margin: '0 auto' }}>
+      <div className="decision-screen-grid">
+        <div className="decision-screen-main">
           <AppCard strong>
             <div className="ui-section">
               <h2 className="ui-section-title">Decisão principal</h2>
               <p className="ui-section-subtitle">Selecione a opção que melhor descreve o caso neste momento.</p>
             </div>
             {progress ? (
-              <div style={{ marginBottom: 16 }}>
+              <div className="decision-progress-wrap">
                 <ProgressBar current={progress.current} total={progress.total} label="Etapa da triagem" />
               </div>
             ) : null}
 
-            <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 12, marginBottom: 16 }}>
-              <h2 style={{ margin: 0, fontSize: "clamp(1.25rem, 2.2vw, 1.6rem)", lineHeight: 1.3, color: "var(--text)" }}>{question}</h2>
+            <div className="decision-question-row">
+              <h2 className="decision-question-title">{question}</h2>
               {helpText ? <HelpTooltip text={helpText} /> : null}
             </div>
 
-            <div style={{ display: 'grid', gap: 12 }}>
+            <div className="decision-options-grid">
               {memoizedOptions.map((option) => {
                 const normalizedLabel = option.label.toUpperCase();
                 const variant = normalizedLabel === 'SIM' ? 'danger' : normalizedLabel === 'NÃO' ? 'secondary' : 'primary';
@@ -77,9 +77,8 @@ const DecisionScreenBase: React.FC<DecisionScreenProps> = ({
 
           <button
             type="button"
-            className="xl:hidden"
+            className="decision-guidance-trigger xl:hidden"
             onClick={() => setShowGuidance(true)}
-            style={{ marginTop: 12, border: '1px solid var(--border)', borderRadius: 12, background: 'var(--surface-strong)', padding: '10px 14px', color: 'var(--text)' }}
           >
             Abrir orientações
           </button>
