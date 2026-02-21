@@ -109,7 +109,7 @@ const ResultScreenBase: React.FC<ResultScreenProps> = ({
           <AppCard
             strong
             className=""
-            heading="Resultado do Protocolo"
+            heading="O que fazer agora neste caso"
             subheading={leaf.primaryActions.title}
             rightSlot={<AppChip label={urgency.label} tone={urgencyTone[leaf.primaryActions.urgencyLevel]} />}
           >
@@ -138,7 +138,7 @@ const ResultScreenBase: React.FC<ResultScreenProps> = ({
                 </div>
               </AppCard>
 
-              <AppCard strong heading="COMUNICAR GESTÃO" subheading="Timing e papéis recomendados">
+              <AppCard strong heading="COMUNICAR GESTÃO" subheading="Quando acionar: timing e papéis recomendados">
                 <div style={{ display: 'grid', gap: 8 }}>
                   <AppChip label={managementNotification.timing} tone={timingTone[managementNotification.timing]} />
                   <div style={{ color: 'var(--text)' }}>
@@ -155,7 +155,7 @@ const ResultScreenBase: React.FC<ResultScreenProps> = ({
                 </div>
               </AppCard>
 
-              <AppCard strong heading="INSTRUMENTOS" subheading="Anexos recomendados para registro e encaminhamento">
+              <AppCard strong heading="Formulários e anexos para registro" subheading="Como registrar: anexos recomendados para registro e encaminhamento">
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
                   {leaf.instruments.length > 0 ? (
                     leaf.instruments.map((instrumentId, idx) => {
@@ -183,7 +183,7 @@ const ResultScreenBase: React.FC<ResultScreenProps> = ({
                 </div>
               </AppCard>
 
-              <AppCard strong heading="Contatos úteis" subheading={leaf.contactTargets.title}>
+              <AppCard strong heading="Quem acionar neste caso" subheading={leaf.contactTargets.title}>
                 <ul style={{ margin: 0, paddingLeft: 20, color: 'var(--text)', lineHeight: 1.6 }}>
                   {resolvedServices.map((serviceRef, idx) => (
                     <li key={`${serviceRef.serviceId}-${idx}`}>
