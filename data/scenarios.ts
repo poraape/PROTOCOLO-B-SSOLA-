@@ -18,6 +18,7 @@ export interface ScenarioStep {
   action: string;
   rationale: string;
   alertTriggered?: string;
+  isRecommended?: boolean;
 }
 
 export interface Scenario {
@@ -38,7 +39,7 @@ export interface Scenario {
   lessonsLearned: string[];
 }
 
-export const SCENARIOS_DATA: Scenario[] = [
+const RAW_SCENARIOS: Scenario[] = [
   {
     id: 'C01',
     title: 'Aluno dormindo nas aulas — trabalho informal noturno',
@@ -245,3 +246,11 @@ export const SCENARIOS_DATA: Scenario[] = [
     lessonsLearned: ['Substância: fluxo de saúde, não punição.', 'Vínculo escolar é fator protetivo.', 'Rede social + pedagógica deve caminhar junta.']
   }
 ];
+
+export const SCENARIOS_DATA: Scenario[] = RAW_SCENARIOS.map((scenario) => ({
+  ...scenario,
+  treeTraversal: scenario.treeTraversal.map((step) => ({
+    ...step,
+    isRecommended: step.isRecommended ?? true
+  }))
+}));
