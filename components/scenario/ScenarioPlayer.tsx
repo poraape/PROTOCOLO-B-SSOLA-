@@ -189,7 +189,7 @@ export const ScenarioPlayer: React.FC = () => {
           <div className="mt-2 space-y-2">
             {scenario.treeTraversal.map((step, idx) => (
               <div key={`${scenario.id}-${step.step}`} className={`rounded-lg border p-2 text-sm ${idx === stepIndex ? 'border-brand-400 bg-brand-50' : 'border-slate-200'}`}>
-                <p className="font-semibold">#{step.step} · {step.nodeId}</p>
+                <p className="font-semibold">#{step.step} · {step.label}</p>
                 <p className="text-xs text-muted">{step.actor}</p>
               </div>
             ))}
