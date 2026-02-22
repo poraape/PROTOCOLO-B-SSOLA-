@@ -65,6 +65,23 @@ const urgencyTone: Record<LeafNode['primaryActions']['urgencyLevel'], 'danger' |
 
 const FINALIZATION_STORAGE_KEY = 'decision-v2-finalization-checklist';
 
+
+interface ActionTemplateInput {
+  action: string;
+  deadline: string;
+  responsible: string;
+}
+
+const normalizeSentence = (value: string): string => value.trim().replace(/[.!]+$/g, '');
+
+const formatActionTemplate = ({ action, deadline, responsible }: ActionTemplateInput): string => {
+  const safeAction = normalizeSentence(action || 'o acionamento principal');
+  const safeDeadline = normalizeSentence(deadline || 'prazo institucional definido');
+  const safeResponsible = normalizeSentence(responsible || 'gestão escolar');
+
+  return `Priorize ${safeAction} até ${safeDeadline}, com acompanhamento de ${safeResponsible}.`;
+};
+
 const requiredChecklistByUrgency: Record<LeafNode['primaryActions']['urgencyLevel'], Array<keyof Omit<FinalizationChecklistState, 'completed'>>> = {
   IMMEDIATE: ['emergencyContacted', 'managementInformed', 'recordStarted'],
   URGENT: ['emergencyContacted', 'managementInformed'],
