@@ -681,25 +681,25 @@ html[data-theme='dark'][data-contrast='high'] {
 }
 
 .decision-layout-header {
-  padding-top: var(--dt-space-md);
-  padding-bottom: var(--dt-space-md);
+  padding-top: var(--space-md);
+  padding-bottom: var(--space-md);
 }
 
 .decision-layout-back {
-  padding-bottom: var(--dt-space-md);
+  padding-bottom: var(--space-md);
 }
 
 .decision-back-button {
   background: transparent;
   border: none;
-  color: var(--dt-routine);
+  color: var(--color-support);
   cursor: pointer;
   font-size: 14px;
 }
 
 .decision-floating-button {
   position: fixed;
-  bottom: calc(var(--mobile-nav-height, 0px) + var(--dt-space-md));
+  bottom: calc(var(--mobile-nav-height, 0px) + var(--space-md));
   border: none;
   color: #FFFFFF;
   cursor: pointer;
@@ -708,28 +708,28 @@ html[data-theme='dark'][data-contrast='high'] {
 
 .decision-floating-button--emergency {
   right: 24px;
-  background: var(--dt-emergency);
+  background: var(--color-emergency);
   padding: 14px 20px;
   border-radius: 50px;
   font-weight: 700;
   font-size: 14px;
   line-height: 1.2;
   max-width: calc(100vw - 32px);
-  box-shadow: var(--dt-shadow-emergency);
+  box-shadow: var(--shadow-modal);
 }
 
 .decision-floating-button--management {
   left: 24px;
-  background: var(--dt-info);
+  background: var(--color-support);
   padding: 12px 18px;
-  border-radius: var(--dt-radius-full);
+  border-radius: 9999px;
   font-weight: 700;
-  box-shadow: var(--dt-shadow-md);
+  box-shadow: var(--shadow-2);
 }
 
 .decision-screen-grid {
   display: flex;
-  gap: var(--dt-space-md);
+  gap: var(--space-md);
   align-items: flex-start;
 }
 
@@ -741,7 +741,7 @@ html[data-theme='dark'][data-contrast='high'] {
 
 .decision-progress-wrap,
 .decision-question-row {
-  margin-bottom: var(--dt-space-md);
+  margin-bottom: var(--space-md);
 }
 
 .decision-question-row {
@@ -774,7 +774,7 @@ html[data-theme='dark'][data-contrast='high'] {
 .decision-guidance-trigger {
   margin-top: 12px;
   border: 1px solid var(--border);
-  border-radius: var(--dt-radius-lg);
+  border-radius: var(--radius-lg);
   background: var(--surface-strong);
   padding: 10px 14px;
   color: var(--text);
@@ -859,7 +859,7 @@ html[data-theme='dark'][data-contrast='high'] {
 
 .result-check-complete {
   border: 1px solid var(--border);
-  border-radius: var(--dt-radius-lg);
+  border-radius: var(--radius-lg);
   padding: 10px;
   background: var(--surface-strong);
   color: var(--text);
@@ -881,22 +881,22 @@ html[data-theme='dark'][data-contrast='high'] {
   align-items: center;
   justify-content: center;
   z-index: 1300;
-  padding: var(--dt-space-md);
+  padding: var(--space-md);
 }
 
 .management-modal-dialog {
-  background: var(--dt-bg-primary);
-  border-radius: var(--dt-radius-lg);
-  padding: var(--dt-space-lg);
+  background: var(--surface);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
   width: min(92vw, 680px);
-  box-shadow: var(--dt-shadow-lg);
+  box-shadow: var(--shadow-modal);
 }
 
 .management-modal-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: var(--dt-space-md);
+  margin-bottom: var(--space-md);
 }
 
 .management-modal-title {
@@ -913,18 +913,18 @@ html[data-theme='dark'][data-contrast='high'] {
 .management-modal-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: var(--dt-space-md);
+  gap: var(--space-md);
 }
 
 .management-card {
-  border: 1px solid var(--dt-bg-tertiary);
-  border-radius: var(--dt-radius-md);
-  padding: var(--dt-space-md);
-  background: var(--dt-bg-secondary);
+  border: 1px solid var(--surface-muted);
+  border-radius: var(--radius-md);
+  padding: var(--space-md);
+  background: var(--surface-muted);
 }
 
 .management-card--missing {
-  border: 1px dashed var(--dt-emergency);
+  border: 1px dashed var(--color-emergency);
 }
 
 .management-card-title {
@@ -939,7 +939,7 @@ html[data-theme='dark'][data-contrast='high'] {
 .management-card-phone {
   font-size: 18px;
   margin-top: 8px;
-  color: var(--dt-routine);
+  color: var(--color-support);
 }
 
 .management-card-meta {
@@ -959,11 +959,11 @@ html[data-theme='dark'][data-contrast='high'] {
 }
 
 .management-card-cta {
-  margin-top: var(--dt-space-sm);
+  margin-top: var(--space-sm);
   display: inline-block;
   padding: 8px 12px;
-  border-radius: var(--dt-radius-md);
-  background: var(--dt-routine);
+  border-radius: var(--radius-md);
+  background: var(--color-support);
   color: #FFFFFF;
   text-decoration: none;
   font-weight: 600;
