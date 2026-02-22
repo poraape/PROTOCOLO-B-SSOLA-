@@ -1033,3 +1033,146 @@ html[data-font='lg'] { font-size: 18px; }
   }
   .domain-card:hover { transform: none !important; }
 }
+
+/* ═══════════════════════════════════════════════════════════
+   PATCH 3 — Layout v2
+   Adicionar ao fim de styles/ui.css
+   ═══════════════════════════════════════════════════════════ */
+
+/* ── Correção: bottom nav agora tem 4 colunas (era 5) ──────── */
+.mobile-nav-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+/* ── Nav links no bottom nav: ícone + label empilhados ─────── */
+.app-bottom-nav .nav-link {
+  flex-direction: column;
+  gap: 3px;
+  min-height: 52px;
+  padding: 6px 4px;
+  border-radius: 10px;
+  border-color: transparent;
+  font-size: 0;            /* oculta text nodes soltos se houver */
+}
+
+.mobile-nav-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  transition: color 150ms ease;
+}
+
+.mobile-nav-label {
+  font-size: 0.6875rem;   /* 11px */
+  font-weight: 500;
+  color: var(--text-muted);
+  line-height: 1;
+  transition: color 150ms ease;
+}
+
+/* Estado ativo: ícone + label assumem cor primária */
+.app-bottom-nav .nav-link-active .mobile-nav-icon,
+.app-bottom-nav .nav-link-active .mobile-nav-label {
+  color: var(--info);
+  font-weight: 700;
+}
+
+/* ── Configurações no header (A11y + Theme agrupados) ───────── */
+.header-settings {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* ── Busca mobile: botão trigger no header ──────────────────── */
+.mobile-search-trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 40px;
+  min-height: 40px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: background-color 150ms ease, color 150ms ease;
+}
+.mobile-search-trigger:hover {
+  background: var(--bg);
+  color: var(--text);
+}
+
+/* Visível apenas no mobile */
+@media (min-width: 768px) {
+  .mobile-search-trigger { display: none; }
+}
+
+/* ── Overlay de busca mobile ────────────────────────────────── */
+.mobile-search-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 70;
+  background: rgba(0, 0, 0, 0.38);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  padding: 16px;
+  display: flex;
+  align-items: flex-start;
+  padding-top: max(env(safe-area-inset-top, 0px), 16px);
+}
+
+.mobile-search-box {
+  width: 100%;
+  max-width: 560px;
+  margin: 0 auto;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-2);
+  overflow: hidden;
+}
+
+.mobile-search-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.mobile-search-title {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.mobile-search-close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 32px;
+  min-height: 32px;
+  border-radius: 8px;
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: background-color 150ms ease, color 150ms ease;
+}
+.mobile-search-close:hover {
+  background: var(--bg);
+  color: var(--text);
+}
+
+/* GlobalSearch dentro do overlay (sem borda duplicada) */
+.mobile-search-box > * + * {
+  border-top: none;
+}
+
+/* Overlay de busca não faz sentido em desktop — ocultar se aberto */
+@media (min-width: 768px) {
+  .mobile-search-overlay { display: none !important; }
+}
