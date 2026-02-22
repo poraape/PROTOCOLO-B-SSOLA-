@@ -1176,3 +1176,202 @@ html[data-font='lg'] { font-size: 18px; }
 @media (min-width: 768px) {
   .mobile-search-overlay { display: none !important; }
 }
+
+/* ═══════════════════════════════════════════════════════════
+   PATCH 5 — ResultScreenV2 + DecisorPage context strip
+   Adicionar ao fim de styles/ui.css
+   ═══════════════════════════════════════════════════════════ */
+
+/* ── Faixa de contexto do Decisor (domínio pré-selecionado) ── */
+.decisor-context-strip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  background: color-mix(in srgb, var(--info) 8%, var(--surface));
+  border: 1px solid color-mix(in srgb, var(--info) 22%, var(--border));
+  border-radius: 999px;
+  font-size: 0.8125rem;
+  align-self: flex-start;
+}
+
+.decisor-context-label {
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.decisor-context-domain {
+  color: var(--info);
+  font-weight: 700;
+}
+
+/* ── ResultScreenV2 ─────────────────────────────────────────── */
+.result-screen-v2 {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.result-screen-top {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.result-urgency-action {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+}
+
+.result-screen-title {
+  margin: 0;
+  font-size: clamp(1.1rem, 2.2vw, 1.35rem);
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+}
+
+/* ── Cards de serviço ────────────────────────────────────────── */
+.result-service-row {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+@media (min-width: 540px) {
+  .result-service-row {
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+  }
+}
+
+.result-service-info {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  flex: 1;
+  min-width: 0;
+}
+
+.result-service-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+}
+
+.result-service-name {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.result-service-type,
+.result-service-address {
+  font-size: 0.8125rem;
+  color: var(--text-muted);
+}
+
+.result-service-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+@media (min-width: 400px) {
+  .result-service-actions {
+    flex-direction: row;
+    align-items: center;
+  }
+}
+
+.result-service-btn {
+  white-space: nowrap;
+}
+
+/* ── Orientações ─────────────────────────────────────────────── */
+.result-guidance-block {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+}
+
+.result-guidance-title {
+  margin: 0 0 10px;
+  font-size: 0.9375rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.result-guidance-list {
+  margin: 0;
+  padding-left: 20px;
+  color: var(--text);
+  font-size: 0.9375rem;
+  line-height: 1.65;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.result-guidance-expand {
+  background: transparent;
+  border: none;
+  color: var(--info);
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 6px 0 0;
+  text-align: left;
+}
+
+/* ── Justificativa ───────────────────────────────────────────── */
+.result-justification {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 10px 14px;
+  background: var(--surface);
+}
+
+.result-justification-summary {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  cursor: pointer;
+  list-style: none;
+  user-select: none;
+}
+.result-justification-summary::-webkit-details-marker { display: none; }
+
+.result-justification-body {
+  margin: 8px 0 0;
+  font-size: 0.9rem;
+  color: var(--text);
+  line-height: 1.65;
+}
+
+/* ── Banner de gestão ────────────────────────────────────────── */
+.result-management-banner {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+.result-management-banner p {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+/* ── Placeholder de anexos ───────────────────────────────────── */
+.result-attachments-placeholder {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}

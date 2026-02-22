@@ -22,8 +22,12 @@ const ManagementButton: React.FC<{ onClick: () => void }> = ({ onClick }) => (
   </button>
 );
 
-export const DecisionTreeNavigator: React.FC = () => {
-  const { currentNode, navigate, goBack, reset, canGoBack, state, riskClassification } = useDecisionTreeV2(decisionTreeV2);
+interface DecisionTreeNavigatorProps {
+  initialNodeId?: string;
+}
+
+export const DecisionTreeNavigator: React.FC<DecisionTreeNavigatorProps> = ({ initialNodeId }) => {
+  const { currentNode, navigate, goBack, reset, canGoBack, state, riskClassification } = useDecisionTreeV2(decisionTreeV2, { initialNodeId });
   const [showManagementModal, setShowManagementModal] = React.useState(false);
 
   const handleBackToCategories = React.useCallback(() => {
