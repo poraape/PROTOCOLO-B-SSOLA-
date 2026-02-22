@@ -1375,3 +1375,225 @@ html[data-font='lg'] { font-size: 18px; }
   align-items: center;
   gap: 8px;
 }
+
+/* ═══════════════════════════════════════════════════════════
+   PATCH 6 — NetworkPage v2
+   Adicionar ao fim de styles/ui.css
+   ═══════════════════════════════════════════════════════════ */
+
+/* ── Grid de serviços: 1 col mobile, 2 col desktop ─────────── */
+.network-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+
+@media (min-width: 640px) {
+  .network-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .network-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* ── Card de serviço — extensões v2 ─────────────────────────── */
+.management-card {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  transition: box-shadow 150ms ease, border-color 150ms ease;
+}
+
+/* Destaque visual quando vindo do Decisor via ?highlight= */
+.management-card--highlighted {
+  border-color: var(--info) !important;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--info) 18%, transparent),
+              var(--shadow-2) !important;
+  scroll-margin-top: 80px; /* compensa header fixo */
+}
+
+/* Serviço incompleto (sem telefone) */
+.management-card--missing {
+  border: 1.5px dashed color-mix(in srgb, var(--danger) 55%, var(--border)) !important;
+  background: color-mix(in srgb, var(--danger) 3%, var(--surface));
+}
+
+/* Cabeçalho do card: nome + chip alinhados */
+.network-card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 2px;
+}
+
+/* Ações do card: ligar + copiar */
+.network-card-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+  flex-wrap: wrap;
+}
+
+/* Botão copiar (similar ao result-copy-btn, mas menor) */
+.network-card-copy {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 6px 12px;
+  color: var(--text-muted);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 150ms ease, color 150ms ease;
+  min-height: 34px;
+}
+.network-card-copy:hover {
+  background: var(--bg);
+  color: var(--text);
+}
+
+/* ── Chips de tipo de serviço (cor por networkType) ─────────── */
+.network-chip-saude      { color: var(--group-saude);     border-color: color-mix(in srgb, var(--group-saude)     30%, var(--border)); }
+.network-chip-social     { color: var(--group-vulnerab);  border-color: color-mix(in srgb, var(--group-vulnerab)  30%, var(--border)); }
+.network-chip-direitos   { color: var(--group-protecao);  border-color: color-mix(in srgb, var(--group-protecao)  30%, var(--border)); }
+.network-chip-educacao   { color: var(--group-trajetoria);border-color: color-mix(in srgb, var(--group-trajetoria) 30%, var(--border)); }
+.network-chip-emergencia { color: var(--danger);          border-color: color-mix(in srgb, var(--danger)          30%, var(--border)); }
+.network-chip-default    { color: var(--text-muted);      border-color: var(--border); }
+
+/* ── Busca ───────────────────────────────────────────────────── */
+.network-search-wrap {
+  position: relative;
+}
+
+.network-search-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+  pointer-events: none;
+  display: flex;
+}
+
+.network-search-input {
+  padding-left: 38px !important; /* empurra texto para não sobrepor ícone */
+  width: 100%;
+}
+
+/* ── Chips de filtro (interativos) ──────────────────────────── */
+.network-filter-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.network-filter-chip {
+  cursor: pointer;
+  border-radius: 999px;
+  padding: 4px 14px;
+  min-height: 32px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  transition: background-color 150ms ease, border-color 150ms ease, color 150ms ease;
+}
+
+.network-filter-chip:hover {
+  background: var(--bg);
+  color: var(--text);
+}
+
+.network-filter-chip--active {
+  background: color-mix(in srgb, var(--info) 10%, var(--surface));
+  border-color: color-mix(in srgb, var(--info) 35%, var(--border));
+  color: var(--info);
+  font-weight: 700;
+}
+
+/* ── Toggle do mapa ─────────────────────────────────────────── */
+.network-map-toggle {
+  align-self: flex-start;
+}
+
+/* ── Wrapper do mapa ────────────────────────────────────────── */
+.network-map-wrap {
+  padding: 0;
+  overflow: hidden;
+  min-height: 320px;
+}
+
+/* ── Estado vazio ───────────────────────────────────────────── */
+.network-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 32px 24px;
+  text-align: center;
+}
+
+.network-empty-text {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.9375rem;
+}
+
+/* ── Faixa de encaminhamento (vindo do Decisor) ─────────────── */
+.network-referral-strip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding: 10px 16px;
+  background: color-mix(in srgb, var(--info) 7%, var(--surface));
+  border: 1px solid color-mix(in srgb, var(--info) 22%, var(--border));
+  border-radius: var(--radius-md);
+  font-size: 0.875rem;
+}
+
+.network-referral-label {
+  color: var(--text-muted);
+}
+
+.network-referral-value {
+  color: var(--info);
+  font-weight: 700;
+}
+
+.network-referral-clear {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 3px 10px;
+  color: var(--text-muted);
+  font-size: 0.8125rem;
+  cursor: pointer;
+  margin-left: auto;
+  transition: background-color 150ms ease;
+}
+.network-referral-clear:hover {
+  background: var(--bg);
+  color: var(--text);
+}
+
+/* management-card--missing: ícone de alerta inline */
+.management-card-warning {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 6px;
+}
