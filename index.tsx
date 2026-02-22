@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom/client';
 import App from './App';
 import { PROTOCOL_DATA } from './content/protocolData';
 import { validateTreeDepth } from './services/validateTreeDepth';
+import './styles/global.css';
 import './styles/tokens.css';
 import './styles/ui.css';
 import './index.css';

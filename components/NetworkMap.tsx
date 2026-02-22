@@ -1,5 +1,5 @@
-import React, { useMemo } from 'react';
-import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet';
+import React, { useEffect, useMemo, useState } from 'react';
+import { MapContainer, Marker, Popup, TileLayer, useMap } from 'react-leaflet';
 import L from 'leaflet';
 import { Service } from '../types';
 
@@ -23,6 +23,45 @@ interface NetworkMapProps {
   highlightId?: string;
   zoom?: number;
 }
+
+const LeafletThemeSync: React.FC = () => {
+  const map = useMap();
+  const [theme, setTheme] = useState<string>(() => document.documentElement.getAttribute('data-theme') || 'light');
+
+  useEffect(() => {
+    const applyThemeClass = (nextTheme: string) => {
+      const container = map.getContainer();
+      container.classList.toggle('dark', nextTheme === 'dark');
+      // Leaflet frequentemente precisa recalcular tamanho após mudanças visuais/layout.
+      window.requestAnimationFrame(() => {
+        map.invalidateSize({ pan: false });
+      });
+    };
+
+    applyThemeClass(theme);
+
+    const observer = new MutationObserver(() => {
+      const nextTheme = document.documentElement.getAttribute('data-theme') || 'light';
+      setTheme(nextTheme);
+      applyThemeClass(nextTheme);
+    });
+
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['data-theme']
+    });
+
+    const onResize = () => map.invalidateSize({ pan: false });
+    window.addEventListener('resize', onResize);
+
+    return () => {
+      observer.disconnect();
+      window.removeEventListener('resize', onResize);
+    };
+  }, [map, theme]);
+
+  return null;
+};
 
 export const NetworkMap: React.FC<NetworkMapProps> = ({ services, highlightId, zoom }) => {
   const mappableServices = useMemo(
@@ -66,7 +105,9 @@ export const NetworkMap: React.FC<NetworkMapProps> = ({ services, highlightId, z
       zoom={mapZoom}
       aria-label="Mapa interativo da rede de apoio"
       style={{ height: '100%', width: '100%' }}
+      className="network-map"
     >
+      <LeafletThemeSync />
       <TileLayer attribution="&copy; OpenStreetMap contributors" url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
       {groupedServices.map((group) => {
         const sortedServices = [...group.services].sort((a, b) => {

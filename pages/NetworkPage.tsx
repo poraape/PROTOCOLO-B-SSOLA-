@@ -130,7 +130,7 @@ export const NetworkPage: React.FC = () => {
                 className="network-map-wrap"
                 role="region"
                 aria-label="Mapa da Rede de Apoio com serviços geolocalizados"
-                style={{ marginTop: 10, height: 360, minHeight: 320, width: '100%' }}
+                style={{ marginTop: 10, height: 'clamp(320px, 52vh, 500px)', minHeight: 320, width: '100%' }}
               >
                 {mappableServices.length ? (
                   <NetworkMap services={mappableServices} highlightId={highlightId} />

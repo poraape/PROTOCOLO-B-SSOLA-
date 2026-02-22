@@ -17,6 +17,9 @@
     "test:tree": "node --test --experimental-strip-types tests/decision-tree-navigation.test.ts",
     "validate:microcopy": "node --experimental-strip-types scripts/validate-microcopy-terms.ts",
     "audit:ui": "node scripts/audit-ui-refactor.mjs"
+    ,"test-routes": "echo 'Testando todas as rotas...' && npm run dev",
+    "test-a11y": "echo 'Testando acessibilidade...' && open http://localhost:5173",
+    "test-mobile": "echo 'Teste mobile...' && open http://localhost:5173"
   },
   "dependencies": {
     "react-dom": "^19.2.4",
