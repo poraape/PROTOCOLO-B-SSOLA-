@@ -1312,3 +1312,278 @@ button, a, [role="button"], .chip, .domain-card, nav a {
 ::-webkit-scrollbar-thumb:hover { background: var(--gray-400); }
 
 ::selection { background: rgba(30, 77, 161, 0.15); color: var(--gray-900); }
+
+/* ============================================================
+   PATCH 3 — Header + Bottom Nav (floating pill)
+   ============================================================ */
+
+/* Fallback local para glass caso o arquivo de tokens unificado não esteja importado */
+.glass {
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  border-bottom: 0.5px solid rgba(0, 0, 0, 0.08);
+  transition: background 0.3s ease;
+}
+[data-theme="dark"] .glass,
+.dark .glass {
+  background: rgba(15, 23, 42, 0.82);
+  border-bottom-color: rgba(255, 255, 255, 0.08);
+}
+
+/* ── APP SHELL ────────────────────────────────────── */
+.app-shell {
+  min-height: 100vh;
+  background: var(--bg-page, var(--bg, #F8F9FA));
+  color: var(--text, #111827);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+/* ── HEADER ───────────────────────────────────────── */
+.app-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 64px;
+  z-index: 100;
+}
+
+.header-inner {
+  max-width: 1024px;
+  margin: 0 auto;
+  padding: 0 20px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Brand */
+.brand-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  flex-shrink: 0;
+  padding: 4px;
+  border-radius: var(--radius-md, 14px);
+  transition: var(--transition-fast, all 0.15s ease);
+}
+.brand-btn:hover { opacity: 0.8; }
+
+.brand-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1;
+}
+.brand-name {
+  font-size: 1.125rem;
+  font-weight: 900;
+  color: var(--text, #111827);
+  letter-spacing: -0.03em;
+}
+.brand-sub {
+  font-size: 0.625rem;
+  font-weight: 700;
+  color: var(--text-faint, var(--gray-400, #94A3B8));
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  margin-top: 3px;
+}
+@media (max-width: 480px) { .brand-sub { display: none; } }
+
+/* Nav desktop */
+.header-nav {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+}
+@media (max-width: 768px) { .header-nav { display: none; } }
+
+.nav-pill {
+  padding: 8px 16px;
+  border-radius: var(--radius-pill, 999px);
+  font-size: 0.875rem;
+  font-weight: 700;
+  background: none;
+  border: none;
+  color: var(--text-muted, #64748B);
+  cursor: pointer;
+  transition: var(--transition-fast, all 0.15s ease);
+}
+.nav-pill:hover {
+  background: var(--border, #E2E8F0);
+  color: var(--text, #111827);
+}
+.nav-pill--active {
+  background: var(--text, #111827);
+  color: var(--bg-card, var(--surface, #FFFFFF));
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+[data-theme="dark"] .nav-pill--active {
+  background: #FFFFFF;
+  color: #111827;
+}
+
+/* Direita do header */
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-left: 1px solid var(--border, #E2E8F0);
+  padding-left: 14px;
+  flex-shrink: 0;
+}
+
+.theme-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--border, #E2E8F0);
+  border: 1px solid var(--border, #E2E8F0);
+  cursor: pointer;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition-fast, all 0.15s ease);
+  flex-shrink: 0;
+}
+.theme-btn:hover { transform: scale(1.1); }
+.theme-btn:active { transform: scale(0.95); }
+
+.school-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  line-height: 1;
+}
+.school-label {
+  font-size: 0.5625rem;
+  font-weight: 800;
+  color: var(--text-faint, var(--gray-400, #94A3B8));
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+}
+.school-name {
+  font-size: 0.625rem;
+  font-weight: 700;
+  color: var(--text-muted, #64748B);
+  margin-top: 3px;
+}
+.school-shield {
+  width: 36px;
+  height: 36px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+@media (max-width: 640px) { .school-info { display: none; } }
+
+/* ── MAIN ─────────────────────────────────────────── */
+.app-main {
+  max-width: 1024px;
+  margin: 0 auto;
+  padding: 88px 16px 120px;
+  width: 100%;
+}
+@media (min-width: 768px) {
+  .app-main { padding: 96px 24px 40px; }
+}
+
+/* ── BOTTOM NAV PÍLULA FLUTUANTE ──────────────────── */
+.bottom-nav-wrapper {
+  display: none;
+}
+@media (max-width: 768px) {
+  .bottom-nav-wrapper {
+    display: block;
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 92%;
+    max-width: 380px;
+    z-index: 200;
+  }
+}
+
+.bottom-nav-pill {
+  border-radius: 2.5rem;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 0 8px;
+  box-shadow: 0 8px 32px -8px rgba(0,0,0,0.18), 0 2px 8px -4px rgba(0,0,0,0.12);
+  border: 1px solid rgba(255,255,255,0.6);
+}
+[data-theme="dark"] .bottom-nav-pill {
+  border-color: rgba(255,255,255,0.12);
+}
+
+.bnav-item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 100%;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: var(--transition-fast, all 0.15s ease);
+  gap: 2px;
+}
+
+.bnav-icon {
+  font-size: 1.35rem;
+  transition:
+    transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+    filter 0.3s ease;
+  filter: grayscale(1);
+  opacity: 0.4;
+}
+.bnav-item--active .bnav-icon {
+  transform: translateY(-3px) scale(1.1);
+  filter: grayscale(0);
+  opacity: 1;
+}
+
+.bnav-label {
+  font-size: 0.5625rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text, #111827);
+}
+
+.bnav-dot {
+  position: absolute;
+  bottom: 8px;
+  width: 5px;
+  height: 5px;
+  background: #FACC15;
+  border-radius: 50%;
+  box-shadow: 0 0 8px rgba(250, 204, 21, 0.7);
+}
+
+/* ── FOOTER ───────────────────────────────────────── */
+.app-footer {
+  display: none;
+  text-align: center;
+  padding: 16px;
+  font-size: 0.75rem;
+  color: var(--text-faint, var(--gray-400, #94A3B8));
+  border-top: 1px solid var(--border, #E2E8F0);
+  background: var(--bg-page, var(--bg, #F8F9FA));
+}
+@media (min-width: 768px) {
+  .app-footer { display: block; }
+}

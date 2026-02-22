@@ -1,0 +1,479 @@
+.dashboard-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Fallbacks locais para classes do design system (caso o patch de tokens não esteja importado globalmente) */
+.ios-card {
+  background: var(--bg-card, var(--surface, #FFFFFF));
+  border-radius: var(--radius-xl, 28px);
+  box-shadow: var(--shadow-ios, 0 4px 24px -6px rgba(0,0,0,0.06), 0 2px 8px -4px rgba(0,0,0,0.04));
+  border: 1px solid var(--border, #E2E8F0);
+  transition: var(--transition-ios, all 0.4s cubic-bezier(0.16, 1, 0.3, 1));
+  cursor: pointer;
+}
+.ios-card:active {
+  transform: scale(0.97);
+}
+.ios-card:hover {
+  box-shadow: var(--shadow-md, 0 8px 32px -8px rgba(0,0,0,0.10), 0 2px 8px -4px rgba(0,0,0,0.06));
+}
+
+@keyframes pulse-red {
+  0%   { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.45); }
+  70%  { box-shadow: 0 0 0 14px rgba(220, 38, 38, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0); }
+}
+.pulse-emergency {
+  animation: pulse-red 2.2s infinite;
+}
+
+/* ── HERO ─────────────────────────────────────────── */
+.dash-hero {
+  position: relative;
+  background: var(--bg-hero, #0F172A);
+  border-radius: 2rem;
+  padding: 28px;
+  overflow: hidden;
+  box-shadow: var(--shadow-hero, 0 20px 60px -20px rgba(15, 23, 42, 0.35));
+}
+@media (min-width: 640px) {
+  .dash-hero { padding: 40px; border-radius: 3rem; }
+}
+
+.dash-hero-figure {
+  position: absolute;
+  right: 24px;
+  top: 50%;
+  transform: translateY(-50%);
+  opacity: 0.08;
+  pointer-events: none;
+}
+@media (max-width: 520px) { .dash-hero-figure { display: none; } }
+
+.dash-hero-content { position: relative; z-index: 1; }
+
+.dash-hero-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.dash-hero-brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.dash-hero-brand-icon { font-size: 1.1rem; }
+.dash-hero-brand-text {
+  font-size: 0.6875rem;
+  font-weight: 900;
+  color: var(--accent-yellow, #FACC15);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.dash-role-toggle {
+  display: flex;
+  background: rgba(255,255,255,0.1);
+  padding: 4px;
+  border-radius: 12px;
+  gap: 4px;
+}
+.role-btn {
+  padding: 6px 12px;
+  border-radius: 9px;
+  font-size: 0.625rem;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  background: transparent;
+  border: none;
+  color: rgba(255,255,255,0.45);
+  cursor: pointer;
+  transition: var(--transition-fast, all 0.15s ease);
+}
+.role-btn--active {
+  background: #FFFFFF;
+  color: #111827;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+.dash-headline {
+  font-size: clamp(2rem, 6vw, 3rem);
+  font-weight: 900;
+  color: #FFFFFF;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+  margin: 0 0 10px;
+}
+.dash-accent { color: var(--accent-yellow, #FACC15); }
+
+.dash-subtitle {
+  font-size: 0.875rem;
+  color: rgba(255,255,255,0.5);
+  font-weight: 700;
+  line-height: 1.5;
+  max-width: 340px;
+  margin: 0 0 24px;
+}
+
+.dash-ctas {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 420px;
+}
+@media (min-width: 480px) { .dash-ctas { flex-direction: row; } }
+
+.dash-cta {
+  flex: 1;
+  padding: 16px 20px;
+  border-radius: 16px;
+  font-size: 0.6875rem;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  border: none;
+  transition: var(--transition-ios, all 0.4s cubic-bezier(0.16, 1, 0.3, 1));
+}
+.dash-cta:active { transform: scale(0.96); }
+.dash-cta--primary {
+  background: #FFFFFF;
+  color: #0F172A;
+  box-shadow: 0 4px 16px rgba(255,255,255,0.15);
+}
+.dash-cta--primary:hover { background: #F0F9FF; }
+.dash-cta--secondary {
+  background: rgba(255,255,255,0.08);
+  color: rgba(255,255,255,0.8);
+  border: 1px solid rgba(255,255,255,0.15);
+}
+.dash-cta--secondary:hover { background: rgba(255,255,255,0.14); }
+
+/* ── DOMAIN GRID ──────────────────────────────────── */
+.dash-domain-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+@media (min-width: 640px) {
+  .dash-domain-grid { grid-template-columns: repeat(4, 1fr); }
+}
+
+.domain-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 20px 12px;
+  text-align: center;
+  background: var(--bg-card, var(--surface, #FFFFFF));
+  border: 1px solid var(--border, #E2E8F0);
+  border-radius: var(--radius-xl, 28px);
+  cursor: pointer;
+}
+
+.domain-card-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 18px;
+  background: var(--domain-bg, #F1F5F9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.75rem;
+  transition: transform 0.3s cubic-bezier(0.16,1,0.3,1);
+}
+.domain-card:hover .domain-card-icon { transform: scale(1.1); }
+@media (min-width: 640px) {
+  .domain-card-icon { width: 64px; height: 64px; border-radius: 24px; font-size: 2rem; }
+}
+
+.domain-card-label {
+  font-size: 0.8125rem;
+  font-weight: 900;
+  color: var(--text, #111827);
+  letter-spacing: -0.01em;
+  line-height: 1;
+}
+.domain-card-sub {
+  font-size: 0.625rem;
+  font-weight: 800;
+  color: var(--domain-color, var(--text-faint, var(--gray-400, #94A3B8)));
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+/* ── ACTION BAR ───────────────────────────────────── */
+.dash-action-bar {
+  display: flex;
+  gap: 10px;
+}
+
+.action-item {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 10px;
+  background: var(--bg-card, var(--surface, #FFFFFF));
+  border: 1px solid var(--border, #E2E8F0);
+  border-radius: var(--radius-lg, 20px);
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.action-item-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+.action-item-label {
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: var(--text, #111827);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  line-height: 1;
+}
+@media (max-width: 380px) {
+  .action-item-label { display: none; }
+  .action-item { padding: 14px; }
+}
+
+/* ── CARD CONTEXTUAL ──────────────────────────────── */
+.dash-role-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px 24px;
+  border-radius: var(--radius-xl, 28px);
+  box-shadow: var(--shadow-md, 0 8px 32px -8px rgba(0,0,0,0.10), 0 2px 8px -4px rgba(0,0,0,0.06));
+}
+.dash-role-card--professor {
+  background: #2563EB;
+  border: 1px solid #1D4ED8;
+}
+.dash-role-card--gestor {
+  background: var(--bg-hero, #0F172A);
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+.dash-role-icon {
+  width: 52px;
+  height: 52px;
+  background: rgba(255,255,255,0.12);
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+
+.dash-role-title {
+  font-size: 0.9375rem;
+  font-weight: 900;
+  color: #FFFFFF;
+  margin: 0 0 6px;
+  line-height: 1;
+}
+.dash-role-text {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: rgba(255,255,255,0.65);
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* ============================================================
+   PATCH — Dashboard com 13 domínios + microcopy revisado
+   ============================================================ */
+
+/* ── SEÇÕES DE DOMÍNIOS (colapsáveis) ─────────────── */
+.domain-section {
+  margin-bottom: 16px;
+}
+
+.domain-section-header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 18px;
+  background: var(--border, #E2E8F0);
+  border: 1px solid var(--border, #E2E8F0);
+  border-radius: var(--radius-md, 14px);
+  cursor: pointer;
+  transition: var(--transition-fast, all 0.15s ease);
+  margin-bottom: 12px;
+}
+.domain-section-header:hover {
+  background: var(--text-faint, var(--gray-400, #94A3B8));
+  color: var(--bg-card, var(--surface, #FFFFFF));
+}
+
+.domain-section-title {
+  font-size: 0.875rem;
+  font-weight: 800;
+  color: var(--text, #111827);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  text-align: left;
+}
+.domain-section-header:hover .domain-section-title {
+  color: var(--bg-card, var(--surface, #FFFFFF));
+}
+
+.domain-section-toggle {
+  font-size: 0.75rem;
+  color: var(--text-muted, #64748B);
+  flex-shrink: 0;
+  margin-left: 10px;
+}
+
+/* ── GRID DE DOMÍNIOS (3 por linha) ───────────────── */
+.domain-grid {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 12px;
+  animation: fadeIn 0.3s ease;
+}
+@media (min-width: 640px) {
+  .domain-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── CARD DE DOMÍNIO (override do patch anterior) ─── */
+.domain-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px;
+  text-align: left;
+  background: var(--bg-card, var(--surface, #FFFFFF));
+  border: 1px solid var(--border, #E2E8F0);
+  border-radius: var(--radius-lg, 20px);
+  cursor: pointer;
+  min-height: 80px;
+}
+
+.domain-card-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  flex-shrink: 0;
+  transition: transform 0.3s cubic-bezier(0.16,1,0.3,1);
+}
+.domain-card:hover .domain-card-icon { transform: scale(1.1); }
+
+.domain-card-text {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+  min-width: 0;
+}
+
+.domain-card-label {
+  font-size: 0.875rem;
+  font-weight: 800;
+  color: var(--text, #111827);
+  line-height: 1.2;
+  letter-spacing: 0;
+}
+
+.domain-card-sublabel {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--text-muted, #64748B);
+  line-height: 1.4;
+}
+
+/* ── SEÇÃO DE FERRAMENTAS ─────────────────────────── */
+.dash-tools-section {
+  margin-top: 24px;
+}
+
+.dash-tools-title {
+  font-size: 0.875rem;
+  font-weight: 800;
+  color: var(--text, #111827);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin: 0 0 12px;
+}
+
+.dash-tools-grid {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 10px;
+}
+@media (min-width: 640px) {
+  .dash-tools-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+.tool-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  background: var(--bg-card, var(--surface, #FFFFFF));
+  border: 1px solid var(--border, #E2E8F0);
+  border-radius: var(--radius-lg, 20px);
+  cursor: pointer;
+  text-align: left;
+}
+
+.tool-card-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 11px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  flex-shrink: 0;
+}
+
+.tool-card-text {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  flex: 1;
+  min-width: 0;
+}
+
+.tool-card-label {
+  font-size: 0.8125rem;
+  font-weight: 800;
+  color: var(--text, #111827);
+  line-height: 1.2;
+}
+
+.tool-card-sub {
+  font-size: 0.6875rem;
+  font-weight: 500;
+  color: var(--text-muted, #64748B);
+  line-height: 1.3;
+}

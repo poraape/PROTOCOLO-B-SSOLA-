@@ -1,0 +1,117 @@
+/* ═══════════════════════════════════════════════════════
+   DESIGN SYSTEM UNIFICADO — baseado no repositório de referência
+   Fonte: github.com/poraape/b-ssola---e.e.-ermelino-matarazzo
+   ═══════════════════════════════════════════════════════ */
+
+:root {
+  /* ── Superfícies ──────────────────────────────────── */
+  --bg-page:        #F8F9FA;
+  --bg-card:        #FFFFFF;
+  --bg-card-dark:   #1E293B;    /* dark mode */
+  --bg-hero:        #0F172A;    /* hero card */
+
+  /* ── Bordas ───────────────────────────────────────── */
+  --border:         #E2E8F0;
+  --border-subtle:  rgba(0, 0, 0, 0.08);
+  --border-dark:    rgba(255, 255, 255, 0.08);
+
+  /* ── Tipografia ───────────────────────────────────── */
+  --text:           #111827;
+  --text-muted:     #64748B;
+  --text-faint:     #94A3B8;
+  --text-hero:      #FFFFFF;
+
+  /* ── Identidade visual ────────────────────────────── */
+  --accent-yellow:  #FACC15;    /* do repositório de referência */
+  --primary:        #1E4DA1;
+  --primary-hover:  #1A3F88;
+
+  /* ── Semânticas (4 grupos) ────────────────────────── */
+  --emergency:      #DC2626;    /* Suicídio, Violência < 72h */
+  --urgent:         #F97316;    /* V. Sexual, Ato Infracional */
+  --attention:      #3B82F6;    /* Autolesão, Saúde Mental */
+  --info:           #10B981;    /* Rede Apoio, Pedagógico */
+
+  /* ── Raios ────────────────────────────────────────── */
+  --radius-sm:      8px;
+  --radius-md:      14px;
+  --radius-lg:      20px;
+  --radius-xl:      28px;   /* ios-card */
+  --radius-pill:    999px;
+
+  /* ── Sombras (ios-style, ultra-sutis) ─────────────── */
+  --shadow-ios:     0 4px 24px -6px rgba(0,0,0,0.06),
+                    0 2px 8px -4px rgba(0,0,0,0.04);
+  --shadow-md:      0 8px 32px -8px rgba(0,0,0,0.10),
+                    0 2px 8px -4px rgba(0,0,0,0.06);
+  --shadow-hero:    0 20px 60px -20px rgba(15,23,42,0.35);
+
+  /* ── Transições ───────────────────────────────────── */
+  --transition-ios: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-fast: all 0.15s ease;
+
+  /* ── Logo vars ────────────────────────────────────── */
+  --brand-circle:       #1E293B;
+  --brand-circle-inner: #CBD5E1;
+  --brand-muted:        #94A3B8;
+}
+
+[data-theme="dark"],
+.dark {
+  --bg-page:        #0F172A;
+  --bg-card:        #1E293B;
+  --border:         rgba(255, 255, 255, 0.08);
+  --border-subtle:  rgba(255, 255, 255, 0.05);
+  --text:           #F8FAFC;
+  --text-muted:     #94A3B8;
+  --text-faint:     #475569;
+  --brand-circle:       #F8FAFC;
+  --brand-circle-inner: #334155;
+  --brand-muted:        #475569;
+}
+
+/* ── Classe .glass (do repositório de referência) ──── */
+.glass {
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  border-bottom: 0.5px solid rgba(0, 0, 0, 0.08);
+  transition: background 0.3s ease;
+}
+[data-theme="dark"] .glass,
+.dark .glass {
+  background: rgba(15, 23, 42, 0.82);
+  border-bottom-color: rgba(255, 255, 255, 0.08);
+}
+
+/* ── Classe .ios-card ─────────────────────────────── */
+.ios-card {
+  background: var(--bg-card);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-ios);
+  border: 1px solid var(--border);
+  transition: var(--transition-ios);
+  cursor: pointer;
+}
+.ios-card:active {
+  transform: scale(0.97);
+}
+.ios-card:hover {
+  box-shadow: var(--shadow-md);
+}
+
+/* ── Animação pulse-red (urgência máxima) ─────────── */
+@keyframes pulse-red {
+  0%   { box-shadow: 0 0 0 0   rgba(220, 38, 38, 0.45); }
+  70%  { box-shadow: 0 0 0 14px rgba(220, 38, 38, 0); }
+  100% { box-shadow: 0 0 0 0   rgba(220, 38, 38, 0); }
+}
+.pulse-emergency {
+  animation: pulse-red 2.2s infinite;
+}
+
+/* ── Leaflet dark mode ──────────────────────────────── */
+[data-theme="dark"] .leaflet-tile,
+.dark .leaflet-tile {
+  filter: invert(100%) hue-rotate(180deg) brightness(95%) contrast(90%);
+}

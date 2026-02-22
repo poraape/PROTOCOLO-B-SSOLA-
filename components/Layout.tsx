@@ -1,175 +1,199 @@
-// a11y/test-hooks: focus-visible:ring-2 md:flex md:hidden
-import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { NavLink } from 'react-router-dom';
-import GlobalSearch from './GlobalSearch';
-import { ThemeToggle } from './ui/ThemeToggle';
-import { AppButton } from './ui/AppButton';
-import { A11yControls } from './ui/A11yControls';
+import React, { useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { BussolaLogo } from './BussolaLogo';
+import { SchoolShield } from './SchoolShield';
+import '../styles/layout.css';
 
-const navItems = [
-  { label: 'Início', path: '/' },
-  { label: 'Decisor', path: '/decisor' },
-  { label: 'Rede', path: '/rede' },
-  { label: 'Recursos', path: '/recursos' }
+const NAV_ITEMS = [
+  { label: 'Início', path: '/', icon: '🏠' },
+  { label: 'Decisor', path: '/decisor', icon: '🧭' },
+  { label: 'Rede', path: '/rede', icon: '📞' },
+  { label: 'Recursos', path: '/recursos', icon: '📋' },
+  { label: 'Busca', path: '/busca', icon: '🔍' }
 ];
-
-const mobilePrimaryItems = [
-  { label: 'Início', path: '/' },
-  { label: 'Decisor', path: '/decisor' },
-  { label: 'Rede', path: '/rede' },
-  { label: 'Recursos', path: '/recursos' }
-];
-
-const mobileMoreItems = [
-  { label: 'Versão', path: '/versao' }
-];
-
-const navLinkClass = ({ isActive }: { isActive: boolean }) =>
-  `nav-link ${isActive ? 'nav-link-active' : ''}`.trim();
 
 export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [showMore, setShowMore] = useState(false);
-  const [configOpen, setConfigOpen] = useState(false);
-  const moreModalRef = useRef<HTMLDivElement | null>(null);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [theme, setTheme] = useState<'light' | 'dark'>(() => {
+    if (typeof window === 'undefined') return 'light';
+    return (localStorage.getItem('theme') as 'light' | 'dark') || 'light';
+  });
+  const [a11yOpen, setA11yOpen] = useState(false);
+  const [fontSize, setFontSize] = useState<'md' | 'lg' | 'xl'>('md');
+  const [highContrast, setHighContrast] = useState(false);
 
-  const focusableSelector = useMemo(
-    () => 'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])',
-    []
-  );
+  const toggleTheme = () => {
+    const next = theme === 'light' ? 'dark' : 'light';
+    document.documentElement.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
+    setTheme(next);
+  };
 
+  const applyA11ySettings = (size: 'md' | 'lg' | 'xl', contrast: boolean) => {
+    setFontSize(size);
+    setHighContrast(contrast);
+    document.documentElement.setAttribute('data-font', size);
+    document.documentElement.setAttribute('data-contrast', contrast ? 'high' : 'normal');
+    localStorage.setItem('font-size', size);
+    localStorage.setItem('high-contrast', contrast ? 'true' : 'false');
+  };
+
+  // Restaura preferências ao montar
   useEffect(() => {
-    if (!showMore || !moreModalRef.current) return;
+    document.documentElement.setAttribute('data-theme', theme);
 
-    const modal = moreModalRef.current;
-    const focusable = Array.from(modal.querySelectorAll<HTMLElement>(focusableSelector));
-    focusable[0]?.focus();
-
-    const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') {
-        event.preventDefault();
-        setShowMore(false);
-        return;
-      }
-
-      if (event.key !== 'Tab') return;
-      if (focusable.length === 0) return;
-
-      const first = focusable[0];
-      const last = focusable[focusable.length - 1];
-      const active = document.activeElement as HTMLElement | null;
-
-      if (event.shiftKey && active === first) {
-        event.preventDefault();
-        last.focus();
-      } else if (!event.shiftKey && active === last) {
-        event.preventDefault();
-        first.focus();
-      }
-    };
-
-    document.addEventListener('keydown', onKeyDown);
-    return () => document.removeEventListener('keydown', onKeyDown);
-  }, [showMore, focusableSelector]);
+    const savedFont = ((localStorage.getItem('font-size') as 'md' | 'lg' | 'xl') || 'md');
+    const savedContrast = localStorage.getItem('high-contrast') === 'true';
+    applyA11ySettings(savedFont, savedContrast);
+  }, []);
 
   return (
-    <div className="app-shell">
-      <a className="skip-link" href="#main-content">Pular para o conteúdo</a>
-      <header className="app-header">
-        <NavLink to="/" className="header-brand" aria-label="Protocolo Bússola — Início">
-          <img src="/assets/logo-escola.png" alt="Brasão EE Ermelino Matarazzo" className="brand-logo" />
-          <span className="brand-title">
-            <span className="brand-compass" aria-hidden="true">🧭</span>
-            Protocolo Bússola
-          </span>
-        </NavLink>
-
-        <nav className="header-nav" aria-label="Navegação principal">
-          {navItems.map((item) => (
-            <NavLink key={item.path} to={item.path} className={navLinkClass}>
-              {item.label}
-            </NavLink>
-          ))}
-        </nav>
-
-        <div className="header-controls">
-          <div className="header-search">
-            <GlobalSearch />
-          </div>
-          <button
-            type="button"
-            className="ui-btn ui-btn--ghost header-config-btn"
-            aria-label="Configurações"
-            aria-haspopup="menu"
-            aria-expanded={configOpen}
-            onClick={() => setConfigOpen((v) => !v)}
-          >
-            ⚙️
-          </button>
-          {configOpen ? (
-            <div className="config-dropdown" role="menu" aria-label="Configurações de acessibilidade e tema">
-              <A11yControls />
-              <ThemeToggle />
+    <div
+      className="app-shell"
+      data-theme={theme}
+      data-font={fontSize}
+      data-contrast={highContrast ? 'high' : 'normal'}
+    >
+      {/* ── HEADER ──────────────────────────────────── */}
+      <header className="app-header glass">
+        <div className="header-inner">
+          {/* Esquerda: logo + nome */}
+          <button className="brand-btn" onClick={() => navigate('/')} aria-label="Ir para o início" type="button">
+            <BussolaLogo size={34} />
+            <div className="brand-text">
+              <span className="brand-name">Bússola</span>
+              <span className="brand-sub">Guia de Acolhimento</span>
             </div>
-          ) : null}
+          </button>
+
+          {/* Centro: nav desktop */}
+          <nav className="header-nav" aria-label="Navegação principal">
+            {NAV_ITEMS.map((item) => (
+              <button
+                key={item.path}
+                onClick={() => navigate(item.path)}
+                className={`nav-pill ${location.pathname === item.path ? 'nav-pill--active' : ''}`}
+                type="button"
+              >
+                {item.label}
+              </button>
+            ))}
+          </nav>
+
+          {/* Direita: escola + controles */}
+          <div className="header-right">
+            <div className="school-info">
+              <span className="school-label">UNIDADE ESCOLAR</span>
+              <span className="school-name">E.E. Ermelino Matarazzo</span>
+            </div>
+            <SchoolShield className="school-shield" variant="compact" />
+
+            {/* Controles de tema e acessibilidade */}
+            <div className="header-controls">
+              <button
+                onClick={toggleTheme}
+                className="control-btn"
+                aria-label={`Alternar para tema ${theme === 'light' ? 'escuro' : 'claro'}`}
+                type="button"
+              >
+                {theme === 'light' ? '🌙' : '☀️'}
+              </button>
+              <button
+                onClick={() => setA11yOpen(!a11yOpen)}
+                className="control-btn"
+                aria-label="Opções de acessibilidade"
+                aria-expanded={a11yOpen}
+                type="button"
+              >
+                ⚙️
+              </button>
+            </div>
+          </div>
         </div>
       </header>
 
-      <main id="main-content" className="app-main container" tabIndex={-1}>
-        <div className="main-content">{children}</div>
-      </main>
-
-      <nav className="app-bottom-nav glass-strong" aria-label="Navegação mobile">
-        <div className="mobile-search-wrap">
-          <GlobalSearch />
-        </div>
-
-        <ul className="mobile-nav-grid">
-          {mobilePrimaryItems.map((item) => (
-            <li key={item.path}>
-              <NavLink to={item.path} className={navLinkClass}>
-                {item.label}
-              </NavLink>
-            </li>
-          ))}
-          <li>
-            <button type="button" className="nav-link" onClick={() => setShowMore(true)}>
-              Mais
+      {/* ── PAINEL DE ACESSIBILIDADE ───────────────── */}
+      {a11yOpen ? (
+        <div className="a11y-panel glass" role="dialog" aria-label="Configurações de acessibilidade">
+          <div className="a11y-panel-header">
+            <h3 className="a11y-panel-title">Acessibilidade</h3>
+            <button
+              onClick={() => setA11yOpen(false)}
+              className="a11y-panel-close"
+              aria-label="Fechar painel"
+              type="button"
+            >
+              ✕
             </button>
-          </li>
-        </ul>
-      </nav>
+          </div>
 
-      {showMore ? (
-        <div className="more-overlay" onClick={() => setShowMore(false)}>
-          <div
-            className="more-modal glass-strong"
-            role="dialog"
-            aria-modal="true"
-            aria-label="Mais opções"
-            onClick={(event) => event.stopPropagation()}
-            ref={moreModalRef}
-          >
-            <div className="more-header">
-              <h3 className="more-title">Mais opções</h3>
-              <AppButton type="button" variant="secondary" onClick={() => setShowMore(false)}>
-                Fechar
-              </AppButton>
-            </div>
-            <div className="more-links">
-              {mobileMoreItems.map((item) => (
-                <NavLink key={item.path} to={item.path} className={navLinkClass} onClick={() => setShowMore(false)}>
-                  {item.label}
-                </NavLink>
+          <div className="a11y-section">
+            <span className="a11y-label">Tamanho do texto</span>
+            <div className="a11y-buttons">
+              {(['md', 'lg', 'xl'] as const).map((size) => (
+                <button
+                  key={size}
+                  onClick={() => applyA11ySettings(size, highContrast)}
+                  className={`a11y-btn ${fontSize === size ? 'a11y-btn--active' : ''}`}
+                  type="button"
+                >
+                  A{size === 'md' ? '' : size === 'lg' ? '+' : '++'}
+                </button>
               ))}
             </div>
+          </div>
+
+          <div className="a11y-section">
+            <label className="a11y-checkbox">
+              <input
+                type="checkbox"
+                checked={highContrast}
+                onChange={(event) => applyA11ySettings(fontSize, event.target.checked)}
+              />
+              <span>Alto contraste</span>
+            </label>
           </div>
         </div>
       ) : null}
 
+      {/* ── CONTEÚDO ─────────────────────────────────── */}
+      <main className="app-main">
+        {children}
+      </main>
+
+      {/* ── BOTTOM NAV (pílula flutuante — mobile) ───── */}
+      <div className="bottom-nav-wrapper" role="navigation" aria-label="Navegação mobile">
+        <nav className="bottom-nav-pill glass">
+          {NAV_ITEMS.map((item) => {
+            const isActive =
+              location.pathname === item.path ||
+              (item.path !== '/' && location.pathname.startsWith(item.path));
+
+            return (
+              <button
+                key={item.path}
+                className={`bnav-item ${isActive ? 'bnav-item--active' : ''}`}
+                onClick={() => navigate(item.path)}
+                aria-current={isActive ? 'page' : undefined}
+                type="button"
+              >
+                <span className="bnav-icon">{item.icon}</span>
+                {isActive ? (
+                  <>
+                    <span className="bnav-label">{item.label}</span>
+                    <span className="bnav-dot" aria-hidden="true" />
+                  </>
+                ) : null}
+              </button>
+            );
+          })}
+        </nav>
+      </div>
+
+      {/* Footer discreto — apenas desktop */}
       <footer className="app-footer">
-        <span className="footer-credits">
-          © 2026 EE Ermelino Matarazzo — Uso institucional interno
-        </span>
+        © 2026 EE Ermelino Matarazzo — Uso institucional interno
       </footer>
     </div>
   );
