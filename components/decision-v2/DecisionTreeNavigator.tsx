@@ -27,7 +27,7 @@ export const DecisionTreeNavigator: React.FC = () => {
   const [showManagementModal, setShowManagementModal] = React.useState(false);
 
   const handleBackToCategories = React.useCallback(() => {
-    navigate('CATEGORY_SELECT');
+    navigate('DOMAIN_SELECT');
   }, [navigate]);
 
   const handleContactManagement = React.useCallback(() => {
@@ -143,7 +143,7 @@ export const DecisionTreeNavigator: React.FC = () => {
       />
       <ContextualControls
         currentLevel={currentLevel}
-        canGoBackToCategories={state.history.includes('CATEGORY_SELECT')}
+        canGoBackToCategories={state.history.includes('DOMAIN_SELECT')}
         onBackToCategories={handleBackToCategories}
         onContactManagement={handleContactManagement}
         showReclassify={currentLevel === 'LEAF'}
