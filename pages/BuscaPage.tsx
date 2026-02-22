@@ -1,8 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FLUXOS, CONTATOS, TECHNICAL_GLOSSARY } from '../data';
-import { AppButton } from '../components/ui/AppButton';
-import { AppCard } from '../components/ui/AppCard';
 import { AppInput } from '../components/ui/AppInput';
 import { PageHeader } from '../components/ui/PageHeader';
 import { Section } from '../components/ui/Section';
@@ -49,7 +47,7 @@ export const BuscaPage: React.FC = () => {
       <PageHeader title="Busca Global" subtitle="Encontre protocolos, contatos, documentos e termos do glossário técnico." />
 
       <Section>
-        <AppCard>
+        <div className="card-flat">
           <AppInput
             id="busca-global"
             label="Buscar"
@@ -58,14 +56,14 @@ export const BuscaPage: React.FC = () => {
             value={query}
             onChange={setQuery}
           />
-        </AppCard>
+        </div>
       </Section>
 
       <Section>
         <div className="stack space-2">
           {allResults.length > 0 ? (
             allResults.map((res: any, idx) => (
-              <AppCard key={idx} as="article">
+              <div key={idx} className="card-flat">
                 <button
                   onClick={() => {
                     if (res.type === 'Fluxo') navigate(`/fluxos/${res.id}`);
@@ -77,22 +75,22 @@ export const BuscaPage: React.FC = () => {
                 >
                   {res.type} — {res.titulo || res.nome || res.termo}
                 </button>
-              </AppCard>
+              </div>
             ))
           ) : query.length >= 2 ? (
-            <AppCard>
+            <div className="card-flat">
               <p style={{ margin: 0, color: 'var(--text-muted)' }}>Nenhum resultado para "{query}"</p>
-            </AppCard>
+            </div>
           ) : (
-            <AppCard>
+            <div className="card-flat">
               <p style={{ margin: 0, color: 'var(--text-muted)' }}>Digite pelo menos 2 letras para buscar</p>
-            </AppCard>
+            </div>
           )}
         </div>
       </Section>
 
       {query ? (
-        <AppButton variant="ghost" onClick={() => setQuery('')}>Limpar busca</AppButton>
+        <button type="button" className="ui-btn ui-btn--ghost" onClick={() => setQuery('')}>Limpar busca</button>
       ) : null}
     </div>
   );

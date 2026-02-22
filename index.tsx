@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom/client';
 import App from './App';
 import { PROTOCOL_DATA } from './content/protocolData';
 import { validateTreeDepth } from './services/validateTreeDepth';
-import './styles/designTokens.css';
+import './styles/tokens.css';
 import './styles/ui.css';
 import './index.css';
 import 'leaflet/dist/leaflet.css';
@@ -15,12 +15,6 @@ if (import.meta.env.DEV) {
   console.info(`[Decisor] Profundidade máxima atual: ${maxDepth} nós.`);
 }
 
-
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/service-worker.js');
-  });
-}
 
 const rootElement = document.getElementById('root');
 if (!rootElement) {

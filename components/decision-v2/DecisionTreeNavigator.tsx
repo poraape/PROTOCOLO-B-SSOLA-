@@ -2,12 +2,13 @@ import React from 'react';
 import { decisionTreeV2 } from '../../data/decision-tree-migration';
 import { useDecisionTreeV2 } from '../../hooks/useDecisionTreeV2';
 import { DecisionScreen } from './DecisionScreen';
-import { ResultScreen } from './ResultScreen';
+import { ResultScreenV2 } from '../decision/ResultScreenV2';
 import { CategoryGrid } from './CategoryGrid';
 import { ContextualControls } from './ContextualControls';
 import { ManagementContactModal } from './ManagementContactModal';
 import { SchoolShield } from '../SchoolShield';
 import { trackDecisionEvent } from '../../services/analytics';
+import { PROTOCOL_DATA } from '../../content/protocolData';
 
 const EmergencyButton: React.FC<{ onClick: () => void; label: string }> = ({ onClick, label }) => (
   <button type="button" onClick={onClick} className="decision-floating-button decision-floating-button--emergency">
@@ -22,8 +23,12 @@ const ManagementButton: React.FC<{ onClick: () => void }> = ({ onClick }) => (
   </button>
 );
 
-export const DecisionTreeNavigator: React.FC = () => {
-  const { currentNode, navigate, goBack, reset, canGoBack, state, riskClassification } = useDecisionTreeV2(decisionTreeV2);
+interface DecisionTreeNavigatorProps {
+  initialNodeId?: string;
+}
+
+export const DecisionTreeNavigator: React.FC<DecisionTreeNavigatorProps> = ({ initialNodeId }) => {
+  const { currentNode, navigate, goBack, reset, canGoBack, state, riskClassification } = useDecisionTreeV2(decisionTreeV2, { initialNodeId });
   const [showManagementModal, setShowManagementModal] = React.useState(false);
 
   const handleBackToCategories = React.useCallback(() => {
@@ -90,15 +95,10 @@ export const DecisionTreeNavigator: React.FC = () => {
 
       case 'LEAF':
         return (
-          <ResultScreen
-            leaf={currentNode}
-            onBack={reset}
-            onPrint={() => window.print()}
-            history={state.history}
-            nodes={decisionTreeV2.nodes}
-            currentNodeId={state.currentNodeId}
-            riskClassification={riskClassification}
-            onContactManagement={handleContactManagement}
+          <ResultScreenV2
+            leafNode={currentNode as any}
+            services={PROTOCOL_DATA.services as any}
+            onRestart={reset}
           />
         );
 

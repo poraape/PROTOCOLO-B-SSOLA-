@@ -1,35 +1,13 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
+    <!-- SW cleanup — remover após 30 dias do deploy do Patch 8 -->
+    <script src="/sw-cleanup.js"></script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <title>BÚSSOLA — Guia de Proteção</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            brand: {50:'#EFF6FF',100:'#DBEAFE',200:'#BFDBFE',300:'#93C5FD',400:'#60A5FA',500:'#2563EB',600:'#1D4ED8',700:'#1E40AF',800:'#1E3A8A',900:'#172554'},
-            accent: {50:'#FFFBEB',100:'#FEF3C7',200:'#FDE68A',300:'#FCD34D',400:'#FACC15',500:'#EAB308',600:'#CA8A04',700:'#A16207',800:'#854D0E',900:'#713F12'},
-            success: {50:'#F0FDF4',100:'#DCFCE7',200:'#BBF7D0',300:'#86EFAC',400:'#4ADE80',500:'#22C55E',600:'#16A34A',700:'#15803D',800:'#166534',900:'#14532D'},
-            danger: {50:'#FEF2F2',100:'#FEE2E2',200:'#FECACA',300:'#FCA5A5',400:'#F87171',500:'#EF4444',600:'#DC2626',700:'#B91C1C',800:'#991B1B',900:'#7F1D1D'},
-            bg: '#F5F7FA',
-            surface: '#FFFFFF',
-            subtle: '#F8FAFC',
-            border: '#E2E8F0',
-            text: '#0F172A',
-            muted: '#475569'
-          },
-          boxShadow: { soft: '0 2px 10px rgba(15,23,42,.06)' },
-          borderRadius: { xl: '14px', '2xl': '18px' }
-        }
-      }
-    };
-  </script>
 
     <style>
     .no-scrollbar::-webkit-scrollbar { display: none; }
@@ -37,7 +15,7 @@
     .leaflet-container { font-family: inherit; }
   </style>
 </head>
-<body class="overflow-x-hidden">
+<body>
   <div id="root"></div>
   <script type="module" src="/index.tsx"></script>
 </body>

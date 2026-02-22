@@ -1,10 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FLUXOS } from '../data';
-import { AppButton } from '../components/ui/AppButton';
-import { AppCard } from '../components/ui/AppCard';
 import { AppInput } from '../components/ui/AppInput';
-import { AppChip } from '../components/ui/AppChip';
 import { PageHeader } from '../components/ui/PageHeader';
 import { Section } from '../components/ui/Section';
 
@@ -49,7 +46,7 @@ export const FlowsListPage: React.FC = () => {
       />
 
       <Section>
-        <AppCard>
+        <div className="card-flat">
           <AppInput
             id="flow-search"
             label="Busca por sintoma"
@@ -61,39 +58,40 @@ export const FlowsListPage: React.FC = () => {
 
           <div className="row" style={{ flexWrap: 'wrap', marginTop: 10 }}>
             {categorias.map((cat) => (
-              <AppButton
+              <button
                 key={cat.id}
+                type="button"
                 onClick={() => setCategoria(cat.id as CategoriaFluxo)}
-                variant={categoria === cat.id ? 'primary' : 'secondary'}
+                className={`ui-btn ${categoria === cat.id ? 'ui-btn--primary' : 'ui-btn--secondary'}`}
               >
                 {cat.icon} {cat.label}
-              </AppButton>
+              </button>
             ))}
           </div>
-        </AppCard>
+        </div>
       </Section>
 
       <Section>
         <div className="grid-2">
           {filteredFluxos.length > 0 ? (
             filteredFluxos.map((f) => (
-              <AppCard key={f.id} as="article">
+              <div key={f.id} className="card-flat">
                 <div className="stack space-2">
                   <div className="row" style={{ justifyContent: 'space-between' }}>
                     <strong style={{ color: 'var(--text)' }}>{f.titulo}</strong>
-                    <AppChip label={`Protocolo ${f.codigo}`} tone="info" />
+                    <span className="ui-chip ui-chip--info">Protocolo {f.codigo}</span>
                   </div>
                   <p style={{ margin: 0, color: 'var(--text-muted)' }}>{f.descricao}</p>
-                  <AppButton variant="ghost" onClick={() => navigate(`/fluxos/${f.id}`)}>
+                  <button type="button" className="ui-btn ui-btn--ghost ui-btn--sm" onClick={() => navigate(`/fluxos/${f.id}`)}>
                     Abrir protocolo
-                  </AppButton>
+                  </button>
                 </div>
-              </AppCard>
+              </div>
             ))
           ) : (
-            <AppCard>
+            <div className="card-flat">
               <p style={{ margin: 0, color: 'var(--text-muted)' }}>Nenhum protocolo corresponde à busca</p>
-            </AppCard>
+            </div>
           )}
         </div>
       </Section>

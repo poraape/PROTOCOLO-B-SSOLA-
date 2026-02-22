@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react';
-import { ActionCard } from './ActionCard';
+import { ResultScreenV2 } from './decision/ResultScreenV2';
 import { PROTOCOL_DATA } from '../content/protocolData';
 import { FlowNode } from '../types';
 import { QuestionStep } from './decision/QuestionStep';
@@ -70,7 +70,7 @@ export const DecisionWizard: React.FC = () => {
         <div className="space-y-4 lg:col-span-2">
           {!isMobile && currentNode.riskLevel === "EMERGENCIAL" && <EmergencyCTA node={currentNode} isMobile={false} />}
           {!isDesktop && <FlowBreadcrumb items={breadcrumb as Array<{ idx: number; node?: FlowNode; answer?: string }>} />}
-          {!currentNode.isLeaf ? <QuestionStep node={currentNode} onSelect={goToNext} /> : <ActionCard leafNode={currentNode} services={leafServices} onRestart={resetWizard} variant="compact" />}
+          {!currentNode.isLeaf ? <QuestionStep node={currentNode} onSelect={goToNext} /> : <ResultScreenV2 leafNode={currentNode} services={leafServices} onRestart={resetWizard} />}
           <AlertPanel context="orientacoes" />
 
           {isMobile ? (

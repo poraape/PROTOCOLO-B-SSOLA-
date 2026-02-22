@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 128" role="img" aria-label="Logo da E.E. Ermelino Matarazzo">
+  <rect width="512" height="128" rx="16" fill="#2C4A6E"/>
+  <circle cx="64" cy="64" r="34" fill="#fff" opacity="0.95"/>
+  <path d="M64 36l18 10v18c0 16-10 29-18 32-8-3-18-16-18-32V46z" fill="#2C4A6E"/>
+  <text x="118" y="56" font-family="Inter, Arial, sans-serif" font-size="20" fill="#fff" font-weight="700">Protocolo Bússola</text>
+  <text x="118" y="86" font-family="Inter, Arial, sans-serif" font-size="14" fill="#E8EEF7">E.E. Ermelino Matarazzo</text>
+</svg>

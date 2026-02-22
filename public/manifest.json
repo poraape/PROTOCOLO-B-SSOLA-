@@ -1,0 +1,48 @@
+{
+  "name": "Protocolo Bússola",
+  "short_name": "Bússola",
+  "description": "Guia digital de acolhimento e encaminhamento — E.E. Ermelino Matarazzo",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#F5F7FA",
+  "theme_color": "#2C4A6E",
+  "lang": "pt-BR",
+  "dir": "ltr",
+  "orientation": "portrait-primary",
+  "categories": ["education", "productivity"],
+  "icons": [
+    {
+      "src": "/icons/pwa-192.svg",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/pwa-512.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/pwa-512-maskable.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Iniciar Decisor",
+      "short_name": "Decisor",
+      "description": "Abrir o Decisor diretamente",
+      "url": "/decisor"
+    },
+    {
+      "name": "Rede de Serviços",
+      "short_name": "Rede",
+      "description": "Consultar a rede intersetorial",
+      "url": "/rede"
+    }
+  ]
+}
