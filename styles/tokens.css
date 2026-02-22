@@ -1,0 +1,230 @@
+/*
+ * BÚSSOLA — DESIGN TOKENS UNIFICADOS
+ * Fonte única de verdade para todo o sistema visual.
+ * Substitui: styles/designTokens.css + variáveis --dt-* de styles/ui.css
+ *
+ * ESTRUTURA
+ * 1. Cor: primária, superfície, semântica, grupos de domínio
+ * 2. Tipografia
+ * 3. Espaçamento
+ * 4. Raios de borda
+ * 5. Sombras
+ * 6. Componentes fixos
+ * 7. Dark mode
+ * 8. Alto contraste
+ */
+
+/* ─────────────────────────────────────────
+   1. COR
+───────────────────────────────────────── */
+:root {
+  color-scheme: light;
+
+  /* Primária institucional */
+  --primary:          #2C4A6E;
+  --primary-hover:    #234060;
+  --primary-light:    #EEF3FA;
+  --primary-border:   #C5D5E8;
+
+  /* Superfície e fundo */
+  --bg:               #F5F7FA;
+  --surface:          #FFFFFF;
+  --surface-raised:   #FFFFFF;
+  --surface-overlay:  rgba(255, 255, 255, 0.96);
+
+  /* Borda */
+  --border:           #E1E6EE;
+  --border-strong:    #C8D0DC;
+
+  /* Texto */
+  --text:             #1A2B3C;
+  --text-muted:       #5A6B7C;
+  --text-disabled:    #9AAAB8;
+  --text-on-primary:  #FFFFFF;
+
+  /* ── Semânticas (4 únicas com cor própria) ── */
+  --emergency:        #C0392B;  /* risco imediato, ação urgente */
+  --emergency-light:  #FEF2F2;
+  --emergency-border: #FCA5A5;
+
+  --warning:          #B7790F;  /* atenção, encaminhamento */
+  --warning-light:    #FFFBEB;
+  --warning-border:   #FCD34D;
+
+  --success:          #1A6B3C;  /* acompanhamento, concluído */
+  --success-light:    #F0FDF4;
+  --success-border:   #86EFAC;
+
+  --info:             #2C4A6E;  /* = primary — informação neutra */
+  --info-light:       #EEF3FA;
+  --info-border:      #C5D5E8;
+
+  /* ── Grupos de Domínio (4 grupos, não 13) ── */
+  /* Grupo 1: Proteção e Segurança */
+  --group-protecao:          #C0392B;
+  --group-protecao-light:    #FEF2F2;
+
+  /* Grupo 2: Saúde e Bem-Estar */
+  --group-saude:             #2C6A8E;
+  --group-saude-light:       #EFF7FC;
+
+  /* Grupo 3: Vulnerabilidade e Convivência */
+  --group-vulnerab:          #B7790F;
+  --group-vulnerab-light:    #FFFBEB;
+
+  /* Grupo 4: Trajetória Escolar */
+  --group-trajetoria:        #1A6B3C;
+  --group-trajetoria-light:  #F0FDF4;
+}
+
+/* ─────────────────────────────────────────
+   2. TIPOGRAFIA
+───────────────────────────────────────── */
+:root {
+  --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+  /* Escala de 5 tamanhos — sem valores intermediários */
+  --text-h1:      clamp(1.35rem, 2.5vw, 1.6rem);
+  --text-h2:      1.125rem;
+  --text-h3:      1rem;
+  --text-body:    0.9375rem;  /* ≈ 15px */
+  --text-caption: 0.8125rem; /* ≈ 13px */
+
+  /* Pesos */
+  --weight-regular:  400;
+  --weight-medium:   500;
+  --weight-semibold: 600;
+  --weight-bold:     700;
+
+  /* Line-height */
+  --leading-tight:  1.25;
+  --leading-normal: 1.5;
+  --leading-loose:  1.65;
+
+  /* Letter-spacing para títulos */
+  --tracking-tight: -0.01em;
+}
+
+/* ─────────────────────────────────────────
+   3. ESPAÇAMENTO (múltiplos de 4px)
+───────────────────────────────────────── */
+:root {
+  --space-1:  4px;
+  --space-2:  8px;
+  --space-3:  12px;
+  --space-4:  16px;
+  --space-5:  20px;
+  --space-6:  24px;
+  --space-8:  32px;
+  --space-10: 40px;
+  --space-12: 48px;
+}
+
+/* ─────────────────────────────────────────
+   4. RAIOS DE BORDA (3 valores)
+───────────────────────────────────────── */
+:root {
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-full: 9999px;
+}
+
+/* ─────────────────────────────────────────
+   5. SOMBRAS
+   Regra: sm → cards; md → cards elevados;
+   lg → modais e overlays APENAS.
+   Nunca aplicar lg em elementos de conteúdo.
+───────────────────────────────────────── */
+:root {
+  --shadow-sm: 0 1px 2px rgba(26, 43, 60, 0.06);
+  --shadow-md: 0 3px 8px rgba(26, 43, 60, 0.09);
+  --shadow-lg: 0 8px 24px rgba(26, 43, 60, 0.12);
+
+  /* Sombra semântica: apenas no botão de emergência no estado :focus-visible */
+  --shadow-emergency-focus: 0 0 0 3px rgba(192, 57, 43, 0.35);
+}
+
+/* ─────────────────────────────────────────
+   6. COMPONENTES FIXOS
+───────────────────────────────────────── */
+:root {
+  /* Alturas mínimas (acessibilidade de toque) */
+  --touch-target:     44px;
+  --nav-height-mobile: 64px;
+
+  /* Glass (reservado para header/bottom-nav/modais — não cards de conteúdo) */
+  --glass-blur:    12px;
+  --glass-bg:      rgba(245, 247, 250, 0.90);
+  --glass-border:  rgba(225, 230, 238, 0.80);
+}
+
+/* ─────────────────────────────────────────
+   7. DARK MODE
+───────────────────────────────────────── */
+[data-theme='dark'] {
+  color-scheme: dark;
+
+  --bg:              #0F1923;
+  --surface:         #182130;
+  --surface-raised:  #1E2A3A;
+  --surface-overlay: rgba(18, 28, 43, 0.96);
+
+  --border:          #2A3A4E;
+  --border-strong:   #3A4E64;
+
+  --text:            #E6EEF8;
+  --text-muted:      #8CA0B4;
+  --text-disabled:   #4A5E72;
+
+  --primary-light:   #1A2B3C;
+  --primary-border:  #2A4060;
+
+  --emergency-light: #2A1010;
+  --warning-light:   #241A00;
+  --success-light:   #0A2018;
+  --info-light:      #1A2B3C;
+
+  --group-protecao-light:   #2A1010;
+  --group-saude-light:      #0E2030;
+  --group-vulnerab-light:   #241A00;
+  --group-trajetoria-light: #0A2018;
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.20);
+  --shadow-md: 0 3px 8px rgba(0, 0, 0, 0.28);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.36);
+
+  --glass-bg:     rgba(18, 28, 43, 0.92);
+  --glass-border: rgba(42, 58, 78, 0.80);
+}
+
+/* ─────────────────────────────────────────
+   8. ALTO CONTRASTE
+───────────────────────────────────────── */
+[data-contrast='high'] {
+  --surface:     #FFFFFF;
+  --surface-raised: #FFFFFF;
+  --border:      #1F2937;
+  --border-strong: #111827;
+  --text:        #060D14;
+  --text-muted:  #1F2937;
+  --glass-blur:  0px;
+  --shadow-sm:   0 0 0 1px rgba(31, 41, 55, 0.20);
+  --shadow-md:   0 0 0 2px rgba(31, 41, 55, 0.20);
+}
+
+[data-theme='dark'][data-contrast='high'] {
+  --surface:        #0B1421;
+  --surface-raised: #0F1B2E;
+  --border:         #C5D0DC;
+  --border-strong:  #E6EEF8;
+  --text:           #F8FAFC;
+  --text-muted:     #D0DCE8;
+}
+
+/* ─────────────────────────────────────────
+   ESCALA TIPOGRÁFICA (data-font)
+───────────────────────────────────────── */
+html[data-font='sm'] { font-size: 14px; }
+html[data-font='md'] { font-size: 16px; }
+html[data-font='lg'] { font-size: 18px; }
