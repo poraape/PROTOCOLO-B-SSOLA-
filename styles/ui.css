@@ -1597,3 +1597,135 @@ html[data-font='lg'] { font-size: 18px; }
   gap: 5px;
   margin-top: 6px;
 }
+
+/* ═══════════════════════════════════════════════════════════
+   PATCH 7 — RecursosPage hub (tabs + skeleton)
+   Adicionar ao fim de styles/ui.css
+   ═══════════════════════════════════════════════════════════ */
+
+/* ── Tab list ────────────────────────────────────────────────── */
+.recursos-tablist {
+  display: flex;
+  gap: 2px;
+  padding: 4px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;           /* Firefox */
+  scroll-snap-type: x mandatory;
+}
+.recursos-tablist::-webkit-scrollbar { display: none; }
+
+/* ── Tab button ──────────────────────────────────────────────── */
+.recursos-tab {
+  flex-shrink: 0;
+  scroll-snap-align: start;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 36px;
+  padding: 6px 16px;
+  border-radius: 9px;             /* 1px menor que container */
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background-color 140ms ease, color 140ms ease,
+              border-color 140ms ease;
+  /* ARIA pattern: foco via teclado */
+  outline: none;
+}
+
+.recursos-tab:hover {
+  background: color-mix(in srgb, var(--info) 7%, var(--surface));
+  color: var(--text);
+}
+
+/* Estado ativo */
+.recursos-tab--active {
+  background: var(--surface);
+  border-color: var(--border);
+  color: var(--info);
+  font-weight: 700;
+  box-shadow: var(--shadow-1);
+}
+
+/* Foco por teclado (não aparece no clique, apenas tab/arrow) */
+.recursos-tab:focus-visible {
+  box-shadow: 0 0 0 2px var(--surface),
+              0 0 0 4px color-mix(in srgb, var(--info) 55%, transparent);
+}
+
+/* ── Tab panel ───────────────────────────────────────────────── */
+.recursos-tabpanel {
+  outline: none; /* tem tabIndex=0 para a11y mas sem anel visual */
+  min-height: 200px;
+}
+
+/* ── Skeleton de carregamento (lazy) ─────────────────────────── */
+.recursos-skeleton {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 8px 0;
+  animation: recursos-skeleton-pulse 1.4s ease-in-out infinite;
+}
+
+.recursos-skeleton-line {
+  height: 14px;
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--text-muted) 14%, var(--surface));
+  width: 100%;
+}
+
+.recursos-skeleton-line--title {
+  height: 22px;
+  width: 45%;
+  margin-bottom: 6px;
+}
+
+.recursos-skeleton-line--short {
+  width: 65%;
+}
+
+@keyframes recursos-skeleton-pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.55; }
+}
+
+/* ── Ajuste: conteúdo de cada aba não precisa de page-header próprio
+      quando já existe o header do hub. Suprime margin-top excessiva
+      gerada pelo PageHeader legado dentro das abas. ──────────── */
+.recursos-tabpanel .ui-page-header:first-child {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+/* ── Mobile: tabs scrolláveis com fade lateral ──────────────── */
+@media (max-width: 480px) {
+  .recursos-tablist {
+    position: relative;
+  }
+
+  /* Fade-out do lado direito indica scroll disponível */
+  .recursos-tablist::after {
+    content: '';
+    position: sticky;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 28px;
+    flex-shrink: 0;
+    background: linear-gradient(
+      to right,
+      transparent,
+      var(--bg) 85%
+    );
+    pointer-events: none;
+  }
+}
