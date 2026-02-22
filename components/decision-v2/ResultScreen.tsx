@@ -10,7 +10,7 @@ import { AppChip } from '../ui/AppChip';
 import { AppButton } from '../ui/AppButton';
 import { SidePanelOrientacoes } from '../ui/SidePanelOrientacoes';
 import { BottomSheetOrientacoes } from '../ui/BottomSheetOrientacoes';
-import { verbByIntentCapitalized } from '../../content/microcopyLexicon';
+import { formatActionTemplate, verbByIntentCapitalized } from '../../content/microcopyLexicon';
 import { trackDecisionEvent } from '../../services/analytics';
 
 type FinalizationChecklistState = {
@@ -30,6 +30,7 @@ interface ResultScreenProps {
   onBack?: () => void;
   onPrint?: () => void;
   onContactManagement?: () => void;
+  transitionError?: string | null;
 }
 
 type ResolvedServiceRef = {
@@ -76,6 +77,69 @@ const reassessmentDeadlineByUrgency: Record<LeafNode['primaryActions']['urgencyL
   SCHEDULED: 'em até 7 dias'
 };
 
+const resolveSelectedDomainLabel = (
+  history?: string[],
+  nodes?: Record<string, DecisionNode>
+): string => {
+  if (!history?.length || !nodes) return 'Não identificado';
+
+  for (let index = 0; index < history.length - 1; index += 1) {
+    const current = nodes[history[index]];
+    const nextNodeId = history[index + 1];
+    if (!current || !('level' in current) || current.level !== 'CATEGORY' || !('categories' in current)) {
+      continue;
+    }
+
+    const selectedCategory = current.categories.find((category) => category.nextNodeId === nextNodeId);
+    if (selectedCategory) {
+      return selectedCategory.label;
+    }
+  }
+
+  return 'Não identificado';
+};
+
+const buildClipboardSummary = ({
+  domainLabel,
+  urgencyLabel,
+  riskClassification,
+  leafId,
+  orientacoesGerais,
+  orientacoesEspecificas
+}: {
+  domainLabel: string;
+  urgencyLabel: string;
+  riskClassification?: RiskClassification;
+  leafId: string;
+  orientacoesGerais: string[];
+  orientacoesEspecificas: string[];
+}) => {
+  const lines = [
+    'Resumo do Decisor',
+    `Domínio: ${domainLabel}`,
+    `Resultado: ${leafId}`,
+    `Urgência: ${urgencyLabel}`,
+    `Classificação de risco: ${riskClassification ?? 'Não informada'}`,
+    '',
+    'Orientações gerais:'
+  ];
+
+  if (orientacoesGerais.length === 0) {
+    lines.push('- Nenhuma orientação geral cadastrada.');
+  } else {
+    orientacoesGerais.forEach((item) => lines.push(`- ${item}`));
+  }
+
+  lines.push('', 'Orientações específicas / rede de apoio:');
+  if (orientacoesEspecificas.length === 0) {
+    lines.push('- Nenhum contato específico definido para este fluxo.');
+  } else {
+    orientacoesEspecificas.forEach((item) => lines.push(`- ${item}`));
+  }
+
+  return lines.join('\n');
+};
+
 const ResultScreenBase: React.FC<ResultScreenProps> = ({
   leaf,
   rationaleText,
@@ -85,9 +149,11 @@ const ResultScreenBase: React.FC<ResultScreenProps> = ({
   riskClassification,
   onBack,
   onPrint,
-  onContactManagement
+  onContactManagement,
+  transitionError
 }) => {
   const [showGuidance, setShowGuidance] = React.useState(false);
+  const [copyStatus, setCopyStatus] = React.useState<'idle' | 'success' | 'error'>('idle');
   const [checklistState, setChecklistState] = React.useState<FinalizationChecklistState>({
     emergencyContacted: false,
     managementInformed: false,
@@ -229,6 +295,29 @@ const ResultScreenBase: React.FC<ResultScreenProps> = ({
         ? `${serviceRef.details.name} — ${serviceRef.details.phone}`
         : `Serviço não encontrado (${serviceRef.serviceId})`
     );
+  const selectedDomainLabel = resolveSelectedDomainLabel(history, nodes);
+  const hasRenderableResult = orientacoesGerais.length > 0 || orientacoesEspecificas.length > 0;
+
+  const handleCopySummary = async () => {
+    const text = buildClipboardSummary({
+      domainLabel: selectedDomainLabel,
+      urgencyLabel: urgency.label,
+      riskClassification,
+      leafId: leaf.id,
+      orientacoesGerais,
+      orientacoesEspecificas
+    });
+
+    try {
+      if (typeof navigator === 'undefined' || !navigator.clipboard?.writeText) {
+        throw new Error('clipboard_unavailable');
+      }
+      await navigator.clipboard.writeText(text);
+      setCopyStatus('success');
+    } catch {
+      setCopyStatus('error');
+    }
+  };
 
   const handleChecklistToggle = (field: keyof Omit<FinalizationChecklistState, 'completed'>) => {
     setChecklistState((previousState) => ({
@@ -254,26 +343,64 @@ const ResultScreenBase: React.FC<ResultScreenProps> = ({
       <InstitutionalBreadcrumb history={history} nodes={nodes} currentNodeId={currentNodeId} />
 
       <div className="decisao-acoes" role="group" aria-label="Ações pós-atendimento">
-        <button
-          className="ui-btn ui-btn--primary"
-          onClick={() => window.print()}
-          aria-label="Gerar relatório imprimível do atendimento"
+        <AppButton
+          variant="primary"
+          onClick={handleCopySummary}
+          ariaLabel="Copiar resumo do resultado para registro institucional"
         >
-          Copiar para relatório
-        </button>
+          Copiar resumo para registro
+        </AppButton>
+        <AppButton
+          variant="secondary"
+          onClick={onPrint || (() => window.print())}
+          ariaLabel="Gerar versão imprimível do atendimento"
+        >
+          Imprimir resultado
+        </AppButton>
         {onBack && (
-          <button
-            className="ui-btn ui-btn--secondary"
-            onClick={onBack}
-            aria-label="Encerrar e iniciar novo atendimento"
-          >
+          <button className="ui-btn ui-btn--secondary" onClick={onBack} aria-label="Encerrar e iniciar novo atendimento">
             Novo atendimento
           </button>
         )}
       </div>
 
+      {copyStatus !== 'idle' ? (
+        <div role="status" aria-live="polite" className="result-muted-text" style={{ marginBottom: 12 }}>
+          {copyStatus === 'success'
+            ? 'Resumo copiado para a área de transferência.'
+            : 'Não foi possível copiar automaticamente. Use "Imprimir resultado" como alternativa.'}
+        </div>
+      ) : null}
+
       <div className="decision-screen-grid">
         <div className="decision-screen-main">
+          {transitionError ? (
+            <AppCard strong heading="Falha ao consolidar o resultado" subtitle="Revise a etapa anterior e tente novamente.">
+              <div className="result-text">{transitionError}</div>
+            </AppCard>
+          ) : null}
+
+          <AppCard
+            strong
+            heading="Resumo do resultado"
+            subtitle={`Domínio escolhido: ${selectedDomainLabel}`}
+            rightSlot={<AppChip label={urgency.label} tone={urgencyTone[urgencyLevel]} />}
+          >
+            <div className="decision-stack-grid">
+              <div className="result-text"><strong>Nível de urgência:</strong> {urgencyTeacherLabel[urgencyLevel]}</div>
+              <div className="result-text"><strong>Classificação de risco:</strong> {riskClassification ?? leaf.riskClassification ?? 'Não informada'}</div>
+              <div className="result-text"><strong>Atenção à rede de apoio:</strong> acione os contatos abaixo e registre os encaminhamentos.</div>
+            </div>
+          </AppCard>
+
+          {!hasRenderableResult ? (
+            <AppCard strong heading="Não encontramos um resultado para este caminho" subtitle="O fluxo chegou ao final, mas sem orientações acionáveis.">
+              <div className="result-text">
+                Revise a classificação, volte uma etapa ou inicie uma nova triagem para gerar um encaminhamento completo.
+              </div>
+            </AppCard>
+          ) : null}
+
           <AppCard
             strong
             heading="O que fazer agora neste caso"
@@ -393,6 +520,20 @@ const ResultScreenBase: React.FC<ResultScreenProps> = ({
                     </li>
                   ))}
                 </ul>
+              </AppCard>
+
+              <AppCard strong heading="Atenção à rede de apoio" subtitle="Confirme quem já foi acionado e quem ainda precisa ser comunicado">
+                <div className="decision-stack-grid">
+                  <div className="result-text">
+                    <strong>Serviço principal:</strong> {primaryService?.details ? `${primaryService.details.name} — ${primaryService.details.phone}` : 'Não definido'}
+                  </div>
+                  <div className="result-text">
+                    <strong>Gestão escolar:</strong> {managementNotification.required ? 'Comunicação obrigatória' : 'Comunicação recomendada'}
+                  </div>
+                  <div className="result-muted-text">
+                    Mantenha registro de tentativas de contato, horários e retorno dos serviços.
+                  </div>
+                </div>
               </AppCard>
 
               <AppCard strong heading="Ações prioritárias" subtitle={`${urgency.icon} ${urgency.label}`}>

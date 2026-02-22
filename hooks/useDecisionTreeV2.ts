@@ -16,13 +16,15 @@ interface ProgressState {
 
 interface UseDecisionTreeV2Result {
   currentNode: DecisionNode;
-  navigate: (nextNodeId: string, answer?: string, riskWeight?: number) => void;
+  navigate: (nextNodeId: string, answer?: string, riskWeight?: number) => boolean;
   goBack: () => void;
   reset: () => void;
   canGoBack: boolean;
   riskClassification: RiskClassification;
   progress: ProgressState;
   state: NavigationState;
+  hasReachedResult: boolean;
+  transitionError: string | null;
 }
 
 const STORAGE_KEY = 'decisionTreeState:v2';
@@ -83,6 +85,7 @@ const hasOptions = (node: DecisionNode): node is DecisionNode & { options: Array
 };
 
 export const useDecisionTreeV2 = (tree: DecisionTreeV2): UseDecisionTreeV2Result => {
+  const [transitionError, setTransitionError] = useState<string | null>(null);
   const [state, setState] = useState<NavigationState>(() => {
     if (typeof window === 'undefined') return createInitialState(tree.rootNodeId);
 
@@ -139,15 +142,17 @@ export const useDecisionTreeV2 = (tree: DecisionTreeV2): UseDecisionTreeV2Result
     (nextNodeId: string, answer?: string, riskWeight?: number) => {
       const safeNextNodeId = normalizeNodeId(nextNodeId);
       if (!tree.nodes[safeNextNodeId]) {
+        setTransitionError(`Destino inválido: ${safeNextNodeId}`);
         trackDecisionEvent('triagem_erro_transicao', {
           nodeId: state.currentNodeId,
           nextNodeId: safeNextNodeId,
           sourceNodeId: state.currentNodeId,
           reason: 'next_node_not_found'
         });
-        return;
+        return false;
       }
 
+      setTransitionError(null);
       setState((prev) => {
         const nextHistory = [...prev.history, safeNextNodeId];
         const currentId = prev.currentNodeId;
@@ -164,11 +169,13 @@ export const useDecisionTreeV2 = (tree: DecisionTreeV2): UseDecisionTreeV2Result
             : prev.answers
         };
       });
+      return true;
     },
     [state.currentNodeId, tree.nodes]
   );
 
   const goBack = useCallback(() => {
+    setTransitionError(null);
     setState((prev) => {
       if (prev.history.length <= 1) return prev;
 
@@ -219,6 +226,7 @@ export const useDecisionTreeV2 = (tree: DecisionTreeV2): UseDecisionTreeV2Result
   }, [state]);
 
   const reset = useCallback(() => {
+    setTransitionError(null);
     clearTriageTracking();
     startTriageTracking({ nodeId: tree.rootNodeId, riskClassification: 'BAIXO' });
     setState(createInitialState(tree.rootNodeId));
@@ -239,6 +247,8 @@ export const useDecisionTreeV2 = (tree: DecisionTreeV2): UseDecisionTreeV2Result
       current: state.history.length,
       total: 10
     },
-    state
+    state,
+    hasReachedResult: hasLevel(currentNode) && currentNode.level === 'LEAF',
+    transitionError
   };
 };

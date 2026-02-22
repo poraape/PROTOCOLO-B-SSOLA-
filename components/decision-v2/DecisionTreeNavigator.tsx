@@ -23,8 +23,19 @@ const ManagementButton: React.FC<{ onClick: () => void }> = ({ onClick }) => (
 );
 
 export const DecisionTreeNavigator: React.FC = () => {
-  const { currentNode, navigate, goBack, reset, canGoBack, state, riskClassification } = useDecisionTreeV2(decisionTreeV2);
+  const {
+    currentNode,
+    navigate,
+    goBack,
+    reset,
+    canGoBack,
+    state,
+    riskClassification,
+    hasReachedResult,
+    transitionError
+  } = useDecisionTreeV2(decisionTreeV2);
   const [showManagementModal, setShowManagementModal] = React.useState(false);
+  const [resultEntryNodeId, setResultEntryNodeId] = React.useState<string | null>(null);
 
   const handleBackToCategories = React.useCallback(() => {
     navigate('DOMAIN_SELECT');
@@ -37,6 +48,18 @@ export const DecisionTreeNavigator: React.FC = () => {
     });
     setShowManagementModal(true);
   }, [riskClassification, state.currentNodeId]);
+
+  const goToNode = React.useCallback(
+    (nextNodeId: string, answer?: string, riskWeight?: number) => {
+      const wasSuccessful = navigate(nextNodeId, answer, riskWeight);
+      const targetNode = decisionTreeV2.nodes[nextNodeId];
+      if (wasSuccessful && targetNode && 'level' in targetNode && targetNode.level === 'LEAF') {
+        setResultEntryNodeId(nextNodeId);
+      }
+      return wasSuccessful;
+    },
+    [navigate]
+  );
 
   const renderContent = () => {
     if (!('level' in currentNode)) return <div>Não foi possível carregar esta etapa do decisor. Reinicie a triagem.</div>;
@@ -64,7 +87,7 @@ export const DecisionTreeNavigator: React.FC = () => {
                 selected && 'riskWeight' in selected && typeof selected.riskWeight === 'number'
                   ? selected.riskWeight
                   : undefined;
-              navigate(nextNodeId, selected?.label, riskWeight);
+              goToNode(nextNodeId, selected?.label, riskWeight);
             }}
             helpText={'helpText' in currentNode ? currentNode.helpText : undefined}
             progress={progress}
@@ -82,7 +105,7 @@ export const DecisionTreeNavigator: React.FC = () => {
             categories={currentNode.categories}
             onSelect={(categoryId) => {
               const selected = currentNode.categories.find((category) => category.id === categoryId);
-              if (selected) navigate(selected.nextNodeId, selected.label);
+              if (selected) goToNode(selected.nextNodeId, selected.label);
             }}
           />
         );
@@ -99,6 +122,7 @@ export const DecisionTreeNavigator: React.FC = () => {
             currentNodeId={state.currentNodeId}
             riskClassification={riskClassification}
             onContactManagement={handleContactManagement}
+            transitionError={transitionError}
           />
         );
 
@@ -108,6 +132,7 @@ export const DecisionTreeNavigator: React.FC = () => {
   };
 
   const currentLevel = 'level' in currentNode ? currentNode.level : 'CATEGORY';
+  const showResultInvariantWarning = hasReachedResult && resultEntryNodeId && resultEntryNodeId !== state.currentNodeId;
   const emergencyButtonLabel =
     currentLevel === 'CRITICAL_TRIAGE'
       ? 'Já é emergência? Acionar 192/190/193'
@@ -128,6 +153,22 @@ export const DecisionTreeNavigator: React.FC = () => {
           </div>
         ) : null}
 
+        {transitionError ? (
+          <div className="decision-layout-container" role="alert" aria-live="assertive">
+            <div className="card-critical card-critical--urgent">
+              <strong>Falha ao avançar no fluxo.</strong> {transitionError}. Revise a opção selecionada ou reinicie a triagem.
+            </div>
+          </div>
+        ) : null}
+
+        {showResultInvariantWarning ? (
+          <div className="decision-layout-container" role="status" aria-live="polite">
+            <div className="card-critical">
+              O fluxo atingiu um resultado, mas o estado atual divergiu. Use "Iniciar nova classificação" para recomeçar com segurança.
+            </div>
+          </div>
+        ) : null}
+
         {renderContent()}
       </div>
 
@@ -137,7 +178,7 @@ export const DecisionTreeNavigator: React.FC = () => {
             nodeId: state.currentNodeId,
             riskClassification
           });
-          navigate('EMERGENCY_LEAF');
+          goToNode('EMERGENCY_LEAF');
         }}
         label={emergencyButtonLabel}
       />

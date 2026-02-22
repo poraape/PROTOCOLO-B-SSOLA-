@@ -88,3 +88,36 @@ test('profundidade da árvore não deve exceder 8', () => {
   const depth = validateDecisionTreeDepth(decisionTreeV2, 8);
   assert.ok(!depth.exceedsLimit, `Profundidade máxima ${depth.maxDepth} excede limite 8`);
 });
+
+test('todos os caminhos navegáveis devem terminar em LEAF (sem tela em branco)', () => {
+  const visiting = new Set<string>();
+  const cache = new Map<string, boolean>();
+
+  const pathEndsInLeaf = (nodeId: string): boolean => {
+    if (cache.has(nodeId)) return cache.get(nodeId)!;
+    assert.ok(decisionTreeV2.nodes[nodeId], `Nó inexistente durante travessia: ${nodeId}`);
+
+    if (visiting.has(nodeId)) {
+      assert.fail(`Ciclo detectado na árvore decisória: ${Array.from(visiting).join(' -> ')} -> ${nodeId}`);
+    }
+
+    visiting.add(nodeId);
+    const node = decisionTreeV2.nodes[nodeId];
+
+    if (isLeaf(node)) {
+      visiting.delete(nodeId);
+      cache.set(nodeId, true);
+      return true;
+    }
+
+    const transitions = collectTransitions(node);
+    assert.ok(transitions.length > 0, `Nó terminal sem resultado detectado: ${nodeId}`);
+
+    const result = transitions.every((nextNodeId) => pathEndsInLeaf(nextNodeId));
+    visiting.delete(nodeId);
+    cache.set(nodeId, result);
+    return result;
+  };
+
+  assert.ok(pathEndsInLeaf(decisionTreeV2.rootNodeId), 'Há pelo menos um caminho que não termina em LEAF');
+});
