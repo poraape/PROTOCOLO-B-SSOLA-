@@ -35,10 +35,27 @@ interface TrainingOption {
 }
 
 const urgencyLabelByRiskLevel: Record<RiskLevel, string> = {
-  imminent: 'Alta urgência - Providenciar hoje',
-  high: 'Alta urgência - Providenciar nos próximos 2 dias',
-  moderate: 'Atencao - Providenciar esta semana (7 dias)',
-  low: 'Acompanhamento - Monitorar no mes'
+  imminent: 'Alta Urgência — Providenciar hoje',
+  high: 'Alta Urgência — Providenciar nos próximos 2 dias',
+  moderate: 'Atenção — Providenciar esta semana (7 dias)',
+  low: 'Acompanhamento — Monitorar no mês'
+};
+
+const categoryTeacherLabel: Record<string, string> = {
+  pedagogical: 'Pedagógico',
+  mental_health: 'Saúde Mental',
+  social: 'Vulnerabilidade Social',
+  conflict: 'Conflitos',
+  rights: 'Violação de Direitos',
+  behavior: 'Comportamento Grave',
+  substance: 'Uso de Substâncias',
+  physical_health: 'Saúde Física',
+  violence: 'Violências',
+  substances: 'Substâncias',
+  family_conflict: 'Conflitos',
+  neglect: 'Negligência',
+  inclusion: 'Inclusão',
+  sexual_health: 'Saúde Sexual'
 };
 
 const chipVariantByRiskLevel: Record<RiskLevel, 'emergency' | 'urgent' | 'support' | 'neutral'> = {
@@ -189,7 +206,7 @@ export const ScenarioPlayer: React.FC = () => {
             <option value="">Risco</option><option value="imminent">Iminente</option><option value="high">Alto</option><option value="moderate">Moderado</option><option value="low">Baixo</option>
           </select>
           <select className="rounded-lg border px-2 py-1 text-sm" value={filters.category} onChange={(e) => setFilters((f) => ({ ...f, category: e.target.value as '' | Category }))}>
-            <option value="">Categoria</option><option value="pedagogical">Pedagógico</option><option value="mental_health">Saúde mental</option><option value="physical_health">Saúde física</option><option value="violence">Violências</option><option value="substances">Substâncias</option><option value="family_conflict">Conflito familiar</option><option value="neglect">Negligência</option><option value="inclusion">Inclusão</option><option value="sexual_health">Saúde sexual</option>
+            <option value="">Categoria</option><option value="pedagogical">{categoryTeacherLabel.pedagogical}</option><option value="mental_health">{categoryTeacherLabel.mental_health}</option><option value="physical_health">{categoryTeacherLabel.physical_health}</option><option value="violence">{categoryTeacherLabel.violence}</option><option value="substances">{categoryTeacherLabel.substances}</option><option value="family_conflict">{categoryTeacherLabel.family_conflict}</option><option value="neglect">{categoryTeacherLabel.neglect}</option><option value="inclusion">{categoryTeacherLabel.inclusion}</option><option value="sexual_health">{categoryTeacherLabel.sexual_health}</option>
           </select>
           <select className="rounded-lg border px-2 py-1 text-sm" value={scenario.id} onChange={(e) => { setSelectedScenarioId(e.target.value); resetSession(); }} aria-label="Selecionar cenário">
             {filteredScenarios.map((item) => <option key={item.id} value={item.id}>{item.id} · {item.title}</option>)}
@@ -209,7 +226,7 @@ export const ScenarioPlayer: React.FC = () => {
           {urgencyLabelByRiskLevel[scenario.riskLevel]}
         </span>
         <p className="mt-2 text-xs text-muted">
-          Categoria principal: {categoryShort[scenario.category[0]]} · Prazo de acompanhamento: {scenario.followUpDays} dias.
+          Categoria principal: {categoryTeacherLabel[scenario.category[0]] ?? categoryShort[scenario.category[0]]} · Prazo de acompanhamento: {scenario.followUpDays} dias.
         </p>
         <p className="mt-2 text-sm">{scenario.trigger}</p>
         <details className="mt-2 text-sm text-muted">

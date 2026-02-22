@@ -13,10 +13,10 @@ type ActionButtonProps = {
 };
 
 const variantStyle: Record<ActionButtonVariant, React.CSSProperties> = {
-  danger: { background: 'var(--danger)', color: '#fff', border: '1px solid var(--danger)' },
+  danger: { background: 'var(--color-emergency)', color: '#fff', border: '1px solid var(--color-emergency)' },
   neutral: { background: 'var(--text)', color: '#fff', border: '1px solid var(--text)' },
   ghost: { background: 'transparent', color: 'var(--text)', border: '1px solid rgba(20,32,51,0.2)' },
-  info: { background: 'var(--info)', color: '#fff', border: '1px solid var(--info)' }
+  info: { background: 'var(--color-support)', color: '#fff', border: '1px solid var(--color-support)' }
 };
 
 export const ActionButton: React.FC<ActionButtonProps> = ({ children, onClick, type = 'button', variant = 'neutral', className = '', disabled, ariaLabel }) => (

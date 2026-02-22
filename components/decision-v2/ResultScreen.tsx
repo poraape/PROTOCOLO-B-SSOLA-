@@ -253,12 +253,24 @@ const ResultScreenBase: React.FC<ResultScreenProps> = ({
     <section className="decision-layout-container decision-section">
       <InstitutionalBreadcrumb history={history} nodes={nodes} currentNodeId={currentNodeId} />
 
-      {(onBack || onPrint) ? (
-        <div className="result-actions-row">
-          {onBack ? <AppButton onClick={onBack} variant="secondary">↩️ Recomeçar</AppButton> : null}
-          {onPrint ? <AppButton onClick={onPrint} variant="ghost">🖨️ Imprimir</AppButton> : null}
-        </div>
-      ) : null}
+      <div className="decisao-acoes" role="group" aria-label="Ações pós-atendimento">
+        <button
+          className="ui-btn ui-btn--primary"
+          onClick={() => window.print()}
+          aria-label="Gerar relatório imprimível do atendimento"
+        >
+          Copiar para relatório
+        </button>
+        {onBack && (
+          <button
+            className="ui-btn ui-btn--secondary"
+            onClick={onBack}
+            aria-label="Encerrar e iniciar novo atendimento"
+          >
+            Novo atendimento
+          </button>
+        )}
+      </div>
 
       <div className="decision-screen-grid">
         <div className="decision-screen-main">

@@ -83,6 +83,61 @@
   --z-modal:   500;
   --z-a11y:    1000;
   --z-header:  200;
+
+  /* ── ALIASES DE COMPATIBILIDADE (migração gradual) ── */
+  /* Remover progressivamente conforme patches I-B e I-C eliminam os usos */
+
+  /* Semânticos legados */
+  --danger:         var(--color-emergency);
+  --warning:        var(--color-urgent);
+  --success:        #16A34A;
+  --info:           var(--color-support);
+  --primary:        var(--color-primary);
+
+  /* Texto legado */
+  --text:           var(--gray-900);
+  --text-muted:     var(--gray-600);
+
+  /* Superfície legada */
+  --surface-strong: var(--surface-muted, var(--gray-50));
+  --bg-end:         var(--bg);   /* neutraliza gradiente */
+
+  /* Glass legado */
+  --glass-blur:     10px;
+  --glass-bg:       rgba(255, 255, 255, 0.75);
+
+  /* Radius legado */
+  --radius-xl:      var(--radius-lg);
+  --radius-pill:    9999px;
+
+  /* Z-index hierarquia definitiva (SUBSTITUI valores anteriores) */
+  --z-base:         1;
+  --z-card:         10;
+  --z-sticky:       50;
+  --z-header:       200;
+  --z-overlay:      300;
+  --z-modal:        900;
+  --z-toast:        1200;
+  --z-a11y:         1600;
+
+  /* ── TOKENS DE DOMÍNIO (faixa lateral domain-card-strip) ── */
+  /* Fonte: Codex PATCH 11 — mapeia 13 domínios para 4 grupos semânticos */
+  --domain-protecao:            var(--color-emergency);
+  --domain-violacao-direitos:   var(--color-emergency);
+  --domain-comportamento-grave: var(--color-emergency);
+  --domain-saude-mental:        var(--color-urgent);
+  --domain-substancias:         var(--color-urgent);
+  --domain-gravidez:            var(--color-urgent);
+  --domain-saude-fisica:        var(--color-urgent);
+  --domain-vulnerabilidade:     var(--color-urgent);
+  --domain-discriminacao:       var(--color-support);
+  --domain-pedagogico:          var(--color-support);
+  --domain-inclusao:            var(--color-support);
+  --domain-conflitos:           var(--color-support);
+  --domain-evasao:              var(--color-neutral);
+
+  /* Caption com contraste WCAG AA (5.74:1 sobre --bg) */
+  --text-caption-color:         var(--gray-600);
 }
 
 /* Dark mode */
@@ -94,6 +149,7 @@
   --gray-900:     #F1F5F9;
   --gray-600:     #94A3B8;
   --gray-400:     #475569;
+  --glass-bg:     rgba(30, 41, 59, 0.75);
 }
 
 /* Alta legibilidade */

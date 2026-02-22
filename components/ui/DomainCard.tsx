@@ -50,12 +50,13 @@ export const DomainCard: React.FC<DomainCardProps> = ({
   whenToUse
 }) => {
   const chipMeta = getDomainChipMeta(domainKey);
+  const tooltipId = `domain-tip-${(domainKey ?? label).replace(/[^a-z0-9]/gi, '-')}`;
 
   return (
     <button
       type="button"
       onClick={onClick}
-      aria-label={`Abrir domínio ${label}. ${chipMeta.tooltip}`}
+      aria-describedby={tooltipId}
       className="domain-card card-surface"
       style={{ ['--domain-card-color' as string]: `var(${domainColorVar})` }}
     >
@@ -85,6 +86,8 @@ export const DomainCard: React.FC<DomainCardProps> = ({
         ) : null}
 
         {whenToUse ? <p className="domain-card-when">{whenToUse}</p> : null}
+        <span id={tooltipId} className="sr-only">{chipMeta.tooltip}</span>
+        <p className="domain-card-tip-mobile">{chipMeta.tooltip}</p>
       </div>
     </button>
   );

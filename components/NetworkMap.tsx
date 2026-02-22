@@ -1,7 +1,6 @@
 import React, { useMemo } from 'react';
 import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet';
 import L from 'leaflet';
-import 'leaflet/dist/leaflet.css';
 import { Service } from '../types';
 
 delete (L.Icon.Default.prototype as any)._getIconUrl;
@@ -62,7 +61,12 @@ export const NetworkMap: React.FC<NetworkMapProps> = ({ services, highlightId, z
   const mapZoom = zoom ?? (highlightedService ? 15 : 13);
 
   return (
-    <MapContainer center={center} zoom={mapZoom} style={{ height: '100%', width: '100%' }}>
+    <MapContainer
+      center={center}
+      zoom={mapZoom}
+      aria-label="Mapa interativo da rede de apoio"
+      style={{ height: '100%', width: '100%' }}
+    >
       <TileLayer attribution="&copy; OpenStreetMap contributors" url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
       {groupedServices.map((group) => {
         const sortedServices = [...group.services].sort((a, b) => {

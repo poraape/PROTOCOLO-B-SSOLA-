@@ -10,11 +10,23 @@ import { AppChip } from '../components/ui/AppChip';
 import { PageHeader } from '../components/ui/PageHeader';
 import { Section } from '../components/ui/Section';
 
-const hasCoordinates = (service: (typeof PROTOCOL_DATA.services)[number]) =>
+type Service = (typeof PROTOCOL_DATA.services)[number];
+
+const hasCoordinates = (service: Service) =>
   typeof service.coordinates?.lat === 'number' && typeof service.coordinates?.lng === 'number';
 
 const normalizePhoneToTel = (phone: string) => `tel:${phone.replace(/\D/g, '')}`;
 const shouldUseListFallback = (total: number, mappable: number) => total === 0 || mappable === 0;
+
+const getServiceUrgency = (service: Service) => {
+  if (service.networkType === 'emergencia')
+    return { chip: 'Emergência', variant: 'danger' as const, cardClass: 'card-critical' };
+  if (['direitos', 'social', 'caps', 'saude_mental'].includes(service.networkType ?? ''))
+    return { chip: 'Urgência', variant: 'warning' as const, cardClass: 'card-critical card-critical--urgent' };
+  if (['saude', 'ubs'].includes(service.networkType ?? ''))
+    return { chip: 'Atenção', variant: 'info' as const, cardClass: 'card-critical card-critical--support' };
+  return { chip: 'Acompanhamento', variant: 'neutral' as const, cardClass: 'card-surface' };
+};
 
 type ServiceFilter = 'TODOS' | 'SAUDE' | 'SOCIAL' | 'DIREITOS' | 'EDUCACAO' | 'EMERGENCIA';
 
@@ -114,7 +126,12 @@ export const NetworkPage: React.FC = () => {
           <AppCard>
             <AppButton onClick={() => setShowMap((v) => !v)} variant="ghost">{showMap ? 'Ocultar mapa' : 'Ver mapa'}</AppButton>
             {showMap ? (
-              <div style={{ marginTop: 10, height: 360, minHeight: 320, width: '100%', overflow: 'hidden', borderRadius: 12, border: '1px solid var(--border)' }}>
+              <div
+                className="network-map-wrap"
+                role="region"
+                aria-label="Mapa da Rede de Apoio com serviços geolocalizados"
+                style={{ marginTop: 10, height: 360, minHeight: 320, width: '100%' }}
+              >
                 {mappableServices.length ? (
                   <NetworkMap services={mappableServices} highlightId={highlightId} />
                 ) : (
@@ -129,23 +146,31 @@ export const NetworkPage: React.FC = () => {
       ) : null}
 
       <Section>
-        <div className="stack space-2">
-          {services.map((service) => (
-            <AppCard id={`service-${service.id}`} key={service.id} as="article" strong={service.id === highlightId}>
+        <div className="network-grid">
+          {services.map((service) => {
+            const urgency = getServiceUrgency(service);
+            return (
+            <AppCard
+              id={`service-${service.id}`}
+              key={service.id}
+              as="article"
+              strong={service.id === highlightId}
+              className={urgency.cardClass}
+            >
               <div className="row" style={{ justifyContent: 'space-between', alignItems: 'center' }}>
                 <h2 style={{ margin: 0, fontSize: '1rem', color: 'var(--text)' }}>{service.name}</h2>
-                <AppChip label={service.type || 'Serviço'} tone="info" />
+                <AppChip label={urgency.chip} tone={urgency.variant} />
               </div>
 
-              <p style={{ margin: '8px 0 0', color: 'var(--text-muted)' }}>{service.address}</p>
+              <p className="network-card-address" style={{ margin: '8px 0 0' }}>{service.address}</p>
               <a style={{ marginTop: 4, display: 'inline-block' }} href={normalizePhoneToTel(service.phone)}>{service.phone}</a>
 
-              <div className="row" style={{ flexWrap: 'wrap', marginTop: 10 }}>
+              <div className="row network-card-actions" style={{ flexWrap: 'wrap', marginTop: 10 }}>
                 <a href={normalizePhoneToTel(service.phone)} className="ui-btn ui-btn--primary">Ligar agora</a>
                 <AppButton onClick={() => navigator.clipboard.writeText(`${service.name}\n${service.address}\n${service.phone}`)} variant="secondary">Copiar</AppButton>
               </div>
             </AppCard>
-          ))}
+          )})}
 
           {!services.length ? <AppCard>Nenhum serviço encontrado para os filtros atuais.</AppCard> : null}
         </div>

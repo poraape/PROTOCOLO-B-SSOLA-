@@ -15,7 +15,8 @@
     "test:watch": "jest --watch",
     "validate:tree": "node --experimental-strip-types scripts/validate-decision-tree-v3.ts",
     "test:tree": "node --test --experimental-strip-types tests/decision-tree-navigation.test.ts",
-    "validate:microcopy": "node --experimental-strip-types scripts/validate-microcopy-terms.ts"
+    "validate:microcopy": "node --experimental-strip-types scripts/validate-microcopy-terms.ts",
+    "audit:ui": "node scripts/audit-ui-refactor.mjs"
   },
   "dependencies": {
     "react-dom": "^19.2.4",
