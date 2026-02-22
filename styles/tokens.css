@@ -1,0 +1,103 @@
+/* ============================================================
+   PROTOCOLO BÚSSOLA — DESIGN TOKENS UNIFICADOS
+   Substitui: styles/designTokens.css + tokens --dt-* de ui.css
+   ============================================================ */
+
+:root {
+  /* === PRIMÁRIA INSTITUCIONAL === */
+  --color-primary:       #1E4DA1;
+  --color-primary-hover: #163A7A;
+
+  /* === SEMÂNTICAS (4 grupos) === */
+  --color-emergency:     #DC2626; /* Emergência */
+  --color-urgent:        #D97706; /* Urgência / Atenção */
+  --color-support:       #2563EB; /* Acolhimento / Informação */
+  --color-neutral:       #64748B; /* Informativo / Leve */
+
+  /* === MAPEAMENTO DOS 13 DOMÍNIOS → 4 GRUPOS ===
+     Proteção, Violação de Direitos           → --color-emergency
+     Comportamento Grave                      → --color-emergency
+     Saúde Mental, Saúde Física               → --color-urgent
+     Uso de Substâncias, Gravidez             → --color-urgent
+     Vulnerabilidade Familiar, Social         → --color-urgent
+     Pedagógico, Conflitos                    → --color-support
+     Discriminação                            → --color-support
+     Gestão / Institucional                   → --color-neutral
+  */
+
+  /* === SUPERFÍCIES === */
+  --bg:            #F4F6FA;
+  --surface:       #FFFFFF;
+  --surface-muted: #F8FAFC;
+
+  /* === NEUTROS (escala 5) === */
+  --gray-50:  #F8FAFC;
+  --gray-200: #E2E8F0;
+  --gray-400: #94A3B8;
+  --gray-600: #475569;
+  --gray-900: #1E293B;
+
+  /* === BORDA === */
+  --border:       #E2E8F0;
+  --border-focus: #1E4DA1;
+
+  /* === TIPOGRAFIA (escala 5 tokens) === */
+  --font-family: 'Inter', sans-serif;
+  --text-h1:     1.5rem;
+  --text-h2:     1.15rem;
+  --text-h3:     1rem;
+  --text-body:   0.9375rem;
+  --text-caption:0.8125rem;
+
+  /* === PESOS === */
+  --fw-regular: 400;
+  --fw-medium:  500;
+  --fw-semibold:600;
+  --fw-bold:    700;
+
+  /* === SOMBRAS (discretas) === */
+  --shadow-1: 0 1px 3px rgba(0,0,0,0.08);
+  --shadow-2: 0 4px 12px rgba(0,0,0,0.10);
+  --shadow-modal: 0 8px 32px rgba(0,0,0,0.16);
+
+  /* === RADIUS (3 valores) === */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+
+  /* === ESPAÇAMENTOS === */
+  --space-xs:  4px;
+  --space-sm:  8px;
+  --space-md:  16px;
+  --space-lg:  24px;
+  --space-xl:  32px;
+
+  /* === TRANSIÇÕES === */
+  --transition-fast:   150ms ease;
+  --transition-normal: 200ms ease;
+
+  /* === Z-INDEX === */
+  --z-base:    1;
+  --z-card:    10;
+  --z-overlay: 100;
+  --z-modal:   500;
+  --z-a11y:    1000;
+  --z-header:  200;
+}
+
+/* Dark mode */
+[data-theme='dark'] {
+  --bg:      #0F172A;
+  --surface: #1E293B;
+  --surface-muted: #0F172A;
+  --border:  #334155;
+  --gray-900:#F1F5F9;
+  --gray-600:#94A3B8;
+  --gray-400:#475569;
+}
+
+/* Alta legibilidade */
+[data-contrast='high'] {
+  --border: #94A3B8;
+  --color-primary: #1E3A8A;
+}
