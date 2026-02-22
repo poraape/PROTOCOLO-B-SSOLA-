@@ -17,7 +17,7 @@ export const SimulatorExploration: React.FC<SimulatorExplorationProps> = ({ cate
   if (!scenario) return null;
 
   return (
-    <section className="card p-4">
+    <section className="card-surface p-4">
       <label className="mt-3 flex items-center gap-2 text-xs text-muted">
         <input type="checkbox" checked={guidedOrder} onChange={(event) => setGuidedOrder(event.target.checked)} />
         Ordenação guiada por trilha (simples → complexo)

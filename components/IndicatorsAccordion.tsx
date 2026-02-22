@@ -19,7 +19,7 @@ export const IndicatorsAccordion: React.FC<IndicatorsAccordionProps> = ({
   if (!items.length) return null;
 
   return (
-    <section className="panel mt-4 p-3">
+    <section className="card-surface mt-4 p-3">
       <button
         type="button"
         className="flex w-full items-center justify-between rounded-xl px-2 py-2 text-left text-sm font-semibold text-text hover:bg-white focus-visible:ring-2 focus-visible:ring-brand-500"

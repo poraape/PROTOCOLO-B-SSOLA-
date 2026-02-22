@@ -21,9 +21,10 @@ export const AppCard: React.FC<AppCardProps> = ({
   ...rest
 }) => {
   const Component = as;
+  const cardVariantClass = strong ? 'card-elevated' : 'card-surface';
 
   return (
-    <Component className={`ui-card ${strong ? 'ui-card--strong' : ''} ${className}`.trim()} {...rest}>
+    <Component className={`${cardVariantClass} ${className}`.trim()} {...rest}>
       {heading || subtitle || rightSlot ? (
         <div className="ui-card-header">
           <div>

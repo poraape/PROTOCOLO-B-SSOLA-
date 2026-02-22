@@ -82,7 +82,7 @@ export const QuestionStep: React.FC<QuestionStepProps> = ({ node, onSelect }) =>
   ];
 
   return (
-    <section className="card">
+    <section className="card-surface">
       <h2 className="text-2xl font-extrabold leading-tight text-text">{node.question}</h2>
       <p className="mt-2 text-sm text-muted">Escolha a opção mais próxima do que você vê agora.</p>
 
@@ -134,7 +134,7 @@ export const QuestionStep: React.FC<QuestionStepProps> = ({ node, onSelect }) =>
               type="button"
               key={`${option.nextNodeId}-${option.label}`}
               onClick={() => onSelect(option.nextNodeId, option.label)}
-              className="btn-secondary w-full py-4 text-left text-base focus-visible:ring-2 focus-visible:ring-brand-500"
+              className="ui-btn ui-btn--secondary w-full py-4 text-left text-base focus-visible:ring-2 focus-visible:ring-brand-500"
             >
               {option.label}
             </button>

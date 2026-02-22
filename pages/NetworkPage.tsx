@@ -131,7 +131,7 @@ export const NetworkPage: React.FC = () => {
       <Section>
         <div className="stack space-2">
           {services.map((service) => (
-            <AppCard id={`service-${service.id}`} key={service.id} as="article" className={service.id === highlightId ? 'ui-card--strong' : ''}>
+            <AppCard id={`service-${service.id}`} key={service.id} as="article" strong={service.id === highlightId}>
               <div className="row" style={{ justifyContent: 'space-between', alignItems: 'center' }}>
                 <h2 style={{ margin: 0, fontSize: '1rem', color: 'var(--text)' }}>{service.name}</h2>
                 <AppChip label={service.type || 'Serviço'} tone="info" />

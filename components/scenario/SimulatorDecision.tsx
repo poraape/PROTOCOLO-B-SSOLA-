@@ -19,7 +19,7 @@ export const SimulatorDecision: React.FC<SimulatorDecisionProps> = ({ actorClass
   if (!scenario || !currentStep) return null;
 
   return (
-    <article className="card p-4">
+    <article className="card-surface p-4">
       <div className="flex flex-wrap items-center gap-2">
         <h3 className="text-sm font-bold uppercase tracking-wide text-muted">Decisão</h3>
         <span className={`rounded-full px-2 py-0.5 text-xs font-semibold ${actorClass[actorTone(currentStep.actor)]}`}>{currentStep.actor}</span>

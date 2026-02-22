@@ -23,13 +23,13 @@ export const EmergencyChannelModal: React.FC<EmergencyChannelModalProps> = ({ op
 
         <div className="mt-4 grid gap-2">
           {channels.map((channel) => (
-            <a key={channel.phone} href={`tel:${channel.phone}`} className="btn-primary text-center focus-visible:ring-2 focus-visible:ring-brand-500">
+            <a key={channel.phone} href={`tel:${channel.phone}`} className="ui-btn ui-btn--primary text-center focus-visible:ring-2 focus-visible:ring-brand-500">
               {channel.label}
             </a>
           ))}
         </div>
 
-        <button type="button" onClick={onClose} className="btn-secondary mt-3 w-full focus-visible:ring-2 focus-visible:ring-brand-500">Fechar sem ligar</button>
+        <button type="button" onClick={onClose} className="ui-btn ui-btn--secondary mt-3 w-full focus-visible:ring-2 focus-visible:ring-brand-500">Fechar sem ligar</button>
       </div>
     </div>
   );

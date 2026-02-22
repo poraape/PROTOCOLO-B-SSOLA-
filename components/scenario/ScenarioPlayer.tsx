@@ -7,11 +7,11 @@ type SimulatorMode = 'guided' | 'challenge';
 const STORAGE_KEY = 'scenario-player-training-v3';
 const riskWeight: Record<RiskLevel, number> = { imminent: 4, high: 3, moderate: 2, low: 1 };
 
-const riskMeta: Record<RiskLevel, { icon: string; label: string; short: string; tone: string }> = {
-  low: { icon: '🟢', label: 'Baixo', short: 'B', tone: 'border-emerald-200 bg-emerald-50 text-emerald-900' },
-  moderate: { icon: '🟡', label: 'Moderado', short: 'M', tone: 'border-amber-200 bg-amber-50 text-amber-900' },
-  high: { icon: '🟠', label: 'Alto', short: 'A', tone: 'border-orange-200 bg-orange-50 text-orange-900' },
-  imminent: { icon: '🔴', label: 'Iminente', short: 'I', tone: 'border-red-200 bg-red-50 text-red-900' }
+const riskMeta: Record<RiskLevel, { icon: string; label: string; short: string }> = {
+  low: { icon: '🟢', label: 'Baixo', short: 'B' },
+  moderate: { icon: '🟡', label: 'Moderado', short: 'M' },
+  high: { icon: '🟠', label: 'Alto', short: 'A' },
+  imminent: { icon: '🔴', label: 'Iminente', short: 'I' }
 };
 
 const categoryShort: Record<Category, string> = {
@@ -34,10 +34,18 @@ interface TrainingOption {
   impact: string;
 }
 
-const scenarioSignalLine = (scenario: Scenario) => {
-  const firstCategory = scenario.category[0];
-  const risk = riskMeta[scenario.riskLevel];
-  return `${risk.icon} ${risk.label} | ${categoryShort[firstCategory]} | ${scenario.followUpDays}d`;
+const urgencyLabelByRiskLevel: Record<RiskLevel, string> = {
+  imminent: 'Alta urgência - Providenciar hoje',
+  high: 'Alta urgência - Providenciar nos próximos 2 dias',
+  moderate: 'Atencao - Providenciar esta semana (7 dias)',
+  low: 'Acompanhamento - Monitorar no mes'
+};
+
+const chipVariantByRiskLevel: Record<RiskLevel, 'emergency' | 'urgent' | 'support' | 'neutral'> = {
+  imminent: 'emergency',
+  high: 'urgent',
+  moderate: 'support',
+  low: 'neutral'
 };
 
 export const ScenarioPlayer: React.FC = () => {
@@ -159,17 +167,17 @@ export const ScenarioPlayer: React.FC = () => {
 
   return (
     <div className="space-y-4">
-      <section className="card p-4" aria-label="Cabeçalho do simulador">
+      <section className="card-surface p-4" aria-label="Cabeçalho do simulador">
         <div className="flex flex-wrap items-start justify-between gap-3">
           <div>
             <h2 className="text-xl font-extrabold">Simulador institucional Bússola</h2>
             <p className="text-sm text-muted">Treinamento seguro: sem registro real, com foco em decisão rápida e aprendizagem ativa.</p>
           </div>
           <div className="flex flex-wrap gap-2">
-            <button className="btn-secondary text-xs" onClick={() => setMode((m) => (m === 'guided' ? 'challenge' : 'guided'))} aria-label="Alternar modo de simulação">
+            <button className="ui-btn ui-btn--secondary text-xs" onClick={() => setMode((m) => (m === 'guided' ? 'challenge' : 'guided'))} aria-label="Alternar modo de simulação">
               {mode === 'guided' ? 'Modo: Guiado' : 'Modo: Desafio'}
             </button>
-            <button className="btn-secondary text-xs" onClick={resetSession}>Resetar</button>
+            <button className="ui-btn ui-btn--secondary text-xs" onClick={resetSession}>Resetar</button>
           </div>
         </div>
 
@@ -194,11 +202,14 @@ export const ScenarioPlayer: React.FC = () => {
         <p className="mt-1 text-xs text-muted">Etapa {stepIndex + 1}/{scenario.treeTraversal.length} • Score {score}/{scenario.treeTraversal.length}</p>
       </section>
 
-      <section className="card p-4" aria-label="Zona 1 contexto">
+      <section className="card-surface p-4" aria-label="Zona 1 contexto">
         <h3 className="text-xs font-bold uppercase tracking-wide text-muted">Zona 1 · Contexto do cenário</h3>
         <p className="mt-1 text-lg font-bold">{scenario.id}: {scenario.title}</p>
-        <p className={`mt-2 inline-flex rounded-full border px-2 py-1 text-xs font-semibold ${risk.tone}`} title="Indicador resumido de risco, categoria principal e prazo de acompanhamento">
-          {scenarioSignalLine(scenario)}
+        <span className={`chip chip--${chipVariantByRiskLevel[scenario.riskLevel]}`} title="Urgência em linguagem simples para professoras(es)">
+          {urgencyLabelByRiskLevel[scenario.riskLevel]}
+        </span>
+        <p className="mt-2 text-xs text-muted">
+          Categoria principal: {categoryShort[scenario.category[0]]} · Prazo de acompanhamento: {scenario.followUpDays} dias.
         </p>
         <p className="mt-2 text-sm">{scenario.trigger}</p>
         <details className="mt-2 text-sm text-muted">
@@ -208,7 +219,7 @@ export const ScenarioPlayer: React.FC = () => {
         </details>
       </section>
 
-      <section className="card p-4" aria-label="Zona 2 decisão">
+      <section className="card-surface p-4" aria-label="Zona 2 decisão">
         <h3 className="text-xs font-bold uppercase tracking-wide text-muted">Zona 2 · Decisão atual</h3>
         <p className="mt-2 text-xl font-black">O QUE FAZER AGORA?</p>
         <p className="text-sm text-muted">Responsável da etapa: <strong>{currentStep.actor}</strong></p>
@@ -227,13 +238,13 @@ export const ScenarioPlayer: React.FC = () => {
         </div>
 
         <div className="mt-3 flex flex-wrap gap-2">
-          <button className="btn-secondary text-xs" onClick={() => goToStep(stepIndex - 1)} disabled={stepIndex === 0}>← Etapa anterior</button>
-          <button className="btn-secondary text-xs" onClick={() => goToStep(stepIndex + 1)} disabled={stepIndex === scenario.treeTraversal.length - 1}>Próxima etapa →</button>
-          {mode === 'challenge' && selectedOptionId && !showFeedback ? <button className="btn-secondary text-xs" onClick={() => setShowFeedback(true)}>Confirmar decisão</button> : null}
+          <button className="ui-btn ui-btn--secondary text-xs" onClick={() => goToStep(stepIndex - 1)} disabled={stepIndex === 0}>← Etapa anterior</button>
+          <button className="ui-btn ui-btn--secondary text-xs" onClick={() => goToStep(stepIndex + 1)} disabled={stepIndex === scenario.treeTraversal.length - 1}>Próxima etapa →</button>
+          {mode === 'challenge' && selectedOptionId && !showFeedback ? <button className="ui-btn ui-btn--secondary text-xs" onClick={() => setShowFeedback(true)}>Confirmar decisão</button> : null}
         </div>
       </section>
 
-      <section className="card p-4" aria-label="Zona 3 feedback">
+      <section className="card-surface p-4" aria-label="Zona 3 feedback">
         <h3 className="text-xs font-bold uppercase tracking-wide text-muted">Zona 3 · Feedback pedagógico</h3>
         {!showFeedback ? (
           <p className="mt-2 text-sm text-muted">O feedback aparece após a confirmação da decisão.</p>
@@ -260,10 +271,10 @@ export const ScenarioPlayer: React.FC = () => {
       </section>
 
       <section className="grid gap-4 md:grid-cols-2">
-        <article className="card p-4" aria-label="Zona 4 histórico">
+        <article className="card-surface p-4" aria-label="Zona 4 histórico">
           <div className="flex items-center justify-between gap-2">
             <h3 className="text-xs font-bold uppercase tracking-wide text-muted">Zona 4 · Histórico</h3>
-            <button className="btn-secondary text-xs" onClick={() => setShowHistory((v) => !v)}>{showHistory ? 'Recolher' : 'Expandir'}</button>
+            <button className="ui-btn ui-btn--secondary text-xs" onClick={() => setShowHistory((v) => !v)}>{showHistory ? 'Recolher' : 'Expandir'}</button>
           </div>
           <ol className="mt-2 space-y-2">
             {(showHistory ? scenario.treeTraversal : scenario.treeTraversal.slice(0, Math.max(stepIndex + 1, 2))).map((step, index) => (
@@ -275,7 +286,7 @@ export const ScenarioPlayer: React.FC = () => {
           </ol>
         </article>
 
-        <article className="card p-4" aria-label="Zona 5 aprendizado">
+        <article className="card-surface p-4" aria-label="Zona 5 aprendizado">
           <h3 className="text-xs font-bold uppercase tracking-wide text-muted">Zona 5 · Aprendizado acumulado</h3>
           <p className="mt-2 text-sm font-semibold">Badges ativos</p>
           <div className="mt-1 flex flex-wrap gap-2 text-xs">
@@ -286,8 +297,8 @@ export const ScenarioPlayer: React.FC = () => {
           <p className="mt-3 text-sm text-muted">Cenários treinados: {Math.max(1, Math.round((score / Math.max(1, scenario.treeTraversal.length)) * 5))}/28</p>
           <p className="text-sm text-muted">Evolução simulada: +{Math.max(5, Math.round((score / Math.max(1, scenario.treeTraversal.length)) * 25))}%</p>
           <div className="mt-3 flex flex-wrap gap-2">
-            <button className="btn-secondary text-xs" onClick={resetSession}>Reset</button>
-            <button className="btn-secondary text-xs" onClick={() => setSelectedScenarioId(filteredScenarios[0]?.id || scenario.id)}>Sair do cenário</button>
+            <button className="ui-btn ui-btn--secondary text-xs" onClick={resetSession}>Reset</button>
+            <button className="ui-btn ui-btn--secondary text-xs" onClick={() => setSelectedScenarioId(filteredScenarios[0]?.id || scenario.id)}>Sair do cenário</button>
           </div>
         </article>
       </section>

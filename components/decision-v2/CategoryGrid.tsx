@@ -66,6 +66,7 @@ const CategoryGridBase: React.FC<CategoryGridProps> = ({ categories, onSelect })
                     onFocus={() => setHoveredDomainKey(nodeKey)}
                   >
                     <DomainCard
+                      domainKey={nodeKey}
                       label={category.label}
                       icon={uiCopy?.icon || category.icon}
                       domainColorVar={uiCopy?.colorVar || domainColorById[category.id] || '--info'}

@@ -55,13 +55,13 @@ export const DecisionWizard: React.FC = () => {
 
 
       <div className="mt-3 flex flex-wrap gap-2">
-        <button type="button" className="btn-secondary text-sm focus-visible:ring-2 focus-visible:ring-brand-500" onClick={goToCategoryHome}>
+        <button type="button" className="ui-btn ui-btn--secondary text-sm focus-visible:ring-2 focus-visible:ring-brand-500" onClick={goToCategoryHome}>
           ← Voltar à seleção de categorias
         </button>
-        <button type="button" className="btn-secondary text-sm focus-visible:ring-2 focus-visible:ring-brand-500" onClick={resetWizard}>
+        <button type="button" className="ui-btn ui-btn--secondary text-sm focus-visible:ring-2 focus-visible:ring-brand-500" onClick={resetWizard}>
           Iniciar nova classificação
         </button>
-        <button type="button" className="btn-secondary text-sm focus-visible:ring-2 focus-visible:ring-brand-500" onClick={goToSupport}>
+        <button type="button" className="ui-btn ui-btn--secondary text-sm focus-visible:ring-2 focus-visible:ring-brand-500" onClick={goToSupport}>
           Comunicar a gestão agora
         </button>
       </div>
@@ -74,7 +74,7 @@ export const DecisionWizard: React.FC = () => {
           <AlertPanel context="orientacoes" />
 
           {isMobile ? (
-            <div className="card">
+            <div className="card-surface">
               <button className="w-full text-left text-sm font-semibold text-brand-800" onClick={() => setShowMobileHistory((v) => !v)}>
                 {showMobileHistory ? 'Ocultar histórico' : 'Mostrar histórico'}
               </button>

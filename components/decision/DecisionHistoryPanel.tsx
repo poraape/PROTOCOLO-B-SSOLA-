@@ -15,20 +15,20 @@ interface DecisionHistoryPanelProps {
 
 export const DecisionHistoryPanel: React.FC<DecisionHistoryPanelProps> = ({ items, currentQuestion, stepNumber }) => {
   return (
-    <aside className="card" aria-label="Histórico de decisões">
+    <aside className="card-surface" aria-label="Histórico de decisões">
       <h2 className="text-sm font-bold uppercase tracking-wide text-muted">Histórico</h2>
       <p className="mt-1 text-xs font-semibold text-muted">Etapa atual: {stepNumber}</p>
       {items.length ? (
         <ol className="mt-3 space-y-2 text-sm text-text">
           {items.map(({ idx, node, answer }) => (
-            <li key={`history-${idx}`} className="panel p-3">
+            <li key={`history-${idx}`} className="card-surface p-3">
               <p className="font-semibold">{node?.question}</p>
               {answer ? <p className="mt-1 text-xs text-muted">Resposta: {answer}</p> : null}
             </li>
           ))}
         </ol>
       ) : (
-        <p className="panel mt-3 p-3 text-sm text-muted">Nenhuma decisão anterior registrada ainda.</p>
+        <p className="card-surface mt-3 p-3 text-sm text-muted">Nenhuma decisão anterior registrada ainda.</p>
       )}
       {currentQuestion ? (
         <div className="mt-3 rounded-xl border border-brand-100 bg-brand-50 p-3">

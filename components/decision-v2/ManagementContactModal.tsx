@@ -58,7 +58,7 @@ export const ManagementContactModal: React.FC<ManagementContactModalProps> = ({ 
             if (!service) {
               console.warn(`[DecisionTreeV2] Serviço de gestão não encontrado: ${target.id}`);
               return (
-                <div key={target.id} className="management-card management-card--missing">
+                <div key={target.id} className="management-card card-critical card-critical--urgent management-card--missing">
                   <div className="management-card-title">{target.label}</div>
                   <div className="management-card-warning">Contato não localizado ({target.id})</div>
                 </div>
@@ -66,7 +66,7 @@ export const ManagementContactModal: React.FC<ManagementContactModalProps> = ({ 
             }
 
             return (
-              <div key={service.id} className="management-card">
+              <div key={service.id} className="management-card card-critical card-critical--urgent">
                 <div className="management-card-title">{target.label}</div>
                 <div className="management-card-caption">{service.name}</div>
                 <div className="management-card-phone">{service.phone}</div>

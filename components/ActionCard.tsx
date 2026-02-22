@@ -32,7 +32,7 @@ const categoryKeyFromLeaf = (leaf: FlowNode): 'mental_health' | 'violence' | 'ph
 };
 
 const ServiceItem: React.FC<{ service: Service; highlight?: boolean }> = ({ service, highlight = false }) => (
-  <li className={`panel p-3 ${highlight ? 'border-brand-300 bg-brand-50' : ''}`}>
+  <li className={`card-surface p-3 ${highlight ? 'border-brand-300 bg-brand-50' : ''}`}>
     <div className="flex items-center justify-between gap-2">
       <p className="font-semibold text-text">{service.name}</p>
       <span className="badge text-xs">{service.type}</span>
@@ -40,8 +40,8 @@ const ServiceItem: React.FC<{ service: Service; highlight?: boolean }> = ({ serv
     <p className="mt-1 text-xs text-muted">{service.address}</p>
     <a className="mt-1 inline-block text-sm font-semibold text-brand-800" href={normalizePhoneToTel(service.phone)}>{service.phone}</a>
     <div className="mt-2">
-      <Link className="btn-secondary text-xs focus-visible:ring-2 focus-visible:ring-brand-500" to={serviceLink(service.id, 'map')}>Ver no mapa</Link>
-      <Link className="btn-secondary ml-2 text-xs focus-visible:ring-2 focus-visible:ring-brand-500" to={serviceLink(service.id, 'list')}>Ver na lista</Link>
+      <Link className="ui-btn ui-btn--secondary text-xs focus-visible:ring-2 focus-visible:ring-brand-500" to={serviceLink(service.id, 'map')}>Ver no mapa</Link>
+      <Link className="ui-btn ui-btn--secondary ml-2 text-xs focus-visible:ring-2 focus-visible:ring-brand-500" to={serviceLink(service.id, 'list')}>Ver na lista</Link>
     </div>
   </li>
 );
@@ -138,7 +138,7 @@ export const ActionCard: React.FC<ActionCardProps> = ({ leafNode, services, onRe
           <button
             type="button"
             onClick={() => setConfirmFormal(true)}
-            className="btn-secondary mt-3 focus-visible:ring-2 focus-visible:ring-brand-500"
+            className="ui-btn ui-btn--secondary mt-3 focus-visible:ring-2 focus-visible:ring-brand-500"
           >
             Abrir protocolo oficial e concluir registro formal
           </button>
@@ -155,7 +155,7 @@ export const ActionCard: React.FC<ActionCardProps> = ({ leafNode, services, onRe
 
       <aside className="space-y-3">
         {!!secondaryServices.length && (
-          <div className="card p-4">
+          <div className="card-surface p-4">
             <h4 className="text-sm font-bold uppercase tracking-wide text-muted">Serviços complementares</h4>
             <ul className="mt-2 space-y-2">
               {secondaryServices.map((service) => <ServiceItem key={service.id} service={service} />)}
@@ -163,13 +163,13 @@ export const ActionCard: React.FC<ActionCardProps> = ({ leafNode, services, onRe
           </div>
         )}
 
-        <div className="card p-4 text-sm text-text">
+        <div className="card-surface p-4 text-sm text-text">
           <h3 className="text-sm font-bold uppercase tracking-wide text-muted">Por que essa ação protege o estudante</h3>
           <p className="mt-2">{leafNode.decisionResult?.justification || leafNode.whyThisService || 'Encaminhamento definido por risco e competência da rede.'}</p>
         </div>
 
         {isCritical ? (
-          <div className="card p-4 text-sm text-text">
+          <div className="card-surface p-4 text-sm text-text">
             <h3 className="text-sm font-bold uppercase tracking-wide text-muted">Confirmação</h3>
             <p className="mt-2">Você já comunicou a gestão (Direção/Coordenação) sobre este caso?</p>
             <label className="mt-2 flex items-start gap-2">
@@ -189,7 +189,7 @@ export const ActionCard: React.FC<ActionCardProps> = ({ leafNode, services, onRe
       </div>
 
 
-      <div className="lg:col-span-2 card p-4">
+      <div className="lg:col-span-2 card-surface p-4">
         <StateOverlay type="success" text="Decisão registrada. Finalize os encaminhamentos." inline />
         <p className="mt-2 text-sm text-muted">Confira se você já executou os passos abaixo:</p>
         <ul className="mt-2 list-disc pl-5 text-sm text-text">
@@ -197,7 +197,7 @@ export const ActionCard: React.FC<ActionCardProps> = ({ leafNode, services, onRe
           <li>Você comunicou a gestão (Direção/Coordenação).</li>
           <li>Você iniciou o registro no canal oficial.</li>
         </ul>
-        <button type="button" className="btn-secondary mt-3 focus-visible:ring-2 focus-visible:ring-brand-500" onClick={onRestart}>Concluir e reiniciar triagem</button>
+        <button type="button" className="ui-btn ui-btn--secondary mt-3 focus-visible:ring-2 focus-visible:ring-brand-500" onClick={onRestart}>Concluir e reiniciar triagem</button>
       </div>
 
       {confirmFormal ? (
@@ -208,7 +208,7 @@ export const ActionCard: React.FC<ActionCardProps> = ({ leafNode, services, onRe
             <div className="mt-4 flex gap-2">
               <button
                 type="button"
-                className="btn-primary focus-visible:ring-2 focus-visible:ring-brand-500"
+                className="ui-btn ui-btn--primary focus-visible:ring-2 focus-visible:ring-brand-500"
                 onClick={() => {
                   setConfirmFormal(false);
                   navigate('/protocolo');
@@ -216,7 +216,7 @@ export const ActionCard: React.FC<ActionCardProps> = ({ leafNode, services, onRe
               >
                 Abrir protocolo oficial
               </button>
-              <button type="button" className="btn-secondary focus-visible:ring-2 focus-visible:ring-brand-500" onClick={() => setConfirmFormal(false)}>Voltar ao resultado</button>
+              <button type="button" className="ui-btn ui-btn--secondary focus-visible:ring-2 focus-visible:ring-brand-500" onClick={() => setConfirmFormal(false)}>Voltar ao resultado</button>
             </div>
           </div>
         </div>

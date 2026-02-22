@@ -39,7 +39,6 @@ type ResolvedServiceRef = {
   details?: (typeof PROTOCOL_DATA.services)[number];
 };
 
-const urgencyByLeaf = (leaf: LeafNode) => urgencyConfig[leaf.primaryActions.urgencyLevel];
 const toDialNumber = (phone: string) => phone.replace(/\D/g, '');
 
 const serviceById = new Map(PROTOCOL_DATA.services.map((service) => [service.id, service] as const));
@@ -95,9 +94,36 @@ const ResultScreenBase: React.FC<ResultScreenProps> = ({
     recordStarted: false,
     completed: false
   });
-  const urgency = urgencyByLeaf(leaf);
+  const primaryActions = (leaf.primaryActions ?? {
+    urgencyLevel: 'SCHEDULED',
+    title: 'Orientações de acompanhamento',
+    actions: []
+  }) as LeafNode['primaryActions'];
+  const followUp = (leaf.followUp ?? {
+    title: 'Registrar e monitorar evolução do caso',
+    frequency: 'Acompanhamento institucional',
+    deadline: 'em até 7 dias',
+    responsible: 'gestão escolar'
+  }) as LeafNode['followUp'];
+  const contactTargets = (leaf.contactTargets ?? {
+    title: 'Serviços de referência',
+    services: []
+  }) as LeafNode['contactTargets'];
+  const instruments = Array.isArray(leaf.instruments) ? leaf.instruments : [];
+  const urgencyLevel = primaryActions.urgencyLevel in urgencyConfig ? primaryActions.urgencyLevel : 'SCHEDULED';
+  const urgency = urgencyConfig[urgencyLevel];
+  const chipVariantByUrgency: Record<'IMMEDIATE' | 'URGENT' | 'SCHEDULED', 'emergency' | 'urgent' | 'support' | 'neutral'> = {
+    IMMEDIATE: 'emergency',
+    URGENT: 'urgent',
+    SCHEDULED: 'support'
+  };
+  const urgencyTeacherLabel: Record<'IMMEDIATE' | 'URGENT' | 'SCHEDULED', string> = {
+    IMMEDIATE: 'Emergência — Acionar agora',
+    URGENT: 'Urgência — Providenciar hoje',
+    SCHEDULED: 'Atenção — Acompanhar esta semana'
+  };
 
-  const rawServices = leaf.contactTargets?.services ?? [];
+  const rawServices = contactTargets.services ?? [];
   const resolvedServices = React.useMemo<ResolvedServiceRef[]>(
     () =>
       rawServices.map((serviceRef) => {
@@ -120,24 +146,24 @@ const ResultScreenBase: React.FC<ResultScreenProps> = ({
   const secondaryService = resolvedServices.at(1);
 
   const primaryActionTemplate = React.useMemo(() => {
-    const firstAction = leaf.primaryActions.actions[0] ?? 'o acionamento principal';
+    const firstAction = primaryActions.actions?.[0] ?? 'o acionamento principal';
     const cleanedAction = firstAction.replace(/[.!]+$/g, '').toLowerCase();
 
     return formatActionTemplate({
       action: cleanedAction,
-      deadline: leaf.followUp.deadline,
-      responsible: leaf.followUp.responsible ?? 'gestão escolar'
+      deadline: followUp.deadline,
+      responsible: followUp.responsible ?? 'gestão escolar'
     });
-  }, [leaf.primaryActions.actions, leaf.followUp.deadline, leaf.followUp.responsible]);
+  }, [followUp.deadline, followUp.responsible, primaryActions.actions]);
 
   const followUpTemplate = React.useMemo(
     () =>
       formatActionTemplate({
-        action: leaf.followUp.title,
-        deadline: leaf.followUp.deadline,
-        responsible: leaf.followUp.responsible ?? 'gestão escolar'
+        action: followUp.title,
+        deadline: followUp.deadline,
+        responsible: followUp.responsible ?? 'gestão escolar'
       }),
-    [leaf.followUp.deadline, leaf.followUp.responsible, leaf.followUp.title]
+    [followUp.deadline, followUp.responsible, followUp.title]
   );
 
   const managementNotification = leaf.managementNotification ?? {
@@ -193,8 +219,16 @@ const ResultScreenBase: React.FC<ResultScreenProps> = ({
     window.localStorage.setItem(FINALIZATION_STORAGE_KEY, JSON.stringify(storedChecklistByLeaf));
   }, [checklistState, leaf.id]);
 
-  const requiredItems = requiredChecklistByUrgency[leaf.primaryActions.urgencyLevel];
+  const requiredItems = requiredChecklistByUrgency[urgencyLevel];
   const canFinalize = requiredItems.every((requiredItem) => checklistState[requiredItem]);
+  const orientacoesGerais = (primaryActions.actions ?? []).slice(0, 3);
+  const orientacoesEspecificas = resolvedServices
+    .slice(0, 3)
+    .map((serviceRef) =>
+      serviceRef.details
+        ? `${serviceRef.details.name} — ${serviceRef.details.phone}`
+        : `Serviço não encontrado (${serviceRef.serviceId})`
+    );
 
   const handleChecklistToggle = (field: keyof Omit<FinalizationChecklistState, 'completed'>) => {
     setChecklistState((previousState) => ({
@@ -231,13 +265,42 @@ const ResultScreenBase: React.FC<ResultScreenProps> = ({
           <AppCard
             strong
             heading="O que fazer agora neste caso"
-            subheading={leaf.primaryActions.title}
-            rightSlot={<AppChip label={urgency.label} tone={urgencyTone[leaf.primaryActions.urgencyLevel]} />}
+            subtitle={primaryActions.title}
+            rightSlot={<AppChip label={urgency.label} tone={urgencyTone[urgencyLevel]} />}
           >
             <div className="decision-options-grid">
-              <AppCard strong heading="PRIORIDADE 1 / PRIORIDADE 2" subheading="Ação e acionamento inicial">
+              <section className={`card-critical card-critical--${chipVariantByUrgency[urgencyLevel]}`}>
+                <div className="decisao-nivel">
+                  <span className={`chip chip--${chipVariantByUrgency[urgencyLevel]}`}>{urgencyTeacherLabel[urgencyLevel]}</span>
+                  <h2 className="text-h2" style={{ margin: 0 }}>{leaf.id}</h2>
+                </div>
+
+                {orientacoesGerais.length > 0 ? (
+                  <section aria-label="Orientações gerais">
+                    <h3 className="text-h3" style={{ margin: 0 }}>O que fazer agora</h3>
+                    <ul className="decisao-lista">
+                      {orientacoesGerais.map((item, idx) => <li key={`${item}-${idx}`}>{item}</li>)}
+                    </ul>
+                  </section>
+                ) : null}
+
+                {orientacoesEspecificas.length > 0 ? (
+                  <section aria-label="Orientações específicas">
+                    <h3 className="text-h3" style={{ margin: 0 }}>Passos específicos</h3>
+                    <ul className="decisao-lista">
+                      {orientacoesEspecificas.map((item, idx) => <li key={`${item}-${idx}`}>{item}</li>)}
+                    </ul>
+                  </section>
+                ) : null}
+
+                {primaryService?.details ? (
+                  <p className="decisao-encaminhamento text-body">📍 Encaminhamento sugerido: {primaryService.details.name} — {primaryService.details.phone}</p>
+                ) : null}
+              </section>
+
+              <AppCard strong heading="PRIORIDADE 1 / PRIORIDADE 2" subtitle="Ação e acionamento inicial">
                 <div className="decision-stack-grid">
-                  <div className="result-priority-card">
+                  <div className="card-critical">
                     <div className="result-priority-heading">🥇 Prioridade 1</div>
                     {primaryService?.details ? (
                       <a href={`tel:${toDialNumber(primaryService.details.phone)}`} className="result-primary-link">
@@ -251,7 +314,7 @@ const ResultScreenBase: React.FC<ResultScreenProps> = ({
                     )}
                   </div>
 
-                  <div className="result-priority-card">
+                  <div className="card-critical">
                     <div className="result-priority-heading">🥈 Prioridade 2</div>
                     {secondaryService?.details ? (
                       <span>{secondaryService.details.name} — {secondaryService.details.phone}</span>
@@ -265,7 +328,7 @@ const ResultScreenBase: React.FC<ResultScreenProps> = ({
                 </div>
               </AppCard>
 
-              <AppCard strong heading={`${verbByIntentCapitalized('avisar_gestao')} gestão`.toUpperCase()} subheading="Timing e papéis recomendados">
+              <AppCard strong heading={`${verbByIntentCapitalized('avisar_gestao')} gestão`.toUpperCase()} subtitle="Timing e papéis recomendados">
                 <div className="result-management-grid">
                   <AppChip label={managementNotification.timing} tone={timingTone[managementNotification.timing]} />
                   <div className="result-text">
@@ -282,10 +345,10 @@ const ResultScreenBase: React.FC<ResultScreenProps> = ({
                 </div>
               </AppCard>
 
-              <AppCard strong heading="Formulários e anexos para registro" subheading="Como registrar: anexos recomendados para registro e encaminhamento">
+              <AppCard strong heading="Formulários e anexos para registro" subtitle="Como registrar: anexos recomendados para registro e encaminhamento">
                 <div className="result-chip-wrap">
-                  {leaf.instruments.length > 0 ? (
-                    leaf.instruments.map((instrumentId, idx) => {
+                  {instruments.length > 0 ? (
+                    instruments.map((instrumentId, idx) => {
                       const anexo = anexoById.get(instrumentId);
                       if (!anexo) {
                         console.warn(`[DecisionTreeV2] Instrumento não encontrado para id: ${instrumentId}`, { leafId: leaf.id });
@@ -310,7 +373,7 @@ const ResultScreenBase: React.FC<ResultScreenProps> = ({
                 </div>
               </AppCard>
 
-              <AppCard strong heading="Quem acionar neste caso" subheading={leaf.contactTargets.title}>
+              <AppCard strong heading="Quem acionar neste caso" subtitle={contactTargets.title}>
                 <ul className="result-inline-list">
                   {resolvedServices.map((serviceRef, idx) => (
                     <li key={`${serviceRef.serviceId}-${idx}`}>
@@ -320,20 +383,20 @@ const ResultScreenBase: React.FC<ResultScreenProps> = ({
                 </ul>
               </AppCard>
 
-              <AppCard strong heading="Ações prioritárias" subheading={`${urgency.icon} ${urgency.label}`}>
+              <AppCard strong heading="Ações prioritárias" subtitle={`${urgency.icon} ${urgency.label}`}>
                 <div className="result-muted-text">{primaryActionTemplate}</div>
                 <ol className="result-inline-list">
-                  {leaf.primaryActions.actions.slice(0, 3).map((action, idx) => (
+                  {(primaryActions.actions ?? []).slice(0, 3).map((action, idx) => (
                     <li key={`${action}-${idx}`}>{action}</li>
                   ))}
                 </ol>
               </AppCard>
 
-              <AppCard strong heading="Acompanhamento" subheading={leaf.followUp.frequency}>
+              <AppCard strong heading="Acompanhamento" subtitle={followUp.frequency}>
                 <div className="result-text">{followUpTemplate}</div>
               </AppCard>
 
-              <AppCard strong heading="Antes de finalizar" subheading="Confirme os acionamentos essenciais desta consulta">
+              <AppCard strong heading="Antes de finalizar" subtitle="Confirme os acionamentos essenciais desta consulta">
                 <div className="decision-stack-grid">
                   <label className="result-check-label">
                     <input
@@ -374,7 +437,7 @@ const ResultScreenBase: React.FC<ResultScreenProps> = ({
                       role="status"
                       className="result-check-complete"
                     >
-                      ✅ Consulta concluída. Reavalie em {reassessmentDeadlineByUrgency[leaf.primaryActions.urgencyLevel]} prazo.
+                      ✅ Consulta concluída. Reavalie em {reassessmentDeadlineByUrgency[urgencyLevel]} prazo.
                     </div>
                   ) : null}
                 </div>
@@ -384,7 +447,7 @@ const ResultScreenBase: React.FC<ResultScreenProps> = ({
 
           {leaf.secondaryContent ? (
             <div className="result-secondary-content">
-              {leaf.secondaryContent.forbiddenActions ? (
+              {leaf.secondaryContent.forbiddenActions?.items?.length ? (
                 <AccordionSection title="❌ O que NÃO fazer" defaultOpen={false}>
                   <ul className="result-inline-list">
                     {leaf.secondaryContent.forbiddenActions.items.map((item, idx) => (
@@ -402,7 +465,7 @@ const ResultScreenBase: React.FC<ResultScreenProps> = ({
                 </AccordionSection>
               ) : null}
 
-              {leaf.secondaryContent.legalBasis ? (
+              {leaf.secondaryContent.legalBasis?.references?.length ? (
                 <AccordionSection title="🔗 Base legal" defaultOpen={false}>
                   <ul className="result-inline-list">
                     {leaf.secondaryContent.legalBasis.references.map((reference, idx) => (

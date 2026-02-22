@@ -31,11 +31,11 @@ export const AlertPanel: React.FC<AlertPanelProps> = ({ context = 'orientacoes',
   const practices = GOOD_PRACTICES_DATA.slice(0, context === 'orientacoes' ? GOOD_PRACTICES_DATA.length : 3);
 
   return (
-    <section className="card p-4">
+    <section className="card-surface p-4">
       <div className="flex items-center justify-between gap-3">
         <h3 className="text-sm font-bold uppercase tracking-wide text-muted">Orientações de segurança</h3>
         {context === 'inline' ? (
-          <button type="button" className="btn-secondary text-xs" onClick={() => setOpen((v) => !v)}>
+          <button type="button" className="ui-btn ui-btn--secondary text-xs" onClick={() => setOpen((v) => !v)}>
             ⚠️ {open ? 'Ocultar' : 'Ver alertas'}
           </button>
         ) : null}

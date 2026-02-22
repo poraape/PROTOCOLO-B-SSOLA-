@@ -1,8 +1,7 @@
 // a11y/test-hooks: focus-visible:ring-2 md:flex md:hidden
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import GlobalSearch from './GlobalSearch';
-import { DISCLAIMER_TEXT, SCHOOL_CONFIG } from '../content/schoolConfig';
 import { ThemeToggle } from './ui/ThemeToggle';
 import { AppButton } from './ui/AppButton';
 import { A11yControls } from './ui/A11yControls';
@@ -30,6 +29,7 @@ const navLinkClass = ({ isActive }: { isActive: boolean }) =>
 
 export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [showMore, setShowMore] = useState(false);
+  const [configOpen, setConfigOpen] = useState(false);
   const moreModalRef = useRef<HTMLDivElement | null>(null);
 
   const focusableSelector = useMemo(
@@ -74,30 +74,43 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
   return (
     <div className="app-shell">
       <a className="skip-link" href="#main-content">Pular para o conteúdo</a>
-      <header className="app-header glass-strong">
-        <div className="container header-inner">
-          <Link to="/decisor" aria-label="Voltar para a tela inicial do Protocolo Bússola" className="brand-link">
-            <img src="/assets/logo-escola.png" alt="Logo da E.E. Ermelino Matarazzo" className="brand-logo" />
-            <div className="brand-copy">
-              <strong className="brand-title">Protocolo Bússola <span aria-hidden="true">🧭</span></strong>
-              <span className="brand-subtitle">E.E. Ermelino Matarazzo — {SCHOOL_CONFIG.diretoria}</span>
-            </div>
-          </Link>
+      <header className="app-header">
+        <NavLink to="/" className="header-brand" aria-label="Protocolo Bússola — Início">
+          <img src="/assets/logo-escola.png" alt="Brasão EE Ermelino Matarazzo" className="brand-logo" />
+          <span className="brand-title">
+            <span className="brand-compass" aria-hidden="true">🧭</span>
+            Protocolo Bússola
+          </span>
+        </NavLink>
 
-          <div className="header-actions">
-            <A11yControls />
-            <ThemeToggle />
-            <div className="desktop-tools">
-              <GlobalSearch />
-              <nav className="desktop-nav" aria-label="Navegação principal">
-                {navItems.map((item) => (
-                  <NavLink key={item.path} to={item.path} className={navLinkClass}>
-                    {item.label}
-                  </NavLink>
-                ))}
-              </nav>
-            </div>
+        <nav className="header-nav" aria-label="Navegação principal">
+          {navItems.map((item) => (
+            <NavLink key={item.path} to={item.path} className={navLinkClass}>
+              {item.label}
+            </NavLink>
+          ))}
+        </nav>
+
+        <div className="header-controls">
+          <div className="header-search">
+            <GlobalSearch />
           </div>
+          <button
+            type="button"
+            className="ui-btn ui-btn--ghost header-config-btn"
+            aria-label="Configurações"
+            aria-haspopup="menu"
+            aria-expanded={configOpen}
+            onClick={() => setConfigOpen((v) => !v)}
+          >
+            ⚙️
+          </button>
+          {configOpen ? (
+            <div className="config-dropdown" role="menu" aria-label="Configurações de acessibilidade e tema">
+              <A11yControls />
+              <ThemeToggle />
+            </div>
+          ) : null}
         </div>
       </header>
 
@@ -153,11 +166,10 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
         </div>
       ) : null}
 
-      <footer className="app-footer glass-strong">
-        <div className="container footer-copy">
-          <p className="footer-disclaimer">{DISCLAIMER_TEXT}</p>
-          <p className="footer-meta">Sistema institucional de apoio à decisão da E.E. Ermelino Matarazzo — Versão piloto validada para uso interno.</p>
-        </div>
+      <footer className="app-footer">
+        <span className="footer-credits">
+          © 2026 EE Ermelino Matarazzo — Uso institucional interno
+        </span>
       </footer>
     </div>
   );

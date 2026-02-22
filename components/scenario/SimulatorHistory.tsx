@@ -8,7 +8,7 @@ export const SimulatorHistory: React.FC<SimulatorHistoryProps> = ({ actorClass, 
   if (!scenario) return null;
 
   return (
-    <article className="card p-4">
+    <article className="card-surface p-4">
       <h3 className="text-sm font-bold uppercase tracking-wide text-muted">Histórico</h3>
       <div className="mt-2 space-y-2">
         {scenario.treeTraversal.map((step, index) => (

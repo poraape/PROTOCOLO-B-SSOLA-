@@ -22,7 +22,7 @@ export const SimulatorFeedback: React.FC = () => {
   };
 
   return (
-    <article className="card p-4 space-y-2">
+    <article className="card-surface p-4 space-y-2">
       <h3 className="text-sm font-bold uppercase tracking-wide text-muted">Feedback</h3>
       <p className="text-sm">{selectedOption.isCorrect ? '✅ Resposta correta.' : '❌ Resposta incorreta.'}</p>
       <p className="text-xs">{feedback.protocolAlignmentText}</p>
