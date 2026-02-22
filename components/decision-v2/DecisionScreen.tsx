@@ -3,8 +3,6 @@ import { ProgressBar } from './ProgressBar';
 import { HelpTooltip } from './HelpTooltip';
 import { InstitutionalBreadcrumb } from './InstitutionalBreadcrumb';
 import { DecisionNode } from '../../types/decision-tree-v2';
-import { AppCard } from '../ui/AppCard';
-import { AppButton } from '../ui/AppButton';
 import { SidePanelOrientacoes } from '../ui/SidePanelOrientacoes';
 import { BottomSheetOrientacoes } from '../ui/BottomSheetOrientacoes';
 
@@ -39,7 +37,7 @@ const DecisionScreenBase: React.FC<DecisionScreenProps> = ({
 
       <div className="decision-screen-grid">
         <div className="decision-screen-main">
-          <AppCard strong>
+          <div className="card-elevated">
             <div className="ui-section">
               <h2 className="ui-section-title">Decisão principal</h2>
               <p className="ui-section-subtitle">Selecione a opção que melhor descreve o caso neste momento.</p>
@@ -67,13 +65,13 @@ const DecisionScreenBase: React.FC<DecisionScreenProps> = ({
                       : option.label;
 
                 return (
-                  <AppButton key={option.value} onClick={() => onSelect(option.value)} variant={variant} ariaLabel={ariaLabel}>
+                  <button key={option.value} type="button" onClick={() => onSelect(option.value)} className={`ui-btn ui-btn--${variant}`} aria-label={ariaLabel}>
                     {option.label}
-                  </AppButton>
+                  </button>
                 );
               })}
             </div>
-          </AppCard>
+          </div>
 
           <button
             type="button"

@@ -1,22 +1,21 @@
 import React from 'react';
 import { ScenarioPlayer } from '../components/scenario/ScenarioPlayer';
-import { PageHeader } from '../components/ui/PageHeader';
-import { Section } from '../components/ui/Section';
-import { AppCard } from '../components/ui/AppCard';
 
 export const SimulatorPage: React.FC = () => {
   return (
-    <div className="stack space-3" style={{ paddingBottom: 20 }}>
-      <PageHeader
-        title="Simulador Institucional Bússola v2.0"
-        subtitle="Interface reconstruída para decisão em 5-10 segundos: contexto claro, ação prioritária, feedback pedagógico e histórico colapsável."
-      />
+    <div className="col" style={{ paddingBottom: 20 }}>
+      <div className="card-flat">
+        <div className="ui-section">
+          <div>
+            <h1 className="ui-page-title">Simulador Institucional Bússola v2.0</h1>
+            <p className="ui-page-subtitle">
+              Interface reconstruída para decisão em 5-10 segundos: contexto claro, ação prioritária, feedback pedagógico e histórico colapsável.
+            </p>
+          </div>
 
-      <Section>
-        <AppCard>
           <ScenarioPlayer />
-        </AppCard>
-      </Section>
+        </div>
+      </div>
     </div>
   );
 };

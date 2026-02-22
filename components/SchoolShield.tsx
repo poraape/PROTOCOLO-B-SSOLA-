@@ -29,7 +29,7 @@ export const SchoolShield: React.FC<SchoolShieldProps> = ({ className = '', vari
       </div>
 
       <img
-        src="/assets/logo-escola.png"
+        src="/assets/logo-escola.svg"
         alt="Logo da E.E. Ermelino Matarazzo"
         className="h-[40px] w-auto shrink-0 object-contain sm:h-[50px]"
       />

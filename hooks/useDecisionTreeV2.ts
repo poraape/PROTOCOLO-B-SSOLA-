@@ -82,9 +82,17 @@ const hasOptions = (node: DecisionNode): node is DecisionNode & { options: Array
   return 'options' in node && Array.isArray((node as { options?: unknown }).options);
 };
 
-export const useDecisionTreeV2 = (tree: DecisionTreeV2): UseDecisionTreeV2Result => {
+export const useDecisionTreeV2 = (
+  tree: DecisionTreeV2,
+  options?: { initialNodeId?: string }
+): UseDecisionTreeV2Result => {
+  const requestedInitialNodeId = options?.initialNodeId;
+  const initialNodeId = requestedInitialNodeId && tree.nodes[requestedInitialNodeId]
+    ? requestedInitialNodeId
+    : tree.rootNodeId;
+
   const [state, setState] = useState<NavigationState>(() => {
-    if (typeof window === 'undefined') return createInitialState(tree.rootNodeId);
+    if (typeof window === 'undefined') return createInitialState(initialNodeId);
 
     try {
       const saved = window.localStorage.getItem(STORAGE_KEY);
@@ -101,9 +109,9 @@ export const useDecisionTreeV2 = (tree: DecisionTreeV2): UseDecisionTreeV2Result
         return sanitizePersistedState(parsedLegacy, tree);
       }
 
-      return createInitialState(tree.rootNodeId);
+      return createInitialState(initialNodeId);
     } catch {
-      return createInitialState(tree.rootNodeId);
+      return createInitialState(initialNodeId);
     }
   });
 
@@ -199,7 +207,7 @@ export const useDecisionTreeV2 = (tree: DecisionTreeV2): UseDecisionTreeV2Result
   }, [state, riskClassification]);
 
   useEffect(() => {
-    startTriageTracking({ nodeId: tree.rootNodeId, riskClassification: riskRef.current });
+    startTriageTracking({ nodeId: initialNodeId, riskClassification: riskRef.current });
 
     return () => {
       const latestState = stateRef.current;
@@ -211,7 +219,7 @@ export const useDecisionTreeV2 = (tree: DecisionTreeV2): UseDecisionTreeV2Result
         });
       }
     };
-  }, [resolveNode, tree.rootNodeId]);
+  }, [initialNodeId, resolveNode]);
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
@@ -220,13 +228,13 @@ export const useDecisionTreeV2 = (tree: DecisionTreeV2): UseDecisionTreeV2Result
 
   const reset = useCallback(() => {
     clearTriageTracking();
-    startTriageTracking({ nodeId: tree.rootNodeId, riskClassification: 'BAIXO' });
-    setState(createInitialState(tree.rootNodeId));
+    startTriageTracking({ nodeId: initialNodeId, riskClassification: 'BAIXO' });
+    setState(createInitialState(initialNodeId));
     if (typeof window !== 'undefined') {
       window.localStorage.removeItem(STORAGE_KEY);
       window.localStorage.removeItem('decisionTreeState');
     }
-  }, [tree.rootNodeId]);
+  }, [initialNodeId]);
 
   return {
     currentNode,

@@ -1,0 +1,18 @@
+# Prevent binary merge conflicts from blocking merges/rebases.
+# Keep current branch (`work`) version on conflicts for image assets.
+
+*.png binary merge=ours
+*.jpg binary merge=ours
+*.jpeg binary merge=ours
+*.gif binary merge=ours
+*.webp binary merge=ours
+*.ico binary merge=ours
+
+
+# Make binary handling explicit for merge tools and platform integrations.
+*.png -diff
+*.jpg -diff
+*.jpeg -diff
+*.gif -diff
+*.webp -diff
+*.ico -diff
