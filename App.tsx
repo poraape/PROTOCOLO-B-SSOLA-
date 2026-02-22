@@ -7,21 +7,13 @@ import { FlowPage } from './pages/FlowPage';
 import { NetworkPage } from './pages/NetworkPage';
 import { FlowsListPage } from './pages/FlowsListPage';
 import { BuscaPage } from './pages/BuscaPage';
-import { TechnicalGlossaryPage } from './pages/TechnicalGlossaryPage';
-import { StudentTermsPage } from './pages/StudentTermsPage';
-import { SimulatorPage } from './pages/SimulatorPage';
-import { FAQPage } from './pages/FAQPage';
-import { ResourcesPage } from './pages/ResourcesPage';
-import { AboutPage } from './pages/AboutPage';
+import { RecursosPage } from './pages/RecursosPage';
 import ProtocoloPage from './pages/ProtocoloPage';
-import ModelosPage from './pages/ModelosPage';
 import { buildStaticIndex } from './search/buildIndex';
 import { OfflineStatusBanner } from './components/OfflineStatusBanner';
 import { SCHOOL_CONFIG } from './content/schoolConfig';
 import { getInitialTheme, setTheme } from './services/theme';
 import { applyA11yPrefs, getInitialA11yPrefs } from './services/a11yPrefs';
-
-const ENABLE_SIMULADOR_V2 = import.meta.env.VITE_ENABLE_SIMULADOR_V2 === 'true';
 
 const App: React.FC = () => {
 
@@ -71,21 +63,19 @@ const App: React.FC = () => {
           <Route path="/rede" element={<NetworkPage />} />
           <Route path="/rede/:id" element={<NetworkPage />} />
           <Route path="/busca" element={<BuscaPage />} />
-          <Route path="/glossary" element={<TechnicalGlossaryPage />} />
-          <Route path="/student-terms" element={<StudentTermsPage />} />
-          <Route path="/glossario" element={<Navigate to="/glossary" replace />} />
           <Route path="/resources" element={<Navigate to="/recursos" replace />} />
-          <Route path="/simulador" element={<SimulatorPage />} />
-          <Route
-            path="/simulador/v2"
-            element={ENABLE_SIMULADOR_V2 ? <SimulatorPage /> : <Navigate to="/simulador" replace />}
-          />
-          <Route path="/faq" element={<FAQPage />} />
-          <Route path="/recursos" element={<ResourcesPage />} />
-          <Route path="/sobre" element={<AboutPage />} />
-          <Route path="/versao" element={<AboutPage />} />
+          <Route path="/recursos" element={<RecursosPage />} />
+          <Route path="/faq" element={<Navigate to="/recursos?tab=faq" replace />} />
+          <Route path="/glossary" element={<Navigate to="/recursos?tab=glossario" replace />} />
+          <Route path="/glossario" element={<Navigate to="/recursos?tab=glossario" replace />} />
+          <Route path="/modelos" element={<Navigate to="/recursos?tab=modelos" replace />} />
+          <Route path="/simulador" element={<Navigate to="/recursos?tab=simulador" replace />} />
+          <Route path="/simulador/v2" element={<Navigate to="/recursos?tab=simulador" replace />} />
+          <Route path="/student-terms" element={<Navigate to="/recursos?tab=glossario" replace />} />
+          <Route path="/about" element={<Navigate to="/recursos?tab=sobre" replace />} />
+          <Route path="/sobre" element={<Navigate to="/recursos?tab=sobre" replace />} />
+          <Route path="/versao" element={<Navigate to="/recursos?tab=sobre" replace />} />
           <Route path="/protocolo" element={<ProtocoloPage />} />
-          <Route path="/modelos" element={<ModelosPage />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </Layout>
